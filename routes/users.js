@@ -13,10 +13,6 @@ router.get('/register', function(req, res) {
     if (err) {
       res.redirect('/#/login');
     }
-
-    passport.authenticate('local')(req, user, function () {
-      res.redirect('/#/dashboard/home');
-    });
   });
 });
 

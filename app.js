@@ -12,6 +12,7 @@ var db = require('./utils/database.js').connection;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var apis = require('./routes/APIs');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use(flash())
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api', apis);
 app.use('/', routes);
 app.use('/users', users);
 
