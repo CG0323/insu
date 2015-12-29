@@ -18,8 +18,7 @@ angular
         $rootScope.$on("$stateChangeStart",
             function (event, toState, toParams,
                       fromState, fromParams) {
-                if (toState.name != "login" && AuthService.isLoggedIn() === false) {
-                    event.preventDefault();
+                if (toState.name != "login" && AuthService.isLoggedIn() == false) {
                     $state.go('login');
                 }
             });
