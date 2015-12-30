@@ -13,13 +13,15 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
+        'ngCookies'
   ])
   .run(function ($rootScope, $state, AuthService) {
         $rootScope.$on("$stateChangeStart",
             function (event, toState, toParams,
                       fromState, fromParams) {
-                if (toState.name != "login" && AuthService.isLoggedIn() == false) {
-                    $state.go('login');
+                if (toState.name != "login" && !AuthService.isLoggedIn()) {
+                    event.preventDefault();
+                    $state.transitionTo("login");
                 }
             });
     })
@@ -102,29 +104,28 @@ angular
           }
         }
       })
-      .state('dashboard.form',{
-        templateUrl:'views/form.html',
-        url:'/form'
-    })
-      .state('dashboard.blank',{
-        templateUrl:'views/pages/blank.html',
-        url:'/blank'
-    })
-      .state('login',{
-        templateUrl: 'views/pages/login.html',
+        .state('dashboard.form', {
+            templateUrl: 'views/form.html',
+            url: '/form'
+        })
+        .state('dashboard.blank', {
+            templateUrl: 'views/pages/blank.html',
+            url: '/blank'
+        })
+        .state('login', {
+            templateUrl: 'views/pages/login.html',
             url: '/login',
             controller: 'LoginCtrl as vm',
             resolve: {
                 loadMyFile: function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
-                            name: 'myApp',
-                            files: [
-                                'scripts/controllers/authenticationControllers.js',
-                                'scripts/services/services.js']
-                        });
+                        name: 'myApp',
+                        files: [
+                            'scripts/controllers/authenticationControllers.js']
+                    });
                 }
             }
-    })
+        })
         .state('logout',{
             templateUrl: 'views/pages/login.html',
             url: '/logout',

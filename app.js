@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  secret: '1234567890QWERTY',
+  secret: 'cg123456lalala',
   saveUninitialized: false,
   resave: false
 }));

@@ -1,9 +1,6 @@
 angular.module('myApp').factory('AuthService',
-    ['$q', '$timeout', '$http',
-        function ($q, $timeout, $http) {
-
-            // create user variable
-            var user = null;
+    ['$q', '$timeout', '$http', '$cookies',
+        function ($q, $timeout, $http, $cookies) {
 
             // return available functions for use in controllers
             return ({
@@ -15,7 +12,7 @@ angular.module('myApp').factory('AuthService',
             });
 
             function isLoggedIn() {
-                if(user) {
+                if($cookies.get('loggedIn')) {
                     return true;
                 } else {
                     return false;
@@ -23,7 +20,7 @@ angular.module('myApp').factory('AuthService',
             }
 
             function getUserStatus() {
-                return user;
+                return $cookies.get('loggedIn');
             }
 
             function login(username, password) {
@@ -37,16 +34,16 @@ angular.module('myApp').factory('AuthService',
                     // handle success
                     .success(function (data, status) {
                         if(status === 200 && data.status){
-                            user = true;
+                            $cookies.put('loggedIn', 'true');
                             deferred.resolve();
                         } else {
-                            user = false;
+                            $cookies.put('loggedIn', 'false');
                             deferred.reject();
                         }
                     })
                     // handle error
                     .error(function (data) {
-                        user = false;
+                        $cookies.put('loggedIn', 'false');
                         deferred.reject();
                     });
 
@@ -64,12 +61,12 @@ angular.module('myApp').factory('AuthService',
                 $http.get('/users/logout')
                     // handle success
                     .success(function (data) {
-                        user = false;
+                        $cookies.put('loggedIn', 'false');
                         deferred.resolve();
                     })
                     // handle error
                     .error(function (data) {
-                        user = false;
+                        $cookies.put('loggedIn', 'false');
                         deferred.reject();
                     });
 
