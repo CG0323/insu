@@ -12,6 +12,7 @@ var db = require('./utils/database.js').connection;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var apis = require('./routes/APIs');
+var wechat = require('./routes/wechat');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', apis);
 app.use('/', routes);
 app.use('/users', users);
+app.use('/wechat', wechat);
 
 // passport config
 var User = require('./models/user')(db);
