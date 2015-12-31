@@ -16,10 +16,18 @@ angular
         'ngCookies'
   ])
   .run(function ($rootScope, $state, AuthService) {
+        $rootScope.logout = function(){
+            AuthService.logout()
+                .then(function () {
+                    $state.transitionTo('login');
+                });
+        };
+
         $rootScope.$on("$stateChangeStart",
             function (event, toState, toParams,
                       fromState, fromParams) {
                 if (toState.name != "login" && !AuthService.isLoggedIn()) {
+                    console.log("go to login");
                     event.preventDefault();
                     $state.transitionTo("login");
                 }
@@ -122,21 +130,6 @@ angular
                         name: 'myApp',
                         files: [
                             'scripts/controllers/authenticationControllers.js']
-                    });
-                }
-            }
-        })
-        .state('logout',{
-            templateUrl: 'views/pages/login.html',
-            url: '/logout',
-            controller: 'logoutController',
-            resolve: {
-                loadMyFile: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'myApp',
-                        files: [
-                            'scripts/controllers/authenticationControllers.js',
-                            'scripts/services/services.js']
                     });
                 }
             }

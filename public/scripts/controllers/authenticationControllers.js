@@ -40,20 +40,3 @@ angular.module('myApp').controller('LoginCtrl',
 
             };
         }]);
-
-angular.module('myApp').controller('logoutController',
-    ['$scope', '$location', 'AuthService',
-        function ($scope, $location, AuthService) {
-            function logout() {
-
-                console.log(AuthService.getUserStatus());
-
-                // call logout from service
-                AuthService.logout()
-                    .then(function () {
-                        $location.path('/login');
-                    });
-
-            };
-            logout();
-        }]);

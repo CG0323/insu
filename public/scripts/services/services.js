@@ -12,7 +12,7 @@ angular.module('myApp').factory('AuthService',
             });
 
             function isLoggedIn() {
-                if($cookies.get('loggedIn')) {
+                if($cookies.get('loggedIn') == "true") {
                     return true;
                 } else {
                     return false;
@@ -25,7 +25,6 @@ angular.module('myApp').factory('AuthService',
 
             function login(username, password) {
 
-                console.log(username);
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
