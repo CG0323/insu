@@ -46,13 +46,13 @@ angular
                   '$timeout','$state',
           function($timeout,  $state ) {
             $timeout(function() {
-              $state.go('dashboard');
+              $state.go('dashboard.home');
             },20)
           }]
     });
 
     $stateProvider
-      .state('dashboard.home', {
+      .state('dashboard', {
         url:'/dashboard',
         templateUrl: 'views/dashboard/main.html',
         resolve: {
