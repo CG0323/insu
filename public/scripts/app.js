@@ -33,17 +33,26 @@ angular
                 }
             });
     })
-  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
+  .config(['$stateProvider','$ocLazyLoadProvider',function ($stateProvider,$ocLazyLoadProvider) {
     
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
     });
-
-    $urlRouterProvider.otherwise('/dashboard/home');
+    $stateProvider.state("otherwise", {
+        url: "*path",
+        template: "Invalid Location",
+        controller: [
+                  '$timeout','$state',
+          function($timeout,  $state ) {
+            $timeout(function() {
+              $state.go('dashboard');
+            },20)
+          }]
+    });
 
     $stateProvider
-      .state('dashboard', {
+      .state('dashboard.home', {
         url:'/dashboard',
         templateUrl: 'views/dashboard/main.html',
         resolve: {
