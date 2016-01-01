@@ -39,17 +39,6 @@ angular
       debug:false,
       events:true,
     });
-    $stateProvider.state("otherwise", {
-        url: "*path",
-        template: "Invalid Location",
-        controller: [
-                  '$timeout','$state',
-          function($timeout,  $state ) {
-            $timeout(function() {
-              $state.go('dashboard.home');
-            },20)
-          }]
-    });
 
     $stateProvider
       .state('dashboard', {
@@ -191,6 +180,17 @@ angular
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
    })
+      .state("otherwise", {
+              url: "*path",
+              template: "Invalid Location",
+              controller: [
+                        '$timeout','$state',
+                function($timeout,  $state ) {
+                  $timeout(function() {
+                    $state.go('dashboard.home');
+                  },20)
+                }]
+          })
   }]);
 
 
