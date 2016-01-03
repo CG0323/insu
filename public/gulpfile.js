@@ -51,6 +51,7 @@ gulp.task('vendor', function(){
     scripts.prebuild.forEach(function(script){
         paths.push(scripts.paths[script]);
     });
+    console.log(paths);
     gulp.src(paths)
         .pipe(concat('vendor.js'))
         //.on('error', swallowError)

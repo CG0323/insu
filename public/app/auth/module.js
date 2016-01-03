@@ -1,7 +1,8 @@
 "use strict";
 
 angular.module('app.auth', [
-    'ui.router'
+    'ui.router',
+    'ngCookies'
 //        ,
 //        'ezfb',
 //        'googleplus'
@@ -36,7 +37,8 @@ angular.module('app.auth', [
         url: '/login',
         views: {
             root: {
-                templateUrl: 'app/auth/views/login.html'
+                templateUrl: 'app/auth/views/login.html',
+                controller: 'AuthCtrl as vm'
             }
         },
         data: {
