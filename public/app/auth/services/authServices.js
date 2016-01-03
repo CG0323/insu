@@ -56,6 +56,7 @@ angular.module('app.auth').factory('AuthService',
 
             function logout() {
 
+                console.log("loging out.......");
                 // create a new instance of deferred
                 var deferred = $q.defer();
 

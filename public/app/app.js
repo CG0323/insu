@@ -81,12 +81,28 @@ angular.module('app', [
 .constant('APP_CONFIG', window.appConfig)
 
 .run(function ($rootScope
-    , $state, $stateParams
+    , $state, $stateParams, AuthService
     ) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     // editableOptions.theme = 'bs3';
+    $rootScope.logout = function(){
+            AuthService.logout()
+                .then(function () {
+                    $state.transitionTo('login');
+                });
+        };
+    $rootScope.$on("$stateChangeStart",
 
+            function (event, toState, toParams,
+                      fromState, fromParams) {
+                console.log(AuthService.isLoggedIn());
+                if (toState.name != "login" && !AuthService.isLoggedIn()) {
+                    console.log("go to login");
+                    event.preventDefault();
+                    $state.transitionTo("login");
+                }
+            });
 });
 
 
