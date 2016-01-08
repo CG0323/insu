@@ -3,7 +3,7 @@ var router = express.Router();
 var wechat = require('wechat');
 
 var config = {
-  token: 'H4MbzV5LAd3n',
+  token: 'H4MbzV5LAd3',
   appid: 'wxd168d39b1572120f',
   encodingAESKey: 'T1KvARk5KdSAdJ2ERidwVaC2mSmU5z80GUMjyq5HGnw',
   //corpId: 'wxb9a60da724795b2e'
