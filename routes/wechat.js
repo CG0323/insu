@@ -9,7 +9,7 @@ var config = {
   //corpId: 'wxb9a60da724795b2e'
 };
 
-router.get('/auth', wechat(config, function (req, res, next) {
+router.get('/', wechat(config, function (req, res, next) {
   res.writeHead(200);
   res.end('hello node api');
 }));
