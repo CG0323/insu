@@ -14,7 +14,7 @@ router.get('/', wechat(config, function (req, res, next) {
   res.end('hello node api');
 }));
 
-router.post('/wechat', wechat(config, function (req, res, next) {
+router.post('/', wechat(config, function (req, res, next) {
   // 微信输入信息都在req.weixin上
   var message = req.weixin;
   console.log(message.FromUserName);
