@@ -18,7 +18,7 @@ router.post('/', wechat(config, function (req, res, next) {
   // 微信输入信息都在req.weixin上
   var message = req.weixin;
   console.log(message.FromUserName);
-    res.reply('429的哥子些，周末愉快');
+    res.reply('您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。');
   
 }));
 module.exports = router;
