@@ -3,8 +3,8 @@ var querystring = require('querystring');
 var template = require('./support').template;
 var tail = require('./support').tail;
 var app = require('../app.js');
- //var request = require('supertest')('http://123.56.103.93');
- var request = require('supertest')(app);
+ var request = require('supertest')('http://123.56.103.93');
+ //var request = require('supertest')(app);
 function get_q() {
   var q = {
     timestamp: new Date().getTime(),
