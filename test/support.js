@@ -56,7 +56,7 @@ var tpl = [
     '<% if (user === "web") { %>',
       'webwx_msg_cli_ver_0x1',
     '<% } %>',
-    '<MsgId>1234567890123456</MsgId>',
+    '<MsgId>6238550232473150498</MsgId>',
   '</xml>'
 ].join('');
 

@@ -39,7 +39,7 @@ router.post('/login', function(req, res, next) {
   })(req, res, next);
 });
 
-router.get('/ping', function(req, res){
+router.post('/ping', function(req, res){
   res.status(200).send("pong!");
 });
 
