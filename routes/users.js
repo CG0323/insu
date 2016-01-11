@@ -17,7 +17,6 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-  console.log("Front End Triiger logout !!!!!!!!!!!!!")
   req.logout();
   res.status(200).json({status: 'Bye!'});
 });

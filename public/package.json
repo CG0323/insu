@@ -23,6 +23,8 @@
     "event-stream": "~3.3.1"
   },
   "dependencies": {
-    "angular-cookies": "^1.4.8"
+    "angular-cookies": "^1.4.8",
+    "chai": "^3.4.1",
+    "querystring": "^0.2.0"
   }
 }
