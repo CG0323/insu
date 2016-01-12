@@ -17,7 +17,11 @@ router.get('/', wechat('H4MbzV5LAd3n', function (req, res, next) {
 
 
 router.post('/', wechat('H4MbzV5LAd3n', wechat.text(function (message, req, res, next) {
+    res.reply('系统暂时只能接收保单照片上传');
+ })
+ .image(function (message, req, res, next) {
     res.reply('您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。');
- })));
+ })
+ ));
 
 module.exports = router;

@@ -12,17 +12,18 @@ router.get('/register', function(req, res) {
   User.register(new User({ username : 'cg' }), '123', function(err, user) {
     if (err) {
       res.redirect('/#/login');
+    }else{
+      res.status(200).json({status: 'registered'});
     }
   });
 });
 
-router.get('/logout', function(req, res) {
+router.post('/logout', function(req, res) {
   req.logout();
   res.status(200).json({status: 'Bye!'});
 });
 
 router.post('/login', function(req, res, next) {
-  console.log(req.body);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
       return res.status(500).json({err: err});

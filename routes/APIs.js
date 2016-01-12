@@ -7,7 +7,7 @@ router.use('/', ensureAuthenticated);
 router.use('/orders', orders);
 
 function ensureAuthenticated(req, res, next) {
-    console.log('Calling: ensureAuthenticated.....');
+    // console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {
         return next();
     } else {

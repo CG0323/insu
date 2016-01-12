@@ -64,7 +64,7 @@ describe('微信公众号服务器后台测试',function(){
         expect(body).include('<FromUserName><![CDATA[gh_85624a8679b8]]></FromUserName>');
         expect(body).match(/<CreateTime>\d{13}<\/CreateTime>/);
         expect(body).include('<MsgType><![CDATA[text]]></MsgType>');
-        expect(body).include('<Content><![CDATA[您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。]]></Content>');
+        expect(body).include('<Content><![CDATA[系统暂时只能接收保单照片上传]]></Content>');
         done();
       });
     });

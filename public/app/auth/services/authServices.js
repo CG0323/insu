@@ -61,7 +61,7 @@ angular.module('app.auth').factory('AuthService',
                 var deferred = $q.defer();
 
                 // send a get request to the server
-                $http.get('/users/logout')
+                $http.post('/users/logout')
                 // handle success
                     .success(function (data) {
                         $cookies.put('loggedIn', 'false');
