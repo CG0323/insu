@@ -54,9 +54,8 @@ describe('微信公众号服务器后台测试',function(){
       console.log(template(info));
 
       request
-      .post('/wechat?' + querystring.stringify(get_q()))
+      .post('/wechat' + tail())
       .send(template(info))
-      //.send("template(info)")
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
