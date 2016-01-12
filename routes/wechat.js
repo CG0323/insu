@@ -17,16 +17,7 @@ router.get('/', wechat('H4MbzV5LAd3n', function (req, res, next) {
 
 
 router.post('/', wechat('H4MbzV5LAd3n', wechat.text(function (message, req, res, next) {
-  console.log(message);
     res.reply('您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。');
  })));
 
-
-
-// router.post('/', wechat('H4MbzV5LAd3n', function (message, req, res, next) {
-//   // 微信输入信息都在req.weixin上
-//   // var message = req.weixin;
-//   console.log(message);
-//     res.reply('您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。');
-// }));
 module.exports = router;

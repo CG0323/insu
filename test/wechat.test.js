@@ -3,8 +3,8 @@ var querystring = require('querystring');
 var template = require('./support').template;
 var tail = require('./support').tail;
 var app = require('../app.js');
- var request = require('supertest')('http://123.56.103.93');
- //var request = require('supertest')(app);
+ //var request = require('supertest')('http://123.56.103.93');
+ var request = require('supertest')(app);
 function get_q() {
   var q = {
     timestamp: new Date().getTime(),
@@ -43,28 +43,28 @@ describe('微信公众号服务器后台测试',function(){
 
   
   describe('消息处理测试', function (done){    
-    it('should ok', function (done) {
+    it('收到文字消息后回复响应内容', function (done) {
       var info = {
         sp: 'gh_85624a8679b8',
         user: 'oYIeTs_bn5V6GeSm93CXkbckzf3E',
         type: 'text',
         text: 'test'
       };
-      
-      console.log(template(info));
 
       request
       .post('/wechat' + tail())
+      .set('Content-Type',  'text/xml') 
       .send(template(info))
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
         var body = res.text.toString();
-        body.should.include('<ToUserName><![CDATA[oYIeTs_bn5V6GeSm93CXkbckzf3E]]></ToUserName>');
-        body.should.include('<FromUserName><![CDATA[gh_85624a8679b8]]></FromUserName>');
-        body.should.match(/<CreateTime>\d{13}<\/CreateTime>/);
-        body.should.include('<MsgType><![CDATA[text]]></MsgType>');
-        body.should.include('<Content><![CDATA[hehe]]></Content>');
+        expect(body).include('<ToUserName><![CDATA[oYIeTs_bn5V6GeSm93CXkbckzf3E]]></ToUserName>');
+        expect(body).include('<ToUserName><![CDATA[oYIeTs_bn5V6GeSm93CXkbckzf3E]]></ToUserName>');
+        expect(body).include('<FromUserName><![CDATA[gh_85624a8679b8]]></FromUserName>');
+        expect(body).match(/<CreateTime>\d{13}<\/CreateTime>/);
+        expect(body).include('<MsgType><![CDATA[text]]></MsgType>');
+        expect(body).include('<Content><![CDATA[您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。]]></Content>');
         done();
       });
     });
