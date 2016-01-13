@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var wechat = require('wechat');
+var WechatAPI = require('wechat-api');
+var appConfig = require('../common.js').config();
+
+var api = new WechatAPI(appConfig.app_id, appConfig.app_secret);
 
 var config = {
   token: 'H4MbzV5LAd3n',
@@ -17,10 +21,18 @@ router.get('/', wechat('H4MbzV5LAd3n', function (req, res, next) {
 
 
 router.post('/', wechat('H4MbzV5LAd3n', wechat.text(function (message, req, res, next) {
-    res.reply('系统暂时只能接收保单照片上传');
- })
+  var openId = message.FromUserName;
+  api.getUser(openId, function (err, data) {
+    if (err) {
+
+    } else {
+      var nickname = data.nickname;
+      res.reply(nickname + "，你好。");
+    }
+  });
+})
  .image(function (message, req, res, next) {
-    res.reply('您的保单已收到，系统将尽快核实处理，稍后您可以点击菜单中的［保单进度］了解处理进度。');
+    res.reply('暂不支持图片上传');
  })
  ));
 

@@ -5,6 +5,7 @@ var tail = require('./support').tail;
 var app = require('../app.js');
  //var request = require('supertest')('http://123.56.103.93');
  var request = require('supertest')(app);
+
 function get_q() {
   var q = {
     timestamp: new Date().getTime(),
@@ -43,7 +44,7 @@ describe('微信公众号服务器后台测试',function(){
 
   
   describe('消息处理测试', function (done){    
-    it('收到文字消息后回复响应内容', function (done) {
+    it('收到文字消息后给发送者说你好', function (done) {
       var info = {
         sp: 'gh_85624a8679b8',
         user: 'oYIeTs_bn5V6GeSm93CXkbckzf3E',
@@ -64,7 +65,7 @@ describe('微信公众号服务器后台测试',function(){
         expect(body).include('<FromUserName><![CDATA[gh_85624a8679b8]]></FromUserName>');
         expect(body).match(/<CreateTime>\d{13}<\/CreateTime>/);
         expect(body).include('<MsgType><![CDATA[text]]></MsgType>');
-        expect(body).include('<Content><![CDATA[系统暂时只能接收保单照片上传]]></Content>');
+        expect(body).include('<Content><![CDATA[萨拉丁，你好。]]></Content>');
         done();
       });
     });
