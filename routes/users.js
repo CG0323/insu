@@ -8,8 +8,19 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/register', function(req, res) {
-  User.register(new User({ username : 'cg' }), '123', function(err, user) {
+// 临时接口
+router.get('/register-cdy01', function(req, res) {
+  User.register(new User({ username : 'cdy01', name: '李静' }), 'cdy01123', function(err, user) {
+    if (err) {
+      res.redirect('/#/login');
+    }else{
+      res.status(200).json({status: 'registered'});
+    }
+  });
+});
+
+router.get('/register-cdy02', function(req, res) {
+  User.register(new User({ username : 'cdy02', name:'凌玲' }), 'cdy02234', function(err, user) {
     if (err) {
       res.redirect('/#/login');
     }else{

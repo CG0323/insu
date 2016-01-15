@@ -48,13 +48,13 @@ describe('后台API测试', function () {
         .end(done);
     });
     it('注册一个测试用账号', function (done) {
-      testSession.get('/users/register')
+      testSession.get('/users/register-cdy01')
         .expect(200)
         .end(done);
     });
     it('用正确身份登陆成功', function (done) {
       testSession.post('/users/login')
-        .send({ username: 'cg', password: '123' })
+        .send({ username: 'cdy01', password: 'cdy01123' })
         .expect(200)
         .end(done);
     });
