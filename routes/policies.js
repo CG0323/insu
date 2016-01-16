@@ -12,6 +12,7 @@ router.post('/', function (req, res) {
     } else {
       var policy = new Policy(data);
       policy.seller = req.user._id;
+      policy.policy_status = '待支付';
       policy.save(function (err, policy, numAffected) {
         if (err) {
           res.status(500).json(err);
@@ -26,7 +27,33 @@ router.post('/', function (req, res) {
 
 router.get('/', function (req, res) {
   var user = req.user;
-  Policy.find({ seller: user._id })
+  var query = {};
+  if(user.role == '出单员'){
+    query = {seller: user._id};
+  }
+  Policy.find(query)
+     .populate('client seller')
+     .exec()
+     .then(function(policies){
+       res.status(200).json(policies);
+     },function(err){
+       res.status(500).json(err);
+     });
+});
+
+router.get('/to-be-paid', function (req, res) {
+  Policy.find({policy_status:'待支付'})
+     .populate('client seller')
+     .exec()
+     .then(function(policies){
+       res.status(200).json(policies);
+     },function(err){
+       res.status(500).json(err);
+     });
+});
+
+router.get('/paid', function (req, res) {
+  Policy.find({policy_status:'已支付'})
      .populate('client seller')
      .exec()
      .then(function(policies){
@@ -60,7 +87,7 @@ router.put('/:id', function (req, res) {
 	  policy.insu_fee = req.body.insu_fee;
 	  policy.client = req.body.client;
     policy.seller = req.body.seller;
-
+    policy.policy_status = req.body.policy_status;
     // save the bear
     policy.save(function (err) {
       if (err)

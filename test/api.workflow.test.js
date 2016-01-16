@@ -135,10 +135,88 @@ describe('工作流测试', function () {
         done();
       });
     }); 
+    it('二号出单员添加一份保单', function (done) {
+      var policy = require('./data/policies.json')[1];
+      policy.client = client._id;
+      testSession.post('/api/policies')
+        .send(policy)
+        .expect(200)
+        .end(done);
+    });
     it('登出', function (done) {
       testSession.post('/users/logout')
         .expect(200)
         .end(done);
+    });
+    it('注册出纳账号', function (done) {
+      testSession.get('/users/register-cn01')
+        .expect(200)
+        .end(done);
+    }); 
+    it('用出纳账号登陆', function (done) {
+      testSession.post('/users/login')
+        .send({ username: 'cn01', password: 'cn01987' })
+        .expect(200)
+        .end(done);
+    }); 
+    it('获取所有待支付的保单，应为2条', function (done) {
+      testSession.get('/api/policies/to-be-paid')
+        .expect(200)
+        .end(function(err, res){
+        var data = JSON.parse(res.text);
+        expect(err).to.be.null;
+        expect(data.length).to.equal(2);
+        done();
+      });
+    });
+    it('获取所有已支付保单，应为0条', function (done) {
+      testSession.get('/api/policies/paid')
+        .expect(200)
+        .end(function(err, res){
+        var data = JSON.parse(res.text);
+        expect(err).to.be.null;
+        expect(data.length).to.equal(0);
+        done();
+      });
+    });
+    it('更新保单，修改状态为已支付', function (done) {
+      var policy = require('./data/policies.json')[0];
+      policy.policy_status = "已支付";
+      testSession.put('/api/policies/' + policyId)
+        .send(policy)
+        .expect(200)
+        .expect({message: '保单已成功更新'})
+        .end(done);
+    });
+    it('获取所有待支付的保单，数目已减少1条', function (done) {
+      testSession.get('/api/policies/to-be-paid')
+        .expect(200)
+        .end(function(err, res){
+        var data = JSON.parse(res.text);
+        expect(err).to.be.null;
+        expect(data.length).to.equal(1);
+        done();
+      });
+    });
+    it('获取所有已支付保单，数目为1条', function (done) {
+      testSession.get('/api/policies/paid')
+        .expect(200)
+        .end(function(err, res){
+        var data = JSON.parse(res.text);
+        expect(err).to.be.null;
+        expect(data.length).to.equal(1);
+        done();
+      });
+    });
+    it('获取所有保单，数目为2条', function (done) {
+      testSession.get('/api/policies')
+        .expect(200)
+        .end(function(err, res){
+        var data = JSON.parse(res.text);
+        expect(err).to.be.null;
+        expect(data.length).to.equal(2);
+        done();
+      });
     });
     it('用一号出单员账号登陆', function (done) {
       testSession.post('/users/login')

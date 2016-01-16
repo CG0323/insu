@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 // 临时接口
 router.get('/register-cdy01', function(req, res) {
-  User.register(new User({ username : 'cdy01', name: '李静' }), 'cdy01123', function(err, user) {
+  User.register(new User({ username : 'cdy01', name: '李静', role: '出单员'}), 'cdy01123', function(err, user) {
     if (err) {
       res.redirect('/#/login');
     }else{
@@ -19,8 +19,20 @@ router.get('/register-cdy01', function(req, res) {
   });
 });
 
+// 临时接口
 router.get('/register-cdy02', function(req, res) {
-  User.register(new User({ username : 'cdy02', name:'凌玲' }), 'cdy02234', function(err, user) {
+  User.register(new User({ username : 'cdy02', name:'凌玲', role: '出单员'}), 'cdy02234', function(err, user) {
+    if (err) {
+      res.redirect('/#/login');
+    }else{
+      res.status(200).json({status: 'registered'});
+    }
+  });
+});
+
+// 临时接口
+router.get('/register-cn01', function(req, res) {
+  User.register(new User({ username : 'cn01', name:'出纳', role: '财务'}), 'cn01987', function(err, user) {
     if (err) {
       res.redirect('/#/login');
     }else{
@@ -49,10 +61,6 @@ router.post('/login', function(req, res, next) {
       res.status(200).json({status: 'Login successful!'});
     });
   })(req, res, next);
-});
-
-router.post('/ping', function(req, res){
-  res.status(200).send("pong!");
 });
 
 module.exports = router;

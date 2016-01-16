@@ -11,7 +11,8 @@ var schema = new mongoose.Schema({
 	engine_no: String,
 	insu_fee: Number,
 	client: {type:mongoose.Schema.Types.ObjectId, ref:'Client'},
-    seller: {type:mongoose.Schema.Types.ObjectId, ref:'User'}
+    seller: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
+    policy_status: String
 });
 
 mongoose.model('Policy', schema);

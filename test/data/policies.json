@@ -1,4 +1,5 @@
-[{
+[
+	{
 	"policy_no":"1234567890",
 	"insu_company": "中国人保",
     "plate_no": "苏A66666",
@@ -11,5 +12,23 @@
 			},
 	"frame_no": "123321",
 	"engine_no": "BL0001",
-	"insu_fee": 8888
-}]
+	"insu_fee": 8888,
+	"policy_status": "待支付"
+	},
+	{
+	"policy_no":"1234567891",
+	"insu_company": "中国人保",
+    "plate_no": "苏A8888",
+    "applicant": 
+		{
+			"name":"韦小宝",
+			"phone": "1861830009", 
+			"identity": "110120199611030020", 
+			"address": "江苏省无锡市梨园新区2-2-108"
+			},
+	"frame_no": "126321",
+	"engine_no": "BL0002",
+	"insu_fee": 5555,
+	"policy_status": "待支付"
+	}
+]
