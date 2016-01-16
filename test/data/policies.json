@@ -1,0 +1,15 @@
+[{
+	"policy_no":"1234567890",
+	"insu_company": "中国人保",
+    "plate_no": "苏A66666",
+    "applicant": 
+		{
+			"name":"张无忌",
+			"phone": "13880000009", 
+			"identity": "110120198605200030", 
+			"address": "江苏省无锡市梨园新区1-1-608"
+			},
+	"frame_no": "123321",
+	"engine_no": "BL0001",
+	"insu_fee": 8888
+}]

@@ -14,7 +14,6 @@ before(function (done) {
 
 
   if (mongoose.connection.readyState === 0) {
-    console.log(config.mongodb_server);
     mongoose.connect(config.mongodb_server, function (err) {
       if (err) {
         throw err;
