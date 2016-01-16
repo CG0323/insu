@@ -12,7 +12,18 @@ var schema = new mongoose.Schema({
 	insu_fee: Number,
 	client: {type:mongoose.Schema.Types.ObjectId, ref:'Client'},
     seller: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
-    policy_status: String
+    policy_status: String,
+    created_at : { type: Date },
+    updated_at : { type: Date }
+});
+
+schema.pre('save', function(next){
+  var now = new Date();
+  this.updated_at = now;
+  if ( !this.created_at ) {
+    this.created_at = now;
+  }
+  next();
 });
 
 mongoose.model('Policy', schema);
@@ -20,3 +31,5 @@ mongoose.model('Policy', schema);
 module.exports = function (connection){
     return (connection || mongoose).model('Policy');
 };
+
+
