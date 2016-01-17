@@ -8,6 +8,10 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/me', function(req, res, next) {
+  res.send(req.user);
+});
+
 // 临时接口
 router.get('/register-cdy01', function(req, res) {
   User.register(new User({ username : 'cdy01', name: '李静', role: '出单员'}), 'cdy01123', function(err, user) {
@@ -58,7 +62,7 @@ router.post('/login', function(req, res, next) {
       if (err) {
         return res.status(500).json({err: 'Could not log in user'});
       }
-      res.status(200).json({status: 'Login successful!'});
+      res.status(200).json(user);
     });
   })(req, res, next);
 });

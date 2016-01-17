@@ -63,6 +63,17 @@ describe('后台API测试', function () {
         .expect(200)
         .end(done)
     });
+    it('获取本人账号信息', function (done) {
+      testSession.get('/users/me')
+        .expect(200)
+        .end(function(err, res){
+        var data = JSON.parse(res.text);
+        expect(err).to.be.null;
+        expect(data.name).to.equal('李静');
+        expect(data.role).to.equal('出单员');
+        done();
+      });
+    });
     it('登出', function (done) {
       testSession.post('/users/logout')
         .expect(200)

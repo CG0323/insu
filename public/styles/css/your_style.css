@@ -17,3 +17,13 @@
  * - BODY
  * - CUSTOM STYLES
  */
+ 
+.logo
+{
+	height: 4em;
+	width: 4em;
+}
+
+.login-info a span {
+	font-size: 1.7em;
+}

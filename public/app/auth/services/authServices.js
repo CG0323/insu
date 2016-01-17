@@ -10,7 +10,8 @@ angular.module('app.auth').factory('AuthService',
                 getUserStatus: getUserStatus,
                 login: login,
                 logout: logout,
-                register: register
+                register: register,
+                getUser: getUser
             });
 
             function isLoggedIn() {
@@ -24,10 +25,34 @@ angular.module('app.auth').factory('AuthService',
             function getUserStatus() {
                 return $cookies.get('loggedIn');
             }
+            
+            function getUser() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users/me')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            console.log("获取用户信息失败" + status);
+                            deferred.reject();
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        console.log("获取用户信息失败");
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function login(username, password) {
 
-                console.log(username);
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
@@ -35,9 +60,9 @@ angular.module('app.auth').factory('AuthService',
                 $http.post('/users/login', { username: username, password: password })
                 // handle success
                     .success(function (data, status) {
-                        if (status === 200 && data.status) {
+                        if (status === 200) {
                             $cookies.put('loggedIn', 'true');
-                            deferred.resolve();
+                            deferred.resolve(data);
                         } else {
                             $cookies.put('loggedIn', 'false');
                             deferred.reject();
