@@ -25,9 +25,12 @@
             <section class="col col-3">
                 <label class="label">业务来源</label>
                 <label class="select">
-                    <select class="input-lg" ng-model="vm.policy.client">
-                        <option value="0">振宁汽贸</option>
-                        <option value="1">郭永秋</option>
+                    <select class="input-lg" ng-model="vm.policy.client"> 
+                        <option ng-repeat="client in vm.clients" 
+                                value="{{ client._id }}" 
+                                ng-selected="uvm.policy.client == client._id">
+                        {{client.name}}
+                        </option>    
                     </select> <i></i> </label>
             </section>
             <section class="col col-3">

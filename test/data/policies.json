@@ -2,7 +2,8 @@
 	{
 	"policy_no":"1234567890",
 	"insu_company": "中国人保",
-    "plate_no": "苏A66666",
+	"plate_province": "苏",
+    "plate_no": "A66666",
     "applicant": 
 		{
 			"name":"张无忌",
@@ -18,7 +19,8 @@
 	{
 	"policy_no":"1234567891",
 	"insu_company": "中国人保",
-    "plate_no": "苏A8888",
+	"plate_province": "苏",
+    "plate_no": "A8888",
     "applicant": 
 		{
 			"name":"韦小宝",
