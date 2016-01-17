@@ -22,7 +22,7 @@ angular.module('app', [
     // App
     'app.auth',
     'app.layout',
-    'app.chat',
+    // 'app.chat',
     'app.dashboard',
     'app.calendar',
     'app.inbox',
@@ -34,7 +34,8 @@ angular.module('app', [
     'app.maps',
     'app.appViews',
     'app.misc',
-    'app.smartAdmin'
+    'app.smartAdmin',
+    'app.policy-editor'
 ])
 .config(function ($provide, $httpProvider) {
 

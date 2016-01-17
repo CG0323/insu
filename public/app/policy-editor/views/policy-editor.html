@@ -1,0 +1,125 @@
+<div class="alert alert-block alert-success">
+
+    <h4 class="alert-heading"> 出单员请准确录入保单信息！</h4>
+</div>
+
+<form id="contact-form" class="smart-form">
+    <fieldset>
+        <!--<header>保单信息</header>-->
+        <div class="row">
+            <section class="col col-3">
+                <label class="label">保险公司</label>
+                <label class="select">
+                    <select class="input-lg" ng-model="vm.policy.insu_company">
+                        <option value="中国人保">中国人保</option>
+                        <option value="平安保险">平安保险</option>
+                    </select> <i></i> </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">保单号</label>
+                <label class="input">
+                    <i class="icon-append fa fa-key"></i>
+                    <input class="input-lg" name="policy_no" ng-model="vm.policy.policy_no">
+                </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">业务来源</label>
+                <label class="select">
+                    <select class="input-lg" ng-model="vm.policy.client">
+                        <option value="0">振宁汽贸</option>
+                        <option value="1">郭永秋</option>
+                    </select> <i></i> </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">车牌号</label>
+                <label class="input">
+                    <div class="row">
+                        <section class="col col-2">
+                            <select class="input-lg" ng-model="vm.policy.plate_province">
+                                <option value="苏">苏</option>
+                                <option value="浙">浙</option>
+                            </select>
+                        </section>
+                        <section class="col col-10">
+                            <label class="input">
+                                <i class="icon-append fa fa-car"></i>
+                                <input class="input-lg" name="plate_no" ng-model="vm.policy.plate_no">
+                            </label>
+                        </section>
+                    </div>
+                </label>
+            </section>
+
+        </div>
+        <div class="row">
+            <section class="col col-3">
+                <label class="label">车架号</label>
+                <label class="input">
+                    <i class="icon-append fa fa-car"></i>
+                    <input class="input-lg" name="identity" ng-model="vm.policy.frame_no">
+                </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">发动机号</label>
+                <label class="input">
+                    <i class="icon-append fa fa-car"></i>
+                    <input class="input-lg" name="identity" ng-model="vm.policy.engine_no">
+                </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">使用性质</label>
+                <label class="input">
+                    <i class="icon-append fa fa-comment-o"></i>
+                    <input class="input-lg" name="phone" id="phone">
+                </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">生效日期</label>
+                <label class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type = "date" class="input-lg" name="effective_date" ng-model="vm.policy.effective_date">
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-2">
+                <label class="label">被保险人</label>
+                <label class="input">
+                    <i class="icon-append fa fa-user"></i>
+                    <input class="input-lg" name="name" ng-model="vm.policy.applicant.name">
+                </label>
+            </section>
+
+            <section class="col col-2">
+                <label class="label">电话</label>
+                <label class="input">
+                    <i class="icon-append fa fa-phone"></i>
+                    <input class="input-lg" name="phone" ng-model="vm.policy.applicant.phone">
+                </label>
+            </section>
+            <section class="col col-3">
+                <label class="label">身份证号</label>
+                <label class="input">
+                    <i class="icon-append fa fa-key"></i>
+                    <input class="input-lg" name="identity" ng-model="vm.policy.applicant.identity">
+                </label>
+            </section>
+            <section class="col col-5">
+                <label class="label">地址</label>
+                <label class="input">
+                    <i class="icon-append fa fa-envelope-o"></i>
+                    <input class="input-lg" name="identity" ng-model="vm.policy.applicant.address">
+                </label>
+            </section>
+        </div>
+        </section>
+    </fieldset>
+
+
+    <footer>
+        <span>
+            <button class="btn btn-primary" ng-click="vm.save()">提交后继续录入下一条</button>
+            <button class="btn btn-primary">提交后查看列表</button>
+        </span>
+    </footer>
+</form>

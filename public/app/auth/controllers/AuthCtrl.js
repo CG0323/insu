@@ -23,7 +23,7 @@ angular.module('app.auth').controller('AuthCtrl',
                     .then(function(user) {
                         $rootScope.user = user;
                         if(user.role == "出单员"){
-                            $state.go('app.form.layouts');
+                            $state.go('app.policy-editor');
                         }else
                         {
                             $state.go('app.dashboard');
