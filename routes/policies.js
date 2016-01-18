@@ -8,7 +8,7 @@ router.post('/', function (req, res) {
   var data = req.body;
   Policy.find({ policy_no: data.policy_no }, function (err, policies) {
     if (policies.length > 0) {
-      res.status(400).json({ message: '系统中已存在相同保单号的保单' });
+      res.status(400).send('系统中已存在相同保单号的保单');
     } else {
       var policy = new Policy(data);
       policy.seller = req.user._id;
