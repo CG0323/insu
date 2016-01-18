@@ -8,7 +8,13 @@ angular.module('app.policy-editor').config(function ($stateProvider) {
 
     $stateProvider
         .state('app.policy-editor', {
-            url: '/policy-editor',
+            abstract: true,
+            data: {
+                title: 'Forms'
+            }
+        })
+        .state('app.policy-editor.new', {
+            url: '/policies/new',
             data: {
                 title: '保单录入'
             },

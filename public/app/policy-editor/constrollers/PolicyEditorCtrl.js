@@ -10,7 +10,7 @@ angular.module('app.policy-editor').controller('PolicyEditorController', functio
     })
     
     
-    vm.save = function(){
+    vm.submit = function(){
         PolicyService.savePolicy(vm.policy)
         .then(function(data){
             $.bigBox({

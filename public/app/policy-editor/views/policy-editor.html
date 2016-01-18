@@ -3,7 +3,7 @@
     <h4 class="alert-heading"> 出单员请准确录入保单信息！</h4>
 </div>
 
-<form id="contact-form" class="smart-form">
+<form ng-submit="vm.submit()" id="contact-form" class="smart-form">
     <fieldset>
         <!--<header>保单信息</header>-->
         <div class="row">
@@ -19,13 +19,13 @@
                 <label class="label">保单号</label>
                 <label class="input">
                     <i class="icon-append fa fa-key"></i>
-                    <input class="input-lg" name="policy_no" ng-model="vm.policy.policy_no">
+                    <input class="input-lg" name="policy_no" ng-model="vm.policy.policy_no" required>
                 </label>
             </section>
             <section class="col col-3">
                 <label class="label">业务来源</label>
                 <label class="select">
-                    <select class="input-lg" ng-model="vm.policy.client"> 
+                    <select class="input-lg" ng-model="vm.policy.client" required>
                         <option ng-repeat="client in vm.clients" 
                                 value="{{ client._id }}" 
                                 ng-selected="uvm.policy.client == client._id">
@@ -38,7 +38,7 @@
                 <label class="input">
                     <div class="row">
                         <section class="col col-2">
-                            <select class="input-lg" ng-model="vm.policy.plate_province">
+                            <select class="input-lg" ng-model="vm.policy.plate_province" required>
                                 <option value="苏">苏</option>
                                 <option value="浙">浙</option>
                             </select>
@@ -46,7 +46,7 @@
                         <section class="col col-10">
                             <label class="input">
                                 <i class="icon-append fa fa-car"></i>
-                                <input class="input-lg" name="plate_no" ng-model="vm.policy.plate_no">
+                                <input class="input-lg" name="plate_no" ng-model="vm.policy.plate_no" required>
                             </label>
                         </section>
                     </div>
@@ -80,7 +80,9 @@
                 <label class="label">生效日期</label>
                 <label class="input">
                     <i class="icon-append fa fa-calendar"></i>
-                    <input type = "date" class="input-lg" name="effective_date" ng-model="vm.policy.effective_date">
+                    <input type="text" class="input-lg" name="effective_date" placeholder="请输入生效日期"
+                           data-smart-datepicker data-dateformat='yy-mm-dd' ng-model="vm.policy.effective_date">
+                    <!--<input type = "date" class="input-lg" name="effective_date" ng-model="vm.policy.effective_date">-->
                 </label>
             </section>
         </div>
@@ -121,8 +123,8 @@
 
     <footer>
         <span>
-            <button class="btn btn-primary" ng-click="vm.save()">提交后继续录入下一条</button>
-            <button class="btn btn-primary">提交后查看列表</button>
+            <button type="submit" class="btn btn-primary" ng-click="vm.setFollowingAction('continue')">提交后继续录入下一条</button>
+            <button type="submit" class="btn btn-primary">提交后查看列表</button>
         </span>
     </footer>
 </form>
