@@ -1,19 +1,19 @@
 "use strict";
 
 
-angular.module('app.policy-editor', ['ui.router'])
+angular.module('app.policy', ['ui.router'])
 
 
-angular.module('app.policy-editor').config(function ($stateProvider) {
+angular.module('app.policy').config(function ($stateProvider) {
 
     $stateProvider
-        .state('app.policy-editor', {
+        .state('app.policy', {
             abstract: true,
             data: {
                 title: 'Forms'
             }
         })
-        .state('app.policy-editor.new', {
+        .state('app.policy.new', {
             url: '/policies/new',
             data: {
                 title: '保单录入'
@@ -21,7 +21,7 @@ angular.module('app.policy-editor').config(function ($stateProvider) {
             views: {
                 "content@app": {
                     controller: 'PolicyEditorController as vm',
-                    templateUrl: 'app/policy-editor/views/policy-editor.html'
+                    templateUrl: 'app/policy/views/policy.html'
                 }
             }
         })

@@ -35,7 +35,7 @@ angular.module('app', [
     'app.appViews',
     'app.misc',
     'app.smartAdmin',
-    'app.policy-editor'
+    'app.policy'
 ])
 .config(function ($provide, $httpProvider) {
 

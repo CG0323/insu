@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('app.policy-editor').factory('PolicyService',
+angular.module('app.policy').factory('PolicyService',
     ['$q', '$http',
         function ($q, $http) {
             // return available functions for use in controllers

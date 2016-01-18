@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy-editor').controller('PolicyEditorController', function($scope, PolicyService){
+angular.module('app.policy').controller('PolicyEditorController', function($scope, PolicyService){
     var vm = this;
     vm.policy = {};
     

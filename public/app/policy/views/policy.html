@@ -25,7 +25,7 @@
             <section class="col col-3">
                 <label class="label">业务来源</label>
                 <label class="select">
-                    <select class="input-lg" ng-model="vm.policy.client" required>
+                    <select name ='client' class="input-lg" ng-model="vm.policy.client" required>
                         <option ng-repeat="client in vm.clients" 
                                 value="{{ client._id }}" 
                                 ng-selected="uvm.policy.client == client._id">
