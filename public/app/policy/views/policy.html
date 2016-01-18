@@ -25,13 +25,16 @@
             <section class="col col-3">
                 <label class="label">业务来源</label>
                 <label class="select">
-                    <select name ='client' class="input-lg" ng-model="vm.policy.client" required>
-                        <option ng-repeat="client in vm.clients" 
-                                value="{{ client._id }}" 
-                                ng-selected="uvm.policy.client == client._id">
-                        {{client.name}}
-                        </option>    
-                    </select> <i></i> </label>
+                    <!--<select name ='client' class="input-lg" ng-model="vm.policy.client" required>-->
+                        <!--<option ng-repeat="client in vm.clients" -->
+                                <!--value="{{ client._id }}" -->
+                                <!--ng-selected="vm.policy.client == client._id">-->
+                        <!--{{client.name}}-->
+                        <!--</option>    -->
+                    <!--</select> <i></i> </label>-->
+                <select name ='client' class="input-lg" ng-model="vm.policy.client" ng-options="c._id as c.name for c in vm.clients" required>
+                    <option value="">请选择业务来源</option>
+                </select> <i></i> </label>
             </section>
             <section class="col col-3">
                 <label class="label">车牌号</label>
