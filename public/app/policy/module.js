@@ -10,7 +10,7 @@ angular.module('app.policy').config(function ($stateProvider) {
         .state('app.policy', {
             abstract: true,
             data: {
-                title: 'Forms'
+                title: '保单'
             }
         })
         .state('app.policy.new', {
@@ -22,6 +22,30 @@ angular.module('app.policy').config(function ($stateProvider) {
                 "content@app": {
                     controller: 'PolicyEditorController as vm',
                     templateUrl: 'app/policy/views/policy.html'
+                }
+            }
+        })
+        .state('app.policy.to-be-paid', {
+            url: '/policies/to-be-paid',
+            data: {
+                title: '待支付保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
                 }
             }
         })

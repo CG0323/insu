@@ -12,6 +12,7 @@ var schema = new mongoose.Schema({
   frame_no: String,
   engine_no: String,
   insu_fee: Number,
+  type: String,
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   policy_status: String,

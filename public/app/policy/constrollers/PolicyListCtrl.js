@@ -1,12 +1,11 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyEditorController', function($scope, PolicyService){
+angular.module('app.policy').controller('PolicyListController', function($scope, PolicyService){
     var vm = this;
-    vm.policy = {};
-    vm.policy.plate_province = "苏";
-    PolicyService.getClients()
-    .then(function(clients){
-        vm.clients = clients;
+    vm.policies = [];
+    PolicyService.getPolicies()
+    .then(function(policies){
+        vm.policies = policies;
     })
     
     

@@ -6,6 +6,7 @@ angular.module('app.policy').factory('PolicyService',
             // return available functions for use in controllers
             return ({
                 savePolicy: savePolicy,
+                getPolicies: getPolicies,
                 getClients: getClients
             });
 
@@ -15,6 +16,28 @@ angular.module('app.policy').factory('PolicyService',
 
                 // send a post request to the server
                 $http.post('/api/policies', policy)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicies() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/policies')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
