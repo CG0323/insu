@@ -106,7 +106,7 @@ describe('工作流测试', function () {
       testSession.post('/api/policies')
         .send(policy)
         .expect(400)
-        .expect({ message: '系统中已存在相同保单号的保单' })
+        .expect('系统中已存在相同保单号的保单')
         .end(done);
     });
     it('登出', function (done) {
