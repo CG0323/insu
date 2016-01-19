@@ -44,7 +44,7 @@
                         </div>
 
                         <form ng-submit="vm.submit()" id="contact-form" class="smart-form">
-                            <fieldset>
+                            <fieldset ng-disabled="user.role!='出单员'">
                                 <!--<header>保单信息</header>-->
                                 <div class="row">
                                     <section class="col col-3">
