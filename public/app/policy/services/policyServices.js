@@ -14,8 +14,21 @@ angular.module('app.policy').factory('PolicyService',
             function savePolicy(policy) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-
-                // send a post request to the server
+                
+                if(policy._id){
+                    $http.put('/api/policies/'+policy._id, policy)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+                }else{
+                    // send a post request to the server
                 $http.post('/api/policies', policy)
                 // handle success
                     .success(function (data, status) {
@@ -29,7 +42,8 @@ angular.module('app.policy').factory('PolicyService',
                     .error(function (err) {
                         deferred.reject(status);
                     });
-
+                }
+                
                 // return promise object
                 return deferred.promise;
             }

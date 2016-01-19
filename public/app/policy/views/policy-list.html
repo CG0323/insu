@@ -47,8 +47,8 @@
                                     <td>{{policy.insu_fee | currency:"￥"}}</td>
                                     <td>{{policy.policy_status}}</td>
                                     <td>
-                                        <button ng-show="vm.isShowPayButton()" ng-click="vm.pay(policy._id)" class="btn btn-primary btn-sm">支付</button>
-                                        <button ng-show="vm.isShowEditButton()" class="btn btn-primary btn-sm">编辑</button>
+                                        <button ng-show="vm.isShowPayButton(policy)" ng-click="vm.pay(policy._id)" class="btn btn-primary btn-sm">支付</button>
+                                        <button ng-show="vm.isShowEditButton(policy)" ng-click="vm.edit(policy._id)" class="btn btn-primary btn-sm">编辑</button>
                                     </td>
                                 </tr>
                            </tbody>

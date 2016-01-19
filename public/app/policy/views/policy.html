@@ -1,5 +1,5 @@
 <div id="content">
-    <div class="row">
+    <div class="row" ng-show="user.role=='财务'">
         <article class="col-sm-12">
 
             <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
@@ -125,7 +125,7 @@
                                         <label class="label">使用性质</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-comment-o"></i>
-                                            <input class="input-lg" name="type" ng-model="vm.policy.type" required>
+                                            <input class="input-lg" name="catogary" ng-model="vm.policy.catogary" required>
                                         </label>
                                     </section>
                                     <section class="col col-3">
@@ -192,9 +192,9 @@
 
                             <footer>
                                 <span>
-                                    <button type="submit" class="btn btn-primary"  ng-show="user.role=='出单员'" ng-click="vm.setFollowingAction('continue')">提交后继续录入下一条
+                                    <button type="submit" class="btn btn-primary"  ng-show="user.role=='出单员'">提交后录入下一条
                                     </button>
-                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'" ng-click="vm.setFollowingAction('to-list')">提交后查看列表</button>
+                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'" ng-click="vm.setBack()">提交后查看列表</button>
                                 </span>
                             </footer>
                         </form>

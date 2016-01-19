@@ -4,7 +4,7 @@
 	"insu_company": "中国人保",
 	"plate_province": "苏",
     "plate_no": "A66666",
-	"type": "家庭用汽车",
+	"catogary": "家庭用汽车",
     "applicant": 
 		{
 			"name":"张无忌",
@@ -22,7 +22,7 @@
 	"insu_company": "中国人保",
 	"plate_province": "苏",
     "plate_no": "A88888",
-	"type": "家庭用汽车",
+	"catogary": "家庭用汽车",
     "applicant": 
 		{
 			"name":"韦小宝",

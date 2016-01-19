@@ -8,17 +8,20 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
         vm.policies = policies;
     })
 
-    vm.isShowEditButton = function(){
-        return $rootScope.user.role == "出单员";
+    vm.isShowEditButton = function(policy){
+        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
     }
 
-    vm.isShowPayButton = function(){
-        return $rootScope.user.role == "财务";
+    vm.isShowPayButton = function(policy){
+        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
     }
 
     vm.pay = function(policyId){
         $state.go("app.policy.pay", {policyId: policyId});
     }
-
+    
+    vm.edit = function(policyId){
+        $state.go("app.policy.edit", {policyId: policyId});
+    }
 
 });
