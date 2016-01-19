@@ -7,7 +7,8 @@ angular.module('app.policy').factory('PolicyService',
             return ({
                 savePolicy: savePolicy,
                 getPolicies: getPolicies,
-                getClients: getClients
+                getClients: getClients,
+                getPolicy: getPolicy
             });
 
             function savePolicy(policy) {
@@ -47,6 +48,28 @@ angular.module('app.policy').factory('PolicyService',
                         }
                     })
                 // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/policies/' + policyId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });

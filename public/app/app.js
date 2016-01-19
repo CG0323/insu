@@ -22,7 +22,6 @@ angular.module('app', [
     // App
     'app.auth',
     'app.layout',
-    // 'app.chat',
     'app.dashboard',
     'app.calendar',
     'app.inbox',
@@ -37,63 +36,67 @@ angular.module('app', [
     'app.smartAdmin',
     'app.policy'
 ])
-.config(function ($provide, $httpProvider) {
+    .config(function ($provide, $httpProvider) {
 
 
-    // Intercept http calls.
-    $provide.factory('ErrorHttpInterceptor', function ($q) {
-        var errorCounter = 0;
-        function notifyError(rejection){
-            console.log(rejection);
-            $.bigBox({
-                title: rejection.status + ' ' + rejection.statusText,
-                content: rejection.data,
-                color: "#C46A69",
-                icon: "fa fa-warning shake animated",
-                number: ++errorCounter,
-                timeout: 6000
-            });
-        }
+        // Intercept http calls.
+        $provide.factory('ErrorHttpInterceptor', function ($q) {
+            var errorCounter = 0;
 
-        return {
-            // On request failure
-            requestError: function (rejection) {
-                // show notification
-                notifyError(rejection);
-
-                // Return the promise rejection.
-                return $q.reject(rejection);
-            },
-
-            // On response failure
-            responseError: function (rejection) {
-                // show notification
-                notifyError(rejection);
-                // Return the promise rejection.
-                return $q.reject(rejection);
+            function notifyError(rejection) {
+                console.log(rejection);
+                $.bigBox({
+                    title: rejection.status + ' ' + rejection.statusText,
+                    content: rejection.data,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    number: ++errorCounter,
+                    timeout: 6000
+                });
             }
-        };
-    });
 
-    // Add the interceptor to the $httpProvider.
-    $httpProvider.interceptors.push('ErrorHttpInterceptor');
+            return {
+                // On request failure
+                requestError: function (rejection) {
+                    // show notification
+                    notifyError(rejection);
 
-})
-.constant('APP_CONFIG', window.appConfig)
+                    // Return the promise rejection.
+                    return $q.reject(rejection);
+                },
 
-.run(function ($rootScope
-    , $state, $stateParams, AuthService
-    ) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-    // editableOptions.theme = 'bs3';
-    $rootScope.logout = function(){
+                // On response failure
+                responseError: function (rejection) {
+                    // show notification
+                    notifyError(rejection);
+                    // Return the promise rejection.
+                    return $q.reject(rejection);
+                }
+            };
+        });
+
+        // Add the interceptor to the $httpProvider.
+        $httpProvider.interceptors.push('ErrorHttpInterceptor');
+
+    })
+    .constant('APP_CONFIG', window.appConfig)
+
+    .run(function ($rootScope
+        , $state, $stateParams, AuthService) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+        AuthService.getUser()
+            .then(function(user){
+                $rootScope.user = user;
+            });
+        // editableOptions.theme = 'bs3';
+        $rootScope.logout = function () {
             AuthService.logout()
                 .then(function () {
                     $state.transitionTo('login');
                 });
         };
-    $rootScope.$on("$stateChangeStart",
+        $rootScope.$on("$stateChangeStart",
 
             function (event, toState, toParams,
                       fromState, fromParams) {
@@ -104,6 +107,6 @@ angular.module('app', [
                     $state.transitionTo("login");
                 }
             });
-});
+    });
 
 

@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyEditorController', function($scope, PolicyService){
+angular.module('app.policy').controller('PolicyEditorController', function($rootScope, $stateParams, PolicyService){
     var vm = this;
     vm.policy = {};
     vm.policy.plate_province = "苏";
@@ -8,6 +8,14 @@ angular.module('app.policy').controller('PolicyEditorController', function($scop
     .then(function(clients){
         vm.clients = clients;
     })
+
+    var policyId = $stateParams.policyId;
+    if(policyId){
+        PolicyService.getPolicy(policyId)
+            .then(function(policy){
+                vm.policy = policy;
+            });
+    }
     
     
     vm.submit = function(){

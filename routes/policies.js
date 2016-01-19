@@ -67,8 +67,8 @@ router.get('/:id', function (req, res) {
   Policy.findOne({_id: req.params.id})
     .populate('client seller')
     .exec()
-    .then(function(policie){
-       res.status(200).json(policie);
+    .then(function(policy){
+       res.status(200).json(policy);
      },function(err){
        res.status(500).json(err);
      });

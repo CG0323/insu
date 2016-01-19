@@ -25,6 +25,18 @@ angular.module('app.policy').config(function ($stateProvider) {
                 }
             }
         })
+        .state('app.policy.pay', {
+            url: '/policies/pay/:policyId',
+            data: {
+                title: '保单支付'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController as vm',
+                    templateUrl: 'app/policy/views/policy.html'
+                }
+            }
+        })
         .state('app.policy.to-be-paid', {
             url: '/policies/to-be-paid',
             data: {
