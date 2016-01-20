@@ -56,8 +56,8 @@
       <file leaf-file-name="policy-list.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/app/policy/views/policy-list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8128162">
-              <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.21079259">
+              <caret line="32" column="120" selection-start-line="32" selection-start-column="120" selection-end-line="32" selection-end-column="120" />
               <folding />
             </state>
           </provider>
@@ -563,7 +563,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-54" y="224" width="1680" height="1020" extended-state="0" />
+    <frame x="-54" y="224" width="1680" height="1020" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25360578" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -772,10 +772,10 @@
         <state vertical-scroll-proportion="414.66666">
           <caret line="4237" column="39" selection-start-line="4237" selection-start-column="39" selection-end-line="4237" selection-end-column="39" />
           <folding>
-            <marker date="1453282004658" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1453282004658" expanded="true" signature="-1:-1" placeholder="{&quot;restrict&quot;: 'EA'...}" />
-            <marker date="1453282004658" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1453282004658" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1453283375307" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1453283375307" expanded="true" signature="-1:-1" placeholder="{&quot;restrict&quot;: 'EA'...}" />
+            <marker date="1453283375307" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1453283375307" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -990,8 +990,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/app/policy/views/policy-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8128162">
-          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.21079259">
+          <caret line="32" column="120" selection-start-line="32" selection-start-column="120" selection-end-line="32" selection-end-column="120" />
           <folding />
         </state>
       </provider>

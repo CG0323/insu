@@ -26,12 +26,12 @@
                                 <tr>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-clock-o hidden-md hidden-sm hidden-xs"></i>提交时间</th>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-user hidden-md hidden-sm hidden-xs"></i>出单员</th>
-                                    <th data-class="expand hidden-sm hidden-xs"><i class="fa fa-fw fa-key hidden-md hidden-sm hidden-xs"></i> 保单号</th>
+                                    <th data-class="expand"><i class="fa fa-fw fa-key hidden-md hidden-sm hidden-xs"></i> 保单号</th>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-inbox hidden-md hidden-sm hidden-xs"></i>业务来源</th>
                                     <th><i class="fa fa-fw fa-car hidden-md hidden-sm hidden-xs"></i>车牌号</th>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-user hidden-md hidden-sm hidden-xs"></i>投保人</th>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> 电话</th>
-                                    <th><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>保费</th>
+                                    <th><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>保单总额</th>
                                     <th><i class="fa fa-fw fa-rocket hidden-md hidden-sm hidden-xs"></i>保单状态</th>
                                     <th><i class="fa fa-fw fa-play hidden-md hidden-sm hidden-xs"></i>操作</th>
                                     <!--<th data-hide="phone,tablet"><i class="fa fa-fw fa-map-marker txt-color-blue hidden-md hidden-sm hidden-xs"></i> Zip</th>
@@ -43,7 +43,7 @@
                                 <tr ng-repeat="policy in vm.policies">
                                     <td  class="hidden-sm hidden-xs">{{policy.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.seller.name}}</td>
-                                    <td  class="hidden-sm hidden-xs">{{policy.policy_no}}</td>
+                                    <td>{{policy.policy_no}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.client.name}}</td>
                                     <td>{{policy.plate_province}}{{policy.plate_no}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.applicant.name}}</td>
