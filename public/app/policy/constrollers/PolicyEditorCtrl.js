@@ -45,4 +45,30 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
             }, function (err) { });
     };
 
+    vm.pay = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认已支付该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "已支付"
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
 }); 

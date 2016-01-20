@@ -9,24 +9,73 @@
                     <h2>支付信息</h2>
                 </header>
                 <div class="widget-body">
-                    <dl class="payment-info-panel dl-horizontal">
-                        <dt>客户</dt>
-                        <dd>{{vm.clientInfo.name}}</dd>
-                        <dt>收款人</dt>
-                        <dd>{{vm.clientInfo.payee}}</dd>
-                        <dt>开户行</dt>
-                        <dd>{{vm.clientInfo.bank}}</dd>
-                        <dt>账号</dt>
-                        <dd>{{vm.clientInfo.account}}</dd>
-                        <dt>交强险</dt>
-                        <dd>{{vm.policy.mandatory_fee | currency:"￥"}}</dd>
-                        <dt>商业险</dt>
-                        <dd>{{vm.policy.commercial_fee | currency:"￥"}}</dd>
-                        <dt>车船税</dt>
-                        <dd>{{vm.policy.tax_fee | currency:"￥"}}</dd>
-                        <dt>总额</dt>
-                        <dd>{{vm.policy.mandatory_fee + vm.policy.commercial_fee + vm.policy.tax_fee| currency:"￥"}}</dd>
-                    </dl>
+                    <form ng-submit="vm.pay()">
+                        <div class="row payment-info-panel">
+                            <div class="col col-md-6">
+                                <dl class="dl-horizontal">
+                            <dt>保单状态</dt>
+                            <dd>{{vm.policy.policy_status}}</dd>
+                            <dt>客户</dt>
+                            <dd>{{vm.clientInfo.name}}</dd>
+                            <dt>收款人</dt>
+                            <dd>{{vm.clientInfo.payee}}</dd>
+                            <dt>开户行</dt>
+                            <dd>{{vm.clientInfo.bank}}</dd>
+                            <dt>账号</dt>
+                            <dd>{{vm.clientInfo.account}}</dd>
+                            <dt>交强险</dt>
+                            <dd>{{vm.policy.mandatory_fee | currency:"￥"}}</dd>
+                            <dt>商业险</dt>
+                            <dd>{{vm.policy.commercial_fee | currency:"￥"}}</dd>
+                            <dt>车船税</dt>
+                            <dd>{{vm.policy.tax_fee | currency:"￥"}}</dd>
+                            <dt>总额</dt>
+                            <dd>{{vm.policy.mandatory_fee + vm.policy.commercial_fee + vm.policy.tax_fee| currency:"￥"}}</dd>
+                            </dl>
+                        </div>
+                        <div class="col col-md-6">
+                            <!--<dl class="dl-horizontal">
+                            <dt class="txt-color-red">跟单费</dt>
+                            <dd>
+                                <label class="input">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="number" class="input-lg" name="gdf"
+                                                   ng-model="vm.policy.gdf" placeholder="请输入跟单费" required>
+                                </label>
+                            </dd>
+                            <dt class="txt-color-red">实付手续费</dt>
+                            <dd>
+                                <label class="input">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="number" class="input-lg" name="sxf"
+                                                   ng-model="vm.policy.sxf" placeholder="请输入手续费" required>
+                                </label>
+                            </div>
+                            </dd>
+                            </dl>-->
+                            <div class="row">
+                                <label class="txt-color-red" >跟单费</label>
+                                <label class="input txt-color-red">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input ng-disabled="vm.policy.policy_status=='已支付'" style="margin-left: 2.1em" type="number" class="input-lg" name="gdf"
+                                                   ng-model="vm.policy.gdf" placeholder="请输入跟单费" required>
+                                </label>
+                            </div>
+                            
+                            <div class="row">
+                                <label class="txt-color-red">实付手续费</label>
+                                <label class="input  txt-color-red">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input ng-disabled="vm.policy.policy_status=='已支付'" type="number" class="input-lg" name="sxf"
+                                                   ng-model="vm.policy.sxf" placeholder="请输入手续费" required>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <button ng-show="vm.policy.policy_status=='待支付'" type="submit" class="btn btn-primary btn-lg">支付</button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </article>
@@ -77,11 +126,11 @@
                                             <!--<select name ='client' class="input-lg" ng-model="vm.policy.client" required>-->
                                             <!--<option ng-repeat="client in vm.clients" -->
                                             <!--value="{{ client._id }}" -->
-                                            <!--ng-selected="vm.policy.client == client._id">-->
+                                            <!--ng-selected="vm.policy.client==c lient._id">-->
                                             <!--{{client.name}}-->
                                             <!--</option>    -->
                                             <!--</select> <i></i> </label>-->
-                                            <select name='client' class="input-lg" ng-model="vm.policy.client._id"
+                                            <select name='client' class="input-lg" ng-model="vm.policy.client"
                                                     ng-options="c._id as c.name for c in vm.clients" required>
                                                 <option value="">请选择业务来源</option>
                                             </select> <i></i> </label>
@@ -103,7 +152,7 @@
                                                 <section class="col col-9">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-car"></i>
-                                                        <input class="input-lg" name="plate_no"
+                                                        <input class="input-lg"" name="plate_no"
                                                                ng-model="vm.policy.plate_no" required>
                                                     </label>
                                                 </section>
@@ -160,7 +209,7 @@
                             </fieldset>
                             <fieldset class="optional-input-field-set" ng-disabled="user.role!='出单员'">
                                 <header>
-                                    可填项
+                                    选填项
                                 </header>
                                 <div class="row">
                                     <section class="col col-3">
