@@ -17,7 +17,18 @@
  * - BODY
  * - CUSTOM STYLES
  */
- 
+
+*{
+	font-family:"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+input, label, select, option, textarea, button, fieldset, legend {
+	font-family:"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-family:"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
 .logo
 {
 	height: 4em;
@@ -26,4 +37,14 @@
 
 .login-info a span {
 	font-size: 1.7em;
+}
+
+.policies-table{
+	padding-top: 3px;
+}
+
+.payment-info-panel{
+	margin-top: 1em;
+	font-size: large;
+	color: darkblue;
 }

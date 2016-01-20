@@ -8,7 +8,8 @@ angular.module('app.policy').factory('PolicyService',
                 savePolicy: savePolicy,
                 getPolicies: getPolicies,
                 getClients: getClients,
-                getPolicy: getPolicy
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy
             });
 
             function savePolicy(policy) {
@@ -91,7 +92,29 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/policies/' + policyId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
             function getClients() {
 
                 // create a new instance of deferred

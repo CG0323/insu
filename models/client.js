@@ -4,11 +4,13 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     name: String,
-    type: String,
+    license_no: String,
+    client_type: String,
     identity: String,
     payee: String,
 	bank: String,
-	account: String
+	account: String,
+    phone: Number
 });
 
 mongoose.model('Client', schema);

@@ -8,21 +8,25 @@
 
                     <h2>支付信息</h2>
                 </header>
-                <div class="text-primary">
-                    <div class="widget-body no-padding">
-                        <dl class="dl-horizontal">
-                            <dt>客户</dt>
-                            <dd>{{vm.policy.client.name}}</dd>
-                            <dt>收款人</dt>
-                            <dd>{{vm.policy.client.payee}}</dd>
-                            <dt>开户行</dt>
-                            <dd>{{vm.policy.client.bank}}</dd>
-                            <dt>账号</dt>
-                            <dd>{{vm.policy.client.bank_account}}</dd>
-                            <dt>应付金额</dt>
-                            <dd>{{vm.policy.insu_fee | currency}}</dd>
-                        </dl>
-                    </div>
+                <div class="widget-body">
+                    <dl class="payment-info-panel dl-horizontal">
+                        <dt>客户</dt>
+                        <dd>{{vm.clientInfo.name}}</dd>
+                        <dt>收款人</dt>
+                        <dd>{{vm.clientInfo.payee}}</dd>
+                        <dt>开户行</dt>
+                        <dd>{{vm.clientInfo.bank}}</dd>
+                        <dt>账号</dt>
+                        <dd>{{vm.clientInfo.account}}</dd>
+                        <dt>交强险</dt>
+                        <dd>{{vm.policy.mandatory_fee | currency:"￥"}}</dd>
+                        <dt>商业险</dt>
+                        <dd>{{vm.policy.commercial_fee | currency:"￥"}}</dd>
+                        <dt>车船税</dt>
+                        <dd>{{vm.policy.tax_fee | currency:"￥"}}</dd>
+                        <dt>总额</dt>
+                        <dd>{{vm.policy.mandatory_fee + vm.policy.commercial_fee + vm.policy.tax_fee| currency:"￥"}}</dd>
+                    </dl>
                 </div>
             </div>
         </article>
@@ -34,7 +38,6 @@
             <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-info"></i> </span>
-
                     <h2>保单详情</h2>
                 </header>
                 <div>
@@ -44,10 +47,13 @@
                         </div>
 
                         <form ng-submit="vm.submit()" id="contact-form" class="smart-form">
-                            <fieldset ng-disabled="user.role!='出单员'">
+                            <fieldset class="optional-input-field-set"  ng-disabled="user.role!='出单员'">
                                 <!--<header>保单信息</header>-->
+                                <header>
+                                    必填项
+                                </header>
                                 <div class="row">
-                                    <section class="col col-3">
+                                    <section class="col col-4">
                                         <label class="label">保险公司</label>
                                         <label class="select">
                                             <select name="insu_company" class="input-lg"
@@ -57,7 +63,7 @@
                                                 <option value="平安保险">平安保险</option>
                                             </select> <i></i> </label>
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-4">
                                         <label class="label">保单号</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-key"></i>
@@ -65,7 +71,7 @@
                                                    required>
                                         </label>
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-4">
                                         <label class="label">业务来源</label>
                                         <label class="select">
                                             <!--<select name ='client' class="input-lg" ng-model="vm.policy.client" required>-->
@@ -75,16 +81,18 @@
                                             <!--{{client.name}}-->
                                             <!--</option>    -->
                                             <!--</select> <i></i> </label>-->
-                                            <select name='client' class="input-lg" ng-model="vm.policy.client"
+                                            <select name='client' class="input-lg" ng-model="vm.policy.client._id"
                                                     ng-options="c._id as c.name for c in vm.clients" required>
                                                 <option value="">请选择业务来源</option>
                                             </select> <i></i> </label>
                                     </section>
-                                    <section class="col col-3">
+                                </div>
+                                <div class="row">
+                                    <section class="col col-2">
                                         <label class="label">车牌号</label>
                                         <label class="input">
                                             <div class="row">
-                                                <section class="col col-2">
+                                                <section class="col col-3">
                                                     <select name="plate_province" class="input-lg"
                                                             ng-model="vm.policy.plate_province"
                                                             required>
@@ -92,7 +100,7 @@
                                                         <option value="浙">浙</option>
                                                     </select>
                                                 </section>
-                                                <section class="col col-10">
+                                                <section class="col col-9">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-car"></i>
                                                         <input class="input-lg" name="plate_no"
@@ -102,45 +110,6 @@
                                             </div>
                                         </label>
                                     </section>
-
-                                </div>
-                                <div class="row">
-                                    <section class="col col-3">
-                                        <label class="label">车架号</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-car"></i>
-                                            <input class="input-lg" name="frame_no" ng-model="vm.policy.frame_no"
-                                                   required>
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label">发动机号</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-car"></i>
-                                            <input class="input-lg" name="engine_no" ng-model="vm.policy.engine_no"
-                                                   required>
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label">使用性质</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-comment-o"></i>
-                                            <input class="input-lg" name="catogary" ng-model="vm.policy.catogary" required>
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label">生效日期</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-calendar"></i>
-                                            <input type="text" class="input-lg" name="effective_date"
-                                                   placeholder="请输入生效日期"
-                                                   data-smart-datepicker data-dateformat='yy-mm-dd'
-                                                   ng-model="vm.policy.effective_date"
-                                                   required>
-                                        </label>
-                                    </section>
-                                </div>
-                                <div class="row">
                                     <section class="col col-2">
                                         <label class="label">被保险人</label>
                                         <label class="input">
@@ -158,12 +127,83 @@
                                                    required>
                                         </label>
                                     </section>
+
+                                    <section class="col col-2">
+                                        <label class="label">交强险</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="number" class="input-lg" name="mandatory_fee"
+                                                   ng-model="vm.policy.mandatory_fee" required>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-2">
+                                        <label class="label">商业险</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="number" class="input-lg" name="commercial_fee"
+                                                   ng-model="vm.policy.commercial_fee" required>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-2">
+                                        <label class="label">车船税</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="number" class="input-lg" name="tax_fee"
+                                                   ng-model="vm.policy.tax_fee"
+                                                   required>
+                                        </label>
+                                    </section>
+
+                                </div>
+                            </fieldset>
+                            <fieldset class="optional-input-field-set" ng-disabled="user.role!='出单员'">
+                                <header>
+                                    可填项
+                                </header>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">发动机号</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-car"></i>
+                                            <input class="input-lg" name="engine_no" ng-model="vm.policy.engine_no">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">车架号</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-car"></i>
+                                            <input class="input-lg" name="frame_no" ng-model="vm.policy.frame_no">
+                                        </label>
+                                    </section>
                                     <section class="col col-3">
                                         <label class="label">身份证号</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-key"></i>
                                             <input class="input-lg" name="identity"
-                                                   ng-model="vm.policy.applicant.identity" required>
+                                                   ng-model="vm.policy.applicant.identity">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">使用性质</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-comment-o"></i>
+                                            <input class="input-lg" name="catogary" ng-model="vm.policy.catogary">
+                                        </label>
+                                    </section>
+
+
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">生效日期</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" class="input-lg" name="effective_date"
+                                                   placeholder="请输入生效日期"
+                                                   data-smart-datepicker data-dateformat='yy-mm-dd'
+                                                   ng-model="vm.policy.effective_date">
                                         </label>
                                     </section>
                                     <section class="col col-5">
@@ -174,27 +214,18 @@
                                                    ng-model="vm.policy.applicant.address">
                                         </label>
                                     </section>
-                                </div>
-                                <div class="row">
-                                    <section class="col col-3">
-                                        <label class="label">保费</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-cny"></i>
-                                            <input type="number" class="input-lg" name="insu_fee"
-                                                   ng-model="vm.policy.insu_fee" required>
-                                        </label>
-                                    </section>
 
                                 </div>
-                                </section>
                             </fieldset>
 
 
                             <footer>
                                 <span>
-                                    <button type="submit" class="btn btn-primary"  ng-show="user.role=='出单员'">提交后录入下一条
+                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'">提交后录入下一条
                                     </button>
-                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'" ng-click="vm.setBack()">提交后查看列表</button>
+                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'"
+                                            ng-click="vm.setBack()">提交后查看列表
+                                    </button>
                                 </span>
                             </footer>
                         </form>

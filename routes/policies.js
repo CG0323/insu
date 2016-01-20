@@ -84,7 +84,9 @@ router.put('/:id', function (req, res) {
     policy.applicant = req.body.applicant;
 	  policy.frame_no = req.body.frame_no;
 	  policy.engine_no = req.body.engine_no;
-	  policy.insu_fee = req.body.insu_fee;
+	  policy.mandatory_fee = req.body.mandatory_fee;
+      policy.commercial_fee = req.body.commercial_fee;
+      policy.tax_fee = req.body.tax_fee;
 	  policy.client = req.body.client;
     policy.seller = req.body.seller;
     policy.policy_status = req.body.policy_status;

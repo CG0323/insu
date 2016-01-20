@@ -26,7 +26,7 @@ angular.module('app.auth').controller('AuthCtrl',
                             $state.go('app.policy.new');
                         }else
                         {
-                            $state.go('app.dashboard');
+                            $state.go('app.policy.to-be-paid');
                         }
                         
                         $scope.disabled = false;

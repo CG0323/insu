@@ -16,16 +16,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/secret-add-clients', function (req, res, next) {
-  var query1 = { 'name': '振宁汽贸' };
+  var query1 = { 'name': '徐州市振宁物流有限公司' };
   var newData1 = {
-    'name': '振宁汽贸',
-    'type': '机构',
+    'name': '徐州市振宁物流有限公司',
+    'client_type': '机构',
+    'license_no': '320324000066863',
+    'identity': '320324196603217022',
+    'payee': '沈彩茹',
+    'bank': '中国农业银行睢宁县支行营业部',
+    'account': '6228480458912748076',
   };
   var promise1 = Client.findOneAndUpdate(query1, newData1, { upsert: true }).exec();
   var query2 = { 'name': '郭永秋' };
   var newData2 = {
     'name': '郭永秋',
-    'type': '个人',
+    'client_type': '个人',
+    'identity': '320324197311150043',
+    'payee': '郭永秋',
+    'bank': '中国农业银行睢宁县支行营业部',
+    'account': '6228480459891805978'
   };
   var promise2 = Client.findOneAndUpdate(query2, newData2, { upsert: true }).exec();
   Q.all([promise1, promise2]).then(function (clients) {

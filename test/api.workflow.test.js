@@ -76,15 +76,15 @@ describe('工作流测试', function () {
         var data = JSON.parse(res.text);
         expect(err).to.be.null;
         expect(data.length).to.equal(1);
-        expect(data[0].client.name).to.equal('振宁汽贸');
+        expect(data[0].client.name).to.equal('徐州市振宁物流有限公司');
         expect(data[0].seller.name).to.equal('李静');
         policyId = data[0]._id;
         done();
       });
     });
-    it('更新保单，修改保费金额', function (done) {
+    it('更新保单，修改商业险金额', function (done) {
       var policy = require('./data/policies.json')[0];
-      policy.insu_fee = 9999;
+      policy.commercial_fee = 2818;
       testSession.put('/api/policies/' + policyId)
         .send(policy)
         .expect(200)
@@ -97,7 +97,7 @@ describe('工作流测试', function () {
         .end(function(err, res){
         var data = JSON.parse(res.text);
         expect(err).to.be.null;
-        expect(data.insu_fee).to.equal(9999);
+        expect(data.commercial_fee).to.equal(2818);
         done();
       });
     });

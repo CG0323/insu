@@ -10,8 +10,10 @@
 
     <div class="row">
         <article class="col-sm-12">
-
-            <div jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <div>
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+            </div>
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>待支付保单</h2>
@@ -23,6 +25,7 @@
                             <thead>
                                 <tr>
                                     <th data-hide="phone,tablet"><i class="fa fa-fw fa-clock-o hidden-md hidden-sm hidden-xs"></i>提交时间</th>
+                                    <th data-hide="phone,tablet"><i class="fa fa-fw fa-user hidden-md hidden-sm hidden-xs"></i>出单员</th>
                                     <th data-hide="phone,tablet" data-class="expand"><i class="fa fa-fw fa-key hidden-md hidden-sm hidden-xs"></i> 保单号</th>
                                     <th data-hide="phone,tablet"><i class="fa fa-fw fa-inbox hidden-md hidden-sm hidden-xs"></i>业务来源</th>
                                     <th><i class="fa fa-fw fa-car hidden-md hidden-sm hidden-xs"></i>车牌号</th>
@@ -39,16 +42,18 @@
                             <tbody>
                                 <tr ng-repeat="policy in vm.policies">
                                     <td>{{policy.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>{{policy.seller.name}}</td>
                                     <td>{{policy.policy_no}}</td>
                                     <td>{{policy.client.name}}</td>
                                     <td>{{policy.plate_province}}{{policy.plate_no}}</td>
                                     <td>{{policy.applicant.name}}</td>
                                     <td>{{policy.applicant.phone}}</td>
-                                    <td>{{policy.insu_fee | currency:"￥"}}</td>
+                                    <td>{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>
                                     <td>{{policy.policy_status}}</td>
                                     <td>
                                         <button ng-show="vm.isShowPayButton(policy)" ng-click="vm.pay(policy._id)" class="btn btn-primary btn-sm">支付</button>
                                         <button ng-show="vm.isShowEditButton(policy)" ng-click="vm.edit(policy._id)" class="btn btn-primary btn-sm">编辑</button>
+                                        <button ng-show="vm.isShowDeleteButton(policy)" ng-click="vm.delete(policy._id)" class="btn btn-primary btn-sm">删除</button>
                                     </td>
                                 </tr>
                            </tbody>
