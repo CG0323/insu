@@ -47,7 +47,7 @@ router.get('/to-be-paid', function (req, res) {
   if(user.role == '出单员'){
     query = {seller: user._id, policy_status:'待支付'};
   }
-  Policy.find({policy_status:'待支付'})
+  Policy.find(query)
      .populate('client seller')
      .exec()
      .then(function(policies){
