@@ -3843,6 +3843,26 @@ angular.module('app.maps').controller('MapsDemoCtrl',
 
 
 });
+'use strict';
+
+angular.module('app.maps').directive('smartMap', function (Initializer) {
+    var _mapsCounter = 0;
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            _mapsCounter++;
+            Initializer.mapsInitialized.then(function(){
+                scope.$on('$smartContentResize', function () {
+                    var center = scope.map.getCenter();
+                    google.maps.event.trigger(scope.map, "resize");
+                    scope.map.setCenter(center); 
+                });
+            })
+            
+        }
+
+    }
+});
 // Google async initializer needs global function, so we use $window
 angular.module('app.maps')
 .factory('Initializer', function($window, $q){
@@ -3918,26 +3938,6 @@ angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CON
 
 
 
-});
-'use strict';
-
-angular.module('app.maps').directive('smartMap', function (Initializer) {
-    var _mapsCounter = 0;
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            _mapsCounter++;
-            Initializer.mapsInitialized.then(function(){
-                scope.$on('$smartContentResize', function () {
-                    var center = scope.map.getCenter();
-                    google.maps.event.trigger(scope.map, "resize");
-                    scope.map.setCenter(center); 
-                });
-            })
-            
-        }
-
-    }
 });
 'use strict'
 
