@@ -3,21 +3,27 @@
 angular.module('app.policy').controller('PolicyListController', function($rootScope, $state, $scope, PolicyService){
     var vm = this;
     vm.policies = [];
-    PolicyService.getPolicies()
-    .then(function(policies){
-        vm.policies = policies;
-    })
 
+
+    vm.listType = "all";
+    if($state.is("app.policy.to-be-paid")){
+        vm.listType= "to-be-paid";
+    }else if($state.is("app.policy.to-be-paid")){
+        vm.listType = "paid";
+    }
+
+    PolicyService.getPolicies(vm.listType)
+        .then(function(policies){
+            console.log(policies);
+            vm.policies = policies;
+        })
 
     vm.refreshPolicies = function(){
-        PolicyService.getPolicies()
+        console.log(vm.listType);
+        PolicyService.getPolicies(vm.listType)
             .then(function(policies){
                 vm.policies = policies;
             })
-    };
-
-    vm.isShowEditButton = function(policy){
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
     };
 
     vm.isShowPayButton = function(policy){
@@ -28,12 +34,16 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
         return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
     };
 
+    vm.isShowViewButton = function(policy){
+        return $rootScope.user.role == "出单员" || policy.policy_status == "已支付";
+    };
+
     vm.pay = function(policyId){
         $state.go("app.policy.pay", {policyId: policyId});
     };
     
-    vm.edit = function(policyId){
-        $state.go("app.policy.edit", {policyId: policyId});
+    vm.view = function(policyId){
+        $state.go("app.policy.view", {policyId: policyId});
     };
 
     vm.delete = function(policyId){

@@ -37,10 +37,10 @@ angular.module('app.policy').config(function ($stateProvider) {
                 }
             }
         })
-        .state('app.policy.edit', {
-            url: '/policies/edit/:policyId',
+        .state('app.policy.view', {
+            url: '/policies/view/:policyId',
             data: {
-                title: '保单修改'
+                title: '保单查看'
             },
             views: {
                 "content@app": {
@@ -53,6 +53,30 @@ angular.module('app.policy').config(function ($stateProvider) {
             url: '/policies/to-be-paid',
             data: {
                 title: '待支付保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
+        .state('app.policy.paid', {
+            url: '/policies/paid',
+            data: {
+                title: '已支付保单'
             },
             views: {
                 "content@app": {

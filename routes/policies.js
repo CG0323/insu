@@ -75,30 +75,32 @@ router.get('/:id', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-  Policy.findById(req.params.id, function (err, policy) {
-    if (err)
-      res.send(err);
-    policy.policy_no = req.body.policy_no;  
-    policy.insu_company = req.body.insu_company;
-    policy.plate_no = req.body.plate_no;
-    policy.applicant = req.body.applicant;
-	  policy.frame_no = req.body.frame_no;
-	  policy.engine_no = req.body.engine_no;
-	  policy.mandatory_fee = req.body.mandatory_fee;
-      policy.commercial_fee = req.body.commercial_fee;
-      policy.tax_fee = req.body.tax_fee;
-	  policy.client = req.body.client;
-    policy.seller = req.body.seller;
-    policy.policy_status = req.body.policy_status;
-    // save the bear
-    policy.save(function (err) {
-      if (err)
-        res.send(err);
+    Policy.findById(req.params.id, function (err, policy) {
+        if (err)
+            res.send(err);
+        policy.policy_no = req.body.policy_no;
+        policy.insu_company = req.body.insu_company;
+        policy.plate_no = req.body.plate_no;
+        policy.applicant = req.body.applicant;
+        policy.frame_no = req.body.frame_no;
+        policy.engine_no = req.body.engine_no;
+        policy.mandatory_fee = req.body.mandatory_fee;
+        policy.commercial_fee = req.body.commercial_fee;
+        policy.tax_fee = req.body.tax_fee;
+        policy.client = req.body.client;
+        policy.seller = req.body.seller;
+        policy.policy_status = req.body.policy_status;
+        policy.paid_at = req.body.paid_at;
+        policy.income = req.body.income;
+        policy.payment = req.body.payment;
+        policy.save(function (err) {
+            if (err)
+                res.send(err);
 
-      res.json({ message: '保单已成功更新' });
+            res.json({message: '保单已成功更新'});
+        });
+
     });
-
-  });
 });
 
 router.delete('/:id', function (req, res) {

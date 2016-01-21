@@ -15,6 +15,8 @@
                                 <dl class="dl-horizontal">
                             <dt>保单状态</dt>
                             <dd>{{vm.policy.policy_status}}</dd>
+                            <dt ng-show = "vm.policy.policy_status=='已支付'">支付日期</dt>
+                            <dd ng-show = "vm.policy.policy_status=='已支付'">{{vm.policy.paid_at|date:"yyyy-MM-dd"}}</dd>
                             <dt>客户</dt>
                             <dd>{{vm.clientInfo.name}}</dd>
                             <dt>收款人</dt>
@@ -58,7 +60,7 @@
                                 <label class="input txt-color-red">
                                             <i class="icon-append fa fa-cny"></i>
                                             <input ng-disabled="vm.policy.policy_status=='已支付'" style="margin-left: 2.1em" type="number" class="input-lg" name="gdf"
-                                                   ng-model="vm.policy.gdf" placeholder="请输入跟单费" required>
+                                                   ng-model="vm.policy.income" placeholder="请输入跟单费" required>
                                 </label>
                             </div>
                             
@@ -67,11 +69,11 @@
                                 <label class="input  txt-color-red">
                                             <i class="icon-append fa fa-cny"></i>
                                             <input ng-disabled="vm.policy.policy_status=='已支付'" type="number" class="input-lg" name="sxf"
-                                                   ng-model="vm.policy.sxf" placeholder="请输入手续费" required>
+                                                   ng-model="vm.policy.payment" placeholder="请输入手续费" required>
                                 </label>
                             </div>
                             <div class="row">
-                                <button ng-show="vm.policy.policy_status=='待支付'" type="submit" class="btn btn-primary btn-lg">支付</button>
+                                <button ng-show="vm.policy.policy_status=='待支付'" type="submit" class="btn btn-primary">修改保单状态为已支付</button>
                             </div>
                         </div>
                     </div>
@@ -81,23 +83,25 @@
         </article>
     </div>
 
+
     <div class="row">
         <article class="col-sm-12">
-
-            <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+            <div>
+                <button ng-show="user.role=='出单员'&& !vm.editable" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>编辑</button>
+            </div>
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-info"></i> </span>
                     <h2>保单详情</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding">
-                        <div class="alert alert-block alert-warning" ng-show="user.role=='出单员'">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
                             <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
                         </div>
 
                         <form ng-submit="vm.submit()" id="contact-form" class="smart-form">
-                            <fieldset class="optional-input-field-set"  ng-disabled="user.role!='出单员'">
-                                <!--<header>保单信息</header>-->
+                            <fieldset class="optional-input-field-set"  ng-disabled="!vm.editable">
                                 <header>
                                     必填项
                                 </header>
@@ -108,8 +112,8 @@
                                             <select name="insu_company" class="input-lg"
                                                     ng-model="vm.policy.insu_company" required>
                                                 <option value="">请选择保险公司</option>
-                                                <option value="中国人保">中国人保</option>
-                                                <option value="平安保险">平安保险</option>
+                                                <option value="中国人保">人保财险睢宁支公司</option>
+                                                <option value="平安保险">华安财险徐州中支</option>
                                             </select> <i></i> </label>
                                     </section>
                                     <section class="col col-4">
@@ -123,17 +127,11 @@
                                     <section class="col col-4">
                                         <label class="label">业务来源</label>
                                         <label class="select">
-                                            <!--<select name ='client' class="input-lg" ng-model="vm.policy.client" required>-->
-                                            <!--<option ng-repeat="client in vm.clients" -->
-                                            <!--value="{{ client._id }}" -->
-                                            <!--ng-selected="vm.policy.client==c lient._id">-->
-                                            <!--{{client.name}}-->
-                                            <!--</option>    -->
-                                            <!--</select> <i></i> </label>-->
                                             <select name='client' class="input-lg" ng-model="vm.policy.client"
                                                     ng-options="c._id as c.name for c in vm.clients" required>
                                                 <option value="">请选择业务来源</option>
-                                            </select> <i></i> </label>
+                                            </select> <i></i>
+                                        </label>
                                     </section>
                                 </div>
                                 <div class="row">
@@ -152,7 +150,7 @@
                                                 <section class="col col-9">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-car"></i>
-                                                        <input class="input-lg"" name="plate_no"
+                                                        <input class="input-lg" name="plate_no"
                                                                ng-model="vm.policy.plate_no" required>
                                                     </label>
                                                 </section>
@@ -207,7 +205,25 @@
 
                                 </div>
                             </fieldset>
-                            <fieldset class="optional-input-field-set" ng-disabled="user.role!='出单员'">
+                            <fieldset class="optional-input-field-set"  ng-disabled=true>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">出单员</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input class="input-lg" name="cdy" ng-model="vm.sellerInfo.name">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">营业部</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input class="input-lg" name="organization" ng-model="vm.sellerInfo.organization">
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
                                 <header>
                                     选填项
                                 </header>
@@ -236,9 +252,21 @@
                                     </section>
                                     <section class="col col-3">
                                         <label class="label">使用性质</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-comment-o"></i>
-                                            <input class="input-lg" name="catogary" ng-model="vm.policy.catogary">
+                                        <label class="select">
+                                            <select name="catogary" class="input-lg"
+                                                    ng-model="vm.policy.catogary" required>
+                                                <option value="">请选择使用性质</option>
+                                                <option value="家庭自用汽车">家庭自用汽车</option>
+                                                <option value="非营业客车">非营业客车</option>
+                                                <option value="营业客车">营业客车</option>
+                                                <option value="非营业货车">非营业货车</option>
+                                                <option value="营业货车">营业货车</option>
+                                                <option value="特种车">特种车</option>
+                                                <option value="摩托车">摩托车</option>
+                                                <option value="拖拉机">拖拉机</option>
+                                                <option value="挂车">挂车</option>
+                                                <option value="其他">其他</option>
+                                            </select> <i></i>
                                         </label>
                                     </section>
 
@@ -270,9 +298,9 @@
 
                             <footer>
                                 <span>
-                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'">提交后录入下一条
+                                    <button type="submit" class="btn btn-primary" ng-show="vm.editable">提交后录入下一条
                                     </button>
-                                    <button type="submit" class="btn btn-primary" ng-show="user.role=='出单员'"
+                                    <button type="submit" class="btn btn-primary" ng-show="vm.editable"
                                             ng-click="vm.setBack()">提交后查看列表
                                     </button>
                                 </span>

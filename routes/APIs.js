@@ -14,8 +14,8 @@ function ensureAuthenticated(req, res, next) {
     // console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {
         return next();
-    } else {
-        return res.sendStatus(401);
+    } else{
+        res.status(401).send("请先登录");
     }
 };
 

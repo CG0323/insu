@@ -49,11 +49,18 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
             
-            function getPolicies() {
+            function getPolicies(type) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('/api/policies')
+                var url = "/api/policies"
+                if(type == "to-be-paid"){
+                    url = "/api/policies/to-be-paid";
+                }else if(type == "paid"){
+                    url = "/api/policies/paid";
+                }
+                console.log(type);
+                $http.get(url)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

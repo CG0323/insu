@@ -5,10 +5,18 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
     vm.policy = {};
     vm.policy.plate_province = "苏";
     vm.clientInfo = {};
+    vm.sellerInfo = $rootScope.user;
     PolicyService.getClients()
         .then(function (clients) {
             vm.clients = clients;
         })
+
+    vm.editable = false;
+    if($state.is("app.policy.new")){
+        vm.editable = true;
+    }
+
+
 
     var policyId = $stateParams.policyId;
     if (policyId) {
@@ -17,8 +25,14 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                 //policy.client = policy.client._id;
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
+                vm.sellerInfo = policy.seller;
                 policy.client = policy.client._id;
+                policy.seller = policy.seller._id;
             });
+    }
+
+    vm.toggleEdit = function(){
+        vm.editable = !vm.editable;
     }
 
     vm.setBack = function () {
@@ -52,7 +66,8 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "已支付"
+                vm.policy.policy_status = "已支付";
+                vm.policy.paid_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({

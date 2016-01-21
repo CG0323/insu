@@ -19,7 +19,10 @@ var schema = new mongoose.Schema({
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   policy_status: String,
   created_at: { type: Date },
-  updated_at: { type: Date }
+  updated_at: { type: Date },
+  paid_at: {type: Date},
+  income: Number,
+  payment: Number
 });
 
 schema.pre('save', function(next){
