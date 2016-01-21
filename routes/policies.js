@@ -43,7 +43,7 @@ router.get('/', function (req, res) {
 
 router.get('/to-be-paid', function (req, res) {
   var user = req.user;
-  var query = {seller: user._id};
+  var query = {policy_status:'待支付'};
   if(user.role == '出单员'){
     query = {seller: user._id, policy_status:'待支付'};
   }
