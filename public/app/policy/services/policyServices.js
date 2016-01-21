@@ -17,6 +17,7 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 
                 if(policy._id){
+                    policy.updated_at = Date.now();
                     $http.put('/api/policies/'+policy._id, policy)
                     .success(function (data, status) {
                         if (status === 200) {
@@ -29,7 +30,8 @@ angular.module('app.policy').factory('PolicyService',
                         deferred.reject(status);
                     });
                 }else{
-                    // send a post request to the server
+                policy.created_at = Date.now();
+                policy.updated_at = policy.created_at;
                 $http.post('/api/policies', policy)
                 // handle success
                     .success(function (data, status) {

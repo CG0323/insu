@@ -8,7 +8,7 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
     vm.listType = "all";
     if($state.is("app.policy.to-be-paid")){
         vm.listType= "to-be-paid";
-    }else if($state.is("app.policy.to-be-paid")){
+    }else if($state.is("app.policy.paid")){
         vm.listType = "paid";
     }
 

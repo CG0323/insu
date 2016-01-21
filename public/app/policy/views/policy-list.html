@@ -30,7 +30,7 @@
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-inbox hidden-md hidden-sm hidden-xs"></i>业务来源</th>
                                     <th><i class="fa fa-fw fa-car hidden-md hidden-sm hidden-xs"></i>车牌号</th>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-user hidden-md hidden-sm hidden-xs"></i>投保人</th>
-                                    <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> 电话</th>
+                                    <!--<th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> 电话</th>-->
                                     <th><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>保单总额</th>
                                     <th><i class="fa fa-fw fa-rocket hidden-md hidden-sm hidden-xs"></i>保单状态</th>
                                     <th><i class="fa fa-fw fa-play hidden-md hidden-sm hidden-xs"></i>操作</th>
@@ -40,14 +40,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="policy in vm.policies">
+                                <tr ng-repeat="policy in vm.policies |orderBy: 'created_at'">
                                     <td  class="hidden-sm hidden-xs">{{policy.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.seller.name}}</td>
                                     <td class="hidden-sm hidden-xs">{{policy.policy_no}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.client.name}}</td>
                                     <td>{{policy.plate_province}}{{policy.plate_no}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.applicant.name}}</td>
-                                    <td  class="hidden-sm hidden-xs">{{policy.applicant.phone}}</td>
+                                    <!--<td  class="hidden-sm hidden-xs">{{policy.applicant.phone}}</td>-->
                                     <td>{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>
                                     <td>{{policy.policy_status}}</td>
                                     <td>
