@@ -18,7 +18,7 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '郭永秋', function (err, data, res) {
+api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) {
   console.log(data);
   api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
     console.log(data);
@@ -111,8 +111,6 @@ router.get('/callback', function (req, res) {
               }
             });
           }
-        }, function (err) {
-          console.log(err);
         })
         .then(function (in_user) {
           console.log(in_user);
@@ -122,6 +120,8 @@ router.get('/callback', function (req, res) {
             }
             res.status(200).json(in_user);
           });
+        }, function(err){
+          console.log(err);
         })
     });
   });
