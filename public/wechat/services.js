@@ -5,7 +5,7 @@ angular.module('app.wechat').
 
     dataAPI.getPolicies = function () {
       var deferred = $q.defer();
-      $http.get("api/policies")
+      $http.get("../api/policies")
       // handle success
         .success(function (data, status) {
           if (status === 200) {
