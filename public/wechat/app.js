@@ -11,7 +11,7 @@ angular.module('app.wechat', [
             views: {
                 "content@app": {
                     controller: 'WechatController as vm',
-                    templateUrl: 'wechat/views/home.html'
+                    templateUrl: 'views/home.html'
                 }
             }
         })
