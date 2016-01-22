@@ -92,7 +92,7 @@ router.get('/callback', function (req, res) {
     console.log('openid=' + openid);
 
 
-    client.getUser(openid, function (err, result) {
+    api.getUser(openid, function (err, result) {
       console.log(result)
       var oauth_user = result;
       User.find({ username: oauth_user.openid }).exec()
