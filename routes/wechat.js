@@ -107,7 +107,7 @@ router.get('/callback', function (req, res) {
         
       req.logIn(in_user, function (err) {
         if (err) {
-          return res.status(500).json({ err: 'Could not log in user' });
+          return res.status(500).json({ error: err });
         }
         res.status(200).json(in_user);
       });
