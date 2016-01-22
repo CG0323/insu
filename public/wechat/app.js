@@ -26,6 +26,6 @@ angular.module('app.wechat', [
 //     });
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-	when("/", {templateUrl: "views/home.html", controller: "WechatController"}).
+	when("/", {templateUrl: "views/home.html", controller: "WechatController as vm"}).
 	otherwise({redirectTo: '/'});
 }]);
