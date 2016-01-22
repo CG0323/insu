@@ -104,7 +104,7 @@ router.get('/callback', function (req, res) {
         }, function (err) {
            console.log(err);
         });
-        
+        console.log(in_user);
       req.logIn(in_user, function (err) {
         if (err) {
           return res.status(500).json({ error: err });
