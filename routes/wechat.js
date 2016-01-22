@@ -18,11 +18,21 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) { });
-api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '徐州市振宁物流有限公司', function (err, data, res) { });
-api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '郭永秋', function (err, data, res) { });
-api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '徐州市振宁物流有限公司', function (err, data, res) { });
-api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '郭永秋', function (err, data, res) { });
+api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) {
+  console.log(data);
+ });
+api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '徐州市振宁物流有限公司', function (err, data, res) {
+  console.log(data);
+ });
+api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '郭永秋', function (err, data, res){
+  console.log(data);
+ });
+api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '徐州市振宁物流有限公司', function (err, data, res){
+  console.log(data);
+ });
+api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '郭永秋', function (err, data, res){
+  console.log(data);
+ });
 // var config = {
 //   token: 'H4MbzV5LAd3n',
 //   appid: 'wxd168d39b1572120f',
