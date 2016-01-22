@@ -8,18 +8,18 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
     vm.listType = "all";
     if($state.is("app.policy.to-be-paid")){
         vm.listType= "to-be-paid";
+        vm.tableHeader = "待支付保单";
     }else if($state.is("app.policy.paid")){
         vm.listType = "paid";
+        vm.tableHeader = "已支付保单";
     }
 
     PolicyService.getPolicies(vm.listType)
         .then(function(policies){
-            console.log(policies);
             vm.policies = policies;
         })
 
     vm.refreshPolicies = function(){
-        console.log(vm.listType);
         PolicyService.getPolicies(vm.listType)
             .then(function(policies){
                 vm.policies = policies;

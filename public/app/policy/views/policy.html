@@ -5,10 +5,12 @@
             <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-cny"></i> </span>
-
                     <h2>支付信息</h2>
                 </header>
                 <div class="widget-body">
+                   <div class="alert alert-block alert-warning" ng-show="vm.policy.policy_status=='待支付'">
+                     <h3 class="alert-heading"> 支付完成后务必填写跟单费和手续费并修改保单状态！</h3>
+                   </div>
                     <form ng-submit="vm.pay()">
                         <div class="row payment-info-panel">
                             <div class="col col-md-6">
@@ -36,25 +38,6 @@
                             </dl>
                         </div>
                         <div class="col col-md-6">
-                            <!--<dl class="dl-horizontal">
-                            <dt class="txt-color-red">跟单费</dt>
-                            <dd>
-                                <label class="input">
-                                            <i class="icon-append fa fa-cny"></i>
-                                            <input type="number" class="input-lg" name="gdf"
-                                                   ng-model="vm.policy.gdf" placeholder="请输入跟单费" required>
-                                </label>
-                            </dd>
-                            <dt class="txt-color-red">实付手续费</dt>
-                            <dd>
-                                <label class="input">
-                                            <i class="icon-append fa fa-cny"></i>
-                                            <input type="number" class="input-lg" name="sxf"
-                                                   ng-model="vm.policy.sxf" placeholder="请输入手续费" required>
-                                </label>
-                            </div>
-                            </dd>
-                            </dl>-->
                             <div class="row">
                                 <label class="txt-color-red" >跟单费</label>
                                 <label class="input txt-color-red">
@@ -73,7 +56,7 @@
                                 </label>
                             </div>
                             <div class="row">
-                                <button ng-show="vm.policy.policy_status=='待支付'" type="submit" class="btn btn-primary">修改保单状态为已支付</button>
+                                <button style="margin-top:1em" ng-show="vm.policy.policy_status=='待支付'" type="submit" class="btn btn-primary btn-lg">修改保单状态为已支付</button>
                             </div>
                         </div>
                     </div>
@@ -87,7 +70,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="user.role=='出单员'&& !vm.editable" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>编辑</button>
+                <button ng-show="user.role=='出单员'&& !vm.editable" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
