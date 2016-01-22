@@ -4,6 +4,9 @@ var wechat = require('wechat');
 var WechatAPI = require('wechat-api');
 var appConfig = require('../common.js').config();
 var OAuth = require('wechat-oauth');
+var db = require('../utils/database.js').connection;
+var User = require('../models/user.js')(db);
+
 var client = new OAuth(appConfig.app_id, appConfig.app_secret);
 
 var api = new WechatAPI(appConfig.app_id, appConfig.app_secret);
@@ -15,7 +18,11 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-
+api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) {});
+api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '徐州市振宁物流有限公司', function (err, data, res) {});
+api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '郭永秋', function (err, data, res) {});
+api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '徐州市振宁物流有限公司', function (err, data, res) {});
+api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '郭永秋', function (err, data, res) {});
 // var config = {
 //   token: 'H4MbzV5LAd3n',
 //   appid: 'wxd168d39b1572120f',
@@ -76,20 +83,15 @@ router.get('/callback', function (req, res) {
     client.getUser(openid, function (err, result) {
       console.log(result)
       var oauth_user = result;
-      res.redirect(result.headimgurl);
-          
-      // } else {
-      //   console.log('根据openid查询，用户已经存在')
-      //   // if phone_number exist,go home page
-      //   if (user.is_valid == true) {
-      //     req.session.current_user = user;
-      //     res.redirect('/mobile')
-      //   } else {
-      //     //if phone_number exist,go to user detail page to fill it
-      //     req.session.current_user = void 0;
-      //     res.redirect('/users/' + user._id + '/verify');
-      //   }
-      // }
+      var user = new User();
+      user.name = oauth_user.remark;
+      user.role = "客户";
+      req.logIn(user, function(err) {
+      if (err) {
+        return res.status(500).json({err: 'Could not log in user'});
+      }
+      res.status(200).json(user);
+    });
     });
   });
 });
