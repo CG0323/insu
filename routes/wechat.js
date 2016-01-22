@@ -18,11 +18,11 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) {});
-api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '徐州市振宁物流有限公司', function (err, data, res) {});
-api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '郭永秋', function (err, data, res) {});
-api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '徐州市振宁物流有限公司', function (err, data, res) {});
-api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '郭永秋', function (err, data, res) {});
+api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) { });
+api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '徐州市振宁物流有限公司', function (err, data, res) { });
+api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '郭永秋', function (err, data, res) { });
+api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '徐州市振宁物流有限公司', function (err, data, res) { });
+api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '郭永秋', function (err, data, res) { });
 // var config = {
 //   token: 'H4MbzV5LAd3n',
 //   appid: 'wxd168d39b1572120f',
@@ -80,18 +80,37 @@ router.get('/callback', function (req, res) {
     console.log('token=' + accessToken);
     console.log('openid=' + openid);
 
+
     client.getUser(openid, function (err, result) {
       console.log(result)
       var oauth_user = result;
-      var user = new User();
-      user.name = oauth_user.remark;
-      user.role = "客户";
-      req.logIn(user, function(err) {
-      if (err) {
-        return res.status(500).json({err: 'Could not log in user'});
-      }
-      res.status(200).json(user);
-    });
+      var in_user;
+      User.find({ username: oauth_user.openid }).exec()
+        .then(function (users) {
+          if (users.length > 0) {
+            in_user = users[0];
+            in_user.name = oauth_user.remark;
+            in_user.role = "客户";
+
+          } else {
+            User.register(new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户' }), '123456', function (err, user) {
+              if (err) {
+                return res.status(500).json({ err: 'Could not register' });
+              } else {
+                in_user = user;
+              }
+            });
+          }
+        }, function (err) {
+           console.log(err);
+        });
+        
+      req.logIn(in_user, function (err) {
+        if (err) {
+          return res.status(500).json({ err: 'Could not log in user' });
+        }
+        res.status(200).json(in_user);
+      });
     });
   });
 });
