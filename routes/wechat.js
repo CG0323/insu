@@ -84,33 +84,34 @@ router.get('/callback', function (req, res) {
     client.getUser(openid, function (err, result) {
       console.log(result)
       var oauth_user = result;
-      var in_user;
       User.find({ username: oauth_user.openid }).exec()
         .then(function (users) {
           if (users.length > 0) {
-            in_user = users[0];
-            in_user.name = oauth_user.remark;
-            in_user.role = "客户";
-
+            var user = users[0];
+            user.name = oauth_user.remark;
+            user.role = "客户";
+            return user;
           } else {
             User.register(new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户' }), '123456', function (err, user) {
               if (err) {
-                return res.status(500).json({ err: 'Could not register' });
+                res.status(500).json({ err: 'Could not register' });
               } else {
-                in_user = user;
+                return user;
               }
             });
           }
         }, function (err) {
-           console.log(err);
-        });
-        console.log(in_user);
-      req.logIn(in_user, function (err) {
-        if (err) {
-          return res.status(500).json({ error: err });
-        }
-        res.status(200).json(in_user);
-      });
+          console.log(err);
+        })
+        .then(function (in_user) {
+          console.log(in_user);
+          req.logIn(in_user, function (err) {
+            if (err) {
+              return res.status(500).json({ error: err });
+            }
+            res.status(200).json(in_user);
+          });
+        })
     });
   });
 });
