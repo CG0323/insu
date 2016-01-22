@@ -44,7 +44,7 @@ router.post('/', wechat('H4MbzV5LAd3n', wechat.text(function (message, req, res,
   }
 })
  .image(function (message, req, res, next) {
-    res.reply('暂不支持图片上传');
+    res.redirect('/#');
  })
  ));
 

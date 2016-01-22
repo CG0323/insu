@@ -1,0 +1,25 @@
+
+{
+  "button":[
+    {
+      "type":"click",
+      "name":"7日保单",
+      "key":"POLICIES_7_DAYS"
+    },
+    {
+      "name":"菜单",
+      "sub_button":[
+        {
+          "type":"view",
+          "name":"主页",
+          "url":"http://123.56.103.93"
+        },
+        {
+          "type":"click",
+          "name":"赞一下我们",
+          "key":"V1001_GOOD"
+        }
+      ]
+    }
+  ]
+}
