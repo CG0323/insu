@@ -35,6 +35,8 @@ router.get('/', function (req, res) {
      .populate('client seller')
      .exec()
      .then(function(policies){
+       console.log("found!!!!!");
+       console.log(policies);
        res.status(200).json(policies);
      },function(err){
        res.status(500).json(err);
@@ -60,7 +62,14 @@ router.get('/to-be-paid', function (req, res) {
 });
 
 router.get('/paid', function (req, res) {
-  Policy.find({policy_status:'已支付'})
+  var user = req.user;
+  var query = {policy_status:'待支付'};
+  if(user.role == '出单员'){
+    query = {seller: user._id, policy_status:'待支付'};
+  }else if(user.role == '客户'){
+    query = {policy_status:'待支付'};
+  }
+  Policy.find(query)
      .populate('client seller')
      .exec()
      .then(function(policies){
