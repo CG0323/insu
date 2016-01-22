@@ -73,11 +73,10 @@ router.get('/callback', function (req, res) {
     console.log('token=' + accessToken);
     console.log('openid=' + openid);
 
-    console.log('user is not exist.')
     client.getUser(openid, function (err, result) {
       console.log(result)
       var oauth_user = result;
-      res.send(res);
+      res.redirect(result.headimgurl);
           
       // } else {
       //   console.log('根据openid查询，用户已经存在')
