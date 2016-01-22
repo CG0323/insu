@@ -18,15 +18,15 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '徐州市振宁物流有限公司', function (err, data, res) {
+api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
   console.log(data);
   api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
     console.log(data);
-    api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '徐州市振宁物流有限公司', function (err, data, res) {
+    api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '振宁汽贸', function (err, data, res) {
       console.log(data);
-      api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '徐州市振宁物流有限公司', function (err, data, res) {
+      api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '郭永秋', function (err, data, res) {
         console.log(data);
-        api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '郭永秋', function (err, data, res) {
+        api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '振宁汽贸', function (err, data, res) {
           console.log(data);
         });
       });
@@ -118,7 +118,7 @@ router.get('/callback', function (req, res) {
             if (err) {
               return res.status(500).json({ error: err });
             }
-            res.status(200).json(in_user);
+            res.render('wechat');
           });
         }, function(err){
           console.log(err);

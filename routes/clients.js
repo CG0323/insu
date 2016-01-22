@@ -19,6 +19,7 @@ router.get('/secret-add-clients', function (req, res, next) {
   var query1 = { 'name': '徐州市振宁物流有限公司' };
   var newData1 = {
     'name': '徐州市振宁物流有限公司',
+    'short_name':'振宁汽贸',
     'client_type': '机构',
     'license_no': '320324000066863',
     'identity': '320324196603217022',
@@ -30,6 +31,7 @@ router.get('/secret-add-clients', function (req, res, next) {
   var query2 = { 'name': '郭永秋' };
   var newData2 = {
     'name': '郭永秋',
+    'short_name': '郭永秋',
     'client_type': '个人',
     'identity': '320324197311150043',
     'payee': '郭永秋',
