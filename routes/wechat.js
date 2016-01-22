@@ -76,6 +76,10 @@ router.get('/view', function (req, res) {
   res.redirect(url)
 })
 
+router.get('/test', function (req, res) {
+  res.render('wechat');
+})
+
 router.get('/callback', function (req, res) {
   console.log('----weixin callback -----')
   var code = req.query.code;

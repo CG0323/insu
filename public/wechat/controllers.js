@@ -1,5 +1,5 @@
 angular.module('app.wechat')
-  .controllers('WechatController', function ($scope, dataAPI) {
+  .controller('WechatController', function ($scope, dataAPI) {
     var vm = this;
     vm.policies = [];
     dataAPI.getPolicies()

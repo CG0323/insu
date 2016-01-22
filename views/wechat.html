@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="no-js">
+<html lang="zh-CN" ng-app="app.wechat">
 	<head>
 	
 		<meta charset="utf-8">
@@ -15,13 +15,17 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="../styles/css/font-awesome.min.css">
 	</head>
 	
-	<body data-title="红叶保险代理查询系统" ng-app="app.wechat">
+	<body data-title="红叶保险代理查询系统">
 
-		<div data-ui-view="root"  data-autoscroll="false"></div>
+		<ng-view></ng-view>
+		<!--<div data-ng-view="root"></div>-->
 
-		<script src="app.js"></script>		
-		<script src="controllers.js"></script>
-		<script src="services.js"></script>
+		<script type="text/javascript" src="../plugin/angular/angular.min.js"></script>
+		<script type="text/javascript" src="../plugin/angular-ui-router/release/angular-ui-router.min.js"></script>
+		<script type="text/javascript" src="../plugin/angular-route/angular-route.min.js"></script>
+		<script type="text/javascript" src="app.js"></script>		
+		<script type="text/javascript" src="controllers.js"></script>
+		<script type="text/javascript"  src="services.js"></script>
 
 		</body>
 	
