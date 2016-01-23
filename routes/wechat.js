@@ -35,12 +35,12 @@ api.createMenu(menu, function (err, result) {
 // });
 
 
-router.get('/', wechat(appConfig.token, function (req, res, next) {
+router.get('/', wechat('H4MbzV5LAd3n', function (req, res, next) {
   res.writeHead(200);
   res.end('hello from node api');
 }));
 
-router.post('/', wechat(appConfig.token, wechat.text(function (message, req, res, next) {
+router.post('/', wechat('H4MbzV5LAd3n', wechat.text(function (message, req, res, next) {
   var openId = message.FromUserName;
   var text = message.Content;
   if (text == '我叫什么') {
