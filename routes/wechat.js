@@ -100,34 +100,6 @@ router.get('/callback', function (req, res) {
         }
         res.render('wechat');
       });
-      //   User.find({ username: oauth_user.openid }).exec()
-      //     .then(function (users) {
-      //       if (users.length > 0) {
-      //         var user = users[0];
-      //         user.name = oauth_user.remark;
-      //         user.role = "客户";
-      //         return user;
-      //       } else {
-      //         User.register(new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户' }), '123456', function (err, user) {
-      //           if (err) {
-      //             res.status(500).json({ err: 'Could not register' });
-      //           } else {
-      //             return user;
-      //           }
-      //         });
-      //       }
-      //     })
-      //     .then(function (in_user) {
-      //       console.log(in_user);
-      //       req.logIn(in_user, function (err) {
-      //         if (err) {
-      //           return res.status(500).json({ error: err });
-      //         }
-      //         res.render('wechat');
-      //       });
-      //     }, function(err){
-      //       console.log(err);
-      //     })
       });
     });
   });
