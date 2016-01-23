@@ -15,7 +15,7 @@ router.post('/', function (req, res) {
       policy.policy_status = '待支付';
       policy.save(function (err, policy, numAffected) {
         if (err) {
-          res.status(500).json(err);
+          res.status(500).send(err);
         } else {
           res.status(200).json({ message: '保单已成功添加' });
         }
@@ -35,11 +35,9 @@ router.get('/', function (req, res) {
      .populate('client seller')
      .exec()
      .then(function(policies){
-       console.log("found!!!!!");
-       console.log(policies);
        res.status(200).json(policies);
      },function(err){
-       res.status(500).json(err);
+       res.status(500).send(err);
      });
 });
 
@@ -57,15 +55,15 @@ router.get('/to-be-paid', function (req, res) {
      .then(function(policies){
        res.status(200).json(policies);
      },function(err){
-       res.status(500).json(err);
+       res.status(500).send(err);
      });
 });
 
 router.get('/paid', function (req, res) {
   var user = req.user;
-  var query = {policy_status:'待支付'};
+  var query = {policy_status:'已支付'};
   if(user.role == '出单员'){
-    query = {seller: user._id, policy_status:'待支付'};
+    query = {seller: user._id, policy_status:'已支付'};
   }else if(user.role == '客户'){
     query = {policy_status:'待支付'};
   }
@@ -75,7 +73,7 @@ router.get('/paid', function (req, res) {
      .then(function(policies){
        res.status(200).json(policies);
      },function(err){
-       res.status(500).json(err);
+       res.status(500).send(err);
      });
 });
 
@@ -86,7 +84,7 @@ router.get('/:id', function (req, res) {
     .then(function(policy){
        res.status(200).json(policy);
      },function(err){
-       res.status(500).json(err);
+       res.status(500).send(err);
      });
 });
 

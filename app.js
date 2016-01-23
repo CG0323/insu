@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./utils/database.js').connection;
@@ -31,9 +32,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
+  name: 'insu',
   secret: 'cg123456lalala',
   saveUninitialized: false,
-  resave: false
+  resave: false,
+  store: new MongoStore({ mongooseConnection: db })
 }));
 
 app.use(passport.initialize());
