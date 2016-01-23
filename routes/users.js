@@ -16,6 +16,7 @@ router.get('/me', function(req, res, next) {
 router.get('/register-cdy01', function(req, res) {
   User.register(new User({ username : 'cdy01', name: '李静', role: '出单员', organization: '红叶徐州分公司睢宁营业部'}), 'cdy01123', function(err, user) {
     if (err) {
+      console.log(err);
       res.redirect('/#/login');
     }else{
       res.status(200).json({status: 'registered'});
@@ -53,6 +54,7 @@ router.post('/logout', function(req, res) {
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
+      console.log(err);
       return res.status(500).json({err: err});
     }
     if (!user) {
@@ -60,6 +62,7 @@ router.post('/login', function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) {
+        console.log(err);
         return res.status(500).json({err: 'Could not log in user'});
       }
       res.status(200).json(user);
