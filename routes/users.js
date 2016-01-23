@@ -47,7 +47,7 @@ router.get('/register-cn01', function(req, res) {
 });
 
 router.post('/logout', function(req, res) {
-  logger.info(req.user.name + " 登出系统");
+  logger.info(req.user.name + " 登出系统。"+ getClientIp(req));
   req.logout();
   res.status(200).json({status: 'Bye!'});
 });
@@ -66,8 +66,7 @@ router.post('/login', function(req, res, next) {
         logger.error(err);
         return res.status(500).send('无法登录该用户');
       }
-      logger.info(user.name + " 登录系统");
-      logger.info("登录ip为：" + getClientIp(req));
+      logger.info(user.name + " 登录系统。"+ getClientIp(req));
       res.status(200).json(user);
     });
   })(req, res, next);

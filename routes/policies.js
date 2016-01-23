@@ -19,7 +19,7 @@ router.post('/', function (req, res) {
           logger.error(err);
           res.status(500).send(err);
         } else {
-          logger.info(req.user.name + " 提交了一份保单，保单号为："+ policy.policy_no);
+          logger.info(req.user.name + " 提交了一份保单，保单号为："+ policy.policy_no +"。"+ getClientIp(req));
           res.status(200).json({ message: '保单已成功添加' });
         }
       });
@@ -119,7 +119,7 @@ router.put('/:id', function (req, res) {
               logger.error(err);
               res.send(err);
             }
-            logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no);
+            logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no +"。"+ getClientIp(req));
             res.json({message: '保单已成功更新'});
         });
 
@@ -132,9 +132,17 @@ router.delete('/:id', function (req, res) {
       logger.error(err);
       res.send(err);
     }
-    logger.info(req.user.name + " 删除了一份保单");
+    logger.info(req.user.name + " 删除了一份保单。"+ getClientIp(req));
     res.json({ message: '保单已成功删除' });
   });
 });
+
+function getClientIp(req) {
+        return req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    };
+
 
 module.exports = router;

@@ -1,11 +1,11 @@
 'use strict'
 
+var config = require('../common.js').config();
 var log4js = require("log4js");
 var log4js_config = require("../log4js.json");
 log4js.configure(log4js_config);
 
-console.log("log_start start!");
-var LogFile = log4js.getLogger('log_date');
+var LogFile = log4js.getLogger(config.log_type);
 
 // LogFile.trace('This is a Log4js-Test');
 // LogFile.debug('We Write Logs with log4js');
