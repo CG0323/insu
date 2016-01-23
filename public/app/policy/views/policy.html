@@ -42,7 +42,7 @@
                                 <label class="txt-color-red" >跟单费</label>
                                 <label class="input txt-color-red">
                                             <i class="icon-append fa fa-cny"></i>
-                                            <input ng-disabled="vm.policy.policy_status=='已支付'" style="margin-left: 2.1em" type="number" class="input-lg" name="gdf"
+                                            <input ng-disabled="vm.policy.policy_status=='已支付'" style="margin-left: 2.1em" type="number" step="0.01" class="input-lg" name="gdf"
                                                    ng-model="vm.policy.income" placeholder="请输入跟单费" required>
                                 </label>
                             </div>
@@ -51,7 +51,7 @@
                                 <label class="txt-color-red">实付手续费</label>
                                 <label class="input  txt-color-red">
                                             <i class="icon-append fa fa-cny"></i>
-                                            <input ng-disabled="vm.policy.policy_status=='已支付'" type="number" class="input-lg" name="sxf"
+                                            <input ng-disabled="vm.policy.policy_status=='已支付'" type="number" step="0.01"  class="input-lg" name="sxf"
                                                    ng-model="vm.policy.payment" placeholder="请输入手续费" required>
                                 </label>
                             </div>
@@ -162,7 +162,7 @@
                                         <label class="label">交强险</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-cny"></i>
-                                            <input type="number" class="input-lg" name="mandatory_fee"
+                                            <input type="number" step="0.01" class="input-lg" name="mandatory_fee"
                                                    ng-model="vm.policy.mandatory_fee" required>
                                         </label>
                                     </section>
@@ -171,7 +171,7 @@
                                         <label class="label">商业险</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-cny"></i>
-                                            <input type="number" class="input-lg" name="commercial_fee"
+                                            <input type="number" step="0.01" class="input-lg" name="commercial_fee"
                                                    ng-model="vm.policy.commercial_fee" required>
                                         </label>
                                     </section>
@@ -180,7 +180,7 @@
                                         <label class="label">车船税</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-cny"></i>
-                                            <input type="number" class="input-lg" name="tax_fee"
+                                            <input type="number" step="0.01" class="input-lg" name="tax_fee"
                                                    ng-model="vm.policy.tax_fee"
                                                    required>
                                         </label>
