@@ -3,6 +3,7 @@ var db = require('../utils/database.js').connection;
 var Policy = require('../models/policy.js')(db);
 var router = express.Router();
 var Q = require('q');
+var logger = require('../utils/logger.js');
 
 router.post('/', function (req, res) {
   var data = req.body;
@@ -15,8 +16,10 @@ router.post('/', function (req, res) {
       policy.policy_status = '待支付';
       policy.save(function (err, policy, numAffected) {
         if (err) {
+          logger.error(err);
           res.status(500).send(err);
         } else {
+          logger.info(req.user.name + " 提交了一份保单，保单号为："+ policy.policy_no);
           res.status(200).json({ message: '保单已成功添加' });
         }
       });
@@ -37,6 +40,7 @@ router.get('/', function (req, res) {
      .then(function(policies){
        res.status(200).json(policies);
      },function(err){
+       logger.error(err);
        res.status(500).send(err);
      });
 });
@@ -55,6 +59,7 @@ router.get('/to-be-paid', function (req, res) {
      .then(function(policies){
        res.status(200).json(policies);
      },function(err){
+       logger.error(err);
        res.status(500).send(err);
      });
 });
@@ -73,6 +78,7 @@ router.get('/paid', function (req, res) {
      .then(function(policies){
        res.status(200).json(policies);
      },function(err){
+       logger.error(err);
        res.status(500).send(err);
      });
 });
@@ -84,6 +90,7 @@ router.get('/:id', function (req, res) {
     .then(function(policy){
        res.status(200).json(policy);
      },function(err){
+       logger.error(err);
        res.status(500).send(err);
      });
 });
@@ -108,9 +115,11 @@ router.put('/:id', function (req, res) {
         policy.income = req.body.income;
         policy.payment = req.body.payment;
         policy.save(function (err) {
-            if (err)
-                res.send(err);
-
+            if (err){
+              logger.error(err);
+              res.send(err);
+            }
+            logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no);
             res.json({message: '保单已成功更新'});
         });
 
@@ -119,8 +128,11 @@ router.put('/:id', function (req, res) {
 
 router.delete('/:id', function (req, res) {
   Policy.remove({_id: req.params.id}, function(err, policy){
-    if (err)
+    if (err){
+      logger.error(err);
       res.send(err);
+    }
+    logger.info(req.user.name + " 删除了一份保单");
     res.json({ message: '保单已成功删除' });
   });
 });

@@ -9,6 +9,7 @@ var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./utils/database.js').connection;
+var log4js = require('./utils/logger.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -27,7 +28,10 @@ app.set('view engine', 'html');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 if (app.get('env') === 'development') {
   app.use(logger('dev'));
-};
+}
+
+// app.use(log4jsLogger);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -86,5 +90,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// function log4jsLogger(req, res, next) {
+//   log4js.trace(getClientIp(req) + ":  " + log4js.trace(req.url));
+//   req.clientIP = getClientIp(req);
+//   next();
+// }
+
+// function getClientIp(req) {
+//         console.log(req);
+//         return req.headers['x-forwarded-for'] ||
+//         req.connection.remoteAddress ||
+//         req.socket.remoteAddress ||
+//         req.connection.socket.remoteAddress;
+//     };
 
 module.exports = app;

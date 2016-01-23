@@ -3,10 +3,8 @@ var passport = require('passport');
 var db = require('../utils/database.js').connection;
 var User = require('../models/user.js')(db);
 var router = express.Router();
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var logger = require('../utils/logger.js');
+
 
 router.get('/me', function(req, res, next) {
   res.send(req.user);
@@ -16,7 +14,7 @@ router.get('/me', function(req, res, next) {
 router.get('/register-cdy01', function(req, res) {
   User.register(new User({ username : 'cdy01', name: '李静', role: '出单员', organization: '红叶徐州分公司睢宁营业部'}), 'cdy01123', function(err, user) {
     if (err) {
-      console.log(err);
+      logger.error(err);
       res.redirect('/#/login');
     }else{
       res.status(200).json({status: 'registered'});
@@ -28,6 +26,7 @@ router.get('/register-cdy01', function(req, res) {
 router.get('/register-cdy02', function(req, res) {
   User.register(new User({ username : 'cdy02', name:'凌玲', role: '出单员', organization: '红叶徐州分公司睢宁营业部'}), 'cdy02234', function(err, user) {
     if (err) {
+      logger.error(err);
       res.redirect('/#/login');
     }else{
       res.status(200).json({status: 'registered'});
@@ -39,6 +38,7 @@ router.get('/register-cdy02', function(req, res) {
 router.get('/register-cn01', function(req, res) {
   User.register(new User({ username : 'cn01', name:'出纳', role: '财务'}), 'cn01987', function(err, user) {
     if (err) {
+      logger.error(err);
       res.redirect('/#/login');
     }else{
       res.status(200).json({status: 'registered'});
@@ -47,6 +47,7 @@ router.get('/register-cn01', function(req, res) {
 });
 
 router.post('/logout', function(req, res) {
+  logger.info(req.user.name + " 登出系统");
   req.logout();
   res.status(200).json({status: 'Bye!'});
 });
@@ -54,7 +55,7 @@ router.post('/logout', function(req, res) {
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
-      console.log(err);
+      logger.error(err);
       return res.status(500).send(err);
     }
     if (!user) {
@@ -62,9 +63,11 @@ router.post('/login', function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) {
-        console.log(err);
+        logger.error(err);
         return res.status(500).send('无法登录该用户');
       }
+      logger.info(user.name + " 登录系统");
+      logger.info("登录ip为：" + req.clientIP);
       res.status(200).json(user);
     });
   })(req, res, next);
