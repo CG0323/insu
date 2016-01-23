@@ -67,10 +67,18 @@ router.post('/login', function(req, res, next) {
         return res.status(500).send('无法登录该用户');
       }
       logger.info(user.name + " 登录系统");
-      logger.info("登录ip为：" + req.clientIP);
+      logger.info("登录ip为：" + getClientIp(req));
       res.status(200).json(user);
     });
   })(req, res, next);
 });
+
+function getClientIp(req) {
+        console.log(req);
+        return req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    };
 
 module.exports = router;
