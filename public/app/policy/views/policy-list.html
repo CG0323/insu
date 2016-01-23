@@ -31,8 +31,10 @@
                                     <th><i class="fa fa-fw fa-car hidden-md hidden-sm hidden-xs"></i>车牌号</th>
                                     <th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-user hidden-md hidden-sm hidden-xs"></i>投保人</th>
                                     <!--<th class="hidden-sm hidden-xs"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> 电话</th>-->
-                                    <th><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>保单总额</th>
-                                    <th><i class="fa fa-fw fa-rocket hidden-md hidden-sm hidden-xs"></i>保单状态</th>
+                                    <th ng-show="vm.listType=='to-be-paid'"><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>保单总额</th>
+                                    <th ng-show="vm.listType=='paid'"><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>跟单费</th>
+                                    <th ng-show="vm.listType=='paid'"><i class="fa fa-fw fa-cny hidden-md hidden-sm hidden-xs"></i>支付手续费</th>
+                                    <!--<th><i class="fa fa-fw fa-rocket hidden-md hidden-sm hidden-xs"></i>保单状态</th>-->
                                     <th><i class="fa fa-fw fa-play hidden-md hidden-sm hidden-xs"></i>操作</th>
                                     <!--<th data-hide="phone,tablet"><i class="fa fa-fw fa-map-marker txt-color-blue hidden-md hidden-sm hidden-xs"></i> Zip</th>
                                     <th data-hide="phone,tablet">City</th>
@@ -48,8 +50,10 @@
                                     <td>{{policy.plate_province}}{{policy.plate_no}}</td>
                                     <td  class="hidden-sm hidden-xs">{{policy.applicant.name}}</td>
                                     <!--<td  class="hidden-sm hidden-xs">{{policy.applicant.phone}}</td>-->
-                                    <td>{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>
-                                    <td>{{policy.policy_status}}</td>
+                                    <td ng-show="vm.listType=='to-be-paid'">{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>
+                                    <td ng-show="vm.listType=='paid'">{{policy.income | currency:"￥"}}</td>
+                                    <td ng-show="vm.listType=='paid'">{{policy.payment | currency:"￥"}}</td>
+                                    <!--<td>{{policy.policy_status}}</td>-->
                                     <td>
                                         <button ng-show="vm.isShowPayButton(policy)" ng-click="vm.pay(policy._id)" class="btn btn-primary btn-sm">处理</button>
                                         <button ng-show="vm.isShowEditButton(policy)" ng-click="vm.edit(policy._id)" class="btn btn-primary btn-sm">编辑</button>
