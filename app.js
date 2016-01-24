@@ -97,7 +97,6 @@ function log4jsLogger(req, res, next) {
 }
 
 function getClientIp(req) {
-        console.log(req);
         return req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
