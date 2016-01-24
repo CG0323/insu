@@ -30,7 +30,7 @@ if (app.get('env') === 'development') {
   app.use(logger('dev'));
 }
 
-// app.use(log4jsLogger);
+app.use(log4jsLogger);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -90,18 +90,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// function log4jsLogger(req, res, next) {
-//   log4js.trace(getClientIp(req) + ":  " + log4js.trace(req.url));
-//   req.clientIP = getClientIp(req);
-//   next();
-// }
+function log4jsLogger(req, res, next) {
+  log4js.trace(getClientIp(req) + ":  " + req.url);
+  req.clientIP = getClientIp(req);
+  next();
+}
 
-// function getClientIp(req) {
-//         console.log(req);
-//         return req.headers['x-forwarded-for'] ||
-//         req.connection.remoteAddress ||
-//         req.socket.remoteAddress ||
-//         req.connection.socket.remoteAddress;
-//     };
+function getClientIp(req) {
+        console.log(req);
+        return req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    };
 
 module.exports = app;

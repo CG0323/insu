@@ -25,7 +25,7 @@ angular.module('app.layout', ['ui.router'])
             })
         $urlRouterProvider.otherwise(function ($injector, $location) {
             var $state = $injector.get("$state");
-            $state.go("app.dashboard");
+            $state.go("app.policy.to-be-paid");
         });
         // $urlRouterProvider.otherwise('/dashboard');
 
