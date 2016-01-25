@@ -61,7 +61,6 @@ angular.module('app.policy').factory('PolicyService',
                 }else if(type == "paid"){
                     url = "/api/policies/paid";
                 }
-                console.log(type);
                 $http.get(url)
                 // handle success
                     .success(function (data, status) {

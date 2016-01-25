@@ -13,6 +13,9 @@
             <div>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
             </div>
+
+
+
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
@@ -20,6 +23,28 @@
                 </header>
                 <div>
                     <div class="widget-body no-padding">
+
+                        <table tr-ng-grid items="vm.policies">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-sm hidden-xs" field-name="created_at" display-name="提交日期" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th class="hidden-sm hidden-xs"  field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th  class="hidden-sm hidden-xs" field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th class="hidden-sm hidden-xs"  field-name="client.name" display-name="销售渠道" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="plate_no" display-name="车牌号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="totalFee" display-name="保单总额" display-format="computeTotal:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+
                         <!--<table datatable-policy class="table table-striped table-bordered table-hover" width="100%">-->
                         <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
                             <thead>
@@ -44,17 +69,17 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="policy in vm.policies |orderBy: 'created_at'">
-                                    <td  class="hidden-sm hidden-xs">{{policy.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                    <td  class="hidden-sm hidden-xs">{{policy.seller.name}}</td>
+                                    <td class="hidden-sm hidden-xs">{{policy.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td class="hidden-sm hidden-xs">{{policy.seller.name}}</td>
                                     <td class="hidden-sm hidden-xs">{{policy.policy_no}}</td>
-                                    <td  class="hidden-sm hidden-xs">{{policy.client.name}}</td>
+                                    <td class="hidden-sm hidden-xs">{{policy.client.name}}</td>
                                     <td>{{policy.plate_province}}{{policy.plate_no}}</td>
-                                    <td  class="hidden-sm hidden-xs">{{policy.applicant.name}}</td>
+                                    <td class="hidden-sm hidden-xs">{{policy.applicant.name}}</td>
                                     <!--<td  class="hidden-sm hidden-xs">{{policy.applicant.phone}}</td>-->
                                     <td ng-show="vm.listType=='to-be-paid'">{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>
                                     <td ng-show="vm.listType=='paid'">{{policy.income | currency:"￥"}}</td>
                                     <td ng-show="vm.listType=='paid'">{{policy.payment | currency:"￥"}}</td>
-                                    <td ng-show="vm.listType=='paid'"  class="hidden-sm hidden-xs">{{policy.paid_at | date:'yyyy-MM-dd'}}</td>
+                                    <td ng-show="vm.listType=='paid'" class="hidden-sm hidden-xs">{{policy.paid_at | date:'yyyy-MM-dd'}}</td>
                                     <!--<td>{{policy.policy_status}}</td>-->
                                     <td>
                                         <button ng-show="vm.isShowPayButton(policy)" ng-click="vm.pay(policy._id)" class="btn btn-primary btn-sm">处理</button>
@@ -63,7 +88,7 @@
                                         <button ng-show="vm.isShowDeleteButton(policy)" ng-click="vm.delete(policy._id)" class="btn btn-primary btn-sm">删除</button>
                                     </td>
                                 </tr>
-                           </tbody>
+                            </tbody>
                         </table>
 
                     </div>

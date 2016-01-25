@@ -53,7 +53,6 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                 vm.policy = {};
                 vm.policy.plate_province = "苏";
                 if (vm.back) {
-                    console.log("准备跳转");
                     $state.go("app.policy.to-be-paid");
                 }
             }, function (err) { });

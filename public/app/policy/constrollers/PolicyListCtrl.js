@@ -77,3 +77,10 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
     };
 
 });
+
+angular.module('app.policy')
+.filter("computeTotal", function () {
+    return function (fieldValueUnused, item) {
+        return ("￥")+(item.mandatory_fee + item.commercial_fee + item.tax_fee);
+    }
+ });

@@ -37,13 +37,12 @@ angular.module('app.auth').factory('AuthService',
                         if (status === 200) {
                             deferred.resolve(data);
                         } else {
-                            console.log("获取用户信息失败" + status);
                             deferred.reject();
                         }
                     })
                 // handle error
                     .error(function (data) {
-                        console.log("获取用户信息失败");
+ 
                         deferred.reject();
                     });
 
@@ -80,8 +79,6 @@ angular.module('app.auth').factory('AuthService',
             }
 
             function logout() {
-
-                console.log("loging out.......");
                 // create a new instance of deferred
                 var deferred = $q.defer();
 

@@ -232,12 +232,6 @@ describe('工作流测试', function () {
     });
   });
   describe('Pagination', function () {
-    it('用一号出单员账号登陆', function (done) {
-      testSession.post('/users/login')
-          .send({ username: 'cdy01', password: 'cdy01123' })
-          .expect(200)
-          .end(done);
-    });
     var seller = "";
     it('获取自己的账号信息', function (done) {
       testSession.get('/users/me')
@@ -253,7 +247,7 @@ describe('工作流测试', function () {
 
     for (var i = 0; i < 18; i++) {
       (function(index) {
-        it('ADD:'+i, function(done) {
+        it('批量添加保单，保单号:'+(i+3), function(done) {
           var policy = require('./data/policies.json')[index + 2]; //start from id=3 to id= 20
           policy.client = client._id;
           testSession.post('/api/policies')
@@ -263,12 +257,12 @@ describe('工作流测试', function () {
         })})(i);
     }
 
-    it('Get第一页5条保单', function (done) {
+    it('时间正序列，获取第1页5条保单', function (done) {
       var payLoad = {
         pageSize: 5,
         currentPage: 0,
         filterBy: {},
-        filterByFields: {'seller':seller},
+        filterByFields: {},
         orderBy: 'created_at',
         orderByReverse: false,
         requestTrapped: true
@@ -281,8 +275,79 @@ describe('工作流测试', function () {
             var data = JSON.parse(res.text);
             expect(err).to.be.null;
             expect(data.length).to.equal(5);
+            expect(data[0].policy_no).to.equal('3');
             done();
       });
     });
+    
+    it('时间正序列，获取第2页5条保单', function (done) {
+      var payLoad = {
+        pageSize: 5,
+        currentPage: 1,
+        filterBy: {},
+        filterByFields: {},
+        orderBy: 'created_at',
+        orderByReverse: false,
+        requestTrapped: true
+      };
+
+      testSession.post('/api/policies/search')
+          .send(payLoad)
+          .expect(200)
+          .end(function(err, res){
+            var data = JSON.parse(res.text);
+            expect(err).to.be.null;
+            expect(data.length).to.equal(5);
+            expect(data[0].policy_no).to.equal('8');
+            done();
+      });
+    });
+    
+    it('时间正序列，获取第4页3条保单', function (done) {
+      var payLoad = {
+        pageSize: 5,
+        currentPage: 3,
+        filterBy: {},
+        filterByFields: {},
+        orderBy: 'created_at',
+        orderByReverse: false,
+        requestTrapped: true
+      };
+
+      testSession.post('/api/policies/search')
+          .send(payLoad)
+          .expect(200)
+          .end(function(err, res){
+            var data = JSON.parse(res.text);
+            expect(err).to.be.null;
+            expect(data.length).to.equal(3);
+            expect(data[0].policy_no).to.equal('18');
+            done();
+      });
+    });
+    
+    it('时间反序列，获取第1页5条保单', function (done) {
+      var payLoad = {
+        pageSize: 5,
+        currentPage: 0,
+        filterBy: {},
+        filterByFields: {},
+        orderBy: 'created_at',
+        orderByReverse: true,
+        requestTrapped: true
+      };
+
+      testSession.post('/api/policies/search')
+          .send(payLoad)
+          .expect(200)
+          .end(function(err, res){
+            var data = JSON.parse(res.text);
+            expect(err).to.be.null;
+            expect(data.length).to.equal(5);
+            expect(data[0].policy_no).to.equal('20');
+            done();
+      });
+    });
+    
   });
 });

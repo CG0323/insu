@@ -11,7 +11,6 @@ angular.module('app.auth').directive('loginInfo', function(AuthService){
                 scope.user = user;
             },
             function(err){
-                console.log(err);
             }
             );
         }

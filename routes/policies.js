@@ -143,18 +143,23 @@ router.post('/search', function (req, res) {
     for (var key in req.body.filterByFields) {
         if (req.body.filterByFields.hasOwnProperty(key)) {
             conditions[key] = req.body.filterByFields[key];
-            console.log(conditions);
         }
     }
+    
+    if(req.user.role == '出单员'){
+       conditions['seller'] = req.user._id;
+    }
 
-    var sortParam = {};
-    sortParam[req.body.orderBy] = req.body.orderByReverse ? 1 : -1;
-    var sort = JSON.stringify(sortParam);
-    console.log(sort);
+    var sortParam ="";
+    if(req.body.orderByReverse){
+      sortParam = "-"+req.body.orderBy.toString();
+    }else{
+      sortParam = req.body.orderBy.toString();
+    }
     var query = Policy.find(conditions);
 
     query
-        .sort(sort)
+        .sort(sortParam)
         .skip(req.body.currentPage*req.body.pageSize)
         .limit(req.body.pageSize)
         .populate('client seller')
@@ -162,7 +167,6 @@ router.post('/search', function (req, res) {
         .then(function(policies){
             res.status(200).json(policies);
         },function(err){
-            console.log(err);
             logger.error(err);
 
         })

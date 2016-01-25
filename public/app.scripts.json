@@ -18,7 +18,8 @@
     "notification",
     "smartwidgets",
     "easy-pie",
-    "angular-cookies"
+    "angular-cookies",
+    "tr-ng-grid"
   ],
   "paths": {
 
@@ -135,7 +136,8 @@
     "smartwidgets": "smartadmin-plugin/smartwidgets/jarvis.widget.min.js",
 
     "notification": "smartadmin-plugin/notification/SmartNotification.min.js",
-    "angular-cookies": "plugin/angular-cookies/angular-cookies.min.js"
+    "angular-cookies": "plugin/angular-cookies/angular-cookies.min.js",
+     "tr-ng-grid":"plugin/tr-ng-grid/trNgGrid.min.js"
 
   },
   "shim": {

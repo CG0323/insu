@@ -46,15 +46,15 @@ describe('微信公众号服务器后台测试',function(){
   //  });
   //});
 
-  describe('菜单测试', function () {
-    it('定义菜单', function (done) {
-      var menu = JSON.stringify(require('./data/menu.json'));
-      api.createMenu(menu, function (err, result) {
-        expect(err).to.be.null;
-        done();
-      });
-    });
-  });
+  // describe('菜单测试', function () {
+  //   it('定义菜单', function (done) {
+  //     var menu = JSON.stringify(require('./data/menu.json'));
+  //     api.createMenu(menu, function (err, result) {
+  //       expect(err).to.be.null;
+  //       done();
+  //     });
+  //   });
+  // });
   
   describe('消息处理测试', function (done){    
     it('收到［我叫什么］后回复发送者昵称', function (done) {

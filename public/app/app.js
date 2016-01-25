@@ -15,6 +15,7 @@ angular.module('app', [
     'restangular',
     'ui.router',
     'ui.bootstrap',
+    "trNgGrid",
 
     // Smartadmin Angular Common Module
     'SmartAdmin',
@@ -44,7 +45,7 @@ angular.module('app', [
             var errorCounter = 0;
 
             function notifyError(rejection) {
-                console.log(rejection);
+
                 $.bigBox({
                     title: rejection.status + ' ' + rejection.statusText,
                     content: rejection.data,
@@ -100,7 +101,6 @@ angular.module('app', [
 
             function (event, toState, toParams,
                       fromState, fromParams) {
-                console.log(AuthService.isLoggedIn());
                 if (toState.name != "login" && !AuthService.isLoggedIn()) {
                     console.log("go to login");
                     event.preventDefault();

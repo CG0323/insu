@@ -22,7 +22,7 @@
                 connectWith: ".todo",
                 receive: function (event, ui) {
 
-                    console.log(ui.item.scope().todo,scope.state)
+                   
                     var todo = ui.item.scope().todo;
                     var state = scope.state
                     // // console.log(ui.item, todo, state)

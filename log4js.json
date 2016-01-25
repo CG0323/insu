@@ -21,11 +21,11 @@
 
             }
         ],
-    "replaceConsole": true,
+    "replaceConsole": false,
     "levels":
     {
         "log_file":"ALL",
-        "console":"ALL",
+        "console":"Error",
         "log_date":"ALL"
     }
 }
