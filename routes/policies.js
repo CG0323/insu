@@ -137,5 +137,36 @@ router.delete('/:id', function (req, res) {
   });
 });
 
+router.post('/search', function (req, res) {
+    var conditions = {};
+
+    for (var key in req.body.filterByFields) {
+        if (req.body.filterByFields.hasOwnProperty(key)) {
+            conditions[key] = req.body.filterByFields[key];
+            console.log(conditions);
+        }
+    }
+
+    var sortParam = {};
+    sortParam[req.body.orderBy] = req.body.orderByReverse ? 1 : -1;
+    var sort = JSON.stringify(sortParam);
+    console.log(sort);
+    var query = Policy.find(conditions);
+
+    query
+        .sort(sort)
+        .skip(req.body.currentPage*req.body.pageSize)
+        .limit(req.body.pageSize)
+        .populate('client seller')
+        .exec()
+        .then(function(policies){
+            res.status(200).json(policies);
+        },function(err){
+            console.log(err);
+            logger.error(err);
+
+        })
+});
+
 
 module.exports = router;

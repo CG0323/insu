@@ -231,4 +231,58 @@ describe('工作流测试', function () {
         .end(done);
     });
   });
+  describe('Pagination', function () {
+    it('用一号出单员账号登陆', function (done) {
+      testSession.post('/users/login')
+          .send({ username: 'cdy01', password: 'cdy01123' })
+          .expect(200)
+          .end(done);
+    });
+    var seller = "";
+    it('获取自己的账号信息', function (done) {
+      testSession.get('/users/me')
+          .expect(200)
+          .end(function(err, res){
+            var data = JSON.parse(res.text);
+            expect(err).to.be.null;
+            expect(data.name).to.equal("李静");
+            seller = data._id;
+            done();
+      });
+    });
+
+    for (var i = 0; i < 18; i++) {
+      (function(index) {
+        it('ADD:'+i, function(done) {
+          var policy = require('./data/policies.json')[index + 2]; //start from id=3 to id= 20
+          policy.client = client._id;
+          testSession.post('/api/policies')
+              .send(policy)
+              .expect(200)
+              .end(done);
+        })})(i);
+    }
+
+    it('Get第一页5条保单', function (done) {
+      var payLoad = {
+        pageSize: 5,
+        currentPage: 0,
+        filterBy: {},
+        filterByFields: {'seller':seller},
+        orderBy: 'created_at',
+        orderByReverse: false,
+        requestTrapped: true
+      };
+
+      testSession.post('/api/policies/search')
+          .send(payLoad)
+          .expect(200)
+          .end(function(err, res){
+            var data = JSON.parse(res.text);
+            expect(err).to.be.null;
+            expect(data.length).to.equal(5);
+            done();
+      });
+    });
+  });
 });

@@ -31,20 +31,20 @@ function get_q_for_post() {
 };
 
 describe('微信公众号服务器后台测试',function(){
-  describe('接入鉴权测试',function(){
-	it('拒绝非法的接入请求', function (done) {
-      request
-      .get('/wechat')
-      .expect(401)
-      .expect('Invalid signature', done);
-    });
-  it('接受合法的接入请求', function (done) {
-      request
-      .get('/wechat?' + querystring.stringify(get_q()))
-      .expect(200)
-      .expect('hehe', done);
-    });
-  });
+  //describe('接入鉴权测试',function(){
+	//it('拒绝非法的接入请求', function (done) {
+  //    request
+  //    .get('/wechat')
+  //    .expect(401)
+  //    .expect('Invalid signature', done);
+  //  });
+  //it('接受合法的接入请求', function (done) {
+  //    request
+  //    .get('/wechat?' + querystring.stringify(get_q()))
+  //    .expect(200)
+  //    .expect('hehe', done);
+  //  });
+  //});
 
   describe('菜单测试', function () {
     it('定义菜单', function (done) {
