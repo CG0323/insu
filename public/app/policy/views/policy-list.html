@@ -24,7 +24,7 @@
                 <div>
                     <div class="widget-body no-padding">
 
-                        <table tr-ng-grid items="vm.policies">
+                        <table tr-ng-grid items="vm.policies" page-items="10" enable-filtering="false">
                             <thead>
                                 <tr>
                                     <th class="hidden-sm hidden-xs" field-name="created_at" display-name="提交日期" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
@@ -33,7 +33,7 @@
                                     </th>
                                     <th  class="hidden-sm hidden-xs" field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th class="hidden-sm hidden-xs"  field-name="client.name" display-name="销售渠道" enable-filtering="false" enable-sorting="false">
+                                    <th class="hidden-sm hidden-xs"  field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate_no" display-name="车牌号" enable-filtering="false" enable-sorting="false">
                                     </th>
