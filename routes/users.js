@@ -47,7 +47,7 @@ router.get('/register-cn01', function(req, res) {
 });
 
 router.post('/logout', function(req, res) {
-  logger.info(req.user.name + " 登出系统。"+ req.clientIP);
+  // logger.info(req.user.name + " 登出系统。"+ req.clientIP);
   req.logout();
   res.status(200).json({status: 'Bye!'});
 });
