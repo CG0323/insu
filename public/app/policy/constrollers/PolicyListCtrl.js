@@ -14,10 +14,20 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
         vm.tableHeader = "已支付保单";
     }
 
-    PolicyService.getPolicies(vm.listType)
-        .then(function(policies){
-            vm.policies = policies;
-        })
+    // PolicyService.getPolicies(vm.listType)
+    //     .then(function(policies){
+    //         vm.policies = policies;
+    //     })
+    
+    vm.onServerSideItemsRequested = function(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse){
+        PolicyService.searchPolicies(currentPage, pageItems, vm.listType)
+        .then(function(data){
+            vm.policies = data.policies;
+            vm.policyTotalCount = data.totalCount;
+        }, function(err){});
+    };
+    
+    vm.onServerSideItemsRequested(0, 10, "", {}, "", "");
 
     vm.refreshPolicies = function(){
         PolicyService.getPolicies(vm.listType)
@@ -75,6 +85,7 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
 
         });
     };
+    
 
 });
 

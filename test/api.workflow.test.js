@@ -274,8 +274,8 @@ describe('工作流测试', function () {
           .end(function(err, res){
             var data = JSON.parse(res.text);
             expect(err).to.be.null;
-            expect(data.length).to.equal(5);
-            expect(data[0].policy_no).to.equal('3');
+            expect(data.policies.length).to.equal(5);
+            expect(data.policies[0].policy_no).to.equal('3');
             done();
       });
     });
@@ -297,8 +297,8 @@ describe('工作流测试', function () {
           .end(function(err, res){
             var data = JSON.parse(res.text);
             expect(err).to.be.null;
-            expect(data.length).to.equal(5);
-            expect(data[0].policy_no).to.equal('8');
+            expect(data.policies.length).to.equal(5);
+            expect(data.policies[0].policy_no).to.equal('8');
             done();
       });
     });
@@ -320,8 +320,8 @@ describe('工作流测试', function () {
           .end(function(err, res){
             var data = JSON.parse(res.text);
             expect(err).to.be.null;
-            expect(data.length).to.equal(3);
-            expect(data[0].policy_no).to.equal('18');
+            expect(data.policies.length).to.equal(3);
+            expect(data.policies[0].policy_no).to.equal('18');
             done();
       });
     });
@@ -343,8 +343,8 @@ describe('工作流测试', function () {
           .end(function(err, res){
             var data = JSON.parse(res.text);
             expect(err).to.be.null;
-            expect(data.length).to.equal(5);
-            expect(data[0].policy_no).to.equal('20');
+            expect(data.policies.length).to.equal(5);
+            expect(data.policies[0].policy_no).to.equal('20');
             done();
       });
     });

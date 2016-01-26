@@ -9,56 +9,57 @@ angular.module('app.policy').factory('PolicyService',
                 getPolicies: getPolicies,
                 getClients: getClients,
                 getPolicy: getPolicy,
-                deletePolicy: deletePolicy
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies
             });
 
             function savePolicy(policy) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                
-                if(policy._id){
+
+                if (policy._id) {
                     policy.updated_at = Date.now();
-                    $http.put('/api/policies/'+policy._id, policy)
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
+                    $http.put('/api/policies/' + policy._id, policy)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
                             deferred.reject(status);
-                        }
-                    })
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-                }else{
-                policy.created_at = Date.now();
-                policy.updated_at = policy.created_at;
-                $http.post('/api/policies', policy)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
+                        });
+                } else {
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/policies', policy)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
                             deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
+                        });
                 }
                 
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function getPolicies(type) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 var url = "/api/policies"
-                if(type == "to-be-paid"){
+                if (type == "to-be-paid") {
                     url = "/api/policies/to-be-paid";
-                }else if(type == "paid"){
+                } else if (type == "paid") {
                     url = "/api/policies/paid";
                 }
                 $http.get(url)
@@ -84,7 +85,7 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
 
                 $http.get('/api/policies/' + policyId)
-                    // handle success
+                // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -92,7 +93,7 @@ angular.module('app.policy').factory('PolicyService',
                             deferred.reject(status);
                         }
                     })
-                    // handle error
+                // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -106,7 +107,7 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
 
                 $http.delete('/api/policies/' + policyId)
-                    // handle success
+                // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -114,7 +115,7 @@ angular.module('app.policy').factory('PolicyService',
                             deferred.reject(status);
                         }
                     })
-                    // handle error
+                // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -146,4 +147,49 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
+
+            function searchPolicies(currentPage, pageSize, type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                
+                var filterByFields = {};
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterByFields = {"policy_status":"待支付"};
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterByFields = {"policy_status":"已支付"};
+                    orderByReverse = true;
+                }
+                    
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterByFields,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true
+                };
+
+                
+                $http.post("/api/policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
         }]);
