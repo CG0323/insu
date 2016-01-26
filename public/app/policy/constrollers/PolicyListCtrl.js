@@ -20,20 +20,18 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
     //     })
     
     vm.onServerSideItemsRequested = function(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse){
+        vm.currentPage = currentPage;
+        vm.pageItems = pageItems;
         PolicyService.searchPolicies(currentPage, pageItems, vm.listType)
         .then(function(data){
             vm.policies = data.policies;
             vm.policyTotalCount = data.totalCount;
         }, function(err){});
     };
-    
-    vm.onServerSideItemsRequested(0, 10, "", {}, "", "");
+
 
     vm.refreshPolicies = function(){
-        PolicyService.getPolicies(vm.listType)
-            .then(function(policies){
-                vm.policies = policies;
-            })
+        vm.onServerSideItemsRequested(vm.currentpage, vm.pageItems);
     };
 
     vm.isShowPayButton = function(policy){
@@ -54,13 +52,6 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
     
     vm.view = function(policyId){
         $state.go("app.policy.view", {policyId: policyId});
-    };
-
-    vm.delete = function(policyId){
-        PolicyService.deletePolicy(policyId)
-            .then(function(){
-                vm.refreshPolicies();
-            })
     };
 
     /*

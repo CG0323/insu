@@ -157,8 +157,6 @@ router.post('/search', function (req, res) {
       sortParam = req.body.orderBy.toString();
     }
     var query = Policy.find(conditions);
-    console.log(conditions);
-    console.log(sortParam);
     query
         .sort(sortParam)
         .skip(req.body.currentPage*req.body.pageSize)
@@ -171,7 +169,6 @@ router.post('/search', function (req, res) {
               logger.error(err);
               res.status(500).send("获取保单总数失败");
             }
-            console.log(c);
           res.status(200).json({
             totalCount: c,
             policies:policies

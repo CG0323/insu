@@ -19,21 +19,22 @@
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>{{vm.tableHeader}}</h2>
+                    <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding">
 
-                        <table tr-ng-grid items="vm.policies" page-items="10" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table tr-ng-grid items="vm.policies" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th class="hidden-sm hidden-xs" field-name="created_at" display-name="提交日期" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    <th class="hidden-sm hidden-xs" field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
+                                    display-format="date:'yyyy-MM-dd hh:mm:ss'">
                                     </th>
-                                    <th class="hidden-sm hidden-xs"  field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                    <th class="hidden-sm hidden-xs" field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th  class="hidden-sm hidden-xs" field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    <th class="hidden-sm hidden-xs" field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th class="hidden-sm hidden-xs"  field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
+                                    <th class="hidden-sm hidden-xs" field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate_no" display-name="车牌号" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -43,6 +44,17 @@
                                     </th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>
+                                        <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
 
                         <!--<table datatable-policy class="table table-striped table-bordered table-hover" width="100%">-->
