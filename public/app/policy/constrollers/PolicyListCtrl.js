@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyListController', function($rootScope, $state, $scope, PolicyService){
+angular.module('app.policy').controller('PolicyListController', function($timeout, $rootScope, $state, $scope, PolicyService){
     var vm = this;
     vm.policies = [];
 
@@ -31,8 +31,25 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
 
 
     vm.refreshPolicies = function(){
-        vm.onServerSideItemsRequested(vm.currentpage, vm.pageItems);
+        if(typeof(vm.currentPage) == 'undefined'|| typeof(vm.pageItems) == 'undefined'){
+            return;
+        }
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
+    
+    var poller = function(){
+        if($rootScope.user.role != "财务"){
+            return;
+        }
+        var currentLength = parseInt(vm.policies.length);
+        var pageIsFull = currentLength >= 15;
+       if(!pageIsFull){
+           vm.refreshPolicies();
+       }
+       $timeout(poller, 1000*60);
+    };
+    
+    poller();
 
     vm.isShowPayButton = function(policy){
         return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
@@ -83,6 +100,11 @@ angular.module('app.policy').controller('PolicyListController', function($rootSc
 angular.module('app.policy')
 .filter("computeTotal", function () {
     return function (fieldValueUnused, item) {
-        return ("￥")+(item.mandatory_fee + item.commercial_fee + item.tax_fee);
+        return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
+    }
+ })
+.filter("combinePlate", function () {
+    return function (fieldValueUnused, item) {
+        return (item.plate_province + item.plate_no);
     }
  });

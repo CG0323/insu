@@ -83,7 +83,7 @@
                             <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
                         </div>
 
-                        <form ng-submit="vm.submit()" id="contact-form" class="smart-form">
+                        <form name="policy-input-form" ng-submit="vm.submit()" id="contact-form" class="smart-form">
                             <fieldset class="optional-input-field-set"  ng-disabled="!vm.editable">
                                 <header>
                                     必填项
@@ -120,7 +120,7 @@
                                 <div class="row">
                                     <section class="col col-2">
                                         <label class="label">车牌号</label>
-                                        <label class="input">
+                                        <!--<label class="input">-->
                                             <div class="row">
                                                 <section class="col col-3">
                                                     <select name="plate_province" class="input-lg"
@@ -138,7 +138,7 @@
                                                     </label>
                                                 </section>
                                             </div>
-                                        </label>
+                                        <!--</label>-->
                                     </section>
                                     <section class="col col-2">
                                         <label class="label">被保险人</label>
@@ -163,7 +163,7 @@
                                         <label class="input">
                                             <i class="icon-append fa fa-cny"></i>
                                             <input type="number" step="0.01" class="input-lg" name="mandatory_fee"
-                                                   ng-model="vm.policy.mandatory_fee" required>
+                                                   ng-model="vm.policy.mandatory_fee" required min="0">
                                         </label>
                                     </section>
 
@@ -172,7 +172,7 @@
                                         <label class="input">
                                             <i class="icon-append fa fa-cny"></i>
                                             <input type="number" step="0.01" class="input-lg" name="commercial_fee"
-                                                   ng-model="vm.policy.commercial_fee" required>
+                                                   ng-model="vm.policy.commercial_fee" required min="0">
                                         </label>
                                     </section>
 
@@ -182,7 +182,7 @@
                                             <i class="icon-append fa fa-cny"></i>
                                             <input type="number" step="0.01" class="input-lg" name="tax_fee"
                                                    ng-model="vm.policy.tax_fee"
-                                                   required>
+                                                   required min="0">
                                         </label>
                                     </section>
 
@@ -231,6 +231,7 @@
                                             <i class="icon-append fa fa-key"></i>
                                             <input class="input-lg" name="identity"
                                                    ng-model="vm.policy.applicant.identity">
+                                                   <!--ng-pattern="/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/">-->
                                         </label>
                                     </section>
                                     <section class="col col-3">
@@ -270,7 +271,7 @@
                                         <label class="label">地址</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-envelope-o"></i>
-                                            <input class="input-lg" name="identity"
+                                            <input class="input-lg" name="address"
                                                    ng-model="vm.policy.applicant.address">
                                         </label>
                                     </section>

@@ -81,7 +81,7 @@ angular.module('app.policy').config(function ($stateProvider) {
             views: {
                 "content@app": {
                     controller: 'PolicyListController as vm',
-                    templateUrl: 'app/policy/views/policy-list.html'
+                    templateUrl: 'app/policy/views/policy-list-paid.html'
                 }
             },
             resolve: {

@@ -24,7 +24,7 @@
                 <div>
                     <div class="widget-body no-padding">
 
-                        <table class = "table-striped" tr-ng-grid items="vm.policies" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table tr-ng-grid items="vm.policies" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
                                     <th class="hidden-sm hidden-xs" field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
@@ -40,8 +40,13 @@
                                     </th>
                                     <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th ng-show="vm.listType=='to-be-paid'" field-name="totalFee" display-name="保单总额" display-format="computeTotal:gridItem|currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="vm.listType=='paid'" field-name="income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
+                                    <th ng-show="vm.listType=='paid'" field-name="payment" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th ng-show="vm.listType=='paid'" field-name="paid_at" display-name="支付日期" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false" class="hidden-sm hidden-xs">
+                                    </th>
+     
                                 </tr>
                             </thead>
                             <tbody>
