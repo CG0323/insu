@@ -16,7 +16,8 @@ angular.module('app', [
     'ui.router',
     'ui.bootstrap',
     "trNgGrid",
-
+    "validation",
+    "validation.rule",
     // Smartadmin Angular Common Module
     'SmartAdmin',
 

@@ -19,7 +19,9 @@
     "smartwidgets",
     "easy-pie",
     "angular-cookies",
-    "tr-ng-grid"
+    "tr-ng-grid",
+    "angular-validation",
+    "angular-validation-rule"
   ],
   "paths": {
 
@@ -137,8 +139,9 @@
 
     "notification": "smartadmin-plugin/notification/SmartNotification.min.js",
     "angular-cookies": "plugin/angular-cookies/angular-cookies.min.js",
-     "tr-ng-grid":"plugin/tr-ng-grid/trNgGrid.min.js"
-
+    "tr-ng-grid":"plugin/tr-ng-grid/trNgGrid.min.js",
+    "angular-validation":"plugin/angular-validation/dist/angular-validation.min.js",
+    "angular-validation-rule": "plugin/angular-validation/dist/angular-validation-rule.js"
   },
   "shim": {
     "to-markdown": {"deps": ["he"]},

@@ -1,7 +1,7 @@
 "use strict";
 
 
-angular.module('app.policy', ['ui.router'])
+angular.module('app.policy', ['ui.router','validation'])
 
 
 angular.module('app.policy').config(function ($stateProvider) {

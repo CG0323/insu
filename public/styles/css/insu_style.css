@@ -52,3 +52,11 @@ h1, h2, h3, h4, h5, h6{
 td button {
 	margin-right: 0.5em;
 }
+
+.validation-valid {
+    color: #0074D9;
+}
+
+.validation-invalid {
+    color: #FF4136;
+}

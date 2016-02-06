@@ -296,7 +296,8 @@ angular.module('app', [
     'ui.router',
     'ui.bootstrap',
     "trNgGrid",
-
+    "validation",
+    "validation.rule",
     // Smartadmin Angular Common Module
     'SmartAdmin',
 
@@ -1315,7 +1316,7 @@ angular.module('app.misc').config(function ($stateProvider) {
 "use strict";
 
 
-angular.module('app.policy', ['ui.router'])
+angular.module('app.policy', ['ui.router','validation'])
 
 
 angular.module('app.policy').config(function ($stateProvider) {
@@ -3961,7 +3962,7 @@ angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CON
 });
 'use strict'
 
-angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
+angular.module('app.policy').controller('PolicyEditorController',function ($scope,$filter, $rootScope, $state, $stateParams, PolicyService) {
     var vm = this;
     vm.policy = {};
     vm.policy.plate_province = "苏";
@@ -3996,8 +3997,9 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
         vm.editable = !vm.editable;
     }
 
-    vm.setBack = function () {
+    vm.submitAndBack = function () {
         vm.back = true;
+        vm.submit();
     }
 
 
@@ -4063,6 +4065,25 @@ angular.module('app.policy').directive('upper', function() {
          }
          modelCtrl.$parsers.push(capitalize);
          capitalize(scope[attrs.ngModel]);  // capitalize initial value
+     }
+   };
+});
+
+angular.module('app.policy').directive('price', function() {
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+        var removeIllegalInput = function(inputValue) {
+           if(inputValue == undefined) inputValue = '';
+           var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+           if(output !== inputValue) {
+              modelCtrl.$setViewValue(output);
+              modelCtrl.$render();
+            }         
+            return output;
+         }
+         modelCtrl.$parsers.push(removeIllegalInput);
+         removeIllegalInput(scope[attrs.ngModel]);  
      }
    };
 });
