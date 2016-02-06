@@ -113,7 +113,18 @@ angular.module('app.policy').directive('price', function() {
      link: function(scope, element, attrs, modelCtrl) {
         var removeIllegalInput = function(inputValue) {
            if(inputValue == undefined) inputValue = '';
-           var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+        //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+           
+           //先把非数字的都替换掉，除了数字和.
+		var output= inputValue.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		output = output.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		output = output.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		output = output.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+           
            if(output !== inputValue) {
               modelCtrl.$setViewValue(output);
               modelCtrl.$render();
