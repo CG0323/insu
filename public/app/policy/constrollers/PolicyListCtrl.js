@@ -43,9 +43,9 @@ angular.module('app.policy').controller('PolicyListController', function($timeou
         }
         var currentLength = parseInt(vm.policies.length);
         var pageIsFull = currentLength >= 15;
-       if(!pageIsFull){
+    //    if(!pageIsFull){
            vm.refreshPolicies();
-       }
+    //    }
        $timeout(poller, 1000*60);
     };
     
