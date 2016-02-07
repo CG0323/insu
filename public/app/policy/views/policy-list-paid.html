@@ -22,29 +22,29 @@
                     <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
                 </header>
                 <div>
-                    <div class="widget-body no-padding">
+                    <div class="widget-body no-padding table-responsive">
 
-                        <table tr-ng-grid items="vm.policies" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th class="hidden-sm hidden-xs" field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
+                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
                                     display-format="date:'yyyy-MM-dd hh:mm:ss'">
                                     </th>
-                                    <th class="hidden-sm hidden-xs" field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th class="hidden-sm hidden-xs" field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th class="hidden-sm hidden-xs" field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th ng-show="vm.listType=='paid'" field-name="income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th ng-show="vm.listType=='paid'" field-name="payment" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="payment" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th ng-show="vm.listType=='paid'" field-name="paid_at" display-name="支付日期" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false" class="hidden-sm hidden-xs">
+                                    <th field-name="paid_at" display-name="支付日期" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false">
                                     </th>
      
                                 </tr>

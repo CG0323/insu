@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyListController', function($timeout, $rootScope, $state, $scope, PolicyService){
+angular.module('app.policy').controller('PolicyListController', function(screenSize, $timeout, $rootScope, $state, $scope, PolicyService){
     var vm = this;
     vm.policies = [];
 
@@ -9,16 +9,17 @@ angular.module('app.policy').controller('PolicyListController', function($timeou
     if($state.is("app.policy.to-be-paid")){
         vm.listType= "to-be-paid";
         vm.tableHeader = "待支付保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields=["client.name", "plate"];
+        }
     }else if($state.is("app.policy.paid")){
         vm.listType = "paid";
         vm.tableHeader = "已支付保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields=["client.name", "plate","paid_at"];
+        }
     }
 
-    // PolicyService.getPolicies(vm.listType)
-    //     .then(function(policies){
-    //         vm.policies = policies;
-    //     })
-    
     vm.onServerSideItemsRequested = function(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse){
         vm.currentPage = currentPage;
         vm.pageItems = pageItems;

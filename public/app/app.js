@@ -18,6 +18,7 @@ angular.module('app', [
     "trNgGrid",
     "validation",
     "validation.rule",
+    "matchMedia",
     // Smartadmin Angular Common Module
     'SmartAdmin',
 

@@ -21,7 +21,8 @@
     "angular-cookies",
     "tr-ng-grid",
     "angular-validation",
-    "angular-validation-rule"
+    "angular-validation-rule",
+    "angular-media-queries"
   ],
   "paths": {
 
@@ -141,7 +142,8 @@
     "angular-cookies": "plugin/angular-cookies/angular-cookies.min.js",
     "tr-ng-grid":"plugin/tr-ng-grid/trNgGrid.min.js",
     "angular-validation":"plugin/angular-validation/dist/angular-validation.min.js",
-    "angular-validation-rule": "plugin/angular-validation/dist/angular-validation-rule.js"
+    "angular-validation-rule": "plugin/angular-validation/dist/angular-validation-rule.js",
+    "angular-media-queries":"plugin/angular-media-queries/match-media.js"
   },
   "shim": {
     "to-markdown": {"deps": ["he"]},

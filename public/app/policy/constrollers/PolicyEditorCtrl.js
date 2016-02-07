@@ -123,6 +123,7 @@ angular.module('app.policy').directive('price', function() {
 		output = output.replace(/\.{2,}/g,".");
 		//保证.只出现一次，而不能出现两次以上
 		output = output.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        //只允许输入两位小数
         output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
            
            if(output !== inputValue) {
