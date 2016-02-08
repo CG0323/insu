@@ -19,8 +19,9 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-// api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
-//   console.log(data);
+api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
+  console.log(data);
+});
 //   api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
 //     console.log(data);
 //     api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '振宁汽贸', function (err, data, res) {
