@@ -6,6 +6,7 @@ var appConfig = require('../common.js').config();
 var OAuth = require('wechat-oauth');
 var db = require('../utils/database.js').connection;
 var User = require('../models/user.js')(db);
+var Client = require('../models/client.js')(db);
 
 var client = new OAuth(appConfig.app_id, appConfig.app_secret);
 
@@ -91,8 +92,16 @@ router.get('/callback', function (req, res) {
 
 
     api.getUser(openid, function (err, result) {
-      console.log(result)
+      if(err){
+        return res.status(500).json({ error: err });
+      };
       var oauth_user = result;
+      Client.find({short_name: oauth_user.remark}).exec()
+      .then(function(clients){
+        if(clients.length == 0){
+          return res.send("红叶系统中没有您的信息，请联系客服人员注册");
+        }
+      });
       var user = new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户', password: '123456' });
       req.logIn(user, function (err) {
         if (err) {

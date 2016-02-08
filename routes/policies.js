@@ -4,6 +4,7 @@ var Policy = require('../models/policy.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
+var Client = require('../models/client.js')(db);
 
 router.post('/', function (req, res) {
   var data = req.body;
@@ -33,7 +34,17 @@ router.get('/', function (req, res) {
   var query = {};
   if(user.role == '出单员'){
     query = {seller: user._id};
-  }
+  }else if(user.role=='客户'){
+    Client.find({short_name: user.name}).exec()
+      .then(function(clients){
+        if(clients.length == 0){
+          return res.status(500).send("红叶系统中没有您的信息，请联系客服人员注册");
+        }
+        var d = new Date();
+        d.setDate(d.getDate()-7);
+        query = {client: clients[0]._id, created_at:{$gt: d}};  //暂时只获取近七天保单信息
+      });
+  };
   Policy.find(query)
      .populate('client seller')
      .exec()
@@ -50,8 +61,6 @@ router.get('/to-be-paid', function (req, res) {
   var query = {policy_status:'待支付'};
   if(user.role == '出单员'){
     query = {seller: user._id, policy_status:'待支付'};
-  }else if(user.role == '客户'){
-    query = {policy_status:'待支付'};
   }
   Policy.find(query)
      .populate('client seller')
@@ -69,8 +78,6 @@ router.get('/paid', function (req, res) {
   var query = {policy_status:'已支付'};
   if(user.role == '出单员'){
     query = {seller: user._id, policy_status:'已支付'};
-  }else if(user.role == '客户'){
-    query = {policy_status:'待支付'};
   }
   Policy.find(query)
      .populate('client seller')
