@@ -96,11 +96,13 @@ router.get('/callback', function (req, res) {
         return res.status(500).json({ error: err });
       };
       var oauth_user = result;
+      var clientId;
       Client.find({ short_name: oauth_user.remark }).exec()
         .then(function (clients) {
           if (clients.length == 0) {
             return res.send("红叶系统中没有您的信息，请联系客服人员注册");
           }
+          clientId = clients[0]._id;
         })
         .then(function () {
           var user;
@@ -117,7 +119,7 @@ router.get('/callback', function (req, res) {
                   res.render('wechat');
                 });
               } else {
-                user = new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户' });
+                user = new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户', client_id: clientId });
                 User.register(user, '123456', function (err, result) {
                   if (err) {
                     // logger.error(err);
