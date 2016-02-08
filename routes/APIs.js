@@ -11,10 +11,11 @@ router.use('/clients', clients);
 router.use('/policies', policies);
 
 function ensureAuthenticated(req, res, next) {
-    // console.log('Calling: ensureAuthenticated.....');
+    console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {
         return next();
     } else{
+        console.log(req.user);
         res.status(401).send("请先登录");
     }
 };
