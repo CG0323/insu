@@ -91,7 +91,6 @@ router.get('/callback', function (req, res) {
     console.log('token=' + accessToken);
     console.log('openid=' + openid);
 
-
     api.getUser(openid, function (err, result) {
       if (err) {
         return res.status(500).json({ error: err });
@@ -103,20 +102,42 @@ router.get('/callback', function (req, res) {
             return res.send("红叶系统中没有您的信息，请联系客服人员注册");
           }
         })
-        .then(function() {
-          var user = new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户', password: '123456' });
-          req.logIn(user, function (err) {
-            if (err) {
-              return res.status(500).json({ error: err });
-            }
-            console.log(user);
-            res.render('wechat');
-          });
+        .then(function () {
+          var user;
+          //查用户账号中是否有此
+          User.find({ name: oauth_user.remark }).exec()
+            .then(function (users) {
+              if (users.length > 0) {
+                user = users[0];
+                req.logIn(user, function (err) {
+                  if (err) {
+                    return res.status(500).json({ error: err });
+                  }
+                  console.log(req.user);
+                  res.render('wechat');
+                });
+              } else {
+                user = new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户' });
+                User.register(user, '123456', function (err, result) {
+                  if (err) {
+                    // logger.error(err);
+                    return res.status(500).json({ error: err });
+                  } else {
+                    req.logIn(result, function (err) {
+                      if (err) {
+                        return res.status(500).json({ error: err });
+                      }
+                      console.log(req.user);
+                      res.render('wechat');
+                    });
+                  }
+                });
+              }
+
+
+            });
         });
     });
-
   });
 });
-
-
 module.exports = router;
