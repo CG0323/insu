@@ -39,6 +39,7 @@ router.get('/', function (req, res) {
     d.setDate(d.getDate()-7);
     query = {client: user.client_id, created_at:{$gt: d}};  //暂时只获取近七天保单信息
   }
+  console.log(query);
   Policy.find(query)
      .populate('client seller')
      .exec()
