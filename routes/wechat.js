@@ -107,6 +107,7 @@ router.get('/callback', function (req, res) {
         if (err) {
           return res.status(500).json({ error: err });
         }
+        console.log(user);
         res.render('wechat');
       });
       });
