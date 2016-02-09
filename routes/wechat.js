@@ -7,6 +7,7 @@ var OAuth = require('wechat-oauth');
 var db = require('../utils/database.js').connection;
 var User = require('../models/user.js')(db);
 var Client = require('../models/client.js')(db);
+var logger = require('../utils/logger.js');
 
 var client = new OAuth(appConfig.app_id, appConfig.app_secret);
 
@@ -22,19 +23,19 @@ api.createMenu(menu, function (err, result) {
 api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
   console.log(data);
 });
-//   api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
-//     console.log(data);
-//     api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '振宁汽贸', function (err, data, res) {
-//       console.log(data);
-//       api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '郭永秋', function (err, data, res) {
-//         console.log(data);
-//         api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '振宁汽贸', function (err, data, res) {
-//           console.log(data);
-//         });
-//       });
-//     });
-//   });
-// });
+
+  api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
+    console.log(data);
+    api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '振宁汽贸', function (err, data, res) {
+      console.log(data);
+      api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '郭永秋', function (err, data, res) {
+        console.log(data);
+        api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '振宁汽贸', function (err, data, res) {
+          console.log(data);
+        });
+      });
+    });
+  });
 
 
 router.get('/', wechat('H4MbzV5LAd3n', function (req, res, next) {
@@ -79,7 +80,46 @@ router.get('/view', function (req, res) {
 })
 
 router.get('/test', function (req, res) {
-  res.render('wechat');
+  var clientId;
+  Client.find({ short_name: '振宁汽贸' }).exec()
+    .then(function (clients) {
+      if (clients.length == 0) {
+        return res.send("红叶系统中没有您的信息，请联系客服人员注册");
+      }
+      clientId = clients[0]._id;
+    })
+    .then(function () {
+      var user;
+      //查用户账号中是否有此
+      User.find({ name: '振宁汽贸' }).exec()
+        .then(function (users) {
+          if (users.length > 0) {
+            user = users[0];
+            req.logIn(user, function (err) {
+              if (err) {
+                return res.status(500).json({ error: err });
+              }
+              res.render('wechat');
+            });
+          } else {
+            user = new User({ username: 'znqm', name: '振宁汽贸', role: '客户', client_id: clientId });
+            User.register(user, '123456', function (err, result) {
+              if (err) {
+                logger.error(err);
+                return res.status(500).json({ error: err });
+              } else {
+                req.logIn(result, function (err) {
+                  if (err) {
+                    return res.status(500).json({ error: err });
+                  }
+                  res.render('wechat');
+                });
+              }
+            });
+          }
+
+        });
+    });
 })
 
 router.get('/callback', function (req, res) {
@@ -115,7 +155,6 @@ router.get('/callback', function (req, res) {
                   if (err) {
                     return res.status(500).json({ error: err });
                   }
-                  console.log(req.user);
                   res.render('wechat');
                 });
               } else {
@@ -129,7 +168,6 @@ router.get('/callback', function (req, res) {
                       if (err) {
                         return res.status(500).json({ error: err });
                       }
-                      console.log(req.user);
                       res.render('wechat');
                     });
                   }

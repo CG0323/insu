@@ -36,10 +36,10 @@ router.get('/', function (req, res) {
     query = {seller: user._id};
   }else if(user.role=='客户'){
     var d = new Date();
+    var end = new Date();
     d.setDate(d.getDate()-7);
-    query = {client: user.client_id, created_at:{$gt: d}};  //暂时只获取近七天保单信息
+    query = {client: user.client_id, created_at:{$gt: d, $lt: end}};  //暂时只获取近七天保单信息
   }
-  console.log(query);
   Policy.find(query)
      .populate('client seller')
      .exec()
