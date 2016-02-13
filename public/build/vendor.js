@@ -1537,6 +1537,9 @@ f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).provider("$cookies
 
         },
         phone: function (value) {
+          if (!value) {
+            return true;
+          }
           if (/^1[3|4|5|7|8]\d{9}$/.test(value)) {
             return true;
           }

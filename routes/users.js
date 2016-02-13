@@ -46,6 +46,18 @@ router.get('/register-cn01', function(req, res) {
   });
 });
 
+// 临时接口
+router.get('/register-admin', function(req, res) {
+  User.register(new User({ username : 'superadmin', name:'管理员', role: '管理员'}), 'admin2016hy', function(err, user) {
+    if (err) {
+      logger.error(err);
+      res.redirect('/#/login');
+    }else{
+      res.status(200).json({status: 'registered'});
+    }
+  });
+});
+
 router.post('/logout', function(req, res) {
   // logger.info(req.user.name + " 登出系统。"+ req.clientIP);
   req.logout();

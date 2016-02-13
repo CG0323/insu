@@ -60,3 +60,12 @@ td button {
 .validation-invalid {
     color: #FF4136;
 }
+
+.clear{
+	clear: both;
+}
+
+.thumb{
+	width: 20px;
+	height: 20px;
+}

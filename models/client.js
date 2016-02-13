@@ -11,7 +11,9 @@ var schema = new mongoose.Schema({
     payee: String,
 	bank: String,
 	account: String,
-    phone: Number
+    phone: Number,
+    created_at: { type: Date },
+    updated_at: { type: Date }
 });
 
 mongoose.model('Client', schema);

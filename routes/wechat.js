@@ -20,22 +20,37 @@ api.createMenu(menu, function (err, result) {
   }
 });
 
-api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
-  console.log(data);
-});
+// api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
+//   console.log(data);
+// });
 
-  api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
-    console.log(data);
-    api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '振宁汽贸', function (err, data, res) {
-      console.log(data);
-      api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '郭永秋', function (err, data, res) {
-        console.log(data);
-        api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '振宁汽贸', function (err, data, res) {
-          console.log(data);
-        });
+//   api.updateRemark('oYIeTs6q8mmV6W0EeMGlJjLU9pjI', '郭永秋', function (err, data, res) {
+//     console.log(data);
+//     api.updateRemark('oYIeTsw96yjJyOV1IJfBrpK-QJgQ', '振宁汽贸', function (err, data, res) {
+//       console.log(data);
+//       api.updateRemark('oYIeTsyTg8kINdWmbZFEU4K3uQ0M', '郭永秋', function (err, data, res) {
+//         console.log(data);
+//         api.updateRemark('oYIeTs0uazo_lZJ6wMndK8f_UaC4', '振宁汽贸', function (err, data, res) {
+//           console.log(data);
+//         });
+//       });
+//     });
+//   });
+
+router.get('/followers', function (req, res, next) {
+  api.getFollowers(function(result){
+      if(result) 
+        return res.json({});
+      console.log(result.data.openid);
+      var ids = result.data.openid;
+      api.batchGetUser(ids, function(result1){
+        if(!result1) 
+          return res.json({});
+        console.log(result1.user_info_list);
+        res.json(result1.user_info_list);
       });
-    });
   });
+});
 
 
 router.get('/', wechat('H4MbzV5LAd3n', function (req, res, next) {

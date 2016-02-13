@@ -23,7 +23,44 @@
                 <a data-ui-sref="app.policy.paid" title="已支付保单"><i class="fa fa-lg fa-fw fa-table"></i> <span
                         class="menu-item-parent">已支付保单</span></a>
             </li>
-            <!--<li data-ui-sref-active="active">
+            
+            <li ng-show="user.role=='管理员'" data-menu-collapse>
+                <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">客户账号管理</span></a>
+                <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.client.organization">机构客户</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.client.individual">个人客户</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.client.organization.new">添加机构客户</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.client.individual.new">添加个人客户</a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li  ng-show="user.role=='管理员'" data-menu-collapse>
+                <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">员工账号管理</span></a>
+                <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.seller">出单员账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.finance">财务账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.new-seller">添加出单员账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.new-finance">添加财务账号</a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li data-ui-sref-active="active">
                 <a data-ui-sref="app.dashboard" title="Dashboard"><i class="fa fa-lg fa-fw fa-history"></i> <span
                         class="menu-item-parent">Dashboard</span></a>
             </li>
@@ -282,7 +319,7 @@
                         <a data-ui-sref="app.misc.ckeditor">{{getWord('CK Editor')}}</a>
                     </li>
                 </ul>
-            </li>-->
+            </li>
         </ul>
 
         <!-- NOTE: This allows you to pull menu items from server -->

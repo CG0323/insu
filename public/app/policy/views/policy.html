@@ -1,5 +1,5 @@
 <div id="content">
-    <div class="row" ng-show="user.role=='财务'">
+    <div class="row" ng-show="user.role=='财务'||(user.role=='管理员' && vm.policy.policy_status=='已支付')">
         <article class="col-sm-12">
 
             <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
