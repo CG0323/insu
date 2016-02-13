@@ -109,7 +109,7 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="wechat in vm.wechats">
-                                                <td><img class="thumb" ng-src="wechat.headimgurl"></td>
+                                                <td><img class="thumb" ng-src="{{wechat.headimgurl}}"></td>
                                                 <td>{{wechat.nickname}}</td>
                                                 <td>{{wechat.remark}}</td>
                                                 <td>
