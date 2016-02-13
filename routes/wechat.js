@@ -39,7 +39,7 @@ api.createMenu(menu, function (err, result) {
 
 router.get('/followers', function (req, res, next) {
   api.getFollowers(function(err,result){
-      if(result) 
+      if(!result) 
         return res.json({});
       console.log(result.data.openid);
       var ids = result.data.openid;
