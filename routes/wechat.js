@@ -43,7 +43,7 @@ router.get('/followers', function (req, res, next) {
         return res.json({});
       console.log(result.data.openid);
       var ids = result.data.openid;
-      api.batchGetUser(ids, function(err,result1){
+      api.batchGetUsers(ids, function(err,result1){
         if(!result1) 
           return res.json({});
         console.log(result1.user_info_list);
