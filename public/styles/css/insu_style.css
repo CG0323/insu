@@ -69,3 +69,7 @@ td button {
 	width: 30px;
 	height: 30px;
 }
+
+.height-limit{
+	max-height: 200px;
+}
