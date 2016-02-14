@@ -21,76 +21,76 @@
                                     必填项
                                 </header>-->
                                     <div class="row">
-                                        <section class="col col-6">
+                                       
                                             <label class="label">机构全称</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-group"></i>
                                                 <input type="text" class="input-lg" name="name" ng-model="vm.client.name" validator="required">
                                             </label>
-                                        </section>
+                                       
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                       
                                             <label class="label">机构简称</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-group"></i>
                                                 <input type="text" class="input-lg" name="short_name" ng-model="vm.client.short_name" validator="required">
                                             </label>
-                                        </section>
+                                       
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                        
                                             <label class="label">营业执照号</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-key"></i>
                                                 <input type="text" class="input-lg" name="license_no" ng-model="vm.client.license_no" validator="required">
                                             </label>
-                                        </section>
+                                       
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                        
                                             <label class="label">收款人姓名</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-user"></i>
                                                 <input type="text" class="input-lg" name="payee" ng-model="vm.client.payee" validator="required">
                                             </label>
-                                        </section>
+                                        
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                        
                                             <label class="label">联系电话</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-phone"></i>
                                                 <input type="text" class="input-lg" name="phone" ng-model="vm.client.phone" validator="phone">
                                             </label>
-                                        </section>
+                                       
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                        
                                             <label class="label">收款人身份证号</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-key"></i>
                                                 <input type="text" class="input-lg" name="identity" ng-model="vm.client.identity" validator="required,identity">
                                             </label>
-                                        </section>
+                                       
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                       
                                             <label class="label">开户行</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-bank"></i>
                                                 <input type="text" class="input-lg" name="bank" ng-model="vm.client.bank" validator="required">
                                             </label>
-                                        </section>
+                                        
                                     </div>
                                     <div class="row">
-                                        <section class="col col-6">
+                                        
                                             <label class="label">收款账号</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-bank"></i>
                                                 <input type="text" class="input-lg" name="account" ng-model="vm.client.account" validator="required,number">
                                             </label>
-                                        </section>
+                                        
                                     </div>
                                 </fieldset>
                             </section>
@@ -114,7 +114,7 @@
                                                 <td>{{wechat.nickname}}</td>
                                                 <td>{{wechat.remark}}</td>
                                                 <td>
-                                                    <button class="btn btn-primary" ng-click="vm.unbindWechat($index)">解绑定</button>
+                                                    <button ng-show="vm.editable" class="btn btn-primary" ng-click="vm.unbindWechat($index)">解绑定</button>
                                                 </td>
                                             </tr>
                                         </tbody>
