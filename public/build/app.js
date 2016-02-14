@@ -1816,6 +1816,277 @@ angular.module('app.chat', ['ngSanitize'])
         return $sce.trustAsHtml(val);
     };
 }]);
+'use strict'
+
+angular.module('app.forms').value('formsCommon', {
+        countries: [
+            {key: "244", value: "Aaland Islands"},
+            {key: "1", value: "Afghanistan"},
+            {key: "2", value: "Albania"},
+            {key: "3", value: "Algeria"},
+            {key: "4", value: "American Samoa"},
+            {key: "5", value: "Andorra"},
+            {key: "6", value: "Angola"},
+            {key: "7", value: "Anguilla"},
+            {key: "8", value: "Antarctica"},
+            {key: "9", value: "Antigua and Barbuda"},
+            {key: "10", value: "Argentina"},
+            {key: "11", value: "Armenia"},
+            {key: "12", value: "Aruba"},
+            {key: "13", value: "Australia"},
+            {key: "14", value: "Austria"},
+            {key: "15", value: "Azerbaijan"},
+            {key: "16", value: "Bahamas"},
+            {key: "17", value: "Bahrain"},
+            {key: "18", value: "Bangladesh"},
+            {key: "19", value: "Barbados"},
+            {key: "20", value: "Belarus"},
+            {key: "21", value: "Belgium"},
+            {key: "22", value: "Belize"},
+            {key: "23", value: "Benin"},
+            {key: "24", value: "Bermuda"},
+            {key: "25", value: "Bhutan"},
+            {key: "26", value: "Bolivia"},
+            {key: "245", value: "Bonaire, Sint Eustatius and Saba"},
+            {key: "27", value: "Bosnia and Herzegovina"},
+            {key: "28", value: "Botswana"},
+            {key: "29", value: "Bouvet Island"},
+            {key: "30", value: "Brazil"},
+            {key: "31", value: "British Indian Ocean Territory"},
+            {key: "32", value: "Brunei Darussalam"},
+            {key: "33", value: "Bulgaria"},
+            {key: "34", value: "Burkina Faso"},
+            {key: "35", value: "Burundi"},
+            {key: "36", value: "Cambodia"},
+            {key: "37", value: "Cameroon"},
+            {key: "38", value: "Canada"},
+            {key: "251", value: "Canary Islands"},
+            {key: "39", value: "Cape Verde"},
+            {key: "40", value: "Cayman Islands"},
+            {key: "41", value: "Central African Republic"},
+            {key: "42", value: "Chad"},
+            {key: "43", value: "Chile"},
+            {key: "44", value: "China"},
+            {key: "45", value: "Christmas Island"},
+            {key: "46", value: "Cocos (Keeling) Islands"},
+            {key: "47", value: "Colombia"},
+            {key: "48", value: "Comoros"},
+            {key: "49", value: "Congo"},
+            {key: "50", value: "Cook Islands"},
+            {key: "51", value: "Costa Rica"},
+            {key: "52", value: "Cote D'Ivoire"},
+            {key: "53", value: "Croatia"},
+            {key: "54", value: "Cuba"},
+            {key: "246", value: "Curacao"},
+            {key: "55", value: "Cyprus"},
+            {key: "56", value: "Czech Republic"},
+            {key: "237", value: "Democratic Republic of Congo"},
+            {key: "57", value: "Denmark"},
+            {key: "58", value: "Djibouti"},
+            {key: "59", value: "Dominica"},
+            {key: "60", value: "Dominican Republic"},
+            {key: "61", value: "East Timor"},
+            {key: "62", value: "Ecuador"},
+            {key: "63", value: "Egypt"},
+            {key: "64", value: "El Salvador"},
+            {key: "65", value: "Equatorial Guinea"},
+            {key: "66", value: "Eritrea"},
+            {key: "67", value: "Estonia"},
+            {key: "68", value: "Ethiopia"},
+            {key: "69", value: "Falkland Islands (Malvinas)"},
+            {key: "70", value: "Faroe Islands"},
+            {key: "71", value: "Fiji"},
+            {key: "72", value: "Finland"},
+            {key: "74", value: "France, skypolitan"},
+            {key: "75", value: "French Guiana"},
+            {key: "76", value: "French Polynesia"},
+            {key: "77", value: "French Southern Territories"},
+            {key: "126", value: "FYROM"},
+            {key: "78", value: "Gabon"},
+            {key: "79", value: "Gambia"},
+            {key: "80", value: "Georgia"},
+            {key: "81", value: "Germany"},
+            {key: "82", value: "Ghana"},
+            {key: "83", value: "Gibraltar"},
+            {key: "84", value: "Greece"},
+            {key: "85", value: "Greenland"},
+            {key: "86", value: "Grenada"},
+            {key: "87", value: "Guadeloupe"},
+            {key: "88", value: "Guam"},
+            {key: "89", value: "Guatemala"},
+            {key: "241", value: "Guernsey"},
+            {key: "90", value: "Guinea"},
+            {key: "91", value: "Guinea-Bissau"},
+            {key: "92", value: "Guyana"},
+            {key: "93", value: "Haiti"},
+            {key: "94", value: "Heard and Mc Donald Islands"},
+            {key: "95", value: "Honduras"},
+            {key: "96", value: "Hong Kong"},
+            {key: "97", value: "Hungary"},
+            {key: "98", value: "Iceland"},
+            {key: "99", value: "India"},
+            {key: "100", value: "Indonesia"},
+            {key: "101", value: "Iran (Islamic Republic of)"},
+            {key: "102", value: "Iraq"},
+            {key: "103", value: "Ireland"},
+            {key: "104", value: "Israel"},
+            {key: "105", value: "Italy"},
+            {key: "106", value: "Jamaica"},
+            {key: "107", value: "Japan"},
+            {key: "240", value: "Jersey"},
+            {key: "108", value: "Jordan"},
+            {key: "109", value: "Kazakhstan"},
+            {key: "110", value: "Kenya"},
+            {key: "111", value: "Kiribati"},
+            {key: "113", value: "Korea, Republic of"},
+            {key: "114", value: "Kuwait"},
+            {key: "115", value: "Kyrgyzstan"},
+            {key: "116", value: "Lao People's Democratic Republic"},
+            {key: "117", value: "Latvia"},
+            {key: "118", value: "Lebanon"},
+            {key: "119", value: "Lesotho"},
+            {key: "120", value: "Liberia"},
+            {key: "121", value: "Libyan Arab Jamahiriya"},
+            {key: "122", value: "Liechtenstein"},
+            {key: "123", value: "Lithuania"},
+            {key: "124", value: "Luxembourg"},
+            {key: "125", value: "Macau"},
+            {key: "127", value: "Madagascar"},
+            {key: "128", value: "Malawi"},
+            {key: "129", value: "Malaysia"},
+            {key: "130", value: "Maldives"},
+            {key: "131", value: "Mali"},
+            {key: "132", value: "Malta"},
+            {key: "133", value: "Marshall Islands"},
+            {key: "134", value: "Martinique"},
+            {key: "135", value: "Mauritania"},
+            {key: "136", value: "Mauritius"},
+            {key: "137", value: "Mayotte"},
+            {key: "138", value: "Mexico"},
+            {key: "139", value: "Micronesia, Federated States of"},
+            {key: "140", value: "Moldova, Republic of"},
+            {key: "141", value: "Monaco"},
+            {key: "142", value: "Mongolia"},
+            {key: "242", value: "Montenegro"},
+            {key: "143", value: "Montserrat"},
+            {key: "144", value: "Morocco"},
+            {key: "145", value: "Mozambique"},
+            {key: "146", value: "Myanmar"},
+            {key: "147", value: "Namibia"},
+            {key: "148", value: "Nauru"},
+            {key: "149", value: "Nepal"},
+            {key: "150", value: "Netherlands"},
+            {key: "151", value: "Netherlands Antilles"},
+            {key: "152", value: "New Caledonia"},
+            {key: "153", value: "New Zealand"},
+            {key: "154", value: "Nicaragua"},
+            {key: "155", value: "Niger"},
+            {key: "156", value: "Nigeria"},
+            {key: "157", value: "Niue"},
+            {key: "158", value: "Norfolk Island"},
+            {key: "112", value: "North Korea"},
+            {key: "159", value: "Northern Mariana Islands"},
+            {key: "160", value: "Norway"},
+            {key: "161", value: "Oman"},
+            {key: "162", value: "Pakistan"},
+            {key: "163", value: "Palau"},
+            {key: "247", value: "Palestinian Territory, Occupied"},
+            {key: "164", value: "Panama"},
+            {key: "165", value: "Papua New Guinea"},
+            {key: "166", value: "Paraguay"},
+            {key: "167", value: "Peru"},
+            {key: "168", value: "Philippines"},
+            {key: "169", value: "Pitcairn"},
+            {key: "170", value: "Poland"},
+            {key: "171", value: "Portugal"},
+            {key: "172", value: "Puerto Rico"},
+            {key: "173", value: "Qatar"},
+            {key: "174", value: "Reunion"},
+            {key: "175", value: "Romania"},
+            {key: "176", value: "Russian Federation"},
+            {key: "177", value: "Rwanda"},
+            {key: "178", value: "Saint Kitts and Nevis"},
+            {key: "179", value: "Saint Lucia"},
+            {key: "180", value: "Saint Vincent and the Grenadines"},
+            {key: "181", value: "Samoa"},
+            {key: "182", value: "San Marino"},
+            {key: "183", value: "Sao Tome and Principe"},
+            {key: "184", value: "Saudi Arabia"},
+            {key: "185", value: "Senegal"},
+            {key: "243", value: "Serbia"},
+            {key: "186", value: "Seychelles"},
+            {key: "187", value: "Sierra Leone"},
+            {key: "188", value: "Singapore"},
+            {key: "189", value: "Slovak Republic"},
+            {key: "190", value: "Slovenia"},
+            {key: "191", value: "Solomon Islands"},
+            {key: "192", value: "Somalia"},
+            {key: "193", value: "South Africa"},
+            {key: "194", value: "South Georgia &amp; South Sandwich Islands"},
+            {key: "248", value: "South Sudan"},
+            {key: "195", value: "Spain"},
+            {key: "196", value: "Sri Lanka"},
+            {key: "249", value: "St. Barthelemy"},
+            {key: "197", value: "St. Helena"},
+            {key: "250", value: "St. Martin (French part)"},
+            {key: "198", value: "St. Pierre and Miquelon"},
+            {key: "199", value: "Sudan"},
+            {key: "200", value: "Suriname"},
+            {key: "201", value: "Svalbard and Jan Mayen Islands"},
+            {key: "202", value: "Swaziland"},
+            {key: "203", value: "Sweden"},
+            {key: "204", value: "Switzerland"},
+            {key: "205", value: "Syrian Arab Republic"},
+            {key: "206", value: "Taiwan"},
+            {key: "207", value: "Tajikistan"},
+            {key: "208", value: "Tanzania, United Republic of"},
+            {key: "209", value: "Thailand"},
+            {key: "210", value: "Togo"},
+            {key: "211", value: "Tokelau"},
+            {key: "212", value: "Tonga"},
+            {key: "213", value: "Trinidad and Tobago"},
+            {key: "214", value: "Tunisia"},
+            {key: "215", value: "Turkey"},
+            {key: "216", value: "Turkmenistan"},
+            {key: "217", value: "Turks and Caicos Islands"},
+            {key: "218", value: "Tuvalu"},
+            {key: "219", value: "Uganda"},
+            {key: "220", value: "Ukraine"},
+            {key: "221", value: "United Arab Emirates"},
+            {key: "222", value: "United Kingdom"},
+            {key: "223", value: "United States"},
+            {key: "224", value: "United States Minor Outlying Islands"},
+            {key: "225", value: "Uruguay"},
+            {key: "226", value: "Uzbekistan"},
+            {key: "227", value: "Vanuatu"},
+            {key: "228", value: "Vatican City State (Holy See)"},
+            {key: "229", value: "Venezuela"},
+            {key: "230", value: "Viet Nam"},
+            {key: "231", value: "Virgin Islands (British)"},
+            {key: "232", value: "Virgin Islands (U.S.)"},
+            {key: "233", value: "Wallis and Futuna Islands"},
+            {key: "234", value: "Western Sahara"},
+            {key: "235", value: "Yemen"},
+            {key: "238", value: "Zambia"},
+            {key: "239", value: "Zimbabwe"}
+        ],
+        validateOptions: {
+            errorElement: 'em',
+            errorClass: 'invalid',
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element).parent().addClass('state-error').removeClass('state-success');
+
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element).parent().removeClass('state-error').addClass('state-success');
+            },
+            errorPlacement : function(error, element) {
+                error.insertAfter(element.parent());
+            }
+        }
+    });
 'use strict';
 
 angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $interval, CalendarEvent) {
@@ -2124,277 +2395,6 @@ angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $i
 
 
 });
-'use strict'
-
-angular.module('app.forms').value('formsCommon', {
-        countries: [
-            {key: "244", value: "Aaland Islands"},
-            {key: "1", value: "Afghanistan"},
-            {key: "2", value: "Albania"},
-            {key: "3", value: "Algeria"},
-            {key: "4", value: "American Samoa"},
-            {key: "5", value: "Andorra"},
-            {key: "6", value: "Angola"},
-            {key: "7", value: "Anguilla"},
-            {key: "8", value: "Antarctica"},
-            {key: "9", value: "Antigua and Barbuda"},
-            {key: "10", value: "Argentina"},
-            {key: "11", value: "Armenia"},
-            {key: "12", value: "Aruba"},
-            {key: "13", value: "Australia"},
-            {key: "14", value: "Austria"},
-            {key: "15", value: "Azerbaijan"},
-            {key: "16", value: "Bahamas"},
-            {key: "17", value: "Bahrain"},
-            {key: "18", value: "Bangladesh"},
-            {key: "19", value: "Barbados"},
-            {key: "20", value: "Belarus"},
-            {key: "21", value: "Belgium"},
-            {key: "22", value: "Belize"},
-            {key: "23", value: "Benin"},
-            {key: "24", value: "Bermuda"},
-            {key: "25", value: "Bhutan"},
-            {key: "26", value: "Bolivia"},
-            {key: "245", value: "Bonaire, Sint Eustatius and Saba"},
-            {key: "27", value: "Bosnia and Herzegovina"},
-            {key: "28", value: "Botswana"},
-            {key: "29", value: "Bouvet Island"},
-            {key: "30", value: "Brazil"},
-            {key: "31", value: "British Indian Ocean Territory"},
-            {key: "32", value: "Brunei Darussalam"},
-            {key: "33", value: "Bulgaria"},
-            {key: "34", value: "Burkina Faso"},
-            {key: "35", value: "Burundi"},
-            {key: "36", value: "Cambodia"},
-            {key: "37", value: "Cameroon"},
-            {key: "38", value: "Canada"},
-            {key: "251", value: "Canary Islands"},
-            {key: "39", value: "Cape Verde"},
-            {key: "40", value: "Cayman Islands"},
-            {key: "41", value: "Central African Republic"},
-            {key: "42", value: "Chad"},
-            {key: "43", value: "Chile"},
-            {key: "44", value: "China"},
-            {key: "45", value: "Christmas Island"},
-            {key: "46", value: "Cocos (Keeling) Islands"},
-            {key: "47", value: "Colombia"},
-            {key: "48", value: "Comoros"},
-            {key: "49", value: "Congo"},
-            {key: "50", value: "Cook Islands"},
-            {key: "51", value: "Costa Rica"},
-            {key: "52", value: "Cote D'Ivoire"},
-            {key: "53", value: "Croatia"},
-            {key: "54", value: "Cuba"},
-            {key: "246", value: "Curacao"},
-            {key: "55", value: "Cyprus"},
-            {key: "56", value: "Czech Republic"},
-            {key: "237", value: "Democratic Republic of Congo"},
-            {key: "57", value: "Denmark"},
-            {key: "58", value: "Djibouti"},
-            {key: "59", value: "Dominica"},
-            {key: "60", value: "Dominican Republic"},
-            {key: "61", value: "East Timor"},
-            {key: "62", value: "Ecuador"},
-            {key: "63", value: "Egypt"},
-            {key: "64", value: "El Salvador"},
-            {key: "65", value: "Equatorial Guinea"},
-            {key: "66", value: "Eritrea"},
-            {key: "67", value: "Estonia"},
-            {key: "68", value: "Ethiopia"},
-            {key: "69", value: "Falkland Islands (Malvinas)"},
-            {key: "70", value: "Faroe Islands"},
-            {key: "71", value: "Fiji"},
-            {key: "72", value: "Finland"},
-            {key: "74", value: "France, skypolitan"},
-            {key: "75", value: "French Guiana"},
-            {key: "76", value: "French Polynesia"},
-            {key: "77", value: "French Southern Territories"},
-            {key: "126", value: "FYROM"},
-            {key: "78", value: "Gabon"},
-            {key: "79", value: "Gambia"},
-            {key: "80", value: "Georgia"},
-            {key: "81", value: "Germany"},
-            {key: "82", value: "Ghana"},
-            {key: "83", value: "Gibraltar"},
-            {key: "84", value: "Greece"},
-            {key: "85", value: "Greenland"},
-            {key: "86", value: "Grenada"},
-            {key: "87", value: "Guadeloupe"},
-            {key: "88", value: "Guam"},
-            {key: "89", value: "Guatemala"},
-            {key: "241", value: "Guernsey"},
-            {key: "90", value: "Guinea"},
-            {key: "91", value: "Guinea-Bissau"},
-            {key: "92", value: "Guyana"},
-            {key: "93", value: "Haiti"},
-            {key: "94", value: "Heard and Mc Donald Islands"},
-            {key: "95", value: "Honduras"},
-            {key: "96", value: "Hong Kong"},
-            {key: "97", value: "Hungary"},
-            {key: "98", value: "Iceland"},
-            {key: "99", value: "India"},
-            {key: "100", value: "Indonesia"},
-            {key: "101", value: "Iran (Islamic Republic of)"},
-            {key: "102", value: "Iraq"},
-            {key: "103", value: "Ireland"},
-            {key: "104", value: "Israel"},
-            {key: "105", value: "Italy"},
-            {key: "106", value: "Jamaica"},
-            {key: "107", value: "Japan"},
-            {key: "240", value: "Jersey"},
-            {key: "108", value: "Jordan"},
-            {key: "109", value: "Kazakhstan"},
-            {key: "110", value: "Kenya"},
-            {key: "111", value: "Kiribati"},
-            {key: "113", value: "Korea, Republic of"},
-            {key: "114", value: "Kuwait"},
-            {key: "115", value: "Kyrgyzstan"},
-            {key: "116", value: "Lao People's Democratic Republic"},
-            {key: "117", value: "Latvia"},
-            {key: "118", value: "Lebanon"},
-            {key: "119", value: "Lesotho"},
-            {key: "120", value: "Liberia"},
-            {key: "121", value: "Libyan Arab Jamahiriya"},
-            {key: "122", value: "Liechtenstein"},
-            {key: "123", value: "Lithuania"},
-            {key: "124", value: "Luxembourg"},
-            {key: "125", value: "Macau"},
-            {key: "127", value: "Madagascar"},
-            {key: "128", value: "Malawi"},
-            {key: "129", value: "Malaysia"},
-            {key: "130", value: "Maldives"},
-            {key: "131", value: "Mali"},
-            {key: "132", value: "Malta"},
-            {key: "133", value: "Marshall Islands"},
-            {key: "134", value: "Martinique"},
-            {key: "135", value: "Mauritania"},
-            {key: "136", value: "Mauritius"},
-            {key: "137", value: "Mayotte"},
-            {key: "138", value: "Mexico"},
-            {key: "139", value: "Micronesia, Federated States of"},
-            {key: "140", value: "Moldova, Republic of"},
-            {key: "141", value: "Monaco"},
-            {key: "142", value: "Mongolia"},
-            {key: "242", value: "Montenegro"},
-            {key: "143", value: "Montserrat"},
-            {key: "144", value: "Morocco"},
-            {key: "145", value: "Mozambique"},
-            {key: "146", value: "Myanmar"},
-            {key: "147", value: "Namibia"},
-            {key: "148", value: "Nauru"},
-            {key: "149", value: "Nepal"},
-            {key: "150", value: "Netherlands"},
-            {key: "151", value: "Netherlands Antilles"},
-            {key: "152", value: "New Caledonia"},
-            {key: "153", value: "New Zealand"},
-            {key: "154", value: "Nicaragua"},
-            {key: "155", value: "Niger"},
-            {key: "156", value: "Nigeria"},
-            {key: "157", value: "Niue"},
-            {key: "158", value: "Norfolk Island"},
-            {key: "112", value: "North Korea"},
-            {key: "159", value: "Northern Mariana Islands"},
-            {key: "160", value: "Norway"},
-            {key: "161", value: "Oman"},
-            {key: "162", value: "Pakistan"},
-            {key: "163", value: "Palau"},
-            {key: "247", value: "Palestinian Territory, Occupied"},
-            {key: "164", value: "Panama"},
-            {key: "165", value: "Papua New Guinea"},
-            {key: "166", value: "Paraguay"},
-            {key: "167", value: "Peru"},
-            {key: "168", value: "Philippines"},
-            {key: "169", value: "Pitcairn"},
-            {key: "170", value: "Poland"},
-            {key: "171", value: "Portugal"},
-            {key: "172", value: "Puerto Rico"},
-            {key: "173", value: "Qatar"},
-            {key: "174", value: "Reunion"},
-            {key: "175", value: "Romania"},
-            {key: "176", value: "Russian Federation"},
-            {key: "177", value: "Rwanda"},
-            {key: "178", value: "Saint Kitts and Nevis"},
-            {key: "179", value: "Saint Lucia"},
-            {key: "180", value: "Saint Vincent and the Grenadines"},
-            {key: "181", value: "Samoa"},
-            {key: "182", value: "San Marino"},
-            {key: "183", value: "Sao Tome and Principe"},
-            {key: "184", value: "Saudi Arabia"},
-            {key: "185", value: "Senegal"},
-            {key: "243", value: "Serbia"},
-            {key: "186", value: "Seychelles"},
-            {key: "187", value: "Sierra Leone"},
-            {key: "188", value: "Singapore"},
-            {key: "189", value: "Slovak Republic"},
-            {key: "190", value: "Slovenia"},
-            {key: "191", value: "Solomon Islands"},
-            {key: "192", value: "Somalia"},
-            {key: "193", value: "South Africa"},
-            {key: "194", value: "South Georgia &amp; South Sandwich Islands"},
-            {key: "248", value: "South Sudan"},
-            {key: "195", value: "Spain"},
-            {key: "196", value: "Sri Lanka"},
-            {key: "249", value: "St. Barthelemy"},
-            {key: "197", value: "St. Helena"},
-            {key: "250", value: "St. Martin (French part)"},
-            {key: "198", value: "St. Pierre and Miquelon"},
-            {key: "199", value: "Sudan"},
-            {key: "200", value: "Suriname"},
-            {key: "201", value: "Svalbard and Jan Mayen Islands"},
-            {key: "202", value: "Swaziland"},
-            {key: "203", value: "Sweden"},
-            {key: "204", value: "Switzerland"},
-            {key: "205", value: "Syrian Arab Republic"},
-            {key: "206", value: "Taiwan"},
-            {key: "207", value: "Tajikistan"},
-            {key: "208", value: "Tanzania, United Republic of"},
-            {key: "209", value: "Thailand"},
-            {key: "210", value: "Togo"},
-            {key: "211", value: "Tokelau"},
-            {key: "212", value: "Tonga"},
-            {key: "213", value: "Trinidad and Tobago"},
-            {key: "214", value: "Tunisia"},
-            {key: "215", value: "Turkey"},
-            {key: "216", value: "Turkmenistan"},
-            {key: "217", value: "Turks and Caicos Islands"},
-            {key: "218", value: "Tuvalu"},
-            {key: "219", value: "Uganda"},
-            {key: "220", value: "Ukraine"},
-            {key: "221", value: "United Arab Emirates"},
-            {key: "222", value: "United Kingdom"},
-            {key: "223", value: "United States"},
-            {key: "224", value: "United States Minor Outlying Islands"},
-            {key: "225", value: "Uruguay"},
-            {key: "226", value: "Uzbekistan"},
-            {key: "227", value: "Vanuatu"},
-            {key: "228", value: "Vatican City State (Holy See)"},
-            {key: "229", value: "Venezuela"},
-            {key: "230", value: "Viet Nam"},
-            {key: "231", value: "Virgin Islands (British)"},
-            {key: "232", value: "Virgin Islands (U.S.)"},
-            {key: "233", value: "Wallis and Futuna Islands"},
-            {key: "234", value: "Western Sahara"},
-            {key: "235", value: "Yemen"},
-            {key: "238", value: "Zambia"},
-            {key: "239", value: "Zimbabwe"}
-        ],
-        validateOptions: {
-            errorElement: 'em',
-            errorClass: 'invalid',
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element).parent().addClass('state-error').removeClass('state-success');
-
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element).parent().removeClass('state-error').addClass('state-success');
-            },
-            errorPlacement : function(error, element) {
-                error.insertAfter(element.parent());
-            }
-        }
-    });
 'use strict';
 
 angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
@@ -2450,457 +2450,6 @@ $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html","<form id=\"profileForm\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label>Email address</label>\r\n            <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n        </div>\r\n    </fieldset>\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label>Password</label>\r\n            <input type=\"password\" class=\"form-control\" name=\"password\" />\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html","<form id=\"togglingForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name <sup>*</sup></label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Company <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"company\"\r\n                       required data-bv-notempty-message=\"The company name is required\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#jobInfo\">\r\n                    Add more info\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"jobInfo\" style=\"display: none;\">\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Job title <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"job\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Department <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"department\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Mobile phone <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"mobilePhone\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#phoneInfo\">\r\n                    Add more phone numbers\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"phoneInfo\" style=\"display: none;\">\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Home phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"homePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Office phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"officePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>");
 $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<div class=\"demo\"><span id=\"demo-setting\"><i class=\"fa fa-cog txt-color-blueDark\"></i></span>\r\n\r\n    <form>\r\n        <legend class=\"no-padding margin-bottom-10\">Layout Options</legend>\r\n        <section>\r\n            <label><input type=\"checkbox\" ng-model=\"fixedHeader\"\r\n                          class=\"checkbox style-0\"><span>Fixed Header</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedNavigation\"\r\n                          class=\"checkbox style-0\"><span>Fixed Navigation</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedRibbon\"\r\n                          class=\"checkbox style-0\"><span>Fixed Ribbon</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedPageFooter\"\r\n                          class=\"checkbox style-0\"><span>Fixed Footer</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"insideContainer\"\r\n                          class=\"checkbox style-0\"><span>Inside <b>.container</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"rtl\"\r\n                          class=\"checkbox style-0\"><span>RTL</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"menuOnTop\"\r\n                          class=\"checkbox style-0\"><span>Menu on <b>top</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"colorblindFriendly\"\r\n                          class=\"checkbox style-0\"><span>For Colorblind <div\r\n                    class=\"font-xs text-right\">(experimental)\r\n            </div></span>\r\n            </label><span id=\"smart-bgimages\"></span></section>\r\n        <section><h6 class=\"margin-top-10 semi-bold margin-bottom-5\">Clear Localstorage</h6><a\r\n                ng-click=\"factoryReset()\" class=\"btn btn-xs btn-block btn-primary\" id=\"reset-smart-widget\"><i\r\n                class=\"fa fa-refresh\"></i> Factory Reset</a></section>\r\n\r\n        <h6 class=\"margin-top-10 semi-bold margin-bottom-5\">SmartAdmin Skins</h6>\r\n\r\n\r\n        <section id=\"smart-styles\">\r\n            <a ng-repeat=\"skin in skins\" ng-click=\"setSkin(skin)\" class=\"{{skin.class}}\" style=\"{{skin.style}}\"><i ng-if=\"skin.name == $parent.smartSkin\" class=\"fa fa-check fa-fw\"></i> {{skin.label}}</a>\r\n        </section>\r\n    </form>\r\n</div>");}]);
-'use strict';
-/**
- * @ngdoc function
- * @name myApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the myApp
- */
-angular.module('app.auth').controller('AuthCtrl',
-    ['$rootScope','$scope', '$state', 'AuthService',
-        function ($rootScope,$scope, $state, AuthService) {
-
-            var vm = this;
-            vm.username= "";
-            vm.password= "";
-            vm.login = function () {
-                // initial values
-                $scope.error = false;
-                $scope.disabled = true;
-                // call login from service
-                AuthService.login(vm.username, vm.password)
-                    // handle success
-                    .then(function(user) {
-                        $rootScope.user = user;
-                        if(user.role == "出单员"){
-                            $state.go('app.policy.new');
-                        }else
-                        {
-                            $state.go('app.policy.to-be-paid');
-                        }
-                        
-                        $scope.disabled = false;
-                        vm.username= "";
-                        vm.password= "";
-                    },
-                    function(err){
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                    }
-                    )
-                    // handle error
-                    .catch(function () {
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                        $scope.disabled = false;
-                        //vm.username= "";
-                        // vm.password= "";
-                    });
-
-            };
-        }]);
-
-"use strict";
-
-angular.module('app.auth').directive('loginInfo', function(AuthService){
-
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            AuthService.getUser()
-            .then(function(user){
-                scope.user = user;
-            },
-            function(err){
-            }
-            );
-        }
-    }
-})
-
-"use strict";
-
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
-        });
-    });
-})
-
-"use strict";
-
-angular.module('app.auth').factory('AuthService',
-    ['$q', '$timeout', '$http', '$cookies',
-        function ($q, $timeout, $http, $cookies) {
-
-            // return available functions for use in controllers
-            return ({
-                isLoggedIn: isLoggedIn,
-                getUserStatus: getUserStatus,
-                login: login,
-                logout: logout,
-                register: register,
-                getUser: getUser
-            });
-
-            function isLoggedIn() {
-                if ($cookies.get('loggedIn') == "true") {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            function getUserStatus() {
-                return $cookies.get('loggedIn');
-            }
-            
-            function getUser() {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users/me')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
- 
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function login(username, password) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/login', { username: username, password: password })
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            $cookies.put('loggedIn', 'true');
-                            deferred.resolve(data);
-                        } else {
-                            $cookies.put('loggedIn', 'false');
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function logout() {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a get request to the server
-                $http.post('/users/logout')
-                // handle success
-                    .success(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.resolve();
-                    })
-                // handle error
-                    .error(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function register(username, password) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/register', { username: username, password: password })
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200 && data.status) {
-                            deferred.resolve();
-                        } else {
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-        }]);
-'use strict';
-
-angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
-
-
-    // Events scope
-    $scope.events = [];
-
-    // Unassigned events scope
-    $scope.eventsExternal = [
-        {
-            title: "Office Meeting",
-            description: "Currently busy",
-            className: "bg-color-darken txt-color-white",
-            icon: "fa-time"
-        },
-        {
-            title: "Lunch Break",
-            description: "No Description",
-            className: "bg-color-blue txt-color-white",
-            icon: "fa-pie"
-        },
-        {
-            title: "URGENT",
-            description: "urgent tasks",
-            className: "bg-color-red txt-color-white",
-            icon: "fa-alert"
-        }
-    ];
-
-
-    // Queriing our events from CalendarEvent resource...
-    // Scope update will automatically update the calendar
-    CalendarEvent.query().$promise.then(function (events) {
-        $scope.events = events;
-    });
-
-
-    $scope.newEvent = {};
-
-    $scope.addEvent = function() {
-
-        $log.log("Adding new event:", $scope.newEvent);
-
-        var newEventDefaults = {
-            title: "Untitled Event",
-            description: "no description",
-            className: "bg-color-darken txt-color-white",
-            icon: "fa-info"
-        };
-
-
-        $scope.newEvent = angular.extend(newEventDefaults, $scope.newEvent);
-
-        $scope.eventsExternal.unshift($scope.newEvent);
-
-        $scope.newEvent = {};
-
-        // $log.log("New events now:", $scope.eventsExternal);
-
-    };
-
-
-});
-
-"use strict";
-
-angular.module('app.calendar').directive('dragableEvent', function ($log) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-
-            // $log.log(element.scope());
-
-            var eventObject = element.scope().event;
-
-            element.data('eventObject', eventObject);
-
-
-            element.draggable({
-                zIndex: 999,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0 //  original position after the drag
-            });
-
-
-        }
-    }
-})
-"use strict";
-
-angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
-        scope: {
-            events: "=events"
-        },
-        link: function (scope, element) {
-
-
-            var $calendar = $("#calendar");
-
-            var calendar = null;
-
-
-            function initCalendar() {
-
-                // $log.log(events);
-
-
-                calendar = $calendar.fullCalendar({
-                    lang: 'en',
-                    editable: true,
-                    draggable: true,
-                    selectable: false,
-                    selectHelper: true,
-                    unselectAuto: false,
-                    disableResizing: false,
-                    droppable: true,
-
-                    header: {
-                        left: 'title', //,today
-                        center: 'prev, next, today',
-                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
-                    },
-
-                    drop: function (date, allDay) { // this function is called when something is dropped
-
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-            
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-            
-                        // assign it the date that was reported
-                        copiedEventObject.start = date;
-                        copiedEventObject.allDay = allDay;
-
-                        // $log.log(scope);
-            
-                        // render the event on the calendar
-                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-            
-                        // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
-
-                            // if so, remove the element from the "Draggable Events" list
-                            // $(this).remove();
-                            // $log.log($(this).scope());
-                            var index = $(this).scope().$index;
-
-                            $("#external-events").scope().eventsExternal.splice(index, 1);
-                            $(this).remove();
-
-                        }
-            
-                    },
-
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.fullCalendar('renderEvent', {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                }, true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
-
-                    // events: scope.events,
-
-                    events: function(start, end, timezone, callback) {
-
-                        callback(scope.events);
-
-                    },
-
-                    eventRender: function (event, element, icon) {
-                        if (!event.description == "") {
-                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-                        }
-                        if (!event.icon == "") {
-                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-                        }
-                    }
-                });
-
-                $('.fc-header-right, .fc-header-center', $calendar).hide();
-            }
-
-
-            initCalendar();
-
-
-            // Now events will be refetched every time events scope is updated in controller!!!
-            scope.$watch("events", function(newValue, oldValue) {
-
-                $calendar.fullCalendar( 'refetchEvents' );
-
-            }, true);
-
-
-            scope.next = function () {
-                $('.fc-button-next', $calendar).click();
-            };
-            scope.prev = function () {
-                $('.fc-button-prev', $calendar).click();
-            };
-            scope.today = function () {
-                $('.fc-button-today', $calendar).click();
-            };
-            scope.changeView = function (period) {
-                $calendar.fullCalendar('changeView', period);
-            };
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
-    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
-});
 'use strict'
 
 angular.module('app.client').controller('IndClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
@@ -3206,389 +2755,228 @@ angular.module('app.client').controller('OrgClientListController', function(scre
 
 });
 
+'use strict';
+/**
+ * @ngdoc function
+ * @name myApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the myApp
+ */
+angular.module('app.auth').controller('AuthCtrl',
+    ['$rootScope','$scope', '$state', 'AuthService',
+        function ($rootScope,$scope, $state, AuthService) {
+
+            var vm = this;
+            vm.username= "";
+            vm.password= "";
+            vm.login = function () {
+                // initial values
+                $scope.error = false;
+                $scope.disabled = true;
+                // call login from service
+                AuthService.login(vm.username, vm.password)
+                    // handle success
+                    .then(function(user) {
+                        $rootScope.user = user;
+                        if(user.role == "出单员"){
+                            $state.go('app.policy.new');
+                        }else
+                        {
+                            $state.go('app.policy.to-be-paid');
+                        }
+                        
+                        $scope.disabled = false;
+                        vm.username= "";
+                        vm.password= "";
+                    },
+                    function(err){
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                    }
+                    )
+                    // handle error
+                    .catch(function () {
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                        $scope.disabled = false;
+                        //vm.username= "";
+                        // vm.password= "";
+                    });
+
+            };
+        }]);
+
 "use strict";
 
-angular.module('app.client').factory('ClientService',
-    ['$q', '$http',
-        function ($q, $http) {
+angular.module('app.auth').directive('loginInfo', function(AuthService){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            AuthService.getUser()
+            .then(function(user){
+                scope.user = user;
+            },
+            function(err){
+            }
+            );
+        }
+    }
+})
+
+"use strict";
+
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
+
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
+        }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
+})
+
+"use strict";
+
+angular.module('app.auth').factory('AuthService',
+    ['$q', '$timeout', '$http', '$cookies',
+        function ($q, $timeout, $http, $cookies) {
+
             // return available functions for use in controllers
             return ({
-                saveClient: saveClient,
-                getOrgClients: getOrgClients,
-                getIndClients: getIndClients,
-                getClient: getClient,
-                deleteClient: deleteClient,
-                getFollowers: getFollowers,
-                getWechatsByIds: getWechatsByIds
+                isLoggedIn: isLoggedIn,
+                getUserStatus: getUserStatus,
+                login: login,
+                logout: logout,
+                register: register,
+                getUser: getUser
             });
 
-            function saveClient(client) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (client._id) {
-                    client.updated_at = Date.now();
-                    $http.put('/api/clients/' + client._id, client)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
+            function isLoggedIn() {
+                if ($cookies.get('loggedIn') == "true") {
+                    return true;
                 } else {
-                    client.created_at = Date.now();
-                    client.updated_at = client.created_at;
-                    $http.post('/api/clients', client)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
+                    return false;
                 }
-                
-                // return promise object
-                return deferred.promise;
             }
 
-            function getClient(clientId) {
+            function getUserStatus() {
+                return $cookies.get('loggedIn');
+            }
+            
+            function getUser() {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('/api/clients/' + clientId)
+                // send a post request to the server
+                $http.get('/users/me')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
                         } else {
-                            deferred.reject(status);
+                            deferred.reject();
                         }
                     })
                 // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
+                    .error(function (data) {
+ 
+                        deferred.reject();
                     });
 
                 // return promise object
                 return deferred.promise;
             }
 
-            function deleteClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrgClients() {
+            function login(username, password) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients?type=organization')
+                $http.post('/users/login', { username: username, password: password })
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
+                            $cookies.put('loggedIn', 'true');
                             deferred.resolve(data);
                         } else {
-                            deferred.reject(status);
+                            $cookies.put('loggedIn', 'false');
+                            deferred.reject();
                         }
                     })
                 // handle error
                     .error(function (data) {
-                        deferred.reject(status);
+                        $cookies.put('loggedIn', 'false');
+                        deferred.reject();
                     });
 
                 // return promise object
                 return deferred.promise;
+
             }
 
-            function getIndClients() {
+            function logout() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a get request to the server
+                $http.post('/users/logout')
+                // handle success
+                    .success(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.resolve();
+                    })
+                // handle error
+                    .error(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+
+            }
+
+            function register(username, password) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients?type=individual')
+                $http.post('/users/register', { username: username, password: password })
                 // handle success
                     .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
+                        if (status === 200 && data.status) {
+                            deferred.resolve();
                         } else {
-                            deferred.reject(status);
+                            deferred.reject();
                         }
                     })
                 // handle error
                     .error(function (data) {
-                        deferred.reject(status);
+                        deferred.reject();
                     });
 
                 // return promise object
                 return deferred.promise;
+
             }
-            
-            function getFollowers() {
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/wechat/followers')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getWechatsByIds(openIds) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.post('/wechat/byids', openIds)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            
-           
         }]);
-"use strict";	
-
-angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
-
-	$scope.activeTab = 'default';
-	$scope.currentActivityItems = [];
-	
-	// Getting different type of activites
-	activityService.get(function(data){
-
-		$scope.activities = data.activities;
-		
-	});
-
-
-	$scope.isActive = function(tab){
-		return $scope.activeTab === tab;
-	};
-
-	$scope.setTab = function(activityType){
-		$scope.activeTab = activityType;
-
-		activityService.getbytype(activityType, function(data) {
-
-			$scope.currentActivityItems = data.data;
-
-		});
-
-	};
-
-});
-"use strict";
-
-angular.module('app').directive('activitiesDropdownToggle', function($log) {
-
-	var link = function($scope,$element, attrs){
-		var ajax_dropdown = null;
-
-		$element.on('click',function(){
-			var badge = $(this).find('.badge');
-
-			if (badge.hasClass('bg-color-red')) {
-
-				badge.removeClass('bg-color-red').text(0);
-
-			}
-
-			ajax_dropdown = $(this).next('.ajax-dropdown');
-
-			if (!ajax_dropdown.is(':visible')) {
-
-				ajax_dropdown.fadeIn(150);
-
-				$(this).addClass('active');
-
-			}
-			 else {
-				
-				ajax_dropdown.fadeOut(150);
-				
-				$(this).removeClass('active');
-
-			}
-
-		})
-
-		$(document).mouseup(function(e) {
-			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
-				ajax_dropdown.fadeOut(150);
-				$element.removeClass('active');
-			}
-		});
-	}
-	
-	return{
-		restrict:'EA',
-		link:link
-	}
-});
-"use strict";
-
-angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
-
-	function getActivities(callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getActivitiesByType(type, callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-	
-	return{
-		get:function(callback){
-			getActivities(callback);
-		},
-		getbytype:function(type,callback){
-			getActivitiesByType(type, callback);
-		}
-	}
-});
-"use strict";
-
-angular.module('app').factory('Project', function($http, APP_CONFIG){
-    return {
-        list: $http.get(APP_CONFIG.apiRootUrl + '/projects.json')
-    }
-});
-"use strict";
-
-angular.module('app').directive('recentProjects', function(Project){
-    return {
-        restrict: "EA",
-        replace: true,
-        templateUrl: "app/dashboard/projects/recent-projects.tpl.html",
-        scope: true,
-        link: function(scope, element){
-
-            Project.list.then(function(response){
-                scope.projects = response.data;
-            });
-            scope.clearProjects = function(){
-                scope.projects = [];
-            }
-        }
-    }
-});
-"use strict";
-
-angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
-    $scope.newTodo = undefined;
-
-    $scope.states = ['Critical', 'Important', 'Completed'];
-
-    $scope.todos = Todo.getList().$object;
-
-    // $scope.$watch('todos', function(){ }, true)
-
-    $scope.toggleAdd = function () {
-        if (!$scope.newTodo) {
-            $scope.newTodo = {
-                state: 'Important'
-            };
-        } else {
-            $scope.newTodo = undefined;
-        }
-    };
-
-    $scope.createTodo = function () {
-        $scope.todos.push($scope.newTodo);
-        $scope.newTodo = undefined;
-        // $scope.newTodo.$save(function (respoonse) {
-        //     $scope.todos.push(respoonse);
-        //     $scope.newTodo = undefined;
-        // });
-    };
-
-    $scope.deleteTodo = function (todo) {
-        todo.remove().then(function () {
-            $scope.todos.splice($scope.todos.indexOf(todo), 1);
-        });
-
-    };
-
-});
 
 "use strict";
 
@@ -3889,6 +3277,554 @@ angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalI
     $scope.closeModal = function(){
         $modalInstance.dismiss('cancel');
     }
+});
+"use strict";
+
+angular.module('app.client').factory('ClientService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveClient: saveClient,
+                getOrgClients: getOrgClients,
+                getIndClients: getIndClients,
+                getClient: getClient,
+                deleteClient: deleteClient,
+                getFollowers: getFollowers,
+                getWechatsByIds: getWechatsByIds
+            });
+
+            function saveClient(client) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (client._id) {
+                    client.updated_at = Date.now();
+                    $http.put('/api/clients/' + client._id, client)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    client.created_at = Date.now();
+                    client.updated_at = client.created_at;
+                    $http.post('/api/clients', client)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getIndClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFollowers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/wechat/followers')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getWechatsByIds(openIds) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.post('/wechat/byids', openIds)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            
+           
+        }]);
+"use strict";
+
+angular.module('app.calendar').directive('dragableEvent', function ($log) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+
+            // $log.log(element.scope());
+
+            var eventObject = element.scope().event;
+
+            element.data('eventObject', eventObject);
+
+
+            element.draggable({
+                zIndex: 999,
+                revert: true, // will cause the event to go back to its
+                revertDuration: 0 //  original position after the drag
+            });
+
+
+        }
+    }
+})
+"use strict";
+
+angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
+        scope: {
+            events: "=events"
+        },
+        link: function (scope, element) {
+
+
+            var $calendar = $("#calendar");
+
+            var calendar = null;
+
+
+            function initCalendar() {
+
+                // $log.log(events);
+
+
+                calendar = $calendar.fullCalendar({
+                    lang: 'en',
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
+                    droppable: true,
+
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
+                    },
+
+                    drop: function (date, allDay) { // this function is called when something is dropped
+
+                        // retrieve the dropped element's stored Event Object
+                        var originalEventObject = $(this).data('eventObject');
+            
+                        // we need to copy it, so that multiple events don't have a reference to the same object
+                        var copiedEventObject = $.extend({}, originalEventObject);
+            
+                        // assign it the date that was reported
+                        copiedEventObject.start = date;
+                        copiedEventObject.allDay = allDay;
+
+                        // $log.log(scope);
+            
+                        // render the event on the calendar
+                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+            
+                        // is the "remove after drop" checkbox checked?
+                        if ($('#drop-remove').is(':checked')) {
+
+                            // if so, remove the element from the "Draggable Events" list
+                            // $(this).remove();
+                            // $log.log($(this).scope());
+                            var index = $(this).scope().$index;
+
+                            $("#external-events").scope().eventsExternal.splice(index, 1);
+                            $(this).remove();
+
+                        }
+            
+                    },
+
+                    select: function (start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    allDay: allDay
+                                }, true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },
+
+                    // events: scope.events,
+
+                    events: function(start, end, timezone, callback) {
+
+                        callback(scope.events);
+
+                    },
+
+                    eventRender: function (event, element, icon) {
+                        if (!event.description == "") {
+                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
+                        }
+                        if (!event.icon == "") {
+                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
+                        }
+                    }
+                });
+
+                $('.fc-header-right, .fc-header-center', $calendar).hide();
+            }
+
+
+            initCalendar();
+
+
+            // Now events will be refetched every time events scope is updated in controller!!!
+            scope.$watch("events", function(newValue, oldValue) {
+
+                $calendar.fullCalendar( 'refetchEvents' );
+
+            }, true);
+
+
+            scope.next = function () {
+                $('.fc-button-next', $calendar).click();
+            };
+            scope.prev = function () {
+                $('.fc-button-prev', $calendar).click();
+            };
+            scope.today = function () {
+                $('.fc-button-today', $calendar).click();
+            };
+            scope.changeView = function (period) {
+                $calendar.fullCalendar('changeView', period);
+            };
+        }
+    }
+});
+'use strict';
+
+angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
+
+
+    // Events scope
+    $scope.events = [];
+
+    // Unassigned events scope
+    $scope.eventsExternal = [
+        {
+            title: "Office Meeting",
+            description: "Currently busy",
+            className: "bg-color-darken txt-color-white",
+            icon: "fa-time"
+        },
+        {
+            title: "Lunch Break",
+            description: "No Description",
+            className: "bg-color-blue txt-color-white",
+            icon: "fa-pie"
+        },
+        {
+            title: "URGENT",
+            description: "urgent tasks",
+            className: "bg-color-red txt-color-white",
+            icon: "fa-alert"
+        }
+    ];
+
+
+    // Queriing our events from CalendarEvent resource...
+    // Scope update will automatically update the calendar
+    CalendarEvent.query().$promise.then(function (events) {
+        $scope.events = events;
+    });
+
+
+    $scope.newEvent = {};
+
+    $scope.addEvent = function() {
+
+        $log.log("Adding new event:", $scope.newEvent);
+
+        var newEventDefaults = {
+            title: "Untitled Event",
+            description: "no description",
+            className: "bg-color-darken txt-color-white",
+            icon: "fa-info"
+        };
+
+
+        $scope.newEvent = angular.extend(newEventDefaults, $scope.newEvent);
+
+        $scope.eventsExternal.unshift($scope.newEvent);
+
+        $scope.newEvent = {};
+
+        // $log.log("New events now:", $scope.eventsExternal);
+
+    };
+
+
+});
+
+
+"use strict";
+
+angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
+    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
+});
+"use strict";	
+
+angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
+
+	$scope.activeTab = 'default';
+	$scope.currentActivityItems = [];
+	
+	// Getting different type of activites
+	activityService.get(function(data){
+
+		$scope.activities = data.activities;
+		
+	});
+
+
+	$scope.isActive = function(tab){
+		return $scope.activeTab === tab;
+	};
+
+	$scope.setTab = function(activityType){
+		$scope.activeTab = activityType;
+
+		activityService.getbytype(activityType, function(data) {
+
+			$scope.currentActivityItems = data.data;
+
+		});
+
+	};
+
+});
+"use strict";
+
+angular.module('app').directive('activitiesDropdownToggle', function($log) {
+
+	var link = function($scope,$element, attrs){
+		var ajax_dropdown = null;
+
+		$element.on('click',function(){
+			var badge = $(this).find('.badge');
+
+			if (badge.hasClass('bg-color-red')) {
+
+				badge.removeClass('bg-color-red').text(0);
+
+			}
+
+			ajax_dropdown = $(this).next('.ajax-dropdown');
+
+			if (!ajax_dropdown.is(':visible')) {
+
+				ajax_dropdown.fadeIn(150);
+
+				$(this).addClass('active');
+
+			}
+			 else {
+				
+				ajax_dropdown.fadeOut(150);
+				
+				$(this).removeClass('active');
+
+			}
+
+		})
+
+		$(document).mouseup(function(e) {
+			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
+				ajax_dropdown.fadeOut(150);
+				$element.removeClass('active');
+			}
+		});
+	}
+	
+	return{
+		restrict:'EA',
+		link:link
+	}
+});
+"use strict";
+
+angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
+
+	function getActivities(callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getActivitiesByType(type, callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+	
+	return{
+		get:function(callback){
+			getActivities(callback);
+		},
+		getbytype:function(type,callback){
+			getActivitiesByType(type, callback);
+		}
+	}
 });
 "use strict";
 
@@ -4194,6 +4130,70 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
         data : visitors,
         label : "Site visitors"
     }];
+});
+"use strict";
+
+angular.module('app').factory('Project', function($http, APP_CONFIG){
+    return {
+        list: $http.get(APP_CONFIG.apiRootUrl + '/projects.json')
+    }
+});
+"use strict";
+
+angular.module('app').directive('recentProjects', function(Project){
+    return {
+        restrict: "EA",
+        replace: true,
+        templateUrl: "app/dashboard/projects/recent-projects.tpl.html",
+        scope: true,
+        link: function(scope, element){
+
+            Project.list.then(function(response){
+                scope.projects = response.data;
+            });
+            scope.clearProjects = function(){
+                scope.projects = [];
+            }
+        }
+    }
+});
+"use strict";
+
+angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
+    $scope.newTodo = undefined;
+
+    $scope.states = ['Critical', 'Important', 'Completed'];
+
+    $scope.todos = Todo.getList().$object;
+
+    // $scope.$watch('todos', function(){ }, true)
+
+    $scope.toggleAdd = function () {
+        if (!$scope.newTodo) {
+            $scope.newTodo = {
+                state: 'Important'
+            };
+        } else {
+            $scope.newTodo = undefined;
+        }
+    };
+
+    $scope.createTodo = function () {
+        $scope.todos.push($scope.newTodo);
+        $scope.newTodo = undefined;
+        // $scope.newTodo.$save(function (respoonse) {
+        //     $scope.todos.push(respoonse);
+        //     $scope.newTodo = undefined;
+        // });
+    };
+
+    $scope.deleteTodo = function (todo) {
+        todo.remove().then(function () {
+            $scope.todos.splice($scope.todos.indexOf(todo), 1);
+        });
+
+    };
+
 });
 "use strict";
 
@@ -4552,6 +4552,201 @@ angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CON
 
 
 });
+"use strict";
+
+angular.module('app.policy').factory('PolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                savePolicy: savePolicy,
+                getPolicies: getPolicies,
+                getClients: getClients,
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies
+            });
+
+            function savePolicy(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (policy._id) {
+                    policy.updated_at = Date.now();
+                    $http.put('/api/policies/' + policy._id, policy)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/policies', policy)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicies(type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                var url = "/api/policies"
+                if (type == "to-be-paid") {
+                    url = "/api/policies/to-be-paid";
+                } else if (type == "paid") {
+                    url = "/api/policies/paid";
+                }
+                $http.get(url)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function searchPolicies(currentPage, pageSize, type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                
+                var filterByFields = {};
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterByFields = {"policy_status":"待支付"};
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterByFields = {"policy_status":"已支付"};
+                    orderByReverse = true;
+                }
+                    
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterByFields,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true
+                };
+
+                
+                $http.post("/api/policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+        }]);
 'use strict'
 
 angular.module('app.policy').controller('PolicyEditorController',function ($scope,$filter, $rootScope, $state, $stateParams, PolicyService) {
@@ -4799,427 +4994,6 @@ angular.module('app.policy')
         return (item.plate_province + item.plate_no);
     }
  });
-"use strict";
-
-angular.module('app.policy').factory('PolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                savePolicy: savePolicy,
-                getPolicies: getPolicies,
-                getClients: getClients,
-                getPolicy: getPolicy,
-                deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies
-            });
-
-            function savePolicy(policy) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (policy._id) {
-                    policy.updated_at = Date.now();
-                    $http.put('/api/policies/' + policy._id, policy)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policy.created_at = Date.now();
-                    policy.updated_at = policy.created_at;
-                    $http.post('/api/policies', policy)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicies(type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                var url = "/api/policies"
-                if (type == "to-be-paid") {
-                    url = "/api/policies/to-be-paid";
-                } else if (type == "paid") {
-                    url = "/api/policies/paid";
-                }
-                $http.get(url)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function searchPolicies(currentPage, pageSize, type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                
-                var filterByFields = {};
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterByFields = {"policy_status":"待支付"};
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterByFields = {"policy_status":"已支付"};
-                    orderByReverse = true;
-                }
-                    
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterByFields,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true
-                };
-
-                
-                $http.post("/api/policies/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-        }]);
-'use strict';
-
-angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
-    $scope.gridData = {
-        data: [
-            {
-                id: "1",
-                date: "2007-10-01",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "2",
-                date: "2007-10-02",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "3",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "4",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "5",
-                date: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "6",
-                date: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "7",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "8",
-                date: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "9",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "10",
-                date: "2007-10-01",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "11",
-                date: "2007-10-02",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "12",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "13",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "14",
-                date: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "15",
-                date: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "16",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "17",
-                date: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "18",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            }
-        ],
-        colNames: ['Actions', 'Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
-        colModel: [
-            {
-                name: 'act',
-                index: 'act',
-                sortable: false
-            },
-            {
-                name: 'id',
-                index: 'id'
-            },
-            {
-                name: 'date',
-                index: 'date',
-                editable: true
-            },
-            {
-                name: 'name',
-                index: 'name',
-                editable: true
-            },
-            {
-                name: 'amount',
-                index: 'amount',
-                align: "right",
-                editable: true
-            },
-            {
-                name: 'tax',
-                index: 'tax',
-                align: "right",
-                editable: true
-            },
-            {
-                name: 'total',
-                index: 'total',
-                align: "right",
-                editable: true
-            },
-            {
-                name: 'note',
-                index: 'note',
-                sortable: false,
-                editable: true
-            }
-        ]
-    }
-
-
-    $scope.getSelection = function(){
-        alert(jQuery('table').jqGrid('getGridParam', 'selarrrow'));
-    };
-
-    $scope.selectRow = function(row){
-       jQuery('table').jqGrid('setSelection', row);
-
-    }
-});
 "use strict";
 
 angular.module('app.ui').controller('GeneralElementsCtrl', function ($scope) {
@@ -6039,6 +5813,232 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
         }
     };
 });
+'use strict';
+
+angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
+    $scope.gridData = {
+        data: [
+            {
+                id: "1",
+                date: "2007-10-01",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "2",
+                date: "2007-10-02",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "3",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "4",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "5",
+                date: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "6",
+                date: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "7",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "8",
+                date: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "9",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "10",
+                date: "2007-10-01",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "11",
+                date: "2007-10-02",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "12",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "13",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "14",
+                date: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "15",
+                date: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "16",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "17",
+                date: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "18",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            }
+        ],
+        colNames: ['Actions', 'Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
+        colModel: [
+            {
+                name: 'act',
+                index: 'act',
+                sortable: false
+            },
+            {
+                name: 'id',
+                index: 'id'
+            },
+            {
+                name: 'date',
+                index: 'date',
+                editable: true
+            },
+            {
+                name: 'name',
+                index: 'name',
+                editable: true
+            },
+            {
+                name: 'amount',
+                index: 'amount',
+                align: "right",
+                editable: true
+            },
+            {
+                name: 'tax',
+                index: 'tax',
+                align: "right",
+                editable: true
+            },
+            {
+                name: 'total',
+                index: 'total',
+                align: "right",
+                editable: true
+            },
+            {
+                name: 'note',
+                index: 'note',
+                sortable: false,
+                editable: true
+            }
+        ]
+    }
+
+
+    $scope.getSelection = function(){
+        alert(jQuery('table').jqGrid('getGridParam', 'selarrrow'));
+    };
+
+    $scope.selectRow = function(row){
+       jQuery('table').jqGrid('setSelection', row);
+
+    }
+});
 "use strict";
 
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){
@@ -6186,1233 +6186,6 @@ angular.module('SmartAdmin.Layout').directive('toggleMenu', function(){
         }
     }
 });
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('bigBreadcrumbs', function () {
-    return {
-        restrict: 'EA',
-        replace: true,
-        template: '<div><h1 class="page-title txt-color-blueDark"></h1></div>',
-        scope: {
-            items: '=',
-            icon: '@'
-        },
-        link: function (scope, element) {
-            var first = _.first(scope.items);
-
-            var icon = scope.icon || 'home';
-            element.find('h1').append('<i class="fa-fw fa fa-' + icon + '"></i> ' + first);
-            _.rest(scope.items).forEach(function (item) {
-                element.find('h1').append(' <span>> ' + item + '</span>')
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('dismisser', function () {
-    return {
-        restrict: 'A',
-        compile: function (element) {
-            element.removeAttr('dismisser data-dissmiser')
-            var closer = '<button class="close">&times;</button>';
-            element.prepend(closer);
-            element.on('click', '>button.close', function(){
-                element.fadeOut('fast',function(){ $(this).remove(); });
-
-            })
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('hrefVoid', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            element.attr('href','#');
-            element.on('click', function(e){
-                e.preventDefault();
-                e.stopPropagation();
-            })
-        }
-    }
-});
-'use strict';
-
-/*
-* Directive for toggling a ng-model with a button
-* Source: https://gist.github.com/aeife/9374784
-*/
-
-angular.module('SmartAdmin.Layout').directive('radioToggle', function ($log) {
-    return {
-        scope: {
-            model: "=ngModel",
-            value: "@value"
-        },
-        link: function(scope, element, attrs) {
-
-            element.parent().on('click', function() {
-                scope.model = scope.value;
-                scope.$apply();
-            });
-        }
-    }
-});
-/**
- * DETECT MOBILE DEVICES
- * Description: Detects mobile device - if any of the listed device is
- *
- * detected class is inserted to <tElement>.
- *
- *  (so far this is covering most hand held devices)
- */
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartDeviceDetect', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-device-detect data-smart-device-detect');
-
-            var isMobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
-            
-            tElement.toggleClass('desktop-detected', !isMobile);
-            tElement.toggleClass('mobile-detected', isMobile);
-
-
-        }
-    }
-});
-/**
- *
- * Description: Directive utilizes FastClick library.
- *
- *
- * FastClick is a simple, easy-to-use library for eliminating the
- * 300ms delay between a physical tap and the firing of a click event on mobile browsers.
- * FastClick doesn't attach any listeners on desktop browsers.
- * @link: https://github.com/ftlabs/fastclick
- *
- * On mobile devices 'needsclick' class is attached to <tElement>
- *
- */
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartFastClick', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-fast-click data-smart-fast-click');
-
-            FastClick.attach(tElement);
-
-            if(!FastClick.notNeeded())
-                tElement.addClass('needsclick')
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartFitAppView', function ($rootScope, SmartCss) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-fit-app-view data-smart-fit-app-view leading-y data-leading-y');
-
-            var leadingY = attributes.leadingY ? parseInt(attributes.leadingY) : 0;
-
-            var selector = attributes.smartFitAppView;
-
-            if(SmartCss.appViewSize && SmartCss.appViewSize.height){
-                var height =  SmartCss.appViewSize.height - leadingY < 252 ? 252 :  SmartCss.appViewSize.height - leadingY;
-                SmartCss.add(selector, 'height', height+'px');
-            }
-
-            var listenerDestroy = $rootScope.$on('$smartContentResize', function (event, data) {
-                var height = data.height - leadingY < 252 ? 252 : data.height - leadingY;
-                SmartCss.add(selector, 'height', height+'px');
-            });
-
-            element.on('$destroy', function () {
-                listenerDestroy();
-                SmartCss.remove(selector, 'height');
-            });
-
-
-        }
-    }
-});
-
-"use strict";
-
-angular.module('SmartAdmin.Layout').directive('smartInclude', function () {
-        return {
-            replace: true,
-            restrict: 'A',
-            templateUrl: function (element, attr) {
-                return attr.smartInclude;
-            },
-            compile: function(element){
-                element[0].className = element[0].className.replace(/placeholder[^\s]+/g, '');
-            }
-        };
-    }
-);
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartLayout', function ($rootScope, $timeout, $interval, $q, SmartCss) {
-    
-    var _debug = 0;
-
-    function getDocHeight() {
-        var D = document;
-        return Math.max(
-            D.body.scrollHeight, D.documentElement.scrollHeight,
-            D.body.offsetHeight, D.documentElement.offsetHeight,
-            D.body.clientHeight, D.documentElement.clientHeight
-        );
-    }
-
-    var initialized = false, 
-           initializedResolver = $q.defer();
-    initializedResolver.promise.then(function () {
-        initialized = true;
-    });
-
-    var $window = $(window),
-        $document = $(document),
-        $html = $('html'),
-        $body = $('body'),
-        $navigation ,
-        $menu,
-        $ribbon,
-        $footer,
-        $contentAnimContainer;
-
-
-    (function cacheElements() {
-        $navigation = $('#header');
-        $menu = $('#left-panel');
-        $ribbon = $('#ribbon');
-        $footer = $('.page-footer');
-        if (_.every([$navigation, $menu, $ribbon, $footer], function ($it) {
-            return angular.isNumber($it.height())
-        })) {
-            initializedResolver.resolve();
-        } else {
-            $timeout(cacheElements, 100);
-        }
-    })();
-
-
-    return {
-        priority: 2014,
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-layout data-smart-layout');
-
-            var appViewHeight = 0 ,
-                appViewWidth = 0,
-                calcWidth,
-                calcHeight,
-                deltaX,
-                deltaY;
-
-            var forceResizeTrigger = false;
-
-            function resizeListener() {
-
-//                    full window height appHeight = Math.max($menu.outerHeight() - 10, getDocHeight() - 10);
-
-                var menuHeight = $body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.height() : 0;
-                var menuWidth = !$body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.width() + $menu.offset().left : 0;
-
-                var $content = $('#content');
-                var contentXPad = $content.outerWidth(true) - $content.width();
-                var contentYPad = $content.outerHeight(true) - $content.height();
-
-
-                calcWidth = $window.width() - menuWidth - contentXPad;
-                calcHeight = $window.height() - menuHeight - contentYPad - $navigation.height() - $ribbon.height() - $footer.height();
-
-                deltaX = appViewWidth - calcWidth;
-                deltaY = appViewHeight - calcHeight;
-                if (Math.abs(deltaX) || Math.abs(deltaY) || forceResizeTrigger) {
-
-                    //console.log('exec', calcWidth, calcHeight);
-                    $rootScope.$broadcast('$smartContentResize', {
-                        width: calcWidth,
-                        height: calcHeight,
-                        deltaX: deltaX,
-                        deltaY: deltaY
-                    });
-                    appViewWidth = calcWidth;
-                    appViewHeight = calcHeight;
-                    forceResizeTrigger = false;
-                }
-            }
-
-
-            var looping = false;
-            $interval(function () {
-                if (looping) loop();
-            }, 300);
-
-            var debouncedRun = _.debounce(function () {
-                run(300)
-            }, 300);
-
-            function run(delay) {
-                initializedResolver.promise.then(function () {
-                    attachOnResize(delay);
-                });
-            }
-
-            run(10);
-
-            function detachOnResize() {
-                looping = false;
-            }
-
-            function attachOnResize(delay) {
-                $timeout(function () {
-                    looping = true;
-                }, delay);
-            }
-
-            function loop() {
-                $body.toggleClass('mobile-view-activated', $window.width() < 979);
-
-                if ($window.width() < 979)
-                    $body.removeClass('minified');
-
-                resizeListener();
-            }
-
-            function handleHtmlId(toState) {
-                if (toState.data && toState.data.htmlId) $html.attr('id', toState.data.htmlId);
-                else $html.removeAttr('id');
-            }
-
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                //console.log(1, '$stateChangeStart', event, toState, toParams, fromState, fromParams);
-
-                handleHtmlId(toState);
-                detachOnResize();
-            });
-
-            // initialized with 1 cause we came here with one $viewContentLoading request
-            var viewContentLoading = 1;
-            $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
-                //console.log(2, '$viewContentLoading', event, viewConfig);
-                viewContentLoading++;
-            });
-
-            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                //console.log(3, '$stateChangeSuccess', event, toState, toParams, fromState, fromParams);
-                forceResizeTrigger = true;
-            });
-
-            $rootScope.$on('$viewContentLoaded', function (event) {
-                //console.log(4, '$viewContentLoaded', event);
-                viewContentLoading--;
-
-                if (viewContentLoading == 0 && initialized) {
-                    debouncedRun();
-                }
-            });
-        }
-    }
-});
-
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartPageTitle', function ($rootScope, $timeout) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-page-title data-smart-page-title');
-
-            var defaultTitle = attributes.smartPageTitle;
-            var listener = function(event, toState, toParams, fromState, fromParams) {
-                var title = defaultTitle;
-                if (toState.data && toState.data.title) title = toState.data.title + ' | ' + title;
-                // Set asynchronously so page changes before title does
-                $timeout(function() {
-                    $('html head title').text(title);
-                });
-            };
-
-            $rootScope.$on('$stateChangeStart', listener);
-
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartRouterAnimationWrap', function ($rootScope,$timeout) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-router-animation-wrap data-smart-router-animation-wrap wrap-for data-wrap-for');
-
-            element.addClass('router-animation-container');
-
-
-            var $loader = $('<div class="router-animation-loader"><i class="fa fa-gear fa-4x fa-spin"></i></div>')
-                .css({
-                    position: 'absolute',
-                    top: 50,
-                    left: 10
-                }).hide().appendTo(element);
-
-
-            var animateElementSelector = attributes.wrapFor;
-            var viewsToMatch = attributes.smartRouterAnimationWrap.split(/\s/);
-
-            var needRunContentViewAnimEnd = false;
-            function contentViewAnimStart() {
-                needRunContentViewAnimEnd = true;
-                element.css({
-                    height: element.height() + 'px',
-                    overflow: 'hidden'
-                }).addClass('active');
-                $loader.fadeIn();
-
-                $(animateElementSelector).addClass('animated faster fadeOutDown');
-            }
-
-            function contentViewAnimEnd() {
-                if(needRunContentViewAnimEnd){
-                    element.css({
-                        height: 'auto',
-                        overflow: 'visible'
-                    }).removeClass('active');
-                    
-
-                    $(animateElementSelector).addClass('animated faster fadeInUp');
-
-                    needRunContentViewAnimEnd = false;
-
-                    $timeout(function(){
-                        $(animateElementSelector).removeClass('animated');
-                    },10);
-                }
-                $loader.fadeOut();
-            }
-
-
-            var destroyForStart = $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                var isAnimRequired = _.any(viewsToMatch, function(view){
-                   return _.has(toState.views, view) || _.has(fromState.views, view);
-                });
-                if(isAnimRequired){
-                    contentViewAnimStart()
-                }
-            });
-
-            var destroyForEnd = $rootScope.$on('$viewContentLoaded', function (event) {
-                contentViewAnimEnd();
-            });
-
-            element.on('$destroy', function(){
-                destroyForStart();
-                destroyForEnd();
-
-            });
-
-
-
-        }
-    }
-});
-angular.module('SmartAdmin.Layout').directive('speechRecognition', function ($log) {
-	'use strict';
-
-	$.root_ = $('body');
-	var root, commands;
-
-    root = window;
-    window.appConfig = window.appConfig || {};
-
-	if (appConfig.voice_command) {
-		commands = appConfig.commands;
-	}
-
-
-	/*
-	 * SMART VOICE
-	 * Author: MyOrange | @bootstraphunt
-	 * http://www.myorange.ca
-	 */
-
-	var SpeechRecognition = root.SpeechRecognition || root.webkitSpeechRecognition || root.mozSpeechRecognition || root.msSpeechRecognition || root.oSpeechRecognition;
-
-// ref: http://updates.html5rocks.com/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API
-
-
-// function
-	$.speechApp = (function(speech) {
-
-		speech.start = function() {
-
-			// Add our commands to smartSpeechRecognition
-			smartSpeechRecognition.addCommands(commands);
-
-			if (smartSpeechRecognition) {
-				// activate plugin
-				smartSpeechRecognition.start();
-				// add btn class
-				$.root_.addClass("voice-command-active");
-				// play sound
-				$.speechApp.playON();
-				// set localStorage when switch is on manually
-				if (appConfig.voice_localStorage) {
-					localStorage.setItem('sm-setautovoice', 'true');
-				}
-
-			} else {
-				// if plugin not found
-				alert("speech plugin not loaded");
-			}
-
-		};
-		speech.stop = function() {
-
-			if (smartSpeechRecognition) {
-				// deactivate plugin
-				smartSpeechRecognition.abort();
-				// remove btn class
-				$.root_.removeClass("voice-command-active");
-				// sound
-				$.speechApp.playOFF();
-				// del localStorage when switch if off manually
-				if (appConfig.voice_localStorage) {
-					localStorage.setItem('sm-setautovoice', 'false');
-				}
-				// remove popover if visible
-				if ($('#speech-btn .popover').is(':visible')) {
-					$('#speech-btn .popover').fadeOut(250);
-				}
-			}
-
-		};
-
-		// play sound
-		speech.playON = function() {
-
-			var audioElement = document.createElement('audio');
-
-			if (navigator.userAgent.match('Firefox/'))
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".ogg");
-			else
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".mp3");
-
-			//$.get();
-			audioElement.addEventListener("load", function() {
-				audioElement.play();
-			}, true);
-
-			if (appConfig.sound_on) {
-				audioElement.pause();
-				audioElement.play();
-			}
-		};
-
-		speech.playOFF = function() {
-
-			var audioElement = document.createElement('audio');
-
-			if (navigator.userAgent.match('Firefox/'))
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".ogg");
-			else
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".mp3");
-
-			$.get();
-			audioElement.addEventListener("load", function() {
-				audioElement.play();
-			}, true);
-
-			if (appConfig.sound_on) {
-				audioElement.pause();
-				audioElement.play();
-			}
-		};
-
-		speech.playConfirmation = function() {
-
-			var audioElement = document.createElement('audio');
-
-			if (navigator.userAgent.match('Firefox/'))
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".ogg");
-			else
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".mp3");
-
-			$.get();
-			audioElement.addEventListener("load", function() {
-				audioElement.play();
-			}, true);
-
-			if (appConfig.sound_on) {
-				audioElement.pause();
-				audioElement.play();
-			}
-		};
-
-		return speech;
-
-	})({});
-
-
-
-	/*
-	 * SPEECH RECOGNITION ENGINE
-	 * Copyright (c) 2013 Tal Ater
-	 * Modified by MyOrange
-	 * All modifications made are hereby copyright (c) 2014 MyOrange
-	 */
-
-	(function(undefined) {"use strict";
-
-		// Check browser support
-		// This is done as early as possible, to make it as fast as possible for unsupported browsers
-		if (!SpeechRecognition) {
-			root.smartSpeechRecognition = null;
-			return undefined;
-		}
-
-		var commandsList = [], recognition, callbacks = {
-				start : [],
-				error : [],
-				end : [],
-				result : [],
-				resultMatch : [],
-				resultNoMatch : [],
-				errorNetwork : [],
-				errorPermissionBlocked : [],
-				errorPermissionDenied : []
-			}, autoRestart, lastStartedAt = 0,
-		//debugState = false, // decleared in app.appConfig.js
-		//appConfig.debugStyle = 'font-weight: bold; color: #00f;', // decleared in app.appConfig.js
-
-		// The command matching code is a modified version of Backbone.Router by Jeremy Ashkenas, under the MIT license.
-			optionalParam = /\s*\((.*?)\)\s*/g, optionalRegex = /(\(\?:[^)]+\))\?/g, namedParam = /(\(\?)?:\w+/g, splatParam = /\*\w+/g, escapeRegExp = /[\-{}\[\]+?.,\\\^$|#]/g, commandToRegExp = function(command) {
-				command = command.replace(escapeRegExp, '\\$&').replace(optionalParam, '(?:$1)?').replace(namedParam, function(match, optional) {
-					return optional ? match : '([^\\s]+)';
-				}).replace(splatParam, '(.*?)').replace(optionalRegex, '\\s*$1?\\s*');
-				return new RegExp('^' + command + '$', 'i');
-			};
-
-		// This method receives an array of callbacks to iterate over, and invokes each of them
-		var invokeCallbacks = function(callbacks) {
-			callbacks.forEach(function(callback) {
-				callback.callback.apply(callback.context);
-			});
-		};
-
-		var initIfNeeded = function() {
-			if (!isInitialized()) {
-				root.smartSpeechRecognition.init({}, false);
-			}
-		};
-
-		var isInitialized = function() {
-			return recognition !== undefined;
-		};
-
-		root.smartSpeechRecognition = {
-			// Initialize smartSpeechRecognition with a list of commands to recognize.
-			// e.g. smartSpeechRecognition.init({'hello :name': helloFunction})
-			// smartSpeechRecognition understands commands with named variables, splats, and optional words.
-			init : function(commands, resetCommands) {
-
-				// resetCommands defaults to true
-				if (resetCommands === undefined) {
-					resetCommands = true;
-				} else {
-					resetCommands = !!resetCommands;
-				}
-
-				// Abort previous instances of recognition already running
-				if (recognition && recognition.abort) {
-					recognition.abort();
-				}
-
-				// initiate SpeechRecognition
-				recognition = new SpeechRecognition();
-
-				// Set the max number of alternative transcripts to try and match with a command
-				recognition.maxAlternatives = 5;
-				recognition.continuous = true;
-				// Sets the language to the default 'en-US'. This can be changed with smartSpeechRecognition.setLanguage()
-				recognition.lang = appConfig.voice_command_lang || 'en-US';
-
-				recognition.onstart = function() {
-					invokeCallbacks(callbacks.start);
-					//debugState
-					if (appConfig.debugState) {
-						root.console.log('%c ✔ SUCCESS: User allowed access the microphone service to start ', appConfig.debugStyle_success);
-						root.console.log('Language setting is set to: ' + recognition.lang, appConfig.debugStyle);
-					}
-					$.root_.removeClass("service-not-allowed");
-					$.root_.addClass("service-allowed");
-				};
-
-				recognition.onerror = function(event) {
-					invokeCallbacks(callbacks.error);
-					switch (event.error) {
-						case 'network':
-							invokeCallbacks(callbacks.errorNetwork);
-							break;
-						case 'not-allowed':
-						case 'service-not-allowed':
-							// if permission to use the mic is denied, turn off auto-restart
-							autoRestart = false;
-							$.root_.removeClass("service-allowed");
-							$.root_.addClass("service-not-allowed");
-							//debugState
-							if (appConfig.debugState) {
-								root.console.log('%c WARNING: Microphone was not detected (either user denied access or it is not installed properly) ', appConfig.debugStyle_warning);
-							}
-							// determine if permission was denied by user or automatically.
-							if (new Date().getTime() - lastStartedAt < 200) {
-								invokeCallbacks(callbacks.errorPermissionBlocked);
-							} else {
-								invokeCallbacks(callbacks.errorPermissionDenied);
-								//console.log("You need your mic to be active")
-							}
-							break;
-					}
-				};
-
-				recognition.onend = function() {
-					invokeCallbacks(callbacks.end);
-					// smartSpeechRecognition will auto restart if it is closed automatically and not by user action.
-					if (autoRestart) {
-						// play nicely with the browser, and never restart smartSpeechRecognition automatically more than once per second
-						var timeSinceLastStart = new Date().getTime() - lastStartedAt;
-						if (timeSinceLastStart < 1000) {
-							setTimeout(root.smartSpeechRecognition.start, 1000 - timeSinceLastStart);
-						} else {
-							root.smartSpeechRecognition.start();
-						}
-					}
-				};
-
-				recognition.onresult = function(event) {
-					invokeCallbacks(callbacks.result);
-
-					var results = event.results[event.resultIndex], commandText;
-
-					// go over each of the 5 results and alternative results received (we've set maxAlternatives to 5 above)
-					for (var i = 0; i < results.length; i++) {
-						// the text recognized
-						commandText = results[i].transcript.trim();
-						if (appConfig.debugState) {
-							root.console.log('Speech recognized: %c' + commandText, appConfig.debugStyle);
-						}
-
-						// try and match recognized text to one of the commands on the list
-						for (var j = 0, l = commandsList.length; j < l; j++) {
-							var result = commandsList[j].command.exec(commandText);
-							if (result) {
-								var parameters = result.slice(1);
-								if (appConfig.debugState) {
-									root.console.log('command matched: %c' + commandsList[j].originalPhrase, appConfig.debugStyle);
-									if (parameters.length) {
-										root.console.log('with parameters', parameters);
-									}
-								}
-								// execute the matched command
-								commandsList[j].callback.apply(this, parameters);
-								invokeCallbacks(callbacks.resultMatch);
-
-								// for commands "sound on", "stop" and "mute" do not play sound or display message
-								//var myMatchedCommand = commandsList[j].originalPhrase;
-
-								var ignoreCallsFor = ["sound on", "mute", "stop"];
-
-								if (ignoreCallsFor.indexOf(commandsList[j].originalPhrase) < 0) {
-									// play sound when match found
-									console.log(2);
-									$.smallBox({
-										title : (commandsList[j].originalPhrase),
-										content : "loading...",
-										color : "#333",
-										sound_file : 'voice_alert',
-										timeout : 2000
-									});
-
-									if ($('#speech-btn .popover').is(':visible')) {
-										$('#speech-btn .popover').fadeOut(250);
-									}
-								}// end if
-
-								return true;
-							}
-						} // end for
-					}// end for
-
-					invokeCallbacks(callbacks.resultNoMatch);
-					//console.log("no match found for: " + commandText)
-					$.smallBox({
-						title : "Error: <strong>" + ' " ' + commandText + ' " ' + "</strong> no match found!",
-						content : "Please speak clearly into the microphone",
-						color : "#a90329",
-						timeout : 5000,
-						icon : "fa fa-microphone"
-					});
-					if ($('#speech-btn .popover').is(':visible')) {
-						$('#speech-btn .popover').fadeOut(250);
-					}
-					return false;
-				};
-
-				// build commands list
-				if (resetCommands) {
-					commandsList = [];
-				}
-				if (commands.length) {
-					this.addCommands(commands);
-				}
-			},
-
-			// Start listening (asking for permission first, if needed).
-			// Call this after you've initialized smartSpeechRecognition with commands.
-			// Receives an optional options object:
-			// { autoRestart: true }
-			start : function(options) {
-				initIfNeeded();
-				options = options || {};
-				if (options.autoRestart !== undefined) {
-					autoRestart = !!options.autoRestart;
-				} else {
-					autoRestart = true;
-				}
-				lastStartedAt = new Date().getTime();
-				recognition.start();
-			},
-
-			// abort the listening session (aka stop)
-			abort : function() {
-				autoRestart = false;
-				if (isInitialized) {
-					recognition.abort();
-				}
-			},
-
-			// Turn on output of debug messages to the console. Ugly, but super-handy!
-			debug : function(newState) {
-				if (arguments.length > 0) {
-					appConfig.debugState = !!newState;
-				} else {
-					appConfig.debugState = true;
-				}
-			},
-
-			// Set the language the user will speak in. If not called, defaults to 'en-US'.
-			// e.g. 'fr-FR' (French-France), 'es-CR' (Español-Costa Rica)
-			setLanguage : function(language) {
-				initIfNeeded();
-				recognition.lang = language;
-			},
-
-			// Add additional commands that smartSpeechRecognition will respond to. Similar in syntax to smartSpeechRecognition.init()
-			addCommands : function(commands) {
-				var cb, command;
-
-				initIfNeeded();
-
-				for (var phrase in commands) {
-					if (commands.hasOwnProperty(phrase)) {
-						cb = root[commands[phrase]] || commands[phrase];
-						if ( typeof cb !== 'function') {
-							continue;
-						}
-						//convert command to regex
-						command = commandToRegExp(phrase);
-
-						commandsList.push({
-							command : command,
-							callback : cb,
-							originalPhrase : phrase
-						});
-					}
-				}
-				if (appConfig.debugState) {
-					root.console.log('Commands successfully loaded: %c' + commandsList.length, appConfig.debugStyle);
-				}
-			},
-
-			// Remove existing commands. Called with a single phrase, array of phrases, or methodically. Pass no params to remove all commands.
-			removeCommands : function(commandsToRemove) {
-				if (commandsToRemove === undefined) {
-					commandsList = [];
-					return;
-				}
-				commandsToRemove = Array.isArray(commandsToRemove) ? commandsToRemove : [commandsToRemove];
-				commandsList = commandsList.filter(function(command) {
-					for (var i = 0; i < commandsToRemove.length; i++) {
-						if (commandsToRemove[i] === command.originalPhrase) {
-							return false;
-						}
-					}
-					return true;
-				});
-			},
-
-			// Lets the user add a callback of one of 9 types:
-			// start, error, end, result, resultMatch, resultNoMatch, errorNetwork, errorPermissionBlocked, errorPermissionDenied
-			// Can also optionally receive a context for the callback function as the third argument
-			addCallback : function(type, callback, context) {
-				if (callbacks[type] === undefined) {
-					return;
-				}
-				var cb = root[callback] || callback;
-				if ( typeof cb !== 'function') {
-					return;
-				}
-				callbacks[type].push({
-					callback : cb,
-					context : context || this
-				});
-			}
-		};
-
-	}).call(this);
-
-	var autoStart = function() {
-
-		smartSpeechRecognition.addCommands(commands);
-
-		if (smartSpeechRecognition) {
-			// activate plugin
-			smartSpeechRecognition.start();
-			// add btn class
-			$.root_.addClass("voice-command-active");
-			// set localStorage when switch is on manually
-			if (appConfig.voice_localStorage) {
-				localStorage.setItem('sm-setautovoice', 'true');
-			}
-
-		} else {
-			// if plugin not found
-			alert("speech plugin not loaded");
-		}
-	}
-// if already running with localstorage
-	if (SpeechRecognition && appConfig.voice_command && localStorage.getItem('sm-setautovoice') == 'true') {
-		autoStart();
-	}
-
-// auto start
-	if (SpeechRecognition && appConfig.voice_command_auto && appConfig.voice_command) {
-		autoStart();
-	}
-
-
-	var link = function(scope, element) {
-
-
-		if (SpeechRecognition && appConfig.voice_command) {
-
-			// create dynamic modal instance
-			var modal = $('<div class="modal fade" id="voiceModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
-			// attach to body
-			modal.appendTo("body");
-
-			element.on("click", function(e) {
-
-            	if ($.root_.hasClass("voice-command-active")) {
-					$.speechApp.stop();
-					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone-slash');
-				} else {
-					$.speechApp.start();
-					//add popover
-					$('#speech-btn .popover').fadeIn(350);
-					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone')
-
-				}
-
-				e.preventDefault();
-
-            });
-
-			//remove popover
-			$(document).mouseup(function(e) {
-				if (!$('#speech-btn .popover').is(e.target) && $('#speech-btn .popover').has(e.target).length === 0) {
-					$('#speech-btn .popover').fadeOut(250);
-				}
-			});
-
-
-			$("#speech-help-btn").on("click", function() {
-				commands.help();
-			});
-
-		}
-		else {
-			$("#speech-btn").addClass("display-none");
-		}
-
-
-	}
-
-
-
-    return {
-        restrict: 'AE',
-        link: link
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($rootScope, $state) {
-
-
-    return {
-        restrict: 'EA',
-        replace: true,
-        template: '<ol class="breadcrumb"><li>Home</li></ol>',
-        link: function (scope, element) {
-
-            function setBreadcrumbs(breadcrumbs) {
-                var html = '<li>Home</li>';
-                angular.forEach(breadcrumbs, function (crumb) {
-                    html += '<li>' + crumb + '</li>'
-                });
-                element.html(html)
-            }
-
-            function fetchBreadcrumbs(stateName, breadcrunbs) {
-
-                var state = $state.get(stateName);
-
-                if (state && state.data && state.data.title && breadcrunbs.indexOf(state.data.title) == -1) {
-                    breadcrunbs.unshift(state.data.title)
-                }
-
-                var parentName = stateName.replace(/.?\w+$/, '');
-                if (parentName) {
-                    return fetchBreadcrumbs(parentName, breadcrunbs);
-                } else {
-                    return breadcrunbs;
-                }
-            }
-
-            function processState(state) {
-                var breadcrumbs;
-                if (state.data && state.data.breadcrumbs) {
-                    breadcrumbs = state.data.breadcrumbs;
-                } else {
-                    breadcrumbs = fetchBreadcrumbs(state.name, []);
-                }
-                setBreadcrumbs(breadcrumbs);
-            }
-
-            processState($state.current);
-
-            $rootScope.$on('$stateChangeStart', function (event, state) {
-                processState(state);
-            })
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
-
-    var sheet = (function () {
-        // Create the <style> tag
-        var style = document.createElement("style");
-
-        // Add a media (and/or media query) here if you'd like!
-        // style.setAttribute("media", "screen")
-        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
-
-        // WebKit hack :(
-        style.appendChild(document.createTextNode(""));
-
-        // Add the <style> element to the page
-        document.head.appendChild(style);
-
-        return style.sheet;
-    })();
-
-    var _styles = {};
-
-
-    var SmartCss = {
-        writeRule: function(selector){
-            SmartCss.deleteRuleFor(selector);
-            if(_.has(_styles, selector)){
-                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
-                    return  k + ':' +  v + ';'
-                }).join(' ') +'}';
-                sheet.insertRule(css, _.size(_styles) - 1);
-            }
-        },
-        add: function (selector, property, value, delay) {
-            if(!_.has(_styles, selector))
-                _styles[selector] = {};
-
-            if(value == undefined || value == null || value == '')
-                delete _styles[selector][property];
-            else
-                _styles[selector][property] = value;
-
-
-            if(_.keys(_styles[selector]).length == 0)
-                delete _styles[selector];
-
-            if(!delay)
-                delay = 0;
-            $timeout(function(){
-                SmartCss.writeRule(selector);
-            }, delay);
-
-        },
-        remove: function(selector, property, delay){
-            SmartCss.add(selector, property, null, delay);
-        },
-        deleteRuleFor: function (selector) {
-            _(sheet.rules).forEach(function (rule, idx) {
-                if (rule.selectorText == selector) {
-                    sheet.deleteRule(idx);
-                }
-            });
-        },
-        appViewSize: null
-    };
-
-    $rootScope.$on('$smartContentResize', function (event, data) {
-        SmartCss.appViewSize = data;
-    });
-
-    return SmartCss;
-
-});
-
-
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
-    var scripts = null;
-    var initialized = false;
-    var initializingPromise = null;
-
-    function init(){        
-        if(!initialized){
-            if(!initializingPromise){
-                initializingPromise = $http.get('app.scripts.json').then(function(res){
-                    scripts = res.data
-                    initialized = true;
-                });     
-            }
-            return initializingPromise;
-               
-        } else {
-            return $q.resolve();
-        }
-    }
-
-    var cache = {};
-
-    function isPending(scriptName){
-        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
-    }
-
-    function isRegistered(scriptName){
-        if(cache.hasOwnProperty(scriptName)){
-            return true;
-        } else {
-            return (scripts.prebuild.indexOf(scriptName) > -1);
-        }
-    }
-    function loadScript(scriptName){
-        if(!cache[scriptName]){
-            cache[scriptName] = $q.defer();
-            var el = document.createElement( 'script' );
-            el.onload = function(script){
-                console.log('script is lazy loaded:', scriptName)
-                cache[scriptName].resolve(scriptName);
-            };
-            el.src = scripts.paths[scriptName];
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(el, x);
-            
-        }
-        return cache[scriptName].promise;
-
-    }
-
-    function register(scriptName){
-        if(isPending(scriptName)){
-            return cache[scriptName].promise
-        }
-        if(isRegistered(scriptName)){
-            return $q.resolve(scriptName);
-        } else {
-            var dfd = $q.defer();
-            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
-                var depsPromises = [];
-                angular.forEach(scripts.shim[scriptName].deps, function(dep){
-
-                    depsPromises.push(register(dep))
-                    
-                })
-                $q.all(depsPromises).then(function(){
-                    loadScript(scriptName).then(function(){
-                        dfd.resolve(scriptName);
-                    })
-                })
-
-            } else {
-                
-                loadScript(scriptName).then(function(){
-                    dfd.resolve(scriptName);
-                })
-                 
-            }
-            return dfd.promise; 
-
-        }
-    }
-    return {
-        register: function (scripts) {
-            
-            var dfd = $q.defer();
-            init().then(function(){
-                var promises = [];
-                if (angular.isString(scripts)) 
-                    scripts = [scripts];    
-
-                angular.forEach(scripts, function(script){
-                    promises.push(register(script));
-                })
-
-                $q.all(promises).then(function(resolves){
-                    dfd.resolve(resolves);
-                })
-            })
-            return dfd.promise;
-
-        }
-    };
-});
 "use strict";
 
 angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
@@ -7453,749 +6226,6 @@ angular.module('app.auth').directive('googleSignin', function ($rootScope, Googl
     };
 });
 
-'use strict';
-
-angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
-    var dfd = $q.defer();
-    var _user;
-    var ChatSrv = {
-        initialized: dfd.promise,
-        users: [],
-        messages: [],
-        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
-        status: 'Online',
-        setUser: function (user) {
-            if (ChatSrv.users.indexOf(_user) != -1)
-                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
-            _user = user;
-            ChatSrv.users.push(_user);
-        },
-        sendMessage: function (text) {
-            var message = {
-                user: _user,
-                body: text,
-                date: new Date()
-            };
-            this.messages.push(message);
-        }
-    };
-
-
-    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
-        ChatSrv.messages = res.data.messages;
-        ChatSrv.users = res.data.users;
-        dfd.resolve();
-    });
-
-    ChatSrv.initialized.then(function () {
-
-        User.initialized.then(function () {
-            ChatSrv.setUser({
-                username: User.username,
-                picture: User.picture,
-                status: ChatSrv.status
-            });
-        });
-
-        $rootScope.$watch(function () {
-            return User.username
-        }, function (name, oldName) {
-            if (name != oldName) {
-                ChatSrv.setUser({
-                    username: User.username,
-                    picture: User.picture,
-                    status: ChatSrv.status
-                });
-            }
-        });
-    });
-
-
-    return ChatSrv;
-
-});
-(function() {
-        
-   'use strict';
-
-    /*
-    * SMARTCHAT PLUGIN ARRAYS & CONFIG
-    * Dependency: js/plugin/moment/moment.min.js 
-    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
-    *             js/smart-chat-ui/smart.chat.ui.js
-    * (DO NOT CHANGE) 
-    */ 
-        var boxList = [],
-        showList = [],
-        nameList = [],
-        idList = [];
-    /*
-    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
-    */ 
-        var chatbox_config = {
-            width: 200,
-            gap: 35,
-            offset: 0
-        };
-
-
-
-    /*
-    * SMART CHAT ENGINE
-    * Copyright (c) 2013 Wen Pu
-    * Modified by MyOrange
-    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
-    */
-
-    // TODO: implement destroy()
-    (function($) {
-    $.widget("ui.chatbox", {
-        options: {
-            id: null, //id for the DOM element
-            title: null, // title of the chatbox
-            user: null, // can be anything associated with this chatbox
-            hidden: false,
-            offset: 0, // relative to right edge of the browser window
-            width: 300, // width of the chatbox
-            status: 'online', //
-            alertmsg: null,
-            alertshow: null,
-            messageSent: function(id, user, msg) {
-                // override this
-                this.boxManager.addMsg(user.first_name, msg);
-            },
-            boxClosed: function(id) {
-            }, // called when the close icon is clicked
-            boxManager: {
-                // thanks to the widget factory facility
-                // similar to http://alexsexton.com/?p=51
-                init: function(elem) {
-                    this.elem = elem;
-                },
-                addMsg: function(peer, msg) {
-                    var self = this;
-                    var box = self.elem.uiChatboxLog;
-                    var e = document.createElement('div');
-                    box.append(e);
-                    $(e).hide();
-
-                    var systemMessage = false;
-
-                    if (peer) {
-                        var peerName = document.createElement("b");
-                        $(peerName).text(peer + ": ");
-                        e.appendChild(peerName);
-                    } else {
-                        systemMessage = true;
-                    }
-
-                    var msgElement = document.createElement(
-                        systemMessage ? "i" : "span");
-                    $(msgElement).text(msg);
-                    e.appendChild(msgElement);
-                    $(e).addClass("ui-chatbox-msg");
-                    $(e).css("maxWidth", $(box).width());
-                    $(e).fadeIn();
-                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
-                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
-                    self._scrollToBottom();
-
-                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
-                        && !self.highlightLock) {
-                        self.highlightLock = true;
-                        self.highlightBox();
-                    }
-                },
-                highlightBox: function() {
-                    var self = this;
-                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
-                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
-                        self.highlightLock = false;
-                        self._scrollToBottom();
-                    });
-                },
-                toggleBox: function() {
-                    this.elem.uiChatbox.toggle();
-                },
-                _scrollToBottom: function() {
-                    var box = this.elem.uiChatboxLog;
-                    box.scrollTop(box.get(0).scrollHeight);
-                }
-            }
-        },
-        toggleContent: function(event) {
-            this.uiChatboxContent.toggle();
-            if (this.uiChatboxContent.is(":visible")) {
-                this.uiChatboxInputBox.focus();
-            }
-        },
-        widget: function() {
-            return this.uiChatbox
-        },
-        _create: function() {
-            var self = this,
-            options = self.options,
-            title = options.title || "No Title",
-            // chatbox
-            uiChatbox = (self.uiChatbox = $('<div></div>'))
-                .appendTo(document.body)
-                .addClass('ui-widget ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox'
-                         )
-                .attr('outline', 0)
-                .focusin(function() {
-                    // ui-state-highlight is not really helpful here
-                    //self.uiChatbox.removeClass('ui-state-highlight');
-                    self.uiChatboxTitlebar.addClass('ui-state-focus');
-                })
-                .focusout(function() {
-                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                }),
-            // titlebar
-            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
-                .addClass('ui-widget-header ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox-titlebar ' +
-                          self.options.status +
-                          ' ui-dialog-header' // take advantage of dialog header style
-                         )
-                .click(function(event) {
-                    self.toggleContent(event);
-                })
-                .appendTo(uiChatbox),
-            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
-                .html(title)
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon '
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    uiChatbox.hide();
-                    self.options.boxClosed(self.options.id);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarCloseText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-times')
-                .appendTo(uiChatboxTitlebarClose),
-            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon'
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    self.toggleContent(event);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarMinimizeText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-minus')
-                .appendTo(uiChatboxTitlebarMinimize),
-            // content
-            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-content '
-                         )
-                .appendTo(uiChatbox),
-            uiChatboxLog = (self.uiChatboxLog = self.element)
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-log ' +
-                          'custom-scroll'
-                         )
-                .appendTo(uiChatboxContent),
-            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input'
-                         )
-                .click(function(event) {
-                    // anything?
-                })
-                .appendTo(uiChatboxContent),
-            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input-box '
-                         )
-                .appendTo(uiChatboxInput)
-                .keydown(function(event) {
-                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
-                        var msg = $.trim($(this).val());
-                        if (msg.length > 0) {
-                            self.options.messageSent(self.options.id, self.options.user, msg);
-                        }
-                        $(this).val('');
-                        return false;
-                    }
-                })
-                .focusin(function() {
-                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
-                    var box = $(this).parent().prev();
-                    box.scrollTop(box.get(0).scrollHeight);
-                })
-                .focusout(function() {
-                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
-                });
-
-            // disable selection
-            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
-
-            // switch focus to input box when whatever clicked
-            uiChatboxContent.children().click(function() {
-                // click on any children, set focus on input box
-                self.uiChatboxInputBox.focus();
-            });
-
-            self._setWidth(self.options.width);
-            self._position(self.options.offset);
-
-            self.options.boxManager.init(self);
-
-            if (!self.options.hidden) {
-                uiChatbox.show();
-            }
-            
-            $(".ui-chatbox [rel=tooltip]").tooltip();
-            //console.log("tooltip created");
-        },
-        _setOption: function(option, value) {
-            if (value != null) {
-                switch (option) {
-                case "hidden":
-                    if (value)
-                        this.uiChatbox.hide();
-                    else
-                        this.uiChatbox.show();
-                    break;
-                case "offset":
-                    this._position(value);
-                    break;
-                case "width":
-                    this._setWidth(value);
-                    break;
-                }
-            }
-            $.Widget.prototype._setOption.apply(this, arguments);
-        },
-        _setWidth: function(width) {
-            this.uiChatbox.width((width + 28) + "px");
-            //this.uiChatboxTitlebar.width((width + 28) + "px");
-            //this.uiChatboxLog.width(width + "px");
-           // this.uiChatboxInput.css("maxWidth", width + "px");
-            // padding:2, boarder:2, margin:5
-            this.uiChatboxInputBox.css("width", (width + 18) + "px");
-        },
-        _position: function(offset) {
-            this.uiChatbox.css("right", offset);
-        }
-    });
-    }(jQuery));
-
-
-    /*
-    * jQuery CSSEmoticons plugin 0.2.9
-    *
-    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
-    *
-    * Dual licensed under the MIT and GPL licenses:
-    *   http://www.opensource.org/licenses/mit-license.php
-    *   http://www.gnu.org/licenses/gpl.html
-    *
-    * Date: Sun Oct 22 1:00:00 2010 -0500
-    */
-    (function($) {
-    $.fn.emoticonize = function(options) {
-
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-
-    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
-
-    var threeCharacterEmoticons = [
-        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
-        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
-        //  it'll work again if you set preMatch equal to '()'
-        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
-      // ":{)",
-      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
-      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
-      // and the twoCharacterEmoticons from below, but with a space inserted
-      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
-    ];
-
-    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
-      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
-    ];
-
-    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
-      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
-      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
-      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
-      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
-      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
-      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
-      "O_O":    { cssClass: "no-rotate" },
-      "o_o":    { cssClass: "no-rotate" },
-      "0_o":    { cssClass: "no-rotate" },
-      "O_o":    { cssClass: "no-rotate" },
-      "T_T":    { cssClass: "no-rotate" },
-      "^_^":    { cssClass: "no-rotate" },
-      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
-      "O: )":   { cssClass: "small-emoticon" },
-      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
-      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
-      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
-      //"O-O":  { cssClass: "no-rotate" },
-      //"O=)":    { cssClass: "small-emoticon" } 
-    }
-
-    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
-    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
-    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
-    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
-    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
-    var preMatch = '(^|[\\s\\0])';
-
-    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
-      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
-      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var emoticon in specialEmoticons ){
-      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
-      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
-    }
-
-    var exclude = 'span.css-emoticon';
-    if(opts.exclude){ exclude += ','+opts.exclude; }
-    var excludeArray = exclude.split(',')
-
-    return this.not(exclude).each(function() {
-      var container = $(this);
-      var cssClass = 'css-emoticon'
-      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
-      
-      for( var emoticon in specialEmoticons ){
-        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
-        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
-      }
-      $(threeCharacterEmoticons).each(function(){
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
-      });                                                          
-      $(twoCharacterEmoticons).each(function(){                    
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
-      });
-      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
-      $.each(excludeArray,function(index,item){
-        container.find($.trim(item)+" span.css-emoticon").each(function(){
-          $(this).replaceWith($(this).text());
-        });
-      });
-      if(opts.animate){
-        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
-      }
-    });
-    }
-
-    $.fn.unemoticonize = function(options) {
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-    return this.each(function() {
-      var container = $(this);
-      container.find('span.css-emoticon').each(function(){
-        // add delay equal to animate speed if animate is not false
-        var span = $(this);
-        if(opts.animate){
-          span.addClass('un-transformed-emoticon');
-          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
-        }else{
-          span.replaceWith(span.text());
-        }
-      });
-    });
-    }
-
-    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
-    })(jQuery);
-
-    var chatboxManager = function () {
-        
-    var init = function (options) {
-        $.extend(chatbox_config, options)
-    };
-
-
-    var delBox = function (id) {
-        // TODO
-    };
-
-    var getNextOffset = function () {
-        return (chatbox_config.width + chatbox_config.gap) * showList.length;
-    };
-
-    var boxClosedCallback = function (id) {
-        // close button in the titlebar is clicked
-        var idx = showList.indexOf(id);
-        if (idx != -1) {
-            showList.splice(idx, 1);
-            var diff = chatbox_config.width + chatbox_config.gap;
-            for (var i = idx; i < showList.length; i++) {
-                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
-                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
-            }
-        } else {
-            alert("NOTE: Id missing from array: " + id);
-        }
-    };
-
-    // caller should guarantee the uniqueness of id
-    var addBox = function (id, user, name) {
-        var idx1 = showList.indexOf(id);
-        var idx2 = boxList.indexOf(id);
-        if (idx1 != -1) {
-            // found one in show box, do nothing
-        } else if (idx2 != -1) {
-            // exists, but hidden
-            // show it and put it back to showList
-            $("#" + id).chatbox("option", "offset", getNextOffset());
-            var manager = $("#" + id).chatbox("option", "boxManager");
-            manager.toggleBox();
-            showList.push(id);
-        } else {
-            var el = document.createElement('div');
-            el.setAttribute('id', id);
-            $(el).chatbox({
-                id: id,
-                user: user,
-                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
-                hidden: false,
-                offset: getNextOffset(),
-                width: chatbox_config.width,
-                status: user.status,
-                alertmsg: user.alertmsg,
-                alertshow: user.alertshow,
-                messageSent: dispatch,
-                boxClosed: boxClosedCallback
-            });
-            boxList.push(id);
-            showList.push(id);
-            nameList.push(user.first_name);
-        }
-    };
-
-    var messageSentCallback = function (id, user, msg) {
-        var idx = boxList.indexOf(id);
-        chatbox_config.messageSent(nameList[idx], msg);
-    };
-
-    // not used in demo
-    var dispatch = function (id, user, msg) {
-        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
-        if ($('#chatlog').length){
-            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
-        }
-        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
-    }
-
-    return {
-        init: init,
-        addBox: addBox,
-        delBox: delBox,
-        dispatch: dispatch
-    };
-    }();
-
-    var link = function (scope, element, attributes) {
-
-        $('a[data-chat-id]').click(function (event, ui) {
-            if(!$(this).hasClass('offline')){
-
-                var $this = $(this),
-                    temp_chat_id = $this.attr("data-chat-id"),
-                    fname = $this.attr("data-chat-fname"),
-                    lname = $this.attr("data-chat-lname"),
-                    status = $this.attr("data-chat-status") || "online",
-                    alertmsg = $this.attr("data-chat-alertmsg"),
-                    alertshow =  $this.attr("data-chat-alertshow") || false;
-
-
-                chatboxManager.addBox(temp_chat_id, {
-                    // dest:"dest" + counter, 
-                    // not used in demo
-                    title: "username" + temp_chat_id,
-                    first_name: fname,
-                    last_name: lname,
-                    status: status,
-                    alertmsg: alertmsg,
-                    alertshow: alertshow
-                    //you can add your own options too
-                });
-            }
-
-            event.preventDefault();
-
-        });
-
-    }
-
-    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
-        return {
-            restrict: 'A',
-            replace: true,
-            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
-            link: link
-        }
-    });
-
-})(); 
-"use strict";
-
-angular.module('app.chat').directive('chatUsers', function(ChatApi){
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
-        scope: true,
-        link: function(scope, element){
-            scope.open = false;
-            scope.openToggle = function(){
-                scope.open = !scope.open;
-            };
-
-            scope.chatUserFilter = '';
-
-            ChatApi.initialized.then(function () {
-                scope.chatUsers = ChatApi.users;
-            });
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.chat').directive('chatWidget', function (ChatApi) {
-    return {
-        replace: true,
-        restrict: 'E',
-        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
-        scope: {},
-        link: function (scope, element) {
-            scope.newMessage = '';
-
-            scope.sendMessage = function () {
-                ChatApi.sendMessage(scope.newMessage);
-                scope.newMessage = '';
-            };
-
-            scope.messageTo = function(user){
-                scope.newMessage += (user.username + ', ');
-            };
-
-            ChatApi.initialized.then(function () {
-                scope.chatMessages = ChatApi.messages;
-            });
-            scope.$watch(function () {
-                return ChatApi.messages.length
-            }, function (count) {
-                if (count){
-                    var $body = $('.chat-body', element);
-                    $body.animate({scrollTop: $body[0].scrollHeight});
-                }
-            })
-        }
-    }
-});
-"use strict";
-
- angular.module('app').directive('todoList', function ($timeout, Todo) {
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
-        scope: {
-            todos: '='
-        },
-        link: function (scope, element, attributes) {
-            scope.title = attributes.title
-            scope.icon = attributes.icon
-            scope.state = attributes.state
-            scope.filter = {
-                state: scope.state
-            }
-
-            element.find('.todo').sortable({
-                handle: '.handle',
-                connectWith: ".todo",
-                receive: function (event, ui) {
-
-                   
-                    var todo = ui.item.scope().todo;
-                    var state = scope.state
-                    // // console.log(ui.item, todo, state)
-                    // // console.log(state, todo)
-                    if (todo && state) {
-                        todo.setState(state);
-                         // ui.sender.sortable("cancel");
-                        // scope.$apply();
-                    } else {
-                        console.log('Wat', todo, state);
-                    }
-                    
-                }
-            }).disableSelection();
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
-});
 'use strict';
 
 angular.module('app.graphs').directive('chartjsBarChart', function () {
@@ -10354,6 +8384,1976 @@ angular.module('app.graphs').directive('vectorMap', function () {
 });
 'use strict';
 
+angular.module('SmartAdmin.Layout').directive('bigBreadcrumbs', function () {
+    return {
+        restrict: 'EA',
+        replace: true,
+        template: '<div><h1 class="page-title txt-color-blueDark"></h1></div>',
+        scope: {
+            items: '=',
+            icon: '@'
+        },
+        link: function (scope, element) {
+            var first = _.first(scope.items);
+
+            var icon = scope.icon || 'home';
+            element.find('h1').append('<i class="fa-fw fa fa-' + icon + '"></i> ' + first);
+            _.rest(scope.items).forEach(function (item) {
+                element.find('h1').append(' <span>> ' + item + '</span>')
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('dismisser', function () {
+    return {
+        restrict: 'A',
+        compile: function (element) {
+            element.removeAttr('dismisser data-dissmiser')
+            var closer = '<button class="close">&times;</button>';
+            element.prepend(closer);
+            element.on('click', '>button.close', function(){
+                element.fadeOut('fast',function(){ $(this).remove(); });
+
+            })
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('hrefVoid', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            element.attr('href','#');
+            element.on('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+            })
+        }
+    }
+});
+'use strict';
+
+/*
+* Directive for toggling a ng-model with a button
+* Source: https://gist.github.com/aeife/9374784
+*/
+
+angular.module('SmartAdmin.Layout').directive('radioToggle', function ($log) {
+    return {
+        scope: {
+            model: "=ngModel",
+            value: "@value"
+        },
+        link: function(scope, element, attrs) {
+
+            element.parent().on('click', function() {
+                scope.model = scope.value;
+                scope.$apply();
+            });
+        }
+    }
+});
+/**
+ * DETECT MOBILE DEVICES
+ * Description: Detects mobile device - if any of the listed device is
+ *
+ * detected class is inserted to <tElement>.
+ *
+ *  (so far this is covering most hand held devices)
+ */
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartDeviceDetect', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-device-detect data-smart-device-detect');
+
+            var isMobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+            
+            tElement.toggleClass('desktop-detected', !isMobile);
+            tElement.toggleClass('mobile-detected', isMobile);
+
+
+        }
+    }
+});
+/**
+ *
+ * Description: Directive utilizes FastClick library.
+ *
+ *
+ * FastClick is a simple, easy-to-use library for eliminating the
+ * 300ms delay between a physical tap and the firing of a click event on mobile browsers.
+ * FastClick doesn't attach any listeners on desktop browsers.
+ * @link: https://github.com/ftlabs/fastclick
+ *
+ * On mobile devices 'needsclick' class is attached to <tElement>
+ *
+ */
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartFastClick', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-fast-click data-smart-fast-click');
+
+            FastClick.attach(tElement);
+
+            if(!FastClick.notNeeded())
+                tElement.addClass('needsclick')
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartFitAppView', function ($rootScope, SmartCss) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-fit-app-view data-smart-fit-app-view leading-y data-leading-y');
+
+            var leadingY = attributes.leadingY ? parseInt(attributes.leadingY) : 0;
+
+            var selector = attributes.smartFitAppView;
+
+            if(SmartCss.appViewSize && SmartCss.appViewSize.height){
+                var height =  SmartCss.appViewSize.height - leadingY < 252 ? 252 :  SmartCss.appViewSize.height - leadingY;
+                SmartCss.add(selector, 'height', height+'px');
+            }
+
+            var listenerDestroy = $rootScope.$on('$smartContentResize', function (event, data) {
+                var height = data.height - leadingY < 252 ? 252 : data.height - leadingY;
+                SmartCss.add(selector, 'height', height+'px');
+            });
+
+            element.on('$destroy', function () {
+                listenerDestroy();
+                SmartCss.remove(selector, 'height');
+            });
+
+
+        }
+    }
+});
+
+"use strict";
+
+angular.module('SmartAdmin.Layout').directive('smartInclude', function () {
+        return {
+            replace: true,
+            restrict: 'A',
+            templateUrl: function (element, attr) {
+                return attr.smartInclude;
+            },
+            compile: function(element){
+                element[0].className = element[0].className.replace(/placeholder[^\s]+/g, '');
+            }
+        };
+    }
+);
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartLayout', function ($rootScope, $timeout, $interval, $q, SmartCss) {
+    
+    var _debug = 0;
+
+    function getDocHeight() {
+        var D = document;
+        return Math.max(
+            D.body.scrollHeight, D.documentElement.scrollHeight,
+            D.body.offsetHeight, D.documentElement.offsetHeight,
+            D.body.clientHeight, D.documentElement.clientHeight
+        );
+    }
+
+    var initialized = false, 
+           initializedResolver = $q.defer();
+    initializedResolver.promise.then(function () {
+        initialized = true;
+    });
+
+    var $window = $(window),
+        $document = $(document),
+        $html = $('html'),
+        $body = $('body'),
+        $navigation ,
+        $menu,
+        $ribbon,
+        $footer,
+        $contentAnimContainer;
+
+
+    (function cacheElements() {
+        $navigation = $('#header');
+        $menu = $('#left-panel');
+        $ribbon = $('#ribbon');
+        $footer = $('.page-footer');
+        if (_.every([$navigation, $menu, $ribbon, $footer], function ($it) {
+            return angular.isNumber($it.height())
+        })) {
+            initializedResolver.resolve();
+        } else {
+            $timeout(cacheElements, 100);
+        }
+    })();
+
+
+    return {
+        priority: 2014,
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-layout data-smart-layout');
+
+            var appViewHeight = 0 ,
+                appViewWidth = 0,
+                calcWidth,
+                calcHeight,
+                deltaX,
+                deltaY;
+
+            var forceResizeTrigger = false;
+
+            function resizeListener() {
+
+//                    full window height appHeight = Math.max($menu.outerHeight() - 10, getDocHeight() - 10);
+
+                var menuHeight = $body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.height() : 0;
+                var menuWidth = !$body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.width() + $menu.offset().left : 0;
+
+                var $content = $('#content');
+                var contentXPad = $content.outerWidth(true) - $content.width();
+                var contentYPad = $content.outerHeight(true) - $content.height();
+
+
+                calcWidth = $window.width() - menuWidth - contentXPad;
+                calcHeight = $window.height() - menuHeight - contentYPad - $navigation.height() - $ribbon.height() - $footer.height();
+
+                deltaX = appViewWidth - calcWidth;
+                deltaY = appViewHeight - calcHeight;
+                if (Math.abs(deltaX) || Math.abs(deltaY) || forceResizeTrigger) {
+
+                    //console.log('exec', calcWidth, calcHeight);
+                    $rootScope.$broadcast('$smartContentResize', {
+                        width: calcWidth,
+                        height: calcHeight,
+                        deltaX: deltaX,
+                        deltaY: deltaY
+                    });
+                    appViewWidth = calcWidth;
+                    appViewHeight = calcHeight;
+                    forceResizeTrigger = false;
+                }
+            }
+
+
+            var looping = false;
+            $interval(function () {
+                if (looping) loop();
+            }, 300);
+
+            var debouncedRun = _.debounce(function () {
+                run(300)
+            }, 300);
+
+            function run(delay) {
+                initializedResolver.promise.then(function () {
+                    attachOnResize(delay);
+                });
+            }
+
+            run(10);
+
+            function detachOnResize() {
+                looping = false;
+            }
+
+            function attachOnResize(delay) {
+                $timeout(function () {
+                    looping = true;
+                }, delay);
+            }
+
+            function loop() {
+                $body.toggleClass('mobile-view-activated', $window.width() < 979);
+
+                if ($window.width() < 979)
+                    $body.removeClass('minified');
+
+                resizeListener();
+            }
+
+            function handleHtmlId(toState) {
+                if (toState.data && toState.data.htmlId) $html.attr('id', toState.data.htmlId);
+                else $html.removeAttr('id');
+            }
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                //console.log(1, '$stateChangeStart', event, toState, toParams, fromState, fromParams);
+
+                handleHtmlId(toState);
+                detachOnResize();
+            });
+
+            // initialized with 1 cause we came here with one $viewContentLoading request
+            var viewContentLoading = 1;
+            $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
+                //console.log(2, '$viewContentLoading', event, viewConfig);
+                viewContentLoading++;
+            });
+
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                //console.log(3, '$stateChangeSuccess', event, toState, toParams, fromState, fromParams);
+                forceResizeTrigger = true;
+            });
+
+            $rootScope.$on('$viewContentLoaded', function (event) {
+                //console.log(4, '$viewContentLoaded', event);
+                viewContentLoading--;
+
+                if (viewContentLoading == 0 && initialized) {
+                    debouncedRun();
+                }
+            });
+        }
+    }
+});
+
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartPageTitle', function ($rootScope, $timeout) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-page-title data-smart-page-title');
+
+            var defaultTitle = attributes.smartPageTitle;
+            var listener = function(event, toState, toParams, fromState, fromParams) {
+                var title = defaultTitle;
+                if (toState.data && toState.data.title) title = toState.data.title + ' | ' + title;
+                // Set asynchronously so page changes before title does
+                $timeout(function() {
+                    $('html head title').text(title);
+                });
+            };
+
+            $rootScope.$on('$stateChangeStart', listener);
+
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartRouterAnimationWrap', function ($rootScope,$timeout) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-router-animation-wrap data-smart-router-animation-wrap wrap-for data-wrap-for');
+
+            element.addClass('router-animation-container');
+
+
+            var $loader = $('<div class="router-animation-loader"><i class="fa fa-gear fa-4x fa-spin"></i></div>')
+                .css({
+                    position: 'absolute',
+                    top: 50,
+                    left: 10
+                }).hide().appendTo(element);
+
+
+            var animateElementSelector = attributes.wrapFor;
+            var viewsToMatch = attributes.smartRouterAnimationWrap.split(/\s/);
+
+            var needRunContentViewAnimEnd = false;
+            function contentViewAnimStart() {
+                needRunContentViewAnimEnd = true;
+                element.css({
+                    height: element.height() + 'px',
+                    overflow: 'hidden'
+                }).addClass('active');
+                $loader.fadeIn();
+
+                $(animateElementSelector).addClass('animated faster fadeOutDown');
+            }
+
+            function contentViewAnimEnd() {
+                if(needRunContentViewAnimEnd){
+                    element.css({
+                        height: 'auto',
+                        overflow: 'visible'
+                    }).removeClass('active');
+                    
+
+                    $(animateElementSelector).addClass('animated faster fadeInUp');
+
+                    needRunContentViewAnimEnd = false;
+
+                    $timeout(function(){
+                        $(animateElementSelector).removeClass('animated');
+                    },10);
+                }
+                $loader.fadeOut();
+            }
+
+
+            var destroyForStart = $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                var isAnimRequired = _.any(viewsToMatch, function(view){
+                   return _.has(toState.views, view) || _.has(fromState.views, view);
+                });
+                if(isAnimRequired){
+                    contentViewAnimStart()
+                }
+            });
+
+            var destroyForEnd = $rootScope.$on('$viewContentLoaded', function (event) {
+                contentViewAnimEnd();
+            });
+
+            element.on('$destroy', function(){
+                destroyForStart();
+                destroyForEnd();
+
+            });
+
+
+
+        }
+    }
+});
+angular.module('SmartAdmin.Layout').directive('speechRecognition', function ($log) {
+	'use strict';
+
+	$.root_ = $('body');
+	var root, commands;
+
+    root = window;
+    window.appConfig = window.appConfig || {};
+
+	if (appConfig.voice_command) {
+		commands = appConfig.commands;
+	}
+
+
+	/*
+	 * SMART VOICE
+	 * Author: MyOrange | @bootstraphunt
+	 * http://www.myorange.ca
+	 */
+
+	var SpeechRecognition = root.SpeechRecognition || root.webkitSpeechRecognition || root.mozSpeechRecognition || root.msSpeechRecognition || root.oSpeechRecognition;
+
+// ref: http://updates.html5rocks.com/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API
+
+
+// function
+	$.speechApp = (function(speech) {
+
+		speech.start = function() {
+
+			// Add our commands to smartSpeechRecognition
+			smartSpeechRecognition.addCommands(commands);
+
+			if (smartSpeechRecognition) {
+				// activate plugin
+				smartSpeechRecognition.start();
+				// add btn class
+				$.root_.addClass("voice-command-active");
+				// play sound
+				$.speechApp.playON();
+				// set localStorage when switch is on manually
+				if (appConfig.voice_localStorage) {
+					localStorage.setItem('sm-setautovoice', 'true');
+				}
+
+			} else {
+				// if plugin not found
+				alert("speech plugin not loaded");
+			}
+
+		};
+		speech.stop = function() {
+
+			if (smartSpeechRecognition) {
+				// deactivate plugin
+				smartSpeechRecognition.abort();
+				// remove btn class
+				$.root_.removeClass("voice-command-active");
+				// sound
+				$.speechApp.playOFF();
+				// del localStorage when switch if off manually
+				if (appConfig.voice_localStorage) {
+					localStorage.setItem('sm-setautovoice', 'false');
+				}
+				// remove popover if visible
+				if ($('#speech-btn .popover').is(':visible')) {
+					$('#speech-btn .popover').fadeOut(250);
+				}
+			}
+
+		};
+
+		// play sound
+		speech.playON = function() {
+
+			var audioElement = document.createElement('audio');
+
+			if (navigator.userAgent.match('Firefox/'))
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".ogg");
+			else
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".mp3");
+
+			//$.get();
+			audioElement.addEventListener("load", function() {
+				audioElement.play();
+			}, true);
+
+			if (appConfig.sound_on) {
+				audioElement.pause();
+				audioElement.play();
+			}
+		};
+
+		speech.playOFF = function() {
+
+			var audioElement = document.createElement('audio');
+
+			if (navigator.userAgent.match('Firefox/'))
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".ogg");
+			else
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".mp3");
+
+			$.get();
+			audioElement.addEventListener("load", function() {
+				audioElement.play();
+			}, true);
+
+			if (appConfig.sound_on) {
+				audioElement.pause();
+				audioElement.play();
+			}
+		};
+
+		speech.playConfirmation = function() {
+
+			var audioElement = document.createElement('audio');
+
+			if (navigator.userAgent.match('Firefox/'))
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".ogg");
+			else
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".mp3");
+
+			$.get();
+			audioElement.addEventListener("load", function() {
+				audioElement.play();
+			}, true);
+
+			if (appConfig.sound_on) {
+				audioElement.pause();
+				audioElement.play();
+			}
+		};
+
+		return speech;
+
+	})({});
+
+
+
+	/*
+	 * SPEECH RECOGNITION ENGINE
+	 * Copyright (c) 2013 Tal Ater
+	 * Modified by MyOrange
+	 * All modifications made are hereby copyright (c) 2014 MyOrange
+	 */
+
+	(function(undefined) {"use strict";
+
+		// Check browser support
+		// This is done as early as possible, to make it as fast as possible for unsupported browsers
+		if (!SpeechRecognition) {
+			root.smartSpeechRecognition = null;
+			return undefined;
+		}
+
+		var commandsList = [], recognition, callbacks = {
+				start : [],
+				error : [],
+				end : [],
+				result : [],
+				resultMatch : [],
+				resultNoMatch : [],
+				errorNetwork : [],
+				errorPermissionBlocked : [],
+				errorPermissionDenied : []
+			}, autoRestart, lastStartedAt = 0,
+		//debugState = false, // decleared in app.appConfig.js
+		//appConfig.debugStyle = 'font-weight: bold; color: #00f;', // decleared in app.appConfig.js
+
+		// The command matching code is a modified version of Backbone.Router by Jeremy Ashkenas, under the MIT license.
+			optionalParam = /\s*\((.*?)\)\s*/g, optionalRegex = /(\(\?:[^)]+\))\?/g, namedParam = /(\(\?)?:\w+/g, splatParam = /\*\w+/g, escapeRegExp = /[\-{}\[\]+?.,\\\^$|#]/g, commandToRegExp = function(command) {
+				command = command.replace(escapeRegExp, '\\$&').replace(optionalParam, '(?:$1)?').replace(namedParam, function(match, optional) {
+					return optional ? match : '([^\\s]+)';
+				}).replace(splatParam, '(.*?)').replace(optionalRegex, '\\s*$1?\\s*');
+				return new RegExp('^' + command + '$', 'i');
+			};
+
+		// This method receives an array of callbacks to iterate over, and invokes each of them
+		var invokeCallbacks = function(callbacks) {
+			callbacks.forEach(function(callback) {
+				callback.callback.apply(callback.context);
+			});
+		};
+
+		var initIfNeeded = function() {
+			if (!isInitialized()) {
+				root.smartSpeechRecognition.init({}, false);
+			}
+		};
+
+		var isInitialized = function() {
+			return recognition !== undefined;
+		};
+
+		root.smartSpeechRecognition = {
+			// Initialize smartSpeechRecognition with a list of commands to recognize.
+			// e.g. smartSpeechRecognition.init({'hello :name': helloFunction})
+			// smartSpeechRecognition understands commands with named variables, splats, and optional words.
+			init : function(commands, resetCommands) {
+
+				// resetCommands defaults to true
+				if (resetCommands === undefined) {
+					resetCommands = true;
+				} else {
+					resetCommands = !!resetCommands;
+				}
+
+				// Abort previous instances of recognition already running
+				if (recognition && recognition.abort) {
+					recognition.abort();
+				}
+
+				// initiate SpeechRecognition
+				recognition = new SpeechRecognition();
+
+				// Set the max number of alternative transcripts to try and match with a command
+				recognition.maxAlternatives = 5;
+				recognition.continuous = true;
+				// Sets the language to the default 'en-US'. This can be changed with smartSpeechRecognition.setLanguage()
+				recognition.lang = appConfig.voice_command_lang || 'en-US';
+
+				recognition.onstart = function() {
+					invokeCallbacks(callbacks.start);
+					//debugState
+					if (appConfig.debugState) {
+						root.console.log('%c ✔ SUCCESS: User allowed access the microphone service to start ', appConfig.debugStyle_success);
+						root.console.log('Language setting is set to: ' + recognition.lang, appConfig.debugStyle);
+					}
+					$.root_.removeClass("service-not-allowed");
+					$.root_.addClass("service-allowed");
+				};
+
+				recognition.onerror = function(event) {
+					invokeCallbacks(callbacks.error);
+					switch (event.error) {
+						case 'network':
+							invokeCallbacks(callbacks.errorNetwork);
+							break;
+						case 'not-allowed':
+						case 'service-not-allowed':
+							// if permission to use the mic is denied, turn off auto-restart
+							autoRestart = false;
+							$.root_.removeClass("service-allowed");
+							$.root_.addClass("service-not-allowed");
+							//debugState
+							if (appConfig.debugState) {
+								root.console.log('%c WARNING: Microphone was not detected (either user denied access or it is not installed properly) ', appConfig.debugStyle_warning);
+							}
+							// determine if permission was denied by user or automatically.
+							if (new Date().getTime() - lastStartedAt < 200) {
+								invokeCallbacks(callbacks.errorPermissionBlocked);
+							} else {
+								invokeCallbacks(callbacks.errorPermissionDenied);
+								//console.log("You need your mic to be active")
+							}
+							break;
+					}
+				};
+
+				recognition.onend = function() {
+					invokeCallbacks(callbacks.end);
+					// smartSpeechRecognition will auto restart if it is closed automatically and not by user action.
+					if (autoRestart) {
+						// play nicely with the browser, and never restart smartSpeechRecognition automatically more than once per second
+						var timeSinceLastStart = new Date().getTime() - lastStartedAt;
+						if (timeSinceLastStart < 1000) {
+							setTimeout(root.smartSpeechRecognition.start, 1000 - timeSinceLastStart);
+						} else {
+							root.smartSpeechRecognition.start();
+						}
+					}
+				};
+
+				recognition.onresult = function(event) {
+					invokeCallbacks(callbacks.result);
+
+					var results = event.results[event.resultIndex], commandText;
+
+					// go over each of the 5 results and alternative results received (we've set maxAlternatives to 5 above)
+					for (var i = 0; i < results.length; i++) {
+						// the text recognized
+						commandText = results[i].transcript.trim();
+						if (appConfig.debugState) {
+							root.console.log('Speech recognized: %c' + commandText, appConfig.debugStyle);
+						}
+
+						// try and match recognized text to one of the commands on the list
+						for (var j = 0, l = commandsList.length; j < l; j++) {
+							var result = commandsList[j].command.exec(commandText);
+							if (result) {
+								var parameters = result.slice(1);
+								if (appConfig.debugState) {
+									root.console.log('command matched: %c' + commandsList[j].originalPhrase, appConfig.debugStyle);
+									if (parameters.length) {
+										root.console.log('with parameters', parameters);
+									}
+								}
+								// execute the matched command
+								commandsList[j].callback.apply(this, parameters);
+								invokeCallbacks(callbacks.resultMatch);
+
+								// for commands "sound on", "stop" and "mute" do not play sound or display message
+								//var myMatchedCommand = commandsList[j].originalPhrase;
+
+								var ignoreCallsFor = ["sound on", "mute", "stop"];
+
+								if (ignoreCallsFor.indexOf(commandsList[j].originalPhrase) < 0) {
+									// play sound when match found
+									console.log(2);
+									$.smallBox({
+										title : (commandsList[j].originalPhrase),
+										content : "loading...",
+										color : "#333",
+										sound_file : 'voice_alert',
+										timeout : 2000
+									});
+
+									if ($('#speech-btn .popover').is(':visible')) {
+										$('#speech-btn .popover').fadeOut(250);
+									}
+								}// end if
+
+								return true;
+							}
+						} // end for
+					}// end for
+
+					invokeCallbacks(callbacks.resultNoMatch);
+					//console.log("no match found for: " + commandText)
+					$.smallBox({
+						title : "Error: <strong>" + ' " ' + commandText + ' " ' + "</strong> no match found!",
+						content : "Please speak clearly into the microphone",
+						color : "#a90329",
+						timeout : 5000,
+						icon : "fa fa-microphone"
+					});
+					if ($('#speech-btn .popover').is(':visible')) {
+						$('#speech-btn .popover').fadeOut(250);
+					}
+					return false;
+				};
+
+				// build commands list
+				if (resetCommands) {
+					commandsList = [];
+				}
+				if (commands.length) {
+					this.addCommands(commands);
+				}
+			},
+
+			// Start listening (asking for permission first, if needed).
+			// Call this after you've initialized smartSpeechRecognition with commands.
+			// Receives an optional options object:
+			// { autoRestart: true }
+			start : function(options) {
+				initIfNeeded();
+				options = options || {};
+				if (options.autoRestart !== undefined) {
+					autoRestart = !!options.autoRestart;
+				} else {
+					autoRestart = true;
+				}
+				lastStartedAt = new Date().getTime();
+				recognition.start();
+			},
+
+			// abort the listening session (aka stop)
+			abort : function() {
+				autoRestart = false;
+				if (isInitialized) {
+					recognition.abort();
+				}
+			},
+
+			// Turn on output of debug messages to the console. Ugly, but super-handy!
+			debug : function(newState) {
+				if (arguments.length > 0) {
+					appConfig.debugState = !!newState;
+				} else {
+					appConfig.debugState = true;
+				}
+			},
+
+			// Set the language the user will speak in. If not called, defaults to 'en-US'.
+			// e.g. 'fr-FR' (French-France), 'es-CR' (Español-Costa Rica)
+			setLanguage : function(language) {
+				initIfNeeded();
+				recognition.lang = language;
+			},
+
+			// Add additional commands that smartSpeechRecognition will respond to. Similar in syntax to smartSpeechRecognition.init()
+			addCommands : function(commands) {
+				var cb, command;
+
+				initIfNeeded();
+
+				for (var phrase in commands) {
+					if (commands.hasOwnProperty(phrase)) {
+						cb = root[commands[phrase]] || commands[phrase];
+						if ( typeof cb !== 'function') {
+							continue;
+						}
+						//convert command to regex
+						command = commandToRegExp(phrase);
+
+						commandsList.push({
+							command : command,
+							callback : cb,
+							originalPhrase : phrase
+						});
+					}
+				}
+				if (appConfig.debugState) {
+					root.console.log('Commands successfully loaded: %c' + commandsList.length, appConfig.debugStyle);
+				}
+			},
+
+			// Remove existing commands. Called with a single phrase, array of phrases, or methodically. Pass no params to remove all commands.
+			removeCommands : function(commandsToRemove) {
+				if (commandsToRemove === undefined) {
+					commandsList = [];
+					return;
+				}
+				commandsToRemove = Array.isArray(commandsToRemove) ? commandsToRemove : [commandsToRemove];
+				commandsList = commandsList.filter(function(command) {
+					for (var i = 0; i < commandsToRemove.length; i++) {
+						if (commandsToRemove[i] === command.originalPhrase) {
+							return false;
+						}
+					}
+					return true;
+				});
+			},
+
+			// Lets the user add a callback of one of 9 types:
+			// start, error, end, result, resultMatch, resultNoMatch, errorNetwork, errorPermissionBlocked, errorPermissionDenied
+			// Can also optionally receive a context for the callback function as the third argument
+			addCallback : function(type, callback, context) {
+				if (callbacks[type] === undefined) {
+					return;
+				}
+				var cb = root[callback] || callback;
+				if ( typeof cb !== 'function') {
+					return;
+				}
+				callbacks[type].push({
+					callback : cb,
+					context : context || this
+				});
+			}
+		};
+
+	}).call(this);
+
+	var autoStart = function() {
+
+		smartSpeechRecognition.addCommands(commands);
+
+		if (smartSpeechRecognition) {
+			// activate plugin
+			smartSpeechRecognition.start();
+			// add btn class
+			$.root_.addClass("voice-command-active");
+			// set localStorage when switch is on manually
+			if (appConfig.voice_localStorage) {
+				localStorage.setItem('sm-setautovoice', 'true');
+			}
+
+		} else {
+			// if plugin not found
+			alert("speech plugin not loaded");
+		}
+	}
+// if already running with localstorage
+	if (SpeechRecognition && appConfig.voice_command && localStorage.getItem('sm-setautovoice') == 'true') {
+		autoStart();
+	}
+
+// auto start
+	if (SpeechRecognition && appConfig.voice_command_auto && appConfig.voice_command) {
+		autoStart();
+	}
+
+
+	var link = function(scope, element) {
+
+
+		if (SpeechRecognition && appConfig.voice_command) {
+
+			// create dynamic modal instance
+			var modal = $('<div class="modal fade" id="voiceModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
+			// attach to body
+			modal.appendTo("body");
+
+			element.on("click", function(e) {
+
+            	if ($.root_.hasClass("voice-command-active")) {
+					$.speechApp.stop();
+					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone-slash');
+				} else {
+					$.speechApp.start();
+					//add popover
+					$('#speech-btn .popover').fadeIn(350);
+					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone')
+
+				}
+
+				e.preventDefault();
+
+            });
+
+			//remove popover
+			$(document).mouseup(function(e) {
+				if (!$('#speech-btn .popover').is(e.target) && $('#speech-btn .popover').has(e.target).length === 0) {
+					$('#speech-btn .popover').fadeOut(250);
+				}
+			});
+
+
+			$("#speech-help-btn").on("click", function() {
+				commands.help();
+			});
+
+		}
+		else {
+			$("#speech-btn").addClass("display-none");
+		}
+
+
+	}
+
+
+
+    return {
+        restrict: 'AE',
+        link: link
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($rootScope, $state) {
+
+
+    return {
+        restrict: 'EA',
+        replace: true,
+        template: '<ol class="breadcrumb"><li>Home</li></ol>',
+        link: function (scope, element) {
+
+            function setBreadcrumbs(breadcrumbs) {
+                var html = '<li>Home</li>';
+                angular.forEach(breadcrumbs, function (crumb) {
+                    html += '<li>' + crumb + '</li>'
+                });
+                element.html(html)
+            }
+
+            function fetchBreadcrumbs(stateName, breadcrunbs) {
+
+                var state = $state.get(stateName);
+
+                if (state && state.data && state.data.title && breadcrunbs.indexOf(state.data.title) == -1) {
+                    breadcrunbs.unshift(state.data.title)
+                }
+
+                var parentName = stateName.replace(/.?\w+$/, '');
+                if (parentName) {
+                    return fetchBreadcrumbs(parentName, breadcrunbs);
+                } else {
+                    return breadcrunbs;
+                }
+            }
+
+            function processState(state) {
+                var breadcrumbs;
+                if (state.data && state.data.breadcrumbs) {
+                    breadcrumbs = state.data.breadcrumbs;
+                } else {
+                    breadcrumbs = fetchBreadcrumbs(state.name, []);
+                }
+                setBreadcrumbs(breadcrumbs);
+            }
+
+            processState($state.current);
+
+            $rootScope.$on('$stateChangeStart', function (event, state) {
+                processState(state);
+            })
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
+
+    var sheet = (function () {
+        // Create the <style> tag
+        var style = document.createElement("style");
+
+        // Add a media (and/or media query) here if you'd like!
+        // style.setAttribute("media", "screen")
+        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
+
+        // WebKit hack :(
+        style.appendChild(document.createTextNode(""));
+
+        // Add the <style> element to the page
+        document.head.appendChild(style);
+
+        return style.sheet;
+    })();
+
+    var _styles = {};
+
+
+    var SmartCss = {
+        writeRule: function(selector){
+            SmartCss.deleteRuleFor(selector);
+            if(_.has(_styles, selector)){
+                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
+                    return  k + ':' +  v + ';'
+                }).join(' ') +'}';
+                sheet.insertRule(css, _.size(_styles) - 1);
+            }
+        },
+        add: function (selector, property, value, delay) {
+            if(!_.has(_styles, selector))
+                _styles[selector] = {};
+
+            if(value == undefined || value == null || value == '')
+                delete _styles[selector][property];
+            else
+                _styles[selector][property] = value;
+
+
+            if(_.keys(_styles[selector]).length == 0)
+                delete _styles[selector];
+
+            if(!delay)
+                delay = 0;
+            $timeout(function(){
+                SmartCss.writeRule(selector);
+            }, delay);
+
+        },
+        remove: function(selector, property, delay){
+            SmartCss.add(selector, property, null, delay);
+        },
+        deleteRuleFor: function (selector) {
+            _(sheet.rules).forEach(function (rule, idx) {
+                if (rule.selectorText == selector) {
+                    sheet.deleteRule(idx);
+                }
+            });
+        },
+        appViewSize: null
+    };
+
+    $rootScope.$on('$smartContentResize', function (event, data) {
+        SmartCss.appViewSize = data;
+    });
+
+    return SmartCss;
+
+});
+
+
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
+    var scripts = null;
+    var initialized = false;
+    var initializingPromise = null;
+
+    function init(){        
+        if(!initialized){
+            if(!initializingPromise){
+                initializingPromise = $http.get('app.scripts.json').then(function(res){
+                    scripts = res.data
+                    initialized = true;
+                });     
+            }
+            return initializingPromise;
+               
+        } else {
+            return $q.resolve();
+        }
+    }
+
+    var cache = {};
+
+    function isPending(scriptName){
+        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
+    }
+
+    function isRegistered(scriptName){
+        if(cache.hasOwnProperty(scriptName)){
+            return true;
+        } else {
+            return (scripts.prebuild.indexOf(scriptName) > -1);
+        }
+    }
+    function loadScript(scriptName){
+        if(!cache[scriptName]){
+            cache[scriptName] = $q.defer();
+            var el = document.createElement( 'script' );
+            el.onload = function(script){
+                console.log('script is lazy loaded:', scriptName)
+                cache[scriptName].resolve(scriptName);
+            };
+            el.src = scripts.paths[scriptName];
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(el, x);
+            
+        }
+        return cache[scriptName].promise;
+
+    }
+
+    function register(scriptName){
+        if(isPending(scriptName)){
+            return cache[scriptName].promise
+        }
+        if(isRegistered(scriptName)){
+            return $q.resolve(scriptName);
+        } else {
+            var dfd = $q.defer();
+            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
+                var depsPromises = [];
+                angular.forEach(scripts.shim[scriptName].deps, function(dep){
+
+                    depsPromises.push(register(dep))
+                    
+                })
+                $q.all(depsPromises).then(function(){
+                    loadScript(scriptName).then(function(){
+                        dfd.resolve(scriptName);
+                    })
+                })
+
+            } else {
+                
+                loadScript(scriptName).then(function(){
+                    dfd.resolve(scriptName);
+                })
+                 
+            }
+            return dfd.promise; 
+
+        }
+    }
+    return {
+        register: function (scripts) {
+            
+            var dfd = $q.defer();
+            init().then(function(){
+                var promises = [];
+                if (angular.isString(scripts)) 
+                    scripts = [scripts];    
+
+                angular.forEach(scripts, function(script){
+                    promises.push(register(script));
+                })
+
+                $q.all(promises).then(function(resolves){
+                    dfd.resolve(resolves);
+                })
+            })
+            return dfd.promise;
+
+        }
+    };
+});
+'use strict';
+
+angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
+    var dfd = $q.defer();
+    var _user;
+    var ChatSrv = {
+        initialized: dfd.promise,
+        users: [],
+        messages: [],
+        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
+        status: 'Online',
+        setUser: function (user) {
+            if (ChatSrv.users.indexOf(_user) != -1)
+                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
+            _user = user;
+            ChatSrv.users.push(_user);
+        },
+        sendMessage: function (text) {
+            var message = {
+                user: _user,
+                body: text,
+                date: new Date()
+            };
+            this.messages.push(message);
+        }
+    };
+
+
+    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
+        ChatSrv.messages = res.data.messages;
+        ChatSrv.users = res.data.users;
+        dfd.resolve();
+    });
+
+    ChatSrv.initialized.then(function () {
+
+        User.initialized.then(function () {
+            ChatSrv.setUser({
+                username: User.username,
+                picture: User.picture,
+                status: ChatSrv.status
+            });
+        });
+
+        $rootScope.$watch(function () {
+            return User.username
+        }, function (name, oldName) {
+            if (name != oldName) {
+                ChatSrv.setUser({
+                    username: User.username,
+                    picture: User.picture,
+                    status: ChatSrv.status
+                });
+            }
+        });
+    });
+
+
+    return ChatSrv;
+
+});
+(function() {
+        
+   'use strict';
+
+    /*
+    * SMARTCHAT PLUGIN ARRAYS & CONFIG
+    * Dependency: js/plugin/moment/moment.min.js 
+    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
+    *             js/smart-chat-ui/smart.chat.ui.js
+    * (DO NOT CHANGE) 
+    */ 
+        var boxList = [],
+        showList = [],
+        nameList = [],
+        idList = [];
+    /*
+    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
+    */ 
+        var chatbox_config = {
+            width: 200,
+            gap: 35,
+            offset: 0
+        };
+
+
+
+    /*
+    * SMART CHAT ENGINE
+    * Copyright (c) 2013 Wen Pu
+    * Modified by MyOrange
+    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
+    */
+
+    // TODO: implement destroy()
+    (function($) {
+    $.widget("ui.chatbox", {
+        options: {
+            id: null, //id for the DOM element
+            title: null, // title of the chatbox
+            user: null, // can be anything associated with this chatbox
+            hidden: false,
+            offset: 0, // relative to right edge of the browser window
+            width: 300, // width of the chatbox
+            status: 'online', //
+            alertmsg: null,
+            alertshow: null,
+            messageSent: function(id, user, msg) {
+                // override this
+                this.boxManager.addMsg(user.first_name, msg);
+            },
+            boxClosed: function(id) {
+            }, // called when the close icon is clicked
+            boxManager: {
+                // thanks to the widget factory facility
+                // similar to http://alexsexton.com/?p=51
+                init: function(elem) {
+                    this.elem = elem;
+                },
+                addMsg: function(peer, msg) {
+                    var self = this;
+                    var box = self.elem.uiChatboxLog;
+                    var e = document.createElement('div');
+                    box.append(e);
+                    $(e).hide();
+
+                    var systemMessage = false;
+
+                    if (peer) {
+                        var peerName = document.createElement("b");
+                        $(peerName).text(peer + ": ");
+                        e.appendChild(peerName);
+                    } else {
+                        systemMessage = true;
+                    }
+
+                    var msgElement = document.createElement(
+                        systemMessage ? "i" : "span");
+                    $(msgElement).text(msg);
+                    e.appendChild(msgElement);
+                    $(e).addClass("ui-chatbox-msg");
+                    $(e).css("maxWidth", $(box).width());
+                    $(e).fadeIn();
+                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
+                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
+                    self._scrollToBottom();
+
+                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
+                        && !self.highlightLock) {
+                        self.highlightLock = true;
+                        self.highlightBox();
+                    }
+                },
+                highlightBox: function() {
+                    var self = this;
+                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
+                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
+                        self.highlightLock = false;
+                        self._scrollToBottom();
+                    });
+                },
+                toggleBox: function() {
+                    this.elem.uiChatbox.toggle();
+                },
+                _scrollToBottom: function() {
+                    var box = this.elem.uiChatboxLog;
+                    box.scrollTop(box.get(0).scrollHeight);
+                }
+            }
+        },
+        toggleContent: function(event) {
+            this.uiChatboxContent.toggle();
+            if (this.uiChatboxContent.is(":visible")) {
+                this.uiChatboxInputBox.focus();
+            }
+        },
+        widget: function() {
+            return this.uiChatbox
+        },
+        _create: function() {
+            var self = this,
+            options = self.options,
+            title = options.title || "No Title",
+            // chatbox
+            uiChatbox = (self.uiChatbox = $('<div></div>'))
+                .appendTo(document.body)
+                .addClass('ui-widget ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox'
+                         )
+                .attr('outline', 0)
+                .focusin(function() {
+                    // ui-state-highlight is not really helpful here
+                    //self.uiChatbox.removeClass('ui-state-highlight');
+                    self.uiChatboxTitlebar.addClass('ui-state-focus');
+                })
+                .focusout(function() {
+                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
+                }),
+            // titlebar
+            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
+                .addClass('ui-widget-header ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox-titlebar ' +
+                          self.options.status +
+                          ' ui-dialog-header' // take advantage of dialog header style
+                         )
+                .click(function(event) {
+                    self.toggleContent(event);
+                })
+                .appendTo(uiChatbox),
+            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
+                .html(title)
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon '
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    uiChatbox.hide();
+                    self.options.boxClosed(self.options.id);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarCloseText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-times')
+                .appendTo(uiChatboxTitlebarClose),
+            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon'
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    self.toggleContent(event);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarMinimizeText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-minus')
+                .appendTo(uiChatboxTitlebarMinimize),
+            // content
+            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-content '
+                         )
+                .appendTo(uiChatbox),
+            uiChatboxLog = (self.uiChatboxLog = self.element)
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-log ' +
+                          'custom-scroll'
+                         )
+                .appendTo(uiChatboxContent),
+            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input'
+                         )
+                .click(function(event) {
+                    // anything?
+                })
+                .appendTo(uiChatboxContent),
+            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input-box '
+                         )
+                .appendTo(uiChatboxInput)
+                .keydown(function(event) {
+                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
+                        var msg = $.trim($(this).val());
+                        if (msg.length > 0) {
+                            self.options.messageSent(self.options.id, self.options.user, msg);
+                        }
+                        $(this).val('');
+                        return false;
+                    }
+                })
+                .focusin(function() {
+                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
+                    var box = $(this).parent().prev();
+                    box.scrollTop(box.get(0).scrollHeight);
+                })
+                .focusout(function() {
+                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
+                });
+
+            // disable selection
+            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
+
+            // switch focus to input box when whatever clicked
+            uiChatboxContent.children().click(function() {
+                // click on any children, set focus on input box
+                self.uiChatboxInputBox.focus();
+            });
+
+            self._setWidth(self.options.width);
+            self._position(self.options.offset);
+
+            self.options.boxManager.init(self);
+
+            if (!self.options.hidden) {
+                uiChatbox.show();
+            }
+            
+            $(".ui-chatbox [rel=tooltip]").tooltip();
+            //console.log("tooltip created");
+        },
+        _setOption: function(option, value) {
+            if (value != null) {
+                switch (option) {
+                case "hidden":
+                    if (value)
+                        this.uiChatbox.hide();
+                    else
+                        this.uiChatbox.show();
+                    break;
+                case "offset":
+                    this._position(value);
+                    break;
+                case "width":
+                    this._setWidth(value);
+                    break;
+                }
+            }
+            $.Widget.prototype._setOption.apply(this, arguments);
+        },
+        _setWidth: function(width) {
+            this.uiChatbox.width((width + 28) + "px");
+            //this.uiChatboxTitlebar.width((width + 28) + "px");
+            //this.uiChatboxLog.width(width + "px");
+           // this.uiChatboxInput.css("maxWidth", width + "px");
+            // padding:2, boarder:2, margin:5
+            this.uiChatboxInputBox.css("width", (width + 18) + "px");
+        },
+        _position: function(offset) {
+            this.uiChatbox.css("right", offset);
+        }
+    });
+    }(jQuery));
+
+
+    /*
+    * jQuery CSSEmoticons plugin 0.2.9
+    *
+    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+    *
+    * Dual licensed under the MIT and GPL licenses:
+    *   http://www.opensource.org/licenses/mit-license.php
+    *   http://www.gnu.org/licenses/gpl.html
+    *
+    * Date: Sun Oct 22 1:00:00 2010 -0500
+    */
+    (function($) {
+    $.fn.emoticonize = function(options) {
+
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+
+    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
+
+    var threeCharacterEmoticons = [
+        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
+        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
+        //  it'll work again if you set preMatch equal to '()'
+        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
+      // ":{)",
+      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
+      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
+      // and the twoCharacterEmoticons from below, but with a space inserted
+      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
+    ];
+
+    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
+      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
+    ];
+
+    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
+      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
+      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
+      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
+      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
+      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
+      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
+      "O_O":    { cssClass: "no-rotate" },
+      "o_o":    { cssClass: "no-rotate" },
+      "0_o":    { cssClass: "no-rotate" },
+      "O_o":    { cssClass: "no-rotate" },
+      "T_T":    { cssClass: "no-rotate" },
+      "^_^":    { cssClass: "no-rotate" },
+      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
+      "O: )":   { cssClass: "small-emoticon" },
+      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
+      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
+      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
+      //"O-O":  { cssClass: "no-rotate" },
+      //"O=)":    { cssClass: "small-emoticon" } 
+    }
+
+    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
+    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
+    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
+    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
+    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
+    var preMatch = '(^|[\\s\\0])';
+
+    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
+      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
+      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var emoticon in specialEmoticons ){
+      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
+      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
+    }
+
+    var exclude = 'span.css-emoticon';
+    if(opts.exclude){ exclude += ','+opts.exclude; }
+    var excludeArray = exclude.split(',')
+
+    return this.not(exclude).each(function() {
+      var container = $(this);
+      var cssClass = 'css-emoticon'
+      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
+      
+      for( var emoticon in specialEmoticons ){
+        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
+        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
+      }
+      $(threeCharacterEmoticons).each(function(){
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
+      });                                                          
+      $(twoCharacterEmoticons).each(function(){                    
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
+      });
+      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
+      $.each(excludeArray,function(index,item){
+        container.find($.trim(item)+" span.css-emoticon").each(function(){
+          $(this).replaceWith($(this).text());
+        });
+      });
+      if(opts.animate){
+        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
+      }
+    });
+    }
+
+    $.fn.unemoticonize = function(options) {
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+    return this.each(function() {
+      var container = $(this);
+      container.find('span.css-emoticon').each(function(){
+        // add delay equal to animate speed if animate is not false
+        var span = $(this);
+        if(opts.animate){
+          span.addClass('un-transformed-emoticon');
+          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
+        }else{
+          span.replaceWith(span.text());
+        }
+      });
+    });
+    }
+
+    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
+    })(jQuery);
+
+    var chatboxManager = function () {
+        
+    var init = function (options) {
+        $.extend(chatbox_config, options)
+    };
+
+
+    var delBox = function (id) {
+        // TODO
+    };
+
+    var getNextOffset = function () {
+        return (chatbox_config.width + chatbox_config.gap) * showList.length;
+    };
+
+    var boxClosedCallback = function (id) {
+        // close button in the titlebar is clicked
+        var idx = showList.indexOf(id);
+        if (idx != -1) {
+            showList.splice(idx, 1);
+            var diff = chatbox_config.width + chatbox_config.gap;
+            for (var i = idx; i < showList.length; i++) {
+                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
+                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
+            }
+        } else {
+            alert("NOTE: Id missing from array: " + id);
+        }
+    };
+
+    // caller should guarantee the uniqueness of id
+    var addBox = function (id, user, name) {
+        var idx1 = showList.indexOf(id);
+        var idx2 = boxList.indexOf(id);
+        if (idx1 != -1) {
+            // found one in show box, do nothing
+        } else if (idx2 != -1) {
+            // exists, but hidden
+            // show it and put it back to showList
+            $("#" + id).chatbox("option", "offset", getNextOffset());
+            var manager = $("#" + id).chatbox("option", "boxManager");
+            manager.toggleBox();
+            showList.push(id);
+        } else {
+            var el = document.createElement('div');
+            el.setAttribute('id', id);
+            $(el).chatbox({
+                id: id,
+                user: user,
+                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
+                hidden: false,
+                offset: getNextOffset(),
+                width: chatbox_config.width,
+                status: user.status,
+                alertmsg: user.alertmsg,
+                alertshow: user.alertshow,
+                messageSent: dispatch,
+                boxClosed: boxClosedCallback
+            });
+            boxList.push(id);
+            showList.push(id);
+            nameList.push(user.first_name);
+        }
+    };
+
+    var messageSentCallback = function (id, user, msg) {
+        var idx = boxList.indexOf(id);
+        chatbox_config.messageSent(nameList[idx], msg);
+    };
+
+    // not used in demo
+    var dispatch = function (id, user, msg) {
+        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
+        if ($('#chatlog').length){
+            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
+        }
+        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
+    }
+
+    return {
+        init: init,
+        addBox: addBox,
+        delBox: delBox,
+        dispatch: dispatch
+    };
+    }();
+
+    var link = function (scope, element, attributes) {
+
+        $('a[data-chat-id]').click(function (event, ui) {
+            if(!$(this).hasClass('offline')){
+
+                var $this = $(this),
+                    temp_chat_id = $this.attr("data-chat-id"),
+                    fname = $this.attr("data-chat-fname"),
+                    lname = $this.attr("data-chat-lname"),
+                    status = $this.attr("data-chat-status") || "online",
+                    alertmsg = $this.attr("data-chat-alertmsg"),
+                    alertshow =  $this.attr("data-chat-alertshow") || false;
+
+
+                chatboxManager.addBox(temp_chat_id, {
+                    // dest:"dest" + counter, 
+                    // not used in demo
+                    title: "username" + temp_chat_id,
+                    first_name: fname,
+                    last_name: lname,
+                    status: status,
+                    alertmsg: alertmsg,
+                    alertshow: alertshow
+                    //you can add your own options too
+                });
+            }
+
+            event.preventDefault();
+
+        });
+
+    }
+
+    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
+        return {
+            restrict: 'A',
+            replace: true,
+            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
+            link: link
+        }
+    });
+
+})(); 
+"use strict";
+
+angular.module('app.chat').directive('chatUsers', function(ChatApi){
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
+        scope: true,
+        link: function(scope, element){
+            scope.open = false;
+            scope.openToggle = function(){
+                scope.open = !scope.open;
+            };
+
+            scope.chatUserFilter = '';
+
+            ChatApi.initialized.then(function () {
+                scope.chatUsers = ChatApi.users;
+            });
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.chat').directive('chatWidget', function (ChatApi) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
+        scope: {},
+        link: function (scope, element) {
+            scope.newMessage = '';
+
+            scope.sendMessage = function () {
+                ChatApi.sendMessage(scope.newMessage);
+                scope.newMessage = '';
+            };
+
+            scope.messageTo = function(user){
+                scope.newMessage += (user.username + ', ');
+            };
+
+            ChatApi.initialized.then(function () {
+                scope.chatMessages = ChatApi.messages;
+            });
+            scope.$watch(function () {
+                return ChatApi.messages.length
+            }, function (count) {
+                if (count){
+                    var $body = $('.chat-body', element);
+                    $body.animate({scrollTop: $body[0].scrollHeight});
+                }
+            })
+        }
+    }
+});
+"use strict";
+
+ angular.module('app').directive('todoList', function ($timeout, Todo) {
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
+        scope: {
+            todos: '='
+        },
+        link: function (scope, element, attributes) {
+            scope.title = attributes.title
+            scope.icon = attributes.icon
+            scope.state = attributes.state
+            scope.filter = {
+                state: scope.state
+            }
+
+            element.find('.todo').sortable({
+                handle: '.handle',
+                connectWith: ".todo",
+                receive: function (event, ui) {
+
+                   
+                    var todo = ui.item.scope().todo;
+                    var state = scope.state
+                    // // console.log(ui.item, todo, state)
+                    // // console.log(state, todo)
+                    if (todo && state) {
+                        todo.setState(state);
+                         // ui.sender.sortable("cancel");
+                        // scope.$apply();
+                    } else {
+                        console.log('Wat', todo, state);
+                    }
+                    
+                }
+            }).disableSelection();
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
+});
+'use strict';
+
 angular.module('app.tables').directive('datatableBasic', function ($compile) {
     return {
         restrict: 'A',
@@ -11199,96 +11199,6 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
-            });
-        }
-    }
-});
-'use strict';
-
 angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
     return {
         restrict: 'A',
@@ -11700,191 +11610,91 @@ angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsC
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
     return {
         restrict: 'A',
-        scope: {
-            coords: '=',
-            options: '=',
-            selection: '='
-        },
-        link: function (scope, element, attributes) {
-            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
 
-            var listeners = {
-                onSelectHandlers: [],
-                onChangeHandlers: [],
-                onSelect: function (c) {
-                    angular.forEach(listeners.onSelectHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                },
-                onChange: function (c) {
-                    angular.forEach(listeners.onChangeHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
                 }
             };
 
-            if (attributes.coords) {
-                var coordsUpdate = function (c) {
-                    scope.$apply(function () {
-                        scope.coords = c;
-                    });
-                };
-                listeners.onSelectHandlers.push(coordsUpdate);
-                listeners.onChangeHandlers.push(coordsUpdate);
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
             }
 
-            var $previewPane = $(attributes.smartJcropPreview),
-                $previewContainer = $previewPane.find('.preview-container'),
-                $previewImg = $previewPane.find('img');
+            element.markdown(options);
+        }
+    }
+});
 
-            if ($previewPane.length && $previewImg.length) {
-                var previewUpdate = function (coords) {
-                    if (parseInt(coords.w) > 0) {
-                        var rx = $previewContainer.width() / coords.w;
-                        var ry = $previewContainer.height() / coords.h;
+'use strict';
 
-                        $previewImg.css({
-                            width: Math.round(rx * imageWidth) + 'px',
-                            height: Math.round(ry * imageHeight) + 'px',
-                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
-                        });
-                    }
-                };
-                listeners.onSelectHandlers.push(previewUpdate);
-                listeners.onChangeHandlers.push(previewUpdate);
-            }
-
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
 
             var options = {
-                onSelect: listeners.onSelect,
-                onChange: listeners.onChange
+                focus : true,
+                tabsize : 2
             };
 
-            if ($previewContainer.length) {
-                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
+            if(tAttributes.height){
+                options.height = tAttributes.height;
             }
 
-            if (attributes.selection) {
-                scope.$watch('selection', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
-
-                        var callback = newVal == 'release' ? function () {
-                            jcropApi.release();
-                        } : angular.noop;
-
-                        imageLoaded.promise.then(function () {
-                            if (scope.options && scope.options.animate) {
-                                jcropApi.animateTo(rectangle, callback);
-                            } else {
-                                jcropApi.setSelect(rectangle);
-                            }
-                        });
-                    }
-                });
-            }
-
-            if (attributes.options) {
-
-                var optionNames = [
-                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
-                    'allowSelect', 'allowMove', 'allowResize',
-                    'aspectRatio'
-                ];
-
-                angular.forEach(optionNames, function (name) {
-                    if (scope.options[name])
-                        options[name] = scope.options[name]
-
-                    scope.$watch('options.' + name, function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            imageLoaded.promise.then(function () {
-                                var update = {};
-                                update[name] = newVal;
-                                jcropApi.setOptions(update);
-                            });
-                        }
-                    });
-
-                });
-
-
-                scope.$watch('options.disabled', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.disable();
-                        } else {
-                            jcropApi.enable();
-                        }
-                    }
-                });
-
-                scope.$watch('options.destroyed', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.destroy();
-                        } else {
-                            _init();
-                        }
-                    }
-                });
-
-                scope.$watch('options.src', function (newVal, oldVal) {
-                    imageLoaded = $q.defer();
-                    if (newVal != oldVal) {
-                        jcropApi.setImage(scope.options.src, function () {
-                            imageLoaded.resolve();
-                        });
-                    }
-                });
-
-                var updateSize = function(){
-                    jcropApi.setOptions({
-                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
-                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
-                    });
-                };
-
-                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-            }
-
-            var _init = function () {
-                element.Jcrop(options, function () {
-                    jcropApi = this;
-                    // Use the API to get the real image size
-                    var bounds = this.getBounds();
-                    imageWidth = bounds[0];
-                    imageHeight = bounds[1];
-
-                    if (attributes.selection && angular.isArray(scope.selection)) {
-                        if (scope.options && scope.options.animate) {
-                            jcropApi.animateTo(scope.selection);
-                        } else {
-                            jcropApi.setSelect(scope.selection);
-                        }
-                    }
-                    imageLoaded.resolve();
-                });
-            };
-
-            _init()
-
-
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
         }
     }
 });
@@ -12423,6 +12233,196 @@ angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
 
 
             setStep(currentStep);
+
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
+    return {
+        restrict: 'A',
+        scope: {
+            coords: '=',
+            options: '=',
+            selection: '='
+        },
+        link: function (scope, element, attributes) {
+            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
+
+            var listeners = {
+                onSelectHandlers: [],
+                onChangeHandlers: [],
+                onSelect: function (c) {
+                    angular.forEach(listeners.onSelectHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                },
+                onChange: function (c) {
+                    angular.forEach(listeners.onChangeHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                }
+            };
+
+            if (attributes.coords) {
+                var coordsUpdate = function (c) {
+                    scope.$apply(function () {
+                        scope.coords = c;
+                    });
+                };
+                listeners.onSelectHandlers.push(coordsUpdate);
+                listeners.onChangeHandlers.push(coordsUpdate);
+            }
+
+            var $previewPane = $(attributes.smartJcropPreview),
+                $previewContainer = $previewPane.find('.preview-container'),
+                $previewImg = $previewPane.find('img');
+
+            if ($previewPane.length && $previewImg.length) {
+                var previewUpdate = function (coords) {
+                    if (parseInt(coords.w) > 0) {
+                        var rx = $previewContainer.width() / coords.w;
+                        var ry = $previewContainer.height() / coords.h;
+
+                        $previewImg.css({
+                            width: Math.round(rx * imageWidth) + 'px',
+                            height: Math.round(ry * imageHeight) + 'px',
+                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                        });
+                    }
+                };
+                listeners.onSelectHandlers.push(previewUpdate);
+                listeners.onChangeHandlers.push(previewUpdate);
+            }
+
+
+            var options = {
+                onSelect: listeners.onSelect,
+                onChange: listeners.onChange
+            };
+
+            if ($previewContainer.length) {
+                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
+            }
+
+            if (attributes.selection) {
+                scope.$watch('selection', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
+
+                        var callback = newVal == 'release' ? function () {
+                            jcropApi.release();
+                        } : angular.noop;
+
+                        imageLoaded.promise.then(function () {
+                            if (scope.options && scope.options.animate) {
+                                jcropApi.animateTo(rectangle, callback);
+                            } else {
+                                jcropApi.setSelect(rectangle);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (attributes.options) {
+
+                var optionNames = [
+                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
+                    'allowSelect', 'allowMove', 'allowResize',
+                    'aspectRatio'
+                ];
+
+                angular.forEach(optionNames, function (name) {
+                    if (scope.options[name])
+                        options[name] = scope.options[name]
+
+                    scope.$watch('options.' + name, function (newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            imageLoaded.promise.then(function () {
+                                var update = {};
+                                update[name] = newVal;
+                                jcropApi.setOptions(update);
+                            });
+                        }
+                    });
+
+                });
+
+
+                scope.$watch('options.disabled', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.disable();
+                        } else {
+                            jcropApi.enable();
+                        }
+                    }
+                });
+
+                scope.$watch('options.destroyed', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.destroy();
+                        } else {
+                            _init();
+                        }
+                    }
+                });
+
+                scope.$watch('options.src', function (newVal, oldVal) {
+                    imageLoaded = $q.defer();
+                    if (newVal != oldVal) {
+                        jcropApi.setImage(scope.options.src, function () {
+                            imageLoaded.resolve();
+                        });
+                    }
+                });
+
+                var updateSize = function(){
+                    jcropApi.setOptions({
+                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
+                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
+                    });
+                };
+
+                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+            }
+
+            var _init = function () {
+                element.Jcrop(options, function () {
+                    jcropApi = this;
+                    // Use the API to get the real image size
+                    var bounds = this.getBounds();
+                    imageWidth = bounds[0];
+                    imageHeight = bounds[1];
+
+                    if (attributes.selection && angular.isArray(scope.selection)) {
+                        if (scope.options && scope.options.animate) {
+                            jcropApi.animateTo(scope.selection);
+                        } else {
+                            jcropApi.setSelect(scope.selection);
+                        }
+                    }
+                    imageLoaded.resolve();
+                });
+            };
+
+            _init()
+
 
         }
     }
