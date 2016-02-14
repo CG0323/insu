@@ -38,7 +38,7 @@ angular.module('app.client').config(function ($stateProvider) {
             }
         })
         .state('app.client.organization.view', {
-            url: '/clients/organization/view/:clientId',
+            url: '/view/:clientId',
             data: {
                 title: '客户信息查看'
             },
@@ -50,7 +50,7 @@ angular.module('app.client').config(function ($stateProvider) {
             }
         })
         .state('app.client.organization.new', {
-            url: '/clients/organization/new',
+            url: '/new',
             data: {
                 title: '添加机构客户'
             },
@@ -62,7 +62,7 @@ angular.module('app.client').config(function ($stateProvider) {
             }
         })
         .state('app.client.individual.view', {
-            url: '/clients/individual/view/:clientId',
+            url: '/view/:clientId',
             data: {
                 title: '客户信息查看'
             },
@@ -74,7 +74,7 @@ angular.module('app.client').config(function ($stateProvider) {
             }
         })
         .state('app.client.individual.new', {
-            url: '/clients/individual/new',
+            url: '/new',
             data: {
                 title: '添加个人客户'
             },
