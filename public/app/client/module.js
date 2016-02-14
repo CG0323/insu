@@ -69,7 +69,7 @@ angular.module('app.client').config(function ($stateProvider) {
             views: {
                 "content@app": {
                     controller: 'IndClientEditorController as vm',
-                    templateUrl: 'app/client/views/ind-client.html'
+                    templateUrl: 'app/client/views/Ind-client.html'
                 }
             }
         })
@@ -81,7 +81,7 @@ angular.module('app.client').config(function ($stateProvider) {
             views: {
                 "content@app": {
                     controller: 'IndClientEditorController as vm',
-                    templateUrl: 'app/client/views/ind-client.html'
+                    templateUrl: 'app/client/views/Ind-client.html'
                 }
             }
         })
