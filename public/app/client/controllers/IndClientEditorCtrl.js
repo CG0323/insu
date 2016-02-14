@@ -91,7 +91,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
                 });
                 vm.client = {};
                 if (vm.back) {
-                    $state.go("app.client.organization");
+                    $state.go("app.client.individual");
                 }
             }, function (err) { });
     };
