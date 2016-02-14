@@ -20,7 +20,13 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
                 vm.client = client;
                 LoadWechats();
             });
+    }else{
+        ClientService.getFollowers()
+                    .then(function (followers) {
+                        vm.wechats = followers;
+                    });
     }
+    
 
     function LoadWechats() {
         var openIds = vm.client.wechats;
