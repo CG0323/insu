@@ -44,8 +44,10 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
         vm.submit();
     }
     
-    vm.bindWechat = function(wechat){
-        vm.bindedWechats.push(wechat);
+    vm.bindWechat = function(i){
+        console.log("here");
+        console.log(vm.bindedWechats);
+        vm.bindedWechats.push(vm.wechats[i]);
         console.log(vm.bindedWechats);
     }
 
