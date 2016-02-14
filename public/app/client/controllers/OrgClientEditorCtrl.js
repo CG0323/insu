@@ -59,16 +59,16 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
     }
 
     vm.bindWechat = function (wechat) {
-        console.log("here");
-        console.log(vm.bindedWechats);
         vm.bindedWechats.push(wechat);
-        console.log(vm.bindedWechats);
         removeBindedWechatsFromFollowers();
     }
 
 
     vm.submit = function () {
         vm.client.client_type = "机构";
+        vm.client.wechats = vm.bindedWechats.map(function(wechat){
+            return wechat.openid;
+        })
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
