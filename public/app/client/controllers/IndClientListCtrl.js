@@ -18,7 +18,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
     vm.refreshClients();
 	
     vm.view = function(clientId){
-        $state.go("app.client.view", {policyId: clientId});
+        $state.go("app.client.individual.view", {policyId: clientId});
     };
 
     /*

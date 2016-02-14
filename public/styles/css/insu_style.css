@@ -71,6 +71,6 @@ td button {
 }
 
 .height-limit{
-	max-height: 200px;
+	max-height: 800px;
 	overflow: scroll;
 }

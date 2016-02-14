@@ -17,16 +17,12 @@
                                 <tr>
                                     <th field-name="name" display-name="客户姓名" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <!--<th field-name="license_no" display-name="营业执照号" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
                                     <th field-name="payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <!--<th field-name="identity" display-name="收款人身份证号" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="bank" display-name="开户行" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="account" display-name="收款账号" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
+                                    </th>
                                     <th field-name="phone" display-name="联系电话" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
@@ -34,7 +30,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <button ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                        <button ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
                                         <button ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>                                   
                                     </td>
                                 </tr>
