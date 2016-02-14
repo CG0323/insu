@@ -1,13 +1,13 @@
 'use strict'
 
-angular.module('app.client').controller('OrgClientEditorController',function ($scope,$filter, $rootScope, $state, $stateParams, ClientService) {
+angular.module('app.client').controller('OrgClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
     var vm = this;
     vm.client = {};
     vm.wechats = [];
     vm.bindedWechats = [];
     vm.editable = false;
-    
-    if($state.is("app.client.organization.new")){
+
+    if ($state.is("app.client.organization.new")) {
         vm.editable = true;
     }
 
@@ -21,23 +21,35 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
                 LoadWechats();
             });
     }
-    
-    function LoadWechats(){
+
+    function LoadWechats() {
         var openIds = vm.client.wechats;
         ClientService.getWechatsByIds(openIds)
-        .then(function(wechats){
-            if(wechats && wechats.length > 0){
-                vm.bindedWechats = wechats;
-            }       
-        })
+            .then(function (wechats) {
+                if (wechats && wechats.length > 0) {
+                    vm.bindedWechats = wechats;
+                }
+            })
+            .then(function () {
+                ClientService.getFollowers()
+                    .then(function (followers) {
+                        vm.wechats = followers;
+                        removeBindedWechatsFromFollowers();
+                    });
+            })
     }
 
-    ClientService.getFollowers()
-    .then(function(followers){
-        vm.wechats = followers;
-    });
 
-    vm.toggleEdit = function(){
+    function removeBindedWechatsFromFollowers() {
+        vm.wechats = vm.wechats.filter(function (current) {
+            return vm.bindedWechats.filter(function (current_b) {
+                return current_b.openid == current.openid
+            }).length == 0
+        });
+    }
+
+
+    vm.toggleEdit = function () {
         vm.editable = !vm.editable;
     }
 
@@ -45,12 +57,13 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
         vm.back = true;
         vm.submit();
     }
-    
-    vm.bindWechat = function(wechat){
+
+    vm.bindWechat = function (wechat) {
         console.log("here");
         console.log(vm.bindedWechats);
         vm.bindedWechats.push(wechat);
         console.log(vm.bindedWechats);
+        removeBindedWechatsFromFollowers();
     }
 
 
@@ -71,8 +84,8 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
                 }
             }, function (err) { });
     };
-    
-    
+
+
 
 }); 
 
