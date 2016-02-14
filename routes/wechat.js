@@ -41,12 +41,10 @@ router.get('/followers', function (req, res, next) {
   api.getFollowers(function(err,result){
       if(!result) 
         return res.json({});
-      console.log(result.data.openid);
       var ids = result.data.openid;
       api.batchGetUsers(ids, function(err,result1){
         if(!result1) 
           return res.json({});
-        console.log(result1.user_info_list);
         res.json(result1.user_info_list);
       });
   });

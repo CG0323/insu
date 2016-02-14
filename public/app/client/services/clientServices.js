@@ -10,7 +10,8 @@ angular.module('app.client').factory('ClientService',
                 getIndClients: getIndClients,
                 getClient: getClient,
                 deleteClient: deleteClient,
-                getFollowers: getFollowers
+                getFollowers: getFollowers,
+                getWechatsByIds: getWechatsByIds
             });
 
             function saveClient(client) {
