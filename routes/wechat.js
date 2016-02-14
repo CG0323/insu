@@ -162,7 +162,7 @@ router.get('/callback', function (req, res) {
       };
       var oauth_user = result;
       var clientId;
-      Client.find({ short_name: oauth_user.remark }).exec()
+      Client.find({ wechats: openid}).exec()
         .then(function (clients) {
           if (clients.length == 0) {
             return res.send("红叶系统中没有您的信息，请联系客服人员注册");
@@ -172,7 +172,7 @@ router.get('/callback', function (req, res) {
         .then(function () {
           var user;
           //查用户账号中是否有此
-          User.find({ name: oauth_user.remark }).exec()
+          User.find({ username: oauth_user.openid }).exec()
             .then(function (users) {
               if (users.length > 0) {
                 user = users[0];
