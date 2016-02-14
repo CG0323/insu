@@ -90,6 +90,7 @@ router.put('/:id', function (req, res) {
         client.bank = req.body.bank;
         client.account = req.body.account;
         client.phone = req.body.phone;
+        client.wechats = req.body.wechats;
         client.save(function (err) {
             if (err){
               logger.error(err);
