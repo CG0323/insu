@@ -63,6 +63,11 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
         removeBindedWechatsFromFollowers();
     }
 
+    vm.unbindWechat = function ($index) {
+        vm.bindedWechats.slice($index, 1);
+        removeBindedWechatsFromFollowers();
+    }
+
 
     vm.submit = function () {
         vm.client.client_type = "机构";
