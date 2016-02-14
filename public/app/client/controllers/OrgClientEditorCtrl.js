@@ -26,7 +26,7 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
         var openIds = vm.client.wechats;
         ClientService.getWechatsByIds(openIds)
         .then(function(wechats){
-            vm.bindedWechats = wechats;
+            vm.bindedWechats.push(wechats);
         })
     }
 
