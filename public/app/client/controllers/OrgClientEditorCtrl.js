@@ -64,6 +64,7 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
     }
 
     vm.unbindWechat = function (i) {
+        console.log("i am here");
         vm.bindedWechats.slice(i, 1);
         removeBindedWechatsFromFollowers();
     }
