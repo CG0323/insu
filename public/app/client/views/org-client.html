@@ -96,6 +96,32 @@
                             </section>
 
                             <section class="col col-6">
+                                
+                                <div>
+                                    <h5>已绑定微信帐户</h5>
+                                    <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>微信头像</th>
+                                                <th>微信昵称</th>
+                                                <th>备注名</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="wechat in vm.bindedWechats">
+                                                <td><img class="thumb" ng-src="{{wechat.headimgurl}}"></td>
+                                                <td>{{wechat.nickname}}</td>
+                                                <td>{{wechat.remark}}</td>
+                                                <td>
+                                                    <button class="btn btn-primary">解绑定</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                
                                 <div ng-show="vm.editable">
                                     <h5>全部微信帐户</h5>
                                     <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
@@ -113,7 +139,7 @@
                                                 <td>{{wechat.nickname}}</td>
                                                 <td>{{wechat.remark}}</td>
                                                 <td>
-                                                    <button class="btn btn-primary">绑定</button>
+                                                    <button class="btn btn-primary" ng-click="vm.bindWechat(wechat)">绑定</button>
                                                 </td>
                                             </tr>
                                         </tbody>

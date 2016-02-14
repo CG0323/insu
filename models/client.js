@@ -12,6 +12,7 @@ var schema = new mongoose.Schema({
 	bank: String,
 	account: String,
     phone: Number,
+    wechats: [String],
     created_at: { type: Date },
     updated_at: { type: Date }
 });

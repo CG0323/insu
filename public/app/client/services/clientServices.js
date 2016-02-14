@@ -167,5 +167,30 @@ angular.module('app.client').factory('ClientService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            function getWechatsByIds(openIds) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.post('/wechat/byids', openIds)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            
            
         }]);

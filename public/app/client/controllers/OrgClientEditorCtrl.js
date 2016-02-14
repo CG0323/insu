@@ -4,7 +4,7 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
     var vm = this;
     vm.client = {};
     vm.wechats = [];
-
+    vm.bindedWechats = [];
     vm.editable = false;
     
     if($state.is("app.client.organization.new")){
@@ -18,7 +18,16 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
         ClientService.getClient(clientId)
             .then(function (client) {
                 vm.client = client;
+                LoadWechats();
             });
+    }
+    
+    function LoadWechats(){
+        var openIds = vm.client.wechats;
+        ClientService.getWechatsByIds(openIds)
+        .then(function(wechats){
+            vm.bindedWechats = wechats;
+        })
     }
 
     ClientService.getFollowers()
@@ -33,6 +42,10 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
     vm.submitAndBack = function () {
         vm.back = true;
         vm.submit();
+    }
+    
+    vm.bindWechat = function(wechat){
+        vm.bindedWechats.push(wechat);
     }
 
 
@@ -53,6 +66,8 @@ angular.module('app.client').controller('OrgClientEditorController',function ($s
                 }
             }, function (err) { });
     };
+    
+    
 
 }); 
 
