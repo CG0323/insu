@@ -175,8 +175,8 @@ router.get('/callback', function (req, res) {
             .then(function (users) {
               if (users.length > 0) {
                 user = users[0];
-                console.log(user);
                 user.clientId = clientId;
+                console.log(user);
                 user.save(function (err) {
                   if (err) {
                     logger.error(err);
