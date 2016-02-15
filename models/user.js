@@ -9,7 +9,9 @@ var schema = new mongoose.Schema({
     name: String,
     role: String,
     organization: String,
-    client_id: mongoose.Schema.Types.ObjectId
+    client_id: mongoose.Schema.Types.ObjectId,
+    created_at: { type: Date },
+    updated_at: { type: Date }
 });
 
 schema.plugin(passportLocalMongoose);

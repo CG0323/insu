@@ -38,15 +38,15 @@ api.createMenu(menu, function (err, result) {
 //   });
 
 router.get('/followers', function (req, res, next) {
-  api.getFollowers(function(err,result){
-      if(!result) 
+  api.getFollowers(function (err, result) {
+    if (!result)
+      return res.json({});
+    var ids = result.data.openid;
+    api.batchGetUsers(ids, function (err, result1) {
+      if (!result1)
         return res.json({});
-      var ids = result.data.openid;
-      api.batchGetUsers(ids, function(err,result1){
-        if(!result1) 
-          return res.json({});
-        res.json(result1.user_info_list);
-      });
+      res.json(result1.user_info_list);
+    });
   });
 });
 
@@ -54,11 +54,11 @@ router.get('/followers', function (req, res, next) {
 
 router.post('/byids', function (req, res, next) {
   var openIds = req.body;
-  api.batchGetUsers(openIds, function(err,result1){
-        if(!result1) 
-          return res.json([]);
-        res.json(result1.user_info_list);
-      });
+  api.batchGetUsers(openIds, function (err, result1) {
+    if (!result1)
+      return res.json([]);
+    res.json(result1.user_info_list);
+  });
 });
 
 
@@ -161,7 +161,7 @@ router.get('/callback', function (req, res) {
       };
       var oauth_user = result;
       var clientId;
-      Client.find({ wechats: openid}).exec()
+      Client.find({ wechats: openid }).exec()
         .then(function (clients) {
           if (clients.length == 0) {
             return res.send("红叶系统中没有您的信息，请联系客服人员注册");
@@ -175,12 +175,20 @@ router.get('/callback', function (req, res) {
             .then(function (users) {
               if (users.length > 0) {
                 user = users[0];
-                req.logIn(user, function (err) {
+                user.clientId = clientId;
+                user.save(function (err) {
                   if (err) {
-                    return res.status(500).json({ error: err });
+                    logger.error(err);
+                    return res.status(500).send(err);
                   }
-                  res.render('wechat');
+                  req.logIn(user, function (err) {
+                    if (err) {
+                      return res.status(500).json({ error: err });
+                    }
+                    res.render('wechat');
+                  });
                 });
+
               } else {
                 user = new User({ username: oauth_user.openid, name: oauth_user.remark, role: '客户', client_id: clientId });
                 User.register(user, '123456', function (err, result) {

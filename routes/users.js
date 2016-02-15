@@ -6,66 +6,66 @@ var router = express.Router();
 var logger = require('../utils/logger.js');
 
 
-router.get('/me', function(req, res, next) {
+router.get('/me', function (req, res, next) {
   res.send(req.user);
 });
 
 // 临时接口
-router.get('/register-cdy01', function(req, res) {
-  User.register(new User({ username : 'cdy01', name: '李静', role: '出单员', organization: '红叶徐州分公司睢宁营业部'}), 'cdy01123', function(err, user) {
+router.get('/register-cdy01', function (req, res) {
+  User.register(new User({ username: 'cdy01', name: '李静', role: '出单员', organization: '红叶徐州分公司睢宁营业部' }), 'cdy01123', function (err, user) {
     if (err) {
       logger.error(err);
       res.redirect('/#/login');
-    }else{
-      res.status(200).json({status: 'registered'});
+    } else {
+      res.status(200).json({ status: 'registered' });
     }
   });
 });
 
 // 临时接口
-router.get('/register-cdy02', function(req, res) {
-  User.register(new User({ username : 'cdy02', name:'凌玲', role: '出单员', organization: '红叶徐州分公司睢宁营业部'}), 'cdy02234', function(err, user) {
+router.get('/register-cdy02', function (req, res) {
+  User.register(new User({ username: 'cdy02', name: '凌玲', role: '出单员', organization: '红叶徐州分公司睢宁营业部' }), 'cdy02234', function (err, user) {
     if (err) {
       logger.error(err);
       res.redirect('/#/login');
-    }else{
-      res.status(200).json({status: 'registered'});
+    } else {
+      res.status(200).json({ status: 'registered' });
     }
   });
 });
 
 // 临时接口
-router.get('/register-cn01', function(req, res) {
-  User.register(new User({ username : 'cn01', name:'出纳', role: '财务'}), 'cn01987', function(err, user) {
+router.get('/register-cn01', function (req, res) {
+  User.register(new User({ username: 'cn01', name: '出纳', role: '财务' }), 'cn01987', function (err, user) {
     if (err) {
       logger.error(err);
       res.redirect('/#/login');
-    }else{
-      res.status(200).json({status: 'registered'});
+    } else {
+      res.status(200).json({ status: 'registered' });
     }
   });
 });
 
 // 临时接口
-router.get('/register-admin', function(req, res) {
-  User.register(new User({ username : 'superadmin', name:'管理员', role: '管理员'}), 'admin2016hy', function(err, user) {
+router.get('/register-admin', function (req, res) {
+  User.register(new User({ username: 'superadmin', name: '管理员', role: '管理员' }), 'admin2016hy', function (err, user) {
     if (err) {
       logger.error(err);
       res.redirect('/#/login');
-    }else{
-      res.status(200).json({status: 'registered'});
+    } else {
+      res.status(200).json({ status: 'registered' });
     }
   });
 });
 
-router.post('/logout', function(req, res) {
+router.post('/logout', function (req, res) {
   // logger.info(req.user.name + " 登出系统。"+ req.clientIP);
   req.logout();
-  res.status(200).json({status: 'Bye!'});
+  res.status(200).json({ status: 'Bye!' });
 });
 
-router.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
+router.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
     if (err) {
       logger.error(err);
       return res.status(500).send(err);
@@ -73,15 +73,75 @@ router.post('/login', function(req, res, next) {
     if (!user) {
       return res.status(401).send(info);
     }
-    req.logIn(user, function(err) {
+    req.logIn(user, function (err) {
       if (err) {
         logger.error(err);
         return res.status(500).send('无法登录该用户');
       }
-      logger.info(user.name + " 登录系统。"+ req.clientIP);
+      logger.info(user.name + " 登录系统。" + req.clientIP);
       res.status(200).json(user);
     });
   })(req, res, next);
+});
+
+
+router.post('/', function (req, res) {
+  var data = req.body;
+  User.find({ username: data.username }, function (err, users) {
+    if (users.length > 0) {
+      res.status(400).send('系统中已存在该账号');
+    } else {
+      User.register(new User({ username: data.username, name: data.name, role: data.role, organization: data.organization }), data.password, function (err, user) {
+        if (err) {
+          logger.error(err);
+          res.status(500).send(err);
+        } else {
+          res.status(200).json({ message: '已成功创建账号' });
+        }
+      });
+    }
+
+  })
+});
+
+router.delete('/:id', function (req, res) {
+  User.remove({ _id: req.params.id }, function (err, user) {
+    if (err) {
+      logger.error(err);
+      res.send(err);
+    }
+    logger.info(req.user.name + " 删除了一个员工账号。" + req.clientIP);
+    res.json({ message: '账号已成功删除' });
+  });
+});
+
+router.get('/', function(req, res, next) {
+  var query = {};
+  var role = req.query.role;
+  if(role == "seller"){
+    query = {role:'出单员'};
+  }else if(role == "finance"){
+    query = {role:'财务'};
+  }
+  User.find(query).exec()
+  .then(function(users){
+    res.json(users);
+  },
+  function(err){
+    res.status(500).send(err);
+  }
+  )
+});
+
+router.get('/:id', function (req, res) {
+  User.findOne({_id: req.params.id})
+    .exec()
+    .then(function(user){
+       res.status(200).json(user);
+     },function(err){
+       logger.error(err);
+       res.status(500).send(err);
+     });
 });
 
 module.exports = router;
