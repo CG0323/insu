@@ -166,6 +166,7 @@ router.get('/callback', function (req, res) {
           if (clients.length == 0) {
             return res.send("红叶系统中没有您的信息，请联系客服人员注册");
           }
+          console.log(clients);
           clientId = clients[0]._id;
         })
         .then(function () {
