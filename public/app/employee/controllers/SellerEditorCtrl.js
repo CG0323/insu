@@ -13,7 +13,7 @@ angular.module('app.employee').controller('SellerEditorController', function ($s
 
     var userId = $stateParams.userId;
     if (userId) {
-        EmployeeService.getClient(userId)
+        EmployeeService.getUser(userId)
             .then(function (user) {
                 vm.user = user;
             });

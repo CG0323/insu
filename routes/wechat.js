@@ -14,11 +14,11 @@ var client = new OAuth(appConfig.app_id, appConfig.app_secret);
 var api = new WechatAPI(appConfig.app_id, appConfig.app_secret);
 
 var menu = JSON.stringify(require('../test/data/menu.json'));
-api.createMenu(menu, function (err, result) {
-  if (err) {
-    console.log(err);
-  }
-});
+// api.createMenu(menu, function (err, result) {
+//   if (err) {
+//     console.log(err);
+//   }
+// });
 
 // api.updateRemark('oYIeTs_bn5V6GeSm93CXkbckzf3E', '振宁汽贸', function (err, data, res) {
 //   console.log(data);
