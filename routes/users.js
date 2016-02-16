@@ -7,7 +7,6 @@ var logger = require('../utils/logger.js');
 
 
 router.get('/me', function (req, res, next) {
-  console.log(req.user);
   if(!req.user){
     return res.json({});
   };

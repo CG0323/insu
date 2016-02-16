@@ -5,7 +5,7 @@ angular.module('app.policy').controller('PolicyEditorController',function ($scop
     vm.policy = {};
     vm.policy.plate_province = "苏";
     vm.clientInfo = {};
-    vm.sellerInfo = $rootScope.user;
+    vm.sellerInfo = $rootScope.getUser();
     PolicyService.getClients()
         .then(function (clients) {
             vm.clients = clients;
