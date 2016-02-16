@@ -7,6 +7,9 @@ var logger = require('../utils/logger.js');
 
 
 router.get('/me', function (req, res, next) {
+  if (!req.isAuthenticated()) {
+    res.status(401).send("请先登录");
+  }
   res.send(req.user);
 });
 
@@ -86,6 +89,10 @@ router.post('/login', function (req, res, next) {
 
 
 router.post('/', function (req, res) {
+  if (!req.isAuthenticated()) {
+    res.status(401).send("请先登录");
+  }
+
   var data = req.body;
   User.find({ username: data.username }, function (err, users) {
     if (users.length > 0) {
@@ -105,6 +112,9 @@ router.post('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
+  if (!req.isAuthenticated()) {
+    res.status(401).send("请先登录");
+  }
   User.remove({ _id: req.params.id }, function (err, user) {
     if (err) {
       logger.error(err);
@@ -115,33 +125,39 @@ router.delete('/:id', function (req, res) {
   });
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
+  if (!req.isAuthenticated()) {
+    res.status(401).send("请先登录");
+  }
   var query = {};
   var role = req.query.role;
-  if(role == "seller"){
-    query = {role:'出单员'};
-  }else if(role == "finance"){
-    query = {role:'财务'};
+  if (role == "seller") {
+    query = { role: '出单员' };
+  } else if (role == "finance") {
+    query = { role: '财务' };
   }
   User.find(query).exec()
-  .then(function(users){
-    res.json(users);
-  },
-  function(err){
-    res.status(500).send(err);
-  }
-  )
+    .then(function (users) {
+      res.json(users);
+    },
+      function (err) {
+        res.status(500).send(err);
+      }
+      )
 });
 
 router.get('/:id', function (req, res) {
-  User.findOne({_id: req.params.id})
+  if (!req.isAuthenticated()) {
+    res.status(401).send("请先登录");
+  }
+  User.findOne({ _id: req.params.id })
     .exec()
-    .then(function(user){
-       res.status(200).json(user);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
+    .then(function (user) {
+      res.status(200).json(user);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
 });
 
 module.exports = router;
