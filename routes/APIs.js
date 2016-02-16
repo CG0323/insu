@@ -11,7 +11,7 @@ router.use('/clients', clients);
 router.use('/policies', policies);
 
 function ensureAuthenticated(req, res, next) {
-    console.log('Calling: ensureAuthenticated.....');
+    // console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {
         return next();
     } else{
