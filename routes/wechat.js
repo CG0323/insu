@@ -100,6 +100,7 @@ router.post('/', wechat('H4MbzV5LAd3n', wechat.text(function (message, req, res,
  
 router.get('/view', function (req, res) {
   var url = client.getAuthorizeURL('http://' + appConfig.domain + '/wechat/callback', '', 'snsapi_userinfo');
+  console.log(url);
   res.redirect(url)
 })
 
