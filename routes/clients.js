@@ -34,29 +34,6 @@ router.get('/:id', function (req, res) {
      });
 });
 
-
-// router.get('/organization', function(req, res, next) {
-//   Client.find({client_type:'机构'}).exec()
-//   .then(function(clients){
-//     res.json(clients);
-//   },
-//   function(err){
-//     res.status(500).end();
-//   }
-//   )
-// });
-
-// router.get('/individual', function(req, res, next) {
-//   Client.find({client_type:'个人'}).exec()
-//   .then(function(clients){
-//     res.json(clients);
-//   },
-//   function(err){
-//     res.status(500).end();
-//   }
-//   )
-// });
-
 router.post('/', function (req, res) {
   var data = req.body;
   Client.find({ name: data.name }, function (err, clients) {

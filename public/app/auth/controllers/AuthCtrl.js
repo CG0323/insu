@@ -21,9 +21,8 @@ angular.module('app.auth').controller('AuthCtrl',
                 AuthService.login(vm.username, vm.password)
                     // handle success
                     .then(function(user) {  
-                        AuthService.getUser(function(userinfo){
-                            $rootScope.user = userinfo;
-                        });
+                        console.log("给rootscope user赋值")
+                        $rootScope.user = user;
                         if(user.role == "出单员"){
                             $state.go('app.policy.new');
                         }else

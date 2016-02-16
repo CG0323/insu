@@ -8,7 +8,6 @@ angular.module('app.employee').controller('SellerEditorController', function ($s
 
     EmployeeService.getOrganizations()
         .then(function (organizations) {
-            console.log(organizations);
             vm.organizations = organizations;
         })
 
@@ -24,7 +23,6 @@ angular.module('app.employee').controller('SellerEditorController', function ($s
         EmployeeService.getUser(userId)
             .then(function (user) {
                 vm.user = user;
-                console.log(user);
             });
     }
     

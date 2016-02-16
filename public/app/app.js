@@ -91,17 +91,17 @@ angular.module('app', [
         , $state, $stateParams, AuthService) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        $rootScope.getUser = function () {
-            if ($rootScope.user) {
-                return $rootScope.user;
-            } else {
-                AuthService.getUser()
-                    .then(function (user) {
-                        $rootScope.user = user;
-                        return $rootScope.user;
-                    });
-            }
-        };
+        // $rootScope.getUser = function () {
+        //     if ($rootScope.user) {
+        //         return $rootScope.user;
+        //     } else {
+        //         AuthService.getUser()
+        //             .then(function (user) {
+        //                 $rootScope.user = user;
+        //                 return $rootScope.user;
+        //             });
+        //     }
+        // };
         AuthService.getUser()
             .then(function (user) {
                 $rootScope.user = user;

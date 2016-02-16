@@ -105,7 +105,7 @@ router.post('/', function (req, res) {
     if (users.length > 0) {
       res.status(400).send('系统中已存在该账号');
     } else {
-      User.register(new User({ username: data.username, name: data.name, role: data.role, organization: data.organization }), data.password, function (err, user) {
+      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, phone: data.phone}), data.password, function (err, user) {
         if (err) {
           logger.error(err);
           res.status(500).send(err);
@@ -146,7 +146,6 @@ router.get('/', function (req, res, next) {
   User.find(query)
   .populate('org')
   .exec()
-    
     .then(function (users) {
       res.json(users);
     },

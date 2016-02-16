@@ -61,7 +61,12 @@ angular.module('app.auth').factory('AuthService',
                     .success(function (data, status) {
                         if (status === 200) {
                             $cookies.put('loggedIn', 'true');
-                            deferred.resolve(data);
+                            $http.get('/users/me')
+                            .success(function (data, status) {
+                                 deferred.resolve(data);
+                            })
+                            
+                           
                         } else {
                             $cookies.put('loggedIn', 'false');
                             deferred.reject();
