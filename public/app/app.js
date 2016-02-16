@@ -10,7 +10,7 @@
  */
 
 angular.module('app', [
-    //'ngSanitize',
+//'ngSanitize',
     'ngAnimate',
     'restangular',
     'ui.router',
@@ -19,10 +19,10 @@ angular.module('app', [
     "validation",
     "validation.rule",
     "matchMedia",
-    // Smartadmin Angular Common Module
+// Smartadmin Angular Common Module
     'SmartAdmin',
 
-    // App
+// App
     'app.auth',
     'app.layout',
     'app.dashboard',
@@ -91,8 +91,19 @@ angular.module('app', [
         , $state, $stateParams, AuthService) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        $rootScope.getUser = function () {
+            if ($rootScope.user) {
+                return $rootScope.user;
+            } else {
+                AuthService.getUser()
+                    .then(function (user) {
+                        $rootScope.user = user;
+                        return $rootScope.user;
+                    });
+            }
+        };
         AuthService.getUser()
-            .then(function(user){
+            .then(function (user) {
                 $rootScope.user = user;
             });
         // editableOptions.theme = 'bs3';
@@ -105,7 +116,7 @@ angular.module('app', [
         $rootScope.$on("$stateChangeStart",
 
             function (event, toState, toParams,
-                      fromState, fromParams) {
+                fromState, fromParams) {
                 if (toState.name != "login" && !AuthService.isLoggedIn()) {
                     event.preventDefault();
                     $state.transitionTo("login");

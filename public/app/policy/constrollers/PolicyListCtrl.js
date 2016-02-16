@@ -39,7 +39,7 @@ angular.module('app.policy').controller('PolicyListController', function(screenS
     };
     
     var poller = function(){
-        if($rootScope.user.role != "财务"){
+        if($rootScope.getUser().role != "财务"){
             return;
         }
         vm.refreshPolicies();
@@ -49,16 +49,16 @@ angular.module('app.policy').controller('PolicyListController', function(screenS
     poller();
 
     vm.isShowPayButton = function(policy){
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
+        return $rootScope.getUser().role == "财务" && policy.policy_status == "待支付";
     };
 
     vm.isShowDeleteButton = function(policy){
-        if($rootScope.user.role == "管理员") return true;
+        if($rootScope.getUser().role == "管理员") return true;
         return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
     };
 
     vm.isShowViewButton = function(policy){
-        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
+        return $rootScope.getUser().role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
     };
 
     vm.pay = function(policyId){
