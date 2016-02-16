@@ -39,7 +39,8 @@ angular.module('app', [
     'app.smartAdmin',
     'app.policy',
     'app.client',
-    'app.employee'
+    'app.employee',
+    'app.organization'
 ])
     .config(function ($provide, $httpProvider) {
 

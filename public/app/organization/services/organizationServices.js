@@ -1,25 +1,22 @@
 "use strict";
 
-angular.module('app.employee').factory('EmployeeService',
+angular.module('app.organization').factory('OrganizationService',
     ['$q', '$http',
         function ($q, $http) {
             // return available functions for use in controllers
             return ({
-                saveUser: saveUser,
-                getSellers: getSellers,
-                getFinances: getFinances,
-                getUser: getUser,
-                deleteUser: deleteUser,
-                getOrganizations: getOrganizations
+                saveOrganization: saveOrganization,
+                getOrganizations: getOrganizations,
+                getOrganization: getOrganization,
+                deleteOrganization: deleteOrganization,
             });
 
-            function saveUser(user) {
+            function saveOrganization(organization) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-
-                if (user._id) {
-                    user.updated_at = Date.now();
-                    $http.put('/users/' + user._id, user)
+                if (organization._id) {
+                    organization.updated_at = Date.now();
+                    $http.put('api/organizations/' + organization._id, organization)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -31,9 +28,9 @@ angular.module('app.employee').factory('EmployeeService',
                             deferred.reject(status);
                         });
                 } else {
-                    user.created_at = Date.now();
-                    user.updated_at = user.created_at;
-                    $http.post('/users', user)
+                    organization.created_at = Date.now();
+                    organization.updated_at = organization.created_at;
+                    $http.post('api/organizations', organization)
                     // handle success
                         .success(function (data, status) {
                             if (status === 200) {
@@ -52,11 +49,11 @@ angular.module('app.employee').factory('EmployeeService',
                 return deferred.promise;
             }
 
-            function getUser(userID) {
+            function getOrganization(organizationId) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('/users/' + userID)
+                $http.get('api/organizations/' + organizationId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -74,11 +71,11 @@ angular.module('app.employee').factory('EmployeeService',
                 return deferred.promise;
             }
 
-            function deleteUser(userId) {
+            function deleteOrganization(organizationId) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.delete('/users/' + userId)
+                $http.delete('api/organizations/' + organizationId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -96,61 +93,13 @@ angular.module('app.employee').factory('EmployeeService',
                 return deferred.promise;
             }
 
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getFinances() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=finance')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }         
-            
             function getOrganizations() {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/organizations')
+                $http.get('api/organizations')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

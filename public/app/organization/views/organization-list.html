@@ -7,23 +7,15 @@
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>出单员</h2>
+                    <h2>分支机构</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.users" page-items="15" enable-filtering="false">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.organizations" page-items="15" enable-filtering="false">
                             <thead>
                                 <tr>
-                                    <th field-name="username" display-name="用户名" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <th field-name="name" display-name="姓名" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <!--<th field-name="identity" display-name="收款人身份证号" enable-filtering="false" enable-sorting="false">
-                                    </th-->
-                                    <th field-name="role" display-name="账号类型" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <th field-name="org.name" display-name="所属机构" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="name" display-name="分支机构名称" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
                             </thead>

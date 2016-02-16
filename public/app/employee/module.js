@@ -38,7 +38,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             }
         })
         .state('app.employee.seller.view', {
-            url: '/view/:employeeId',
+            url: '/view/:userId',
             data: {
                 title: '出单员账号查看'
             },
@@ -62,7 +62,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             }
         })
         .state('app.employee.finance.view', {
-            url: '/view/:employeeId',
+            url: '/view/:userId',
             data: {
                 title: '财务账号查看'
             },
@@ -81,7 +81,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             views: {
                 "content@app": {
                     controller: 'FinanceEditorController as vm',
-                    templateUrl: 'app/client/views/finance.html'
+                    templateUrl: 'app/employee/views/finance.html'
                 }
             }
         })

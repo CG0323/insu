@@ -1,21 +1,23 @@
 'use strict'
 
-angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
     var vm = this;
-    vm.user = {};
+    vm.organization = {};
+    
+    
     vm.editable = false;
 
-    if ($state.is("app.employee.finance.new")) {
+    if ($state.is("app.organization.new")) {
         vm.editable = true;
     }
 
 
 
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
+    var organizationId = $stateParams.organizationId;
+    if (organizationId) {
+        OrganizationService.getOrganization(organizationId)
+            .then(function (organization) {
+                vm.organization = organization;
             });
     }
 
@@ -30,19 +32,18 @@ angular.module('app.employee').controller('FinanceEditorController', function ($
     }
 
     vm.submit = function () {
-        vm.user.role="财务";
-        EmployeeService.saveUser(vm.user)
+        OrganizationService.saveOrganization(vm.organization)
             .then(function (data) {
                 $.smallBox({
                     title: "服务器确认信息",
-                    content: "用户已成功保存",
+                    content: "分支机构已成功保存",
                     color: "#739E73",
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
                 vm.user = {};
                 if (vm.back) {
-                    $state.go("app.employee.finance");
+                    $state.go("app.organization.all");
                 }
             }, function (err) { });
     };

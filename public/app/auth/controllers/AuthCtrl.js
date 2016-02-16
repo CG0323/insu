@@ -20,8 +20,10 @@ angular.module('app.auth').controller('AuthCtrl',
                 // call login from service
                 AuthService.login(vm.username, vm.password)
                     // handle success
-                    .then(function(user) {
-                        $rootScope.user = user;
+                    .then(function(user) {  
+                        AuthService.getUser(function(userinfo){
+                            $rootScope.user = userinfo;
+                        });
                         if(user.role == "出单员"){
                             $state.go('app.policy.new');
                         }else

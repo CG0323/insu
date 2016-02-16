@@ -18,14 +18,14 @@ angular.module('app.employee').controller('SellerListController', function(scree
     vm.refreshUsers();
 	
     vm.view = function(userId){
-        $state.go("app.employee.seller.view", {clientId: userId});
+        $state.go("app.employee.seller.view", {userId: userId});
     };
 
     /*
      * SmartAlerts
      */
     // With Callback
-    vm.delete =  function (clientId) {
+    vm.delete =  function (userId) {
         $.SmartMessageBox({
             title: "删除账号",
             content: "确认删除该用户？",

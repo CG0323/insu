@@ -4,6 +4,14 @@ angular.module('app.employee').controller('SellerEditorController', function ($s
     var vm = this;
     vm.user = {};
     vm.editable = false;
+    vm.organizations=[];
+
+    EmployeeService.getOrganizations()
+        .then(function (organizations) {
+            console.log(organizations);
+            vm.organizations = organizations;
+        })
+
 
     if ($state.is("app.employee.seller.new")) {
         vm.editable = true;
@@ -16,8 +24,11 @@ angular.module('app.employee').controller('SellerEditorController', function ($s
         EmployeeService.getUser(userId)
             .then(function (user) {
                 vm.user = user;
+                console.log(user);
             });
     }
+    
+    
 
 
     vm.toggleEdit = function () {
@@ -30,6 +41,7 @@ angular.module('app.employee').controller('SellerEditorController', function ($s
     }
 
     vm.submit = function () {
+        vm.user.role="出单员";
         EmployeeService.saveUser(vm.user)
             .then(function (data) {
                 $.smallBox({

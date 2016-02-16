@@ -10,7 +10,15 @@ router.get('/me', function (req, res, next) {
   if (!req.isAuthenticated()) {
     res.status(401).send("请先登录");
   }
-  res.send(req.user);
+  User.findOne({ _id: req.user._id })
+    .populate('org')
+    .exec()
+    .then(function (user) {
+      res.status(200).json(user);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
 });
 
 // 临时接口
@@ -62,7 +70,6 @@ router.get('/register-admin', function (req, res) {
 });
 
 router.post('/logout', function (req, res) {
-  // logger.info(req.user.name + " 登出系统。"+ req.clientIP);
   req.logout();
   res.status(200).json({ status: 'Bye!' });
 });
@@ -136,7 +143,10 @@ router.get('/', function (req, res, next) {
   } else if (role == "finance") {
     query = { role: '财务' };
   }
-  User.find(query).exec()
+  User.find(query)
+  .populate('org')
+  .exec()
+    
     .then(function (users) {
       res.json(users);
     },
@@ -158,6 +168,28 @@ router.get('/:id', function (req, res) {
       logger.error(err);
       res.status(500).send(err);
     });
+});
+
+router.put('/:id', function (req, res) {
+  User.findById(req.params.id, function (err, user) {
+    if (err)
+      res.send(err);
+    user.name = req.body.name;
+    user.username = req.body.username;
+    user.org = req.body.org;
+    user.phone = req.body.phone;
+    user.setPassword(req.body.password, function () {
+      user.save(function (err) {
+        if (err) {
+          logger.error(err);
+          res.send(err);
+        }
+
+        logger.info(req.user.name + " 更新了用户账号，用户名为：" + user.username + "。" + req.clientIP);
+        res.json({ message: '用户账号已成功更新' });
+      });
+    });
+  });
 });
 
 module.exports = router;

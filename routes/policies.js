@@ -88,7 +88,8 @@ router.get('/paid', function (req, res) {
 
 router.get('/:id', function (req, res) {
   Policy.findOne({_id: req.params.id})
-    .populate('client seller')
+    .populate('client')
+    .populate({path:'seller',model:'User', populate:{path:'org', model:'Organization'}})
     .exec()
     .then(function(policy){
        res.status(200).json(policy);

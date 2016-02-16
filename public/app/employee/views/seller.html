@@ -25,6 +25,13 @@
                                                 <input type="text" class="input-lg" name="username" ng-model="vm.user.username" validator="required">
                                             </label>                                       
                                     </div>
+                                    <div ng-show="vm.editable" class="row">                                       
+                                            <label class="label">设置密码</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-key"></i>
+                                                <input type="text" class="input-lg" name="password" ng-model="vm.user.password" validator="required">
+                                            </label>       
+                                    </div>   
                                     <div class="row">                                      
                                             <label class="label">姓名</label>
                                             <label class="input">
@@ -32,22 +39,31 @@
                                                 <input type="text" class="input-lg" name="name" ng-model="vm.user.name" validator="required">
                                             </label>                                      
                                     </div>
-                                    <div class="row">
+                                    <!--<div class="row">
                                             <label class="label">所属机构</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-group"></i>
                                                 <input type="text" class="input-lg" name="organization" ng-model="vm.user.organization" validator="required">
                                             </label>
                                         
+                                    </div>-->
+                                    <div class="row">
+                                        <label class="label">所属机构</label>
+                                        <label class="select">
+                                            <select name='org' class="input-lg" ng-model="vm.user.org"
+                                                    ng-options="o._id as o.name for o in vm.organizations" validator="required">
+                                                <option value="">请选择所属机构</option>
+                                            </select> <i></i>
+                                        </label>
                                     </div>
                                     <div class="row">                                       
                                             <label class="label">联系电话</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-phone"></i>
                                                 <input type="text" class="input-lg" name="phone" ng-model="vm.user.phone" validator="phone">
-                                            </label>
-                                       
-                                    </div>                     
+                                            </label>       
+                                    </div>      
+                                                   
                                 </fieldset>
                             </section>
 
