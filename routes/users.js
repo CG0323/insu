@@ -74,7 +74,7 @@ router.post('/login', function (req, res, next) {
       return res.status(500).send(err);
     }
     if (!user) {
-      return res.status(401).send(info);
+      return res.status(401).send("用户名或密码错误");
     }
     req.logIn(user, function (err) {
       if (err) {

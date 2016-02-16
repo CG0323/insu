@@ -106,7 +106,6 @@ angular.module('app', [
             function (event, toState, toParams,
                       fromState, fromParams) {
                 if (toState.name != "login" && !AuthService.isLoggedIn()) {
-                    console.log("go to login");
                     event.preventDefault();
                     $state.transitionTo("login");
                 }
