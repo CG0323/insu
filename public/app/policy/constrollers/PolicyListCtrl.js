@@ -54,11 +54,11 @@ angular.module('app.policy').controller('PolicyListController', function(screenS
 
     vm.isShowDeleteButton = function(policy){
         if($rootScope.getUser().role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
+        return $rootScope.getUser().role == "出单员" && policy.policy_status == "待支付";
     };
 
     vm.isShowViewButton = function(policy){
-        return $rootScope.getUser().role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
+        return $rootScope.getUser().role == "出单员" || $rootScope.getUser().role == "管理员" || policy.policy_status == "已支付";
     };
 
     vm.pay = function(policyId){
