@@ -7,7 +7,9 @@ var logger = require('../utils/logger.js');
 
 
 router.get('/me', function (req, res, next) {
-
+  if(!req.user){
+    return {};
+  };
   User.findOne({ _id: req.user._id })
     .populate('org')
     .exec()
