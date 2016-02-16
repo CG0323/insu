@@ -91,10 +91,10 @@ angular.module('app', [
         , $state, $stateParams, AuthService) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        AuthService.getUser()
-            .then(function(user){
-                $rootScope.user = user;
-            });
+        // AuthService.getUser()
+        //     .then(function(user){
+        //         $rootScope.user = user;
+        //     });
         // editableOptions.theme = 'bs3';
         $rootScope.logout = function () {
             AuthService.logout()
