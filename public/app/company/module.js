@@ -26,7 +26,7 @@ angular.module('app.company').config(function ($stateProvider) {
             }
         })
         .state('app.company.view', {
-            url: '/view/:companyId',
+            url: '/companies/view/:companyId',
             data: {
                 title: '保险公司查看'
             },

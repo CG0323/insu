@@ -31,7 +31,7 @@ router.post('/', function (req, res) {
   var data = req.body;
   Company.find({ name: data.name }, function (err, companies) {
     if (companies.length > 0) {
-      res.status(400).send('系统中已存在该分支机构名称');
+      res.status(400).send('系统中已存在该公司名称');
     } else {
       var company = new Company(data);
       company.save(function (err, savedCompany, numAffected) {

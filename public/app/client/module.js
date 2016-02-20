@@ -38,7 +38,7 @@ angular.module('app.client').config(function ($stateProvider) {
             }
         })
         .state('app.client.organization.view', {
-            url: '/view/:clientId',
+            url: '/clients/view/:clientId',
             data: {
                 title: '客户信息查看'
             },

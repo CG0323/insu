@@ -26,7 +26,7 @@ angular.module('app.organization').config(function ($stateProvider) {
             }
         })
         .state('app.organization.view', {
-            url: '/view/:organizationId',
+            url: '/organizations/view/:organizationId',
             data: {
                 title: '分支机构查看'
             },

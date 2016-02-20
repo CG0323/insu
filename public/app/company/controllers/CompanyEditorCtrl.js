@@ -15,7 +15,7 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
 
     var companyId = $stateParams.companyId;
     if (companyId) {
-        CompanyService.getCompany(CompanyService)
+        CompanyService.getCompany(companyId)
             .then(function (company) {
                 vm.company = company;
             });
