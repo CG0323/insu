@@ -3,6 +3,7 @@ var orders = require('./orders.js');
 var clients = require('./clients.js');
 var policies = require('./policies.js');
 var organizations = require('./organizations.js');
+var companies = require('./companies.js');
 var router = express.Router();
 
 /* GET home page. */
@@ -11,6 +12,7 @@ router.use('/orders', orders);
 router.use('/clients', clients);
 router.use('/policies', policies);
 router.use('/organizations', organizations);
+router.use('/companies', companies);
 
 function ensureAuthenticated(req, res, next) {
     // console.log('Calling: ensureAuthenticated.....');

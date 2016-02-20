@@ -1,23 +1,23 @@
 'use strict'
 
-angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
+angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
     var vm = this;
-    vm.organization = {};
+    vm.company = {};
     
     
     vm.editable = false;
 
-    if ($state.is("app.organization.new")) {
+    if ($state.is("app.company.new")) {
         vm.editable = true;
     }
 
 
 
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
-            .then(function (organization) {
-                vm.organization = organization;
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(CompanyService)
+            .then(function (company) {
+                vm.company = company;
             });
     }
 
@@ -32,18 +32,18 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     }
 
     vm.submit = function () {
-        OrganizationService.saveOrganization(vm.organization)
+        CompanyService.saveCompany(vm.company)
             .then(function (data) {
                 $.smallBox({
                     title: "服务器确认信息",
-                    content: "分支机构已成功保存",
+                    content: "保险公司已成功保存",
                     color: "#739E73",
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.organization = {};
+                vm.company = {};
                 if (vm.back) {
-                    $state.go("app.organization.all");
+                    $state.go("app.company.all");
                 }
             }, function (err) { });
     };

@@ -72,6 +72,17 @@
                 </ul>
             </li>
             
+            <li  ng-show="user.role=='管理员'" data-menu-collapse>
+                <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">保险公司管理</span></a>
+                <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.company.all">保险公司</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.company.new">添加保险公司</a>
+                    </li>
+                </ul>
+            </li>
             <!--<li data-ui-sref-active="active">
                 <a data-ui-sref="app.dashboard" title="Dashboard"><i class="fa fa-lg fa-fw fa-history"></i> <span
                         class="menu-item-parent">Dashboard</span></a>

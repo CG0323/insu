@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .payment-info-panel{
-	margin: 2em,1em,2em,0em;
+	margin: 0.5em,1em,2em,0em;
 	font-size: large;
 	color: darkblue;
 }
@@ -73,4 +73,13 @@ td button {
 .height-limit{
 	max-height: 800px;
 	overflow: scroll;
+}
+
+.no-padding{
+	padding: 0;
+}
+
+.percent{
+	padding-top: 50%;
+    padding-left: 0.3em;
 }

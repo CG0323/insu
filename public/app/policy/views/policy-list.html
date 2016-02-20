@@ -28,19 +28,21 @@
                             <thead>
                                 <tr>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
-                                    display-format="date:'yyyy-MM-dd hh:mm:ss'">
-                                    </th>
-                                    <th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                    display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
+                                    <!--<th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="totalFee" display-name="保单总额" display-format="computeTotal:gridItem|currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="total_income" display-name="跟单费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="total_payment" display-name="结算费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
                             </thead>

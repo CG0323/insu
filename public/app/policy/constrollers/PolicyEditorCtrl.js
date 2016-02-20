@@ -1,19 +1,22 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyEditorController',function ($scope,$filter, $rootScope, $state, $stateParams, PolicyService) {
+angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
     var vm = this;
     vm.policy = {};
     vm.policy.plate_province = "苏";
     vm.clientInfo = {};
     vm.sellerInfo = $rootScope.user;
-    console.log(vm.sellerInfo);
     PolicyService.getClients()
         .then(function (clients) {
             vm.clients = clients;
         })
+    PolicyService.getCompanies()
+        .then(function (companies) {
+            vm.companies = companies;
+        })
 
     vm.editable = false;
-    if($state.is("app.policy.new")){
+    if ($state.is("app.policy.new")) {
         vm.editable = true;
     }
 
@@ -23,7 +26,6 @@ angular.module('app.policy').controller('PolicyEditorController',function ($scop
     if (policyId) {
         PolicyService.getPolicy(policyId)
             .then(function (policy) {
-                //policy.client = policy.client._id;
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
@@ -32,7 +34,7 @@ angular.module('app.policy').controller('PolicyEditorController',function ($scop
             });
     }
 
-    vm.toggleEdit = function(){
+    vm.toggleEdit = function () {
         vm.editable = !vm.editable;
     }
 
@@ -87,54 +89,101 @@ angular.module('app.policy').controller('PolicyEditorController',function ($scop
         });
 
     };
-}); 
 
-angular.module('app.policy').directive('upper', function() {
-   return {
-     require: 'ngModel',
-     link: function(scope, element, attrs, modelCtrl) {
-        var capitalize = function(inputValue) {
-           if(inputValue == undefined) inputValue = '';
-           var capitalized = inputValue.toUpperCase();
-           if(capitalized !== inputValue) {
-              modelCtrl.$setViewValue(capitalized);
-              modelCtrl.$render();
-            }         
-            return capitalized;
-         }
-         modelCtrl.$parsers.push(capitalize);
-         capitalize(scope[attrs.ngModel]);  // capitalize initial value
-     }
-   };
+    vm.updateFee = function () {
+        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
+        if (vm.policy.mandatory_fee_income) {
+            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+        }
+        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
+        if (vm.policy.commercial_fee_income) {
+            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+        }
+        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
+        if (vm.policy.tax_fee_income) {
+            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+        }
+        if (vm.policy.mandatory_fee_income && vm.policy.commercial_fee_income && vm.policy.tax_fee_income) {
+            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+        }
+
+        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
+
+        if (vm.policy.mandatory_fee_payment) {
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+        }
+        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
+        if (vm.policy.commercial_fee_payment) {
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+        }
+        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
+        if (vm.policy.tax_fee_payment) {
+            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+        }
+        if (vm.policy.mandatory_fee_payment && vm.policy.commercial_fee_payment && vm.policy.tax_fee_payment) {
+            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_addition) {
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_substraction) {
+            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+
+
+    }
 });
 
-angular.module('app.policy').directive('price', function() {
-   return {
-     require: 'ngModel',
-     link: function(scope, element, attrs, modelCtrl) {
-        var removeIllegalInput = function(inputValue) {
-           if(inputValue == undefined) inputValue = '';
-        //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+angular.module('app.policy').directive('upper', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var capitalize = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                var capitalized = inputValue.toUpperCase();
+                if (capitalized !== inputValue) {
+                    modelCtrl.$setViewValue(capitalized);
+                    modelCtrl.$render();
+                }
+                return capitalized;
+            }
+            modelCtrl.$parsers.push(capitalize);
+            capitalize(scope[attrs.ngModel]);  // capitalize initial value
+        }
+    };
+});
+
+angular.module('app.policy').directive('price', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var removeIllegalInput = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
            
-           //先把非数字的都替换掉，除了数字和.
-		var output= inputValue.replace(/[^\d.]/g,"");
-		//必须保证第一个为数字而不是.
-		output = output.replace(/^\./g,"");
-		//保证只有出现一个.而没有多个.
-		output = output.replace(/\.{2,}/g,".");
-		//保证.只出现一次，而不能出现两次以上
-		output = output.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-        //只允许输入两位小数
-        output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
-           
-           if(output !== inputValue) {
-              modelCtrl.$setViewValue(output);
-              modelCtrl.$render();
-            }         
-            return output;
-         }
-         modelCtrl.$parsers.push(removeIllegalInput);
-         removeIllegalInput(scope[attrs.ngModel]);  
-     }
-   };
+                //先把非数字的都替换掉，除了数字和.
+                var output = inputValue.replace(/[^\d.]/g, "");
+                //必须保证第一个为数字而不是.
+                output = output.replace(/^\./g, "");
+                //保证只有出现一个.而没有多个.
+                output = output.replace(/\.{2,}/g, ".");
+                //保证.只出现一次，而不能出现两次以上
+                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                //只允许输入两位小数
+                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+
+                if (output !== inputValue) {
+                    modelCtrl.$setViewValue(output);
+                    modelCtrl.$render();
+                }
+                return output;
+            }
+            modelCtrl.$parsers.push(removeIllegalInput);
+            removeIllegalInput(scope[attrs.ngModel]);
+        }
+    };
 });

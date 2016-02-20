@@ -13,6 +13,7 @@
                                     <th>手续费</th>
                                     <!--<th><i class="fa fa-fw fa-rocket"></i>保单状态</th>-->
                                     <th>支付日期</th>
+                                    <th>支付凭证号</th>
                                   </tr>
                             </thead>
                             <tbody>
@@ -20,9 +21,9 @@
                                     <td>{{policy.plate_province}}{{policy.plate_no}}</td>
                                     <td>{{policy.applicant.name}}</td>
                                     <!--<td>{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>-->
-                                    <td>{{policy.payment | currency:"￥" | formatPayment }}</td>
-                                    <!--<td>{{policy.policy_status}}</td>-->
+                                    <td>{{policy.total_payment | currency:"￥" | formatPayment }}</td>
                                     <td>{{policy.paid_at | formatPaidDate | date:"yyyy-MM-dd"}}</td>
+                                    <td>{{policy.payment_proof}</td>
                                 </tr>
                            </tbody>
                         </table>

@@ -109,19 +109,40 @@ router.put('/:id', function (req, res) {
         policy.frame_no = req.body.frame_no;
         policy.engine_no = req.body.engine_no;
         policy.mandatory_fee = req.body.mandatory_fee;
+        policy.mandatory_fee_income_rate = req.body.mandatory_fee_income_rate;
+        policy.mandatory_fee_income = req.body.mandatory_fee_income;
+        policy.mandatory_fee_payment_rate = req.body.mandatory_fee_payment_rate;
+        policy.mandatory_fee_payment = req.body.mandatory_fee_payment;
         policy.commercial_fee = req.body.commercial_fee;
+        policy.commercial_fee_income_rate = req.body.commercial_fee_income_rate;
+        policy.commercial_fee_income = req.body.commercial_fee_income;
+        policy.commercial_fee_payment_rate = req.body.commercial_fee_payment_rate;
+        policy.commercial_fee_payment = req.body.commercial_fee_payment;
         policy.tax_fee = req.body.tax_fee;
+        policy.tax_fee_income_rate = req.body.tax_fee_income_rate;
+        policy.tax_fee_income = req.body.tax_fee_income;
+        policy.tax_fee_payment_rate = req.body.tax_fee_payment_rate;
+        policy.tax_fee_payment = req.body.tax_fee_payment;
         policy.client = req.body.client;
         policy.seller = req.body.seller;
         policy.policy_status = req.body.policy_status;
         policy.paid_at = req.body.paid_at;
-        policy.income = req.body.income;
-        policy.payment = req.body.payment;
+        policy.total_income = req.body.total_income;
+        policy.payment_addition = req.body.payment_addition;
+        policy.payment_addition_comment = req.body.payment_addition_comment;
+        policy.payment_substraction = req.body.payment_substraction;
+        policy.payment_substraction_comment = req.body.payment_substraction_comment;
+        policy.total_payment = req.body.total_payment;
+        policy.effective_date = req.body.effective_date;
+        policy.catogary = req.body.catogary;
+        console.log(req.body.payment_proof);
+        policy.payment_proof = req.body.payment_proof;
         policy.save(function (err) {
             if (err){
               logger.error(err);
               res.send(err);
             }
+            console.log(policy.payment_proof);
             logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
             res.json({message: '保单已成功更新'});
         });

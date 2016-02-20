@@ -40,7 +40,8 @@ angular.module('app', [
     'app.policy',
     'app.client',
     'app.employee',
-    'app.organization'
+    'app.organization',
+    'app.company'
 ])
     .config(function ($provide, $httpProvider) {
 
@@ -91,17 +92,6 @@ angular.module('app', [
         , $state, $stateParams, AuthService) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        // $rootScope.getUser = function () {
-        //     if ($rootScope.user) {
-        //         return $rootScope.user;
-        //     } else {
-        //         AuthService.getUser()
-        //             .then(function (user) {
-        //                 $rootScope.user = user;
-        //                 return $rootScope.user;
-        //             });
-        //     }
-        // };
         AuthService.getUser()
             .then(function (user) {
                 $rootScope.user = user;
