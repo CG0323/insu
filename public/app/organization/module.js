@@ -38,7 +38,7 @@ angular.module('app.organization').config(function ($stateProvider) {
             }
         })
         .state('app.organization.new', {
-            url: '/new',
+            url: '/organizations/new',
             data: {
                 title: '添加分支机构'
             },

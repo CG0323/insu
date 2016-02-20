@@ -38,7 +38,7 @@ angular.module('app.company').config(function ($stateProvider) {
             }
         })
         .state('app.company.new', {
-            url: '/new',
+            url: '/companies/new',
             data: {
                 title: '添加保险公司'
             },
