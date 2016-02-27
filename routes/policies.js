@@ -135,14 +135,13 @@ router.put('/:id', function (req, res) {
         policy.total_payment = req.body.total_payment;
         policy.effective_date = req.body.effective_date;
         policy.catogary = req.body.catogary;
-        console.log(req.body.payment_proof);
+        policy.payment_bank = req.body.payment_bank;
         policy.payment_proof = req.body.payment_proof;
         policy.save(function (err) {
             if (err){
               logger.error(err);
               res.send(err);
             }
-            console.log(policy.payment_proof);
             logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
             res.json({message: '保单已成功更新'});
         });

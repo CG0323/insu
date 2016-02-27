@@ -12,6 +12,7 @@ var schema = new mongoose.Schema({
   applicant: { name: String, phone: String, identity: String, address: String },
   frame_no: String,
   engine_no: String,
+  payment_bank: String,
   payment_proof: String,
   mandatory_fee: Number,
   mandatory_fee_income_rate: Number,

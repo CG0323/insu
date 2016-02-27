@@ -93,7 +93,7 @@ app.use(function(err, req, res, next) {
 function log4jsLogger(req, res, next) {
   if(app.get('env') === 'production')
   {
-    log4js.trace(getClientIp(req) + ":  " + req.url);
+    // log4js.trace(getClientIp(req) + ":  " + req.url);
   }
   req.clientIP = getClientIp(req);
   next();

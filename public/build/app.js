@@ -2013,8 +2013,8 @@ angular.module('app.chat', ['ngSanitize'])
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\r\n<!-- widget options:\r\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\r\n\r\ndata-widget-colorbutton=\"false\"\r\ndata-widget-editbutton=\"false\"\r\ndata-widget-togglebutton=\"false\"\r\ndata-widget-deletebutton=\"false\"\r\ndata-widget-fullscreenbutton=\"false\"\r\ndata-widget-custombutton=\"false\"\r\ndata-widget-collapsed=\"true\"\r\ndata-widget-sortable=\"false\"\r\n\r\n-->\r\n<header>\r\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\r\n\r\n    <h2>Live Feeds </h2>\r\n\r\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\r\n        <li class=\"active\">\r\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\r\n        </li>\r\n    </ul>\r\n\r\n</header>\r\n\r\n<!-- widget div-->\r\n<div class=\"no-padding\">\r\n\r\n    <div class=\"widget-body\">\r\n        <!-- content -->\r\n        <div id=\"myTabContent\" class=\"tab-content\">\r\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\r\n                <div class=\"row no-space\">\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\r\n														<span class=\"demo-liveupdate-1\"> <span\r\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\r\n                                                                class=\"onoffswitch\">\r\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\r\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\r\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\r\n                                                                    <span class=\"onoffswitch-inner\"\r\n                                                                          data-swchon-text=\"ON\"\r\n                                                                          data-swchoff-text=\"OFF\"></span>\r\n                                                                    <span class=\"onoffswitch-switch\"></span>\r\n                                                                </label> </span> </span>\r\n\r\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\r\n\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\r\n\r\n                        <div class=\"row\">\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\r\n                                    class=\"pull-right\">130/200</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\r\n                                    class=\"pull-right\">440 GB</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\r\n                                    class=\"pull-right\">77%</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\r\n                                    class=\"pull-right\">7 Days</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\r\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\r\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\r\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\r\n                                a bug</a> </span> </span>\r\n\r\n                        </div>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n\r\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">35</span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">78.9 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">23 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-darken\">10GB</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\r\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Temperature <i\r\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s1 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s2\">\r\n                <div class=\"widget-body-toolbar bg-color-white\">\r\n\r\n                    <form class=\"form-inline\" role=\"form\">\r\n\r\n                        <div class=\"form-group\">\r\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\r\n                        </div>\r\n\r\n                        <div class=\"btn-group hidden-phone pull-right\">\r\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                            <ul class=\"dropdown-menu pull-right\">\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                                </li>\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                                </li>\r\n                            </ul>\r\n                        </div>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n                <div class=\"padding-10\">\r\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s2 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s3\">\r\n\r\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\r\n\r\n                    <div class=\"inline-group\">\r\n\r\n                        <label for=\"gra-0\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\r\n                            <i></i> Target </label>\r\n                        <label for=\"gra-1\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\r\n                            <i></i> Actual </label>\r\n                        <label for=\"gra-2\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\r\n                            <i></i> Signups </label>\r\n                    </div>\r\n\r\n                    <div class=\"btn-group hidden-phone pull-right\">\r\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                        <ul class=\"dropdown-menu pull-right\">\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                            </li>\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"padding-10\">\r\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\r\n                </div>\r\n            </div>\r\n            <!-- end s3 tab pane -->\r\n        </div>\r\n\r\n        <!-- end content -->\r\n    </div>\r\n\r\n</div>\r\n<!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\r\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\r\n<!-- END HEADER -->\r\n\r\n\r\n<!-- Left panel : Navigation area -->\r\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\r\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\r\n\r\n<!-- END NAVIGATION -->\r\n\r\n<!-- MAIN PANEL -->\r\n<div id=\"main\" role=\"main\">\r\n    <!--<demo-states></demo-states>-->\r\n\r\n    <!-- RIBBON -->\r\n    <div id=\"ribbon\">\r\n\r\n				<!--<span class=\"ribbon-button-alignment\">\r\n					<span id=\"refresh\" class=\"btn btn-ribbon\" reset-widgets\r\n                          tooltip-placement=\"bottom\"\r\n                          tooltip-html=\"<i class=\'text-warning fa fa-warning\'></i> Warning! This will reset all your widget settings.\">\r\n						<i class=\"fa fa-refresh\"></i>\r\n					</span>\r\n				</span>-->\r\n\r\n        <!-- breadcrumb -->\r\n        <state-breadcrumbs></state-breadcrumbs>\r\n        <!-- end breadcrumb -->\r\n\r\n\r\n    </div>\r\n    <!-- END RIBBON -->\r\n\r\n\r\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\r\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\r\n    </div>\r\n\r\n</div>\r\n<!-- END MAIN PANEL -->\r\n\r\n<!-- PAGE FOOTER -->\r\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\r\n\r\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\r\n\r\n<!-- END PAGE FOOTER -->\r\n\r\n\r\n");
 $templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis-widget data-widget-color=\"blueDark\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-calendar\"></i> </span>\r\n\r\n        <h2> My Events </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <div class=\"btn-group dropdown\" dropdown >\r\n                <button class=\"btn dropdown-toggle btn-xs btn-default\" dropdown-toggle>\r\n                    Showing <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu js-status-update pull-right\">\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'month\')\">Month</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaWeek\')\">Agenda</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaDay\')\">Today</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding\">\r\n            <!-- content goes here -->\r\n            <div class=\"widget-body-toolbar\">\r\n\r\n                <div id=\"calendar-buttons\">\r\n\r\n                    <div class=\"btn-group\">\r\n                        <a ng-click=\"prev()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-left\"></i></a>\r\n                        <a ng-click=\"next()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-right\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div id=\"calendar\"></div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>\r\n");
-$templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
 $templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
+$templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
 $templateCache.put("app/dashboard/projects/recent-projects.tpl.html","<div class=\"project-context hidden-xs dropdown\" dropdown>\r\n\r\n    <span class=\"label\">{{getWord(\'Projects\')}}:</span>\r\n    <span class=\"project-selector dropdown-toggle\" dropdown-toggle>{{getWord(\'Recent projects\')}} <i ng-if=\"projects.length\"\r\n            class=\"fa fa-angle-down\"></i></span>\r\n\r\n    <ul class=\"dropdown-menu\" ng-if=\"projects.length\">\r\n        <li ng-repeat=\"project in projects\">\r\n            <a href=\"{{project.href}}\">{{project.title}}</a>\r\n        </li>\r\n        <li class=\"divider\"></li>\r\n        <li>\r\n            <a ng-click=\"clearProjects()\"><i class=\"fa fa-power-off\"></i> Clear</a>\r\n        </li>\r\n    </ul>\r\n\r\n</div>");
 $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-widget\" jarvis-widget data-widget-editbutton=\"false\" data-widget-color=\"blue\"\r\n     ng-controller=\"TodoCtrl\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\r\n\r\n        <h2> ToDo\'s </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <button class=\"btn btn-xs btn-default\" ng-class=\"{active: newTodo}\" ng-click=\"toggleAdd()\"><i ng-class=\"{ \'fa fa-plus\': !newTodo, \'fa fa-times\': newTodo}\"></i> Add</button>\r\n\r\n        </div>\r\n    </header>\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding smart-form\">\r\n            <!-- content goes here -->\r\n            <div ng-show=\"newTodo\">\r\n                <h5 class=\"todo-group-title\"><i class=\"fa fa-plus-circle\"></i> New Todo</h5>\r\n\r\n                <form name=\"newTodoForm\" class=\"smart-form\">\r\n                    <fieldset>\r\n                        <section>\r\n                            <label class=\"input\">\r\n                                <input type=\"text\" required class=\"input-lg\" ng-model=\"newTodo.title\"\r\n                                       placeholder=\"What needs to be done?\">\r\n                            </label>\r\n                        </section>\r\n                        <section>\r\n                            <div class=\"col-xs-6\">\r\n                                <label class=\"select\">\r\n                                    <select class=\"input-sm\" ng-model=\"newTodo.state\"\r\n                                            ng-options=\"state as state for state in states\"></select> <i></i> </label>\r\n                            </div>\r\n                        </section>\r\n                    </fieldset>\r\n                    <footer>\r\n                        <button ng-disabled=\"newTodoForm.$invalid\" type=\"button\" class=\"btn btn-primary\"\r\n                                ng-click=\"createTodo()\">\r\n                            Add\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-default\" ng-click=\"toggleAdd()\">\r\n                            Cancel\r\n                        </button>\r\n                    </footer>\r\n                </form>\r\n            </div>\r\n\r\n            <todo-list state=\"Critical\"  title=\"Critical Tasks\" icon=\"warning\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Important\" title=\"Important Tasks\" icon=\"exclamation\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Completed\" title=\"Completed Tasks\" icon=\"check\" todos=\"todos\"></todo-list>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
@@ -2615,6 +2615,232 @@ angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $i
 
 
 });
+'use strict';
+
+angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
+
+    $scope.projects = projects.data;
+
+    $scope.tableOptions =  {
+        "data": projects.data.data,
+//            "bDestroy": true,
+        "iDisplayLength": 15,
+        "columns": [
+            {
+                "class":          'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "name" },
+            { "data": "est" },
+            { "data": "contacts" },
+            { "data": "status" },
+            { "data": "target-actual" },
+            { "data": "starts" },
+            { "data": "ends" },
+            { "data": "tracker" }
+        ],
+        "order": [[1, 'asc']]
+    }
+});
+"use strict";
+
+angular.module('app.client').factory('ClientService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveClient: saveClient,
+                getOrgClients: getOrgClients,
+                getIndClients: getIndClients,
+                getClient: getClient,
+                deleteClient: deleteClient,
+                getFollowers: getFollowers,
+                getWechatsByIds: getWechatsByIds
+            });
+
+            function saveClient(client) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (client._id) {
+                    client.updated_at = Date.now();
+                    $http.put('/api/clients/' + client._id, client)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    client.created_at = Date.now();
+                    client.updated_at = client.created_at;
+                    $http.post('/api/clients', client)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getIndClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFollowers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/wechat/followers')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getWechatsByIds(openIds) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.post('/wechat/byids', openIds)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            
+           
+        }]);
 'use strict'
 
 angular.module('app.client').controller('IndClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
@@ -2920,232 +3146,6 @@ angular.module('app.client').controller('OrgClientListController', function(scre
 
 });
 
-"use strict";
-
-angular.module('app.client').factory('ClientService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveClient: saveClient,
-                getOrgClients: getOrgClients,
-                getIndClients: getIndClients,
-                getClient: getClient,
-                deleteClient: deleteClient,
-                getFollowers: getFollowers,
-                getWechatsByIds: getWechatsByIds
-            });
-
-            function saveClient(client) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (client._id) {
-                    client.updated_at = Date.now();
-                    $http.put('/api/clients/' + client._id, client)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    client.created_at = Date.now();
-                    client.updated_at = client.created_at;
-                    $http.post('/api/clients', client)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrgClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=organization')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getIndClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFollowers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/wechat/followers')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getWechatsByIds(openIds) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.post('/wechat/byids', openIds)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            
-           
-        }]);
-'use strict';
-
-angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
-
-    $scope.projects = projects.data;
-
-    $scope.tableOptions =  {
-        "data": projects.data.data,
-//            "bDestroy": true,
-        "iDisplayLength": 15,
-        "columns": [
-            {
-                "class":          'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "name" },
-            { "data": "est" },
-            { "data": "contacts" },
-            { "data": "status" },
-            { "data": "target-actual" },
-            { "data": "starts" },
-            { "data": "ends" },
-            { "data": "tracker" }
-        ],
-        "order": [[1, 'asc']]
-    }
-});
 'use strict';
 
 angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
@@ -3449,29 +3449,6 @@ angular.module('app.auth').directive('loginInfo', function(AuthService){
 
 "use strict";
 
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
-        });
-    });
-})
-
-"use strict";
-
 angular.module('app.auth').factory('AuthService',
     ['$q', '$timeout', '$http', '$cookies',
         function ($q, $timeout, $http, $cookies) {
@@ -3603,6 +3580,29 @@ angular.module('app.auth').factory('AuthService',
             }
 
         }]);
+"use strict";
+
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
+
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
+        }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
+})
+
 
 "use strict";
 
@@ -3904,232 +3904,6 @@ angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalI
         $modalInstance.dismiss('cancel');
     }
 });
-"use strict";	
-
-angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
-
-	$scope.activeTab = 'default';
-	$scope.currentActivityItems = [];
-	
-	// Getting different type of activites
-	activityService.get(function(data){
-
-		$scope.activities = data.activities;
-		
-	});
-
-
-	$scope.isActive = function(tab){
-		return $scope.activeTab === tab;
-	};
-
-	$scope.setTab = function(activityType){
-		$scope.activeTab = activityType;
-
-		activityService.getbytype(activityType, function(data) {
-
-			$scope.currentActivityItems = data.data;
-
-		});
-
-	};
-
-});
-"use strict";
-
-angular.module('app').directive('activitiesDropdownToggle', function($log) {
-
-	var link = function($scope,$element, attrs){
-		var ajax_dropdown = null;
-
-		$element.on('click',function(){
-			var badge = $(this).find('.badge');
-
-			if (badge.hasClass('bg-color-red')) {
-
-				badge.removeClass('bg-color-red').text(0);
-
-			}
-
-			ajax_dropdown = $(this).next('.ajax-dropdown');
-
-			if (!ajax_dropdown.is(':visible')) {
-
-				ajax_dropdown.fadeIn(150);
-
-				$(this).addClass('active');
-
-			}
-			 else {
-				
-				ajax_dropdown.fadeOut(150);
-				
-				$(this).removeClass('active');
-
-			}
-
-		})
-
-		$(document).mouseup(function(e) {
-			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
-				ajax_dropdown.fadeOut(150);
-				$element.removeClass('active');
-			}
-		});
-	}
-	
-	return{
-		restrict:'EA',
-		link:link
-	}
-});
-"use strict";
-
-angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
-
-	function getActivities(callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getActivitiesByType(type, callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-	
-	return{
-		get:function(callback){
-			getActivities(callback);
-		},
-		getbytype:function(type,callback){
-			getActivitiesByType(type, callback);
-		}
-	}
-});
-'use strict'
-
-angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.company = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyId = $stateParams.companyId;
-    if (companyId) {
-        CompanyService.getCompany(companyId)
-            .then(function (company) {
-                vm.company = company;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.saveCompany(vm.company)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.company = {};
-                if (vm.back) {
-                    $state.go("app.company.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.companies = [];
-
-
-
-    vm.refreshCompanies = function(){
-       CompanyService.getCompanies()
-       .then(function(companies){
-           vm.companies = companies;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshCompanies();
-	
-    vm.view = function(companyId){
-        $state.go("app.company.view", {companyId: companyId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (companyId) {
-        $.SmartMessageBox({
-            title: "删除保险公司",
-            content: "确认删除该保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompany(companyId)
-                    .then(function(){
-                        vm.refreshCompanies();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
 "use strict";
 
 angular.module('app.company').factory('CompanyService',
@@ -4554,6 +4328,128 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
         label : "Site visitors"
     }];
 });
+"use strict";	
+
+angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
+
+	$scope.activeTab = 'default';
+	$scope.currentActivityItems = [];
+	
+	// Getting different type of activites
+	activityService.get(function(data){
+
+		$scope.activities = data.activities;
+		
+	});
+
+
+	$scope.isActive = function(tab){
+		return $scope.activeTab === tab;
+	};
+
+	$scope.setTab = function(activityType){
+		$scope.activeTab = activityType;
+
+		activityService.getbytype(activityType, function(data) {
+
+			$scope.currentActivityItems = data.data;
+
+		});
+
+	};
+
+});
+"use strict";
+
+angular.module('app').directive('activitiesDropdownToggle', function($log) {
+
+	var link = function($scope,$element, attrs){
+		var ajax_dropdown = null;
+
+		$element.on('click',function(){
+			var badge = $(this).find('.badge');
+
+			if (badge.hasClass('bg-color-red')) {
+
+				badge.removeClass('bg-color-red').text(0);
+
+			}
+
+			ajax_dropdown = $(this).next('.ajax-dropdown');
+
+			if (!ajax_dropdown.is(':visible')) {
+
+				ajax_dropdown.fadeIn(150);
+
+				$(this).addClass('active');
+
+			}
+			 else {
+				
+				ajax_dropdown.fadeOut(150);
+				
+				$(this).removeClass('active');
+
+			}
+
+		})
+
+		$(document).mouseup(function(e) {
+			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
+				ajax_dropdown.fadeOut(150);
+				$element.removeClass('active');
+			}
+		});
+	}
+	
+	return{
+		restrict:'EA',
+		link:link
+	}
+});
+"use strict";
+
+angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
+
+	function getActivities(callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getActivitiesByType(type, callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+	
+	return{
+		get:function(callback){
+			getActivities(callback);
+		},
+		getbytype:function(type,callback){
+			getActivitiesByType(type, callback);
+		}
+	}
+});
 "use strict";
 
 angular.module('app').factory('Project', function($http, APP_CONFIG){
@@ -4620,22 +4516,24 @@ angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
 });
 'use strict'
 
-angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
     var vm = this;
-    vm.user = {};
+    vm.company = {};
+    
+    
     vm.editable = false;
 
-    if ($state.is("app.employee.finance.new")) {
+    if ($state.is("app.company.new")) {
         vm.editable = true;
     }
 
 
 
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(companyId)
+            .then(function (company) {
+                vm.company = company;
             });
     }
 
@@ -4650,19 +4548,18 @@ angular.module('app.employee').controller('FinanceEditorController', function ($
     }
 
     vm.submit = function () {
-        vm.user.role="财务";
-        EmployeeService.saveUser(vm.user)
+        CompanyService.saveCompany(vm.company)
             .then(function (data) {
                 $.smallBox({
                     title: "服务器确认信息",
-                    content: "用户已成功保存",
+                    content: "保险公司已成功保存",
                     color: "#739E73",
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.user = {};
+                vm.company = {};
                 if (vm.back) {
-                    $state.go("app.employee.finance");
+                    $state.go("app.company.all");
                 }
             }, function (err) { });
     };
@@ -4674,153 +4571,41 @@ angular.module('app.employee').controller('FinanceEditorController', function ($
 
 'use strict'
 
-angular.module('app.employee').controller('FinanceListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+angular.module('app.company').controller('CompanyListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
     var vm = this;
-    vm.users = [];
+    vm.companies = [];
 
 
 
-    vm.refreshUsers = function(){
-       EmployeeService.getFinances()
-       .then(function(users){
-           vm.users = users;
+    vm.refreshCompanies = function(){
+       CompanyService.getCompanies()
+       .then(function(companies){
+           vm.companies = companies;
        }, function(err){
            
        });
     };
     
-    vm.refreshUsers();
+    vm.refreshCompanies();
 	
-    vm.view = function(userId){
-        $state.go("app.employee.finance.view", {userId: userId});
+    vm.view = function(companyId){
+        $state.go("app.company.view", {companyId: companyId});
     };
 
     /*
      * SmartAlerts
      */
     // With Callback
-    vm.delete =  function (userId) {
+    vm.delete =  function (companyId) {
         $.SmartMessageBox({
-            title: "删除账号",
-            content: "确认删除该用户？",
+            title: "删除保险公司",
+            content: "确认删除该保险公司？",
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                EmployeeService.deleteUser(userId)
+                CompanyService.deleteCompany(companyId)
                     .then(function(){
-                        vm.refreshUsers();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-'use strict'
-
-angular.module('app.employee').controller('SellerEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
-    var vm = this;
-    vm.user = {};
-    vm.editable = false;
-    vm.organizations=[];
-
-    EmployeeService.getOrganizations()
-        .then(function (organizations) {
-            vm.organizations = organizations;
-        })
-
-
-    if ($state.is("app.employee.seller.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
-            });
-    }
-    
-    
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        vm.user.role="出单员";
-        EmployeeService.saveUser(vm.user)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "用户已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.user = {};
-                if (vm.back) {
-                    $state.go("app.employee.seller");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.employee').controller('SellerListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
-    var vm = this;
-    vm.users = [];
-
-
-
-    vm.refreshUsers = function(){
-       EmployeeService.getSellers()
-       .then(function(users){
-           vm.users = users;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshUsers();
-	
-    vm.view = function(userId){
-        $state.go("app.employee.seller.view", {userId: userId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (userId) {
-        $.SmartMessageBox({
-            title: "删除账号",
-            content: "确认删除该用户？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                EmployeeService.deleteUser(userId)
-                    .then(function(){
-                        vm.refreshUsers();
+                        vm.refreshCompanies();
                     })
             }
             if (ButtonPressed === "取消") {
@@ -5072,6 +4857,161 @@ angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONF
     return InboxMessage;
 
 });
+"use strict";
+
+angular.module('app').factory('Language', function($http, APP_CONFIG){
+
+	function getLanguage(key, callback) {
+
+		$http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function(data){
+
+			callback(data);
+			
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getLanguages(callback) {
+
+		$http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function(data){
+
+			callback(data);
+			
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	return {
+		getLang: function(type, callback) {
+			getLanguage(type, callback);
+		},
+		getLanguages:function(callback){
+			getLanguages(callback);
+		}
+	}
+
+});
+"use strict";
+
+angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
+
+    $rootScope.lang = {};
+    
+    Language.getLanguages(function(data){
+
+        $rootScope.currentLanguage = data[0];
+
+        $rootScope.languages = data;
+
+        Language.getLang(data[0].key,function(data){
+
+            $rootScope.lang = data;
+        });
+
+    });
+
+    $scope.selectLanguage = function(language){
+        $rootScope.currentLanguage = language;
+        
+        Language.getLang(language.key,function(data){
+
+            $rootScope.lang = data;
+            
+        });
+    }
+
+    $rootScope.getWord = function(key){
+        if(angular.isDefined($rootScope.lang[key])){
+            return $rootScope.lang[key];
+        } 
+        else {
+            return key;
+        }
+    }
+
+});
+"use strict";
+
+angular.module('app').directive('languageSelector', function(Language){
+    return {
+        restrict: "EA",
+        replace: true,
+        templateUrl: "app/layout/language/language-selector.tpl.html",
+        scope: true
+    }
+});
+"use strict";
+
+angular.module('app').directive('toggleShortcut', function($log,$timeout) {
+
+	var initDomEvents = function($element){
+
+		var shortcut_dropdown = $('#shortcut');
+
+		$element.on('click',function(){
+		
+			if (shortcut_dropdown.is(":visible")) {
+				shortcut_buttons_hide();
+			} else {
+				shortcut_buttons_show();
+			}
+
+		})
+
+		shortcut_dropdown.find('a').click(function(e) {
+			e.preventDefault();
+			window.location = $(this).attr('href');
+			setTimeout(shortcut_buttons_hide, 300);
+		});
+
+		
+
+		// SHORTCUT buttons goes away if mouse is clicked outside of the area
+		$(document).mouseup(function(e) {
+			if (shortcut_dropdown && !shortcut_dropdown.is(e.target) && shortcut_dropdown.has(e.target).length === 0) {
+				shortcut_buttons_hide();
+			}
+		});
+
+		// SHORTCUT ANIMATE HIDE
+		function shortcut_buttons_hide() {
+			shortcut_dropdown.animate({
+				height : "hide"
+			}, 300, "easeOutCirc");
+			$('body').removeClass('shortcut-on');
+
+		}
+
+		// SHORTCUT ANIMATE SHOW
+		function shortcut_buttons_show() {
+			shortcut_dropdown.animate({
+				height : "show"
+			}, 200, "easeOutCirc");
+			$('body').addClass('shortcut-on');
+		}
+	}
+
+	var link = function($scope,$element){
+		$timeout(function(){
+			initDomEvents($element);
+		});
+	}
+
+	return{
+		restrict:'EA',
+		link:link
+	}
+})
 'use strict';
 
 angular.module('app.maps').controller('MapsDemoCtrl', 
@@ -5109,82 +5049,6 @@ angular.module('app.maps').controller('MapsDemoCtrl',
 
 
 });
-// Google async initializer needs global function, so we use $window
-angular.module('app.maps')
-.factory('Initializer', function($window, $q){
-
-    //Google's url for async maps initialization accepting callback function
-    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
-        mapsDefer = $q.defer();
-
-    //Callback function - resolving promise after maps successfully loaded
-    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
-
-    //Async loader
-    var asyncLoad = function(asyncUrl, callbackName) {
-      var script = document.createElement('script');
-      //script.type = 'text/javascript';
-      script.src = asyncUrl + callbackName;
-      document.body.appendChild(script);
-    };
-    //Start loading google maps
-    asyncLoad(asyncUrl, 'googleMapsInitialized');
-
-    //Usage: Initializer.mapsInitialized.then(callback)
-    return {
-        mapsInitialized : mapsDefer.promise
-    };
-})
-"use strict";
-
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
-});
 'use strict';
 
 angular.module('app.maps').directive('smartMap', function (Initializer) {
@@ -5205,6 +5069,664 @@ angular.module('app.maps').directive('smartMap', function (Initializer) {
 
     }
 });
+'use strict'
+
+angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+    var vm = this;
+    vm.user = {};
+    vm.editable = false;
+
+    if ($state.is("app.employee.finance.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var userId = $stateParams.userId;
+    if (userId) {
+        EmployeeService.getUser(userId)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        vm.user.role="财务";
+        EmployeeService.saveUser(vm.user)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "用户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.user = {};
+                if (vm.back) {
+                    $state.go("app.employee.finance");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.employee').controller('FinanceListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+    var vm = this;
+    vm.users = [];
+
+
+
+    vm.refreshUsers = function(){
+       EmployeeService.getFinances()
+       .then(function(users){
+           vm.users = users;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshUsers();
+	
+    vm.view = function(userId){
+        $state.go("app.employee.finance.view", {userId: userId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (userId) {
+        $.SmartMessageBox({
+            title: "删除账号",
+            content: "确认删除该用户？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                EmployeeService.deleteUser(userId)
+                    .then(function(){
+                        vm.refreshUsers();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.employee').controller('SellerEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+    var vm = this;
+    vm.user = {};
+    vm.editable = false;
+    vm.organizations=[];
+
+    EmployeeService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+
+    if ($state.is("app.employee.seller.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var userId = $stateParams.userId;
+    if (userId) {
+        EmployeeService.getUser(userId)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+    
+    
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        vm.user.role="出单员";
+        EmployeeService.saveUser(vm.user)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "用户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.user = {};
+                if (vm.back) {
+                    $state.go("app.employee.seller");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.employee').controller('SellerListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+    var vm = this;
+    vm.users = [];
+
+
+
+    vm.refreshUsers = function(){
+       EmployeeService.getSellers()
+       .then(function(users){
+           vm.users = users;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshUsers();
+	
+    vm.view = function(userId){
+        $state.go("app.employee.seller.view", {userId: userId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (userId) {
+        $.SmartMessageBox({
+            title: "删除账号",
+            content: "确认删除该用户？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                EmployeeService.deleteUser(userId)
+                    .then(function(){
+                        vm.refreshUsers();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
+    var vm = this;
+    vm.organization = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.organization.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var organizationId = $stateParams.organizationId;
+    if (organizationId) {
+        OrganizationService.getOrganization(organizationId)
+            .then(function (organization) {
+                vm.organization = organization;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        OrganizationService.saveOrganization(vm.organization)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "分支机构已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.organization = {};
+                if (vm.back) {
+                    $state.go("app.organization.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
+    var vm = this;
+    vm.organizations = [];
+
+
+
+    vm.refreshOrganizations = function(){
+       OrganizationService.getOrganizations()
+       .then(function(organizations){
+           vm.organizations = organizations;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshOrganizations();
+	
+    vm.view = function(organizationId){
+        $state.go("app.organization.view", {organizationId: organizationId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (organizationId) {
+        $.SmartMessageBox({
+            title: "删除分支机构",
+            content: "确认删除该分支机构？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrganizationService.deleteOrganization(organizationId)
+                    .then(function(){
+                        vm.refreshOrganizations();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.organization').factory('OrganizationService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveOrganization: saveOrganization,
+                getOrganizations: getOrganizations,
+                getOrganization: getOrganization,
+                deleteOrganization: deleteOrganization,
+            });
+
+            function saveOrganization(organization) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (organization._id) {
+                    organization.updated_at = Date.now();
+                    $http.put('api/organizations/' + organization._id, organization)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    organization.created_at = Date.now();
+                    organization.updated_at = organization.created_at;
+                    $http.post('api/organizations', organization)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
+"use strict";
+
+angular.module('app.policy').factory('PolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                savePolicy: savePolicy,
+                getPolicies: getPolicies,
+                getClients: getClients,
+                getCompanies: getCompanies,
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies
+            });
+
+            function savePolicy(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (policy._id) {
+                    policy.updated_at = Date.now();
+                    $http.put('/api/policies/' + policy._id, policy)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/policies', policy)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicies(type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                var url = "/api/policies"
+                if (type == "to-be-paid") {
+                    url = "/api/policies/to-be-paid";
+                } else if (type == "paid") {
+                    url = "/api/policies/paid";
+                }
+                $http.get(url)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function searchPolicies(currentPage, pageSize, type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                
+                var filterByFields = {};
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterByFields = {"policy_status":"待支付"};
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterByFields = {"policy_status":"已支付"};
+                    orderByReverse = true;
+                }
+                    
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterByFields,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true
+                };
+
+                
+                $http.post("/api/policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+        }]);
 'use strict'
 
 angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
@@ -5502,604 +6024,6 @@ angular.module('app.policy')
         return (item.plate_province + item.plate_no);
     }
  });
-"use strict";
-
-angular.module('app.policy').factory('PolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                savePolicy: savePolicy,
-                getPolicies: getPolicies,
-                getClients: getClients,
-                getCompanies: getCompanies,
-                getPolicy: getPolicy,
-                deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies
-            });
-
-            function savePolicy(policy) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (policy._id) {
-                    policy.updated_at = Date.now();
-                    $http.put('/api/policies/' + policy._id, policy)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policy.created_at = Date.now();
-                    policy.updated_at = policy.created_at;
-                    $http.post('/api/policies', policy)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicies(type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                var url = "/api/policies"
-                if (type == "to-be-paid") {
-                    url = "/api/policies/to-be-paid";
-                } else if (type == "paid") {
-                    url = "/api/policies/paid";
-                }
-                $http.get(url)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function searchPolicies(currentPage, pageSize, type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                
-                var filterByFields = {};
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterByFields = {"policy_status":"待支付"};
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterByFields = {"policy_status":"已支付"};
-                    orderByReverse = true;
-                }
-                    
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterByFields,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true
-                };
-
-                
-                $http.post("/api/policies/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-        }]);
-"use strict";
-
-angular.module('app').factory('Language', function($http, APP_CONFIG){
-
-	function getLanguage(key, callback) {
-
-		$http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function(data){
-
-			callback(data);
-			
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getLanguages(callback) {
-
-		$http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function(data){
-
-			callback(data);
-			
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	return {
-		getLang: function(type, callback) {
-			getLanguage(type, callback);
-		},
-		getLanguages:function(callback){
-			getLanguages(callback);
-		}
-	}
-
-});
-"use strict";
-
-angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
-
-    $rootScope.lang = {};
-    
-    Language.getLanguages(function(data){
-
-        $rootScope.currentLanguage = data[0];
-
-        $rootScope.languages = data;
-
-        Language.getLang(data[0].key,function(data){
-
-            $rootScope.lang = data;
-        });
-
-    });
-
-    $scope.selectLanguage = function(language){
-        $rootScope.currentLanguage = language;
-        
-        Language.getLang(language.key,function(data){
-
-            $rootScope.lang = data;
-            
-        });
-    }
-
-    $rootScope.getWord = function(key){
-        if(angular.isDefined($rootScope.lang[key])){
-            return $rootScope.lang[key];
-        } 
-        else {
-            return key;
-        }
-    }
-
-});
-"use strict";
-
-angular.module('app').directive('languageSelector', function(Language){
-    return {
-        restrict: "EA",
-        replace: true,
-        templateUrl: "app/layout/language/language-selector.tpl.html",
-        scope: true
-    }
-});
-"use strict";
-
-angular.module('app').directive('toggleShortcut', function($log,$timeout) {
-
-	var initDomEvents = function($element){
-
-		var shortcut_dropdown = $('#shortcut');
-
-		$element.on('click',function(){
-		
-			if (shortcut_dropdown.is(":visible")) {
-				shortcut_buttons_hide();
-			} else {
-				shortcut_buttons_show();
-			}
-
-		})
-
-		shortcut_dropdown.find('a').click(function(e) {
-			e.preventDefault();
-			window.location = $(this).attr('href');
-			setTimeout(shortcut_buttons_hide, 300);
-		});
-
-		
-
-		// SHORTCUT buttons goes away if mouse is clicked outside of the area
-		$(document).mouseup(function(e) {
-			if (shortcut_dropdown && !shortcut_dropdown.is(e.target) && shortcut_dropdown.has(e.target).length === 0) {
-				shortcut_buttons_hide();
-			}
-		});
-
-		// SHORTCUT ANIMATE HIDE
-		function shortcut_buttons_hide() {
-			shortcut_dropdown.animate({
-				height : "hide"
-			}, 300, "easeOutCirc");
-			$('body').removeClass('shortcut-on');
-
-		}
-
-		// SHORTCUT ANIMATE SHOW
-		function shortcut_buttons_show() {
-			shortcut_dropdown.animate({
-				height : "show"
-			}, 200, "easeOutCirc");
-			$('body').addClass('shortcut-on');
-		}
-	}
-
-	var link = function($scope,$element){
-		$timeout(function(){
-			initDomEvents($element);
-		});
-	}
-
-	return{
-		restrict:'EA',
-		link:link
-	}
-})
-'use strict'
-
-angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
-    var vm = this;
-    vm.organization = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.organization.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
-            .then(function (organization) {
-                vm.organization = organization;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        OrganizationService.saveOrganization(vm.organization)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "分支机构已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.organization = {};
-                if (vm.back) {
-                    $state.go("app.organization.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
-    var vm = this;
-    vm.organizations = [];
-
-
-
-    vm.refreshOrganizations = function(){
-       OrganizationService.getOrganizations()
-       .then(function(organizations){
-           vm.organizations = organizations;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshOrganizations();
-	
-    vm.view = function(organizationId){
-        $state.go("app.organization.view", {organizationId: organizationId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (organizationId) {
-        $.SmartMessageBox({
-            title: "删除分支机构",
-            content: "确认删除该分支机构？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                OrganizationService.deleteOrganization(organizationId)
-                    .then(function(){
-                        vm.refreshOrganizations();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-"use strict";
-
-angular.module('app.organization').factory('OrganizationService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveOrganization: saveOrganization,
-                getOrganizations: getOrganizations,
-                getOrganization: getOrganization,
-                deleteOrganization: deleteOrganization,
-            });
-
-            function saveOrganization(organization) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (organization._id) {
-                    organization.updated_at = Date.now();
-                    $http.put('api/organizations/' + organization._id, organization)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    organization.created_at = Date.now();
-                    organization.updated_at = organization.created_at;
-                    $http.post('api/organizations', organization)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 'use strict';
 
 angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
@@ -6325,6 +6249,82 @@ angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
        jQuery('table').jqGrid('setSelection', row);
 
     }
+});
+// Google async initializer needs global function, so we use $window
+angular.module('app.maps')
+.factory('Initializer', function($window, $q){
+
+    //Google's url for async maps initialization accepting callback function
+    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
+        mapsDefer = $q.defer();
+
+    //Callback function - resolving promise after maps successfully loaded
+    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
+
+    //Async loader
+    var asyncLoad = function(asyncUrl, callbackName) {
+      var script = document.createElement('script');
+      //script.type = 'text/javascript';
+      script.src = asyncUrl + callbackName;
+      document.body.appendChild(script);
+    };
+    //Start loading google maps
+    asyncLoad(asyncUrl, 'googleMapsInitialized');
+
+    //Usage: Initializer.mapsInitialized.then(callback)
+    return {
+        mapsInitialized : mapsDefer.promise
+    };
+})
+"use strict";
+
+
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
+
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
+    };
+
+
+    function getMapType(key){
+        var keyData = styles[key];
+
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
+
+        return keyData.cache;
+    }
+
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
+        });
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
+
 });
 "use strict";
 
@@ -7147,6 +7147,46 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
 });
 "use strict";
 
+angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
+    return {
+        replace: true,
+        restrict: 'E',
+        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
+        link: function(scope, element){
+            element.on('click', function(){
+                ezfb.login(function (res) {
+                    if (res.authResponse) {
+                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
+                    }
+                }, {scope: 'public_profile'});
+            })
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
+    return {
+        restrict: 'E',
+        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
+        replace: true,
+        link: function (scope, element) {
+            element.on('click', function(){
+                GooglePlus.login().then(function (authResult) {
+                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
+
+                }, function (err) {
+                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
+
+                });
+            })
+        }
+    };
+});
+
+"use strict";
+
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){
     return {
         restrict: 'A',
@@ -7292,46 +7332,1233 @@ angular.module('SmartAdmin.Layout').directive('toggleMenu', function(){
         }
     }
 });
-"use strict";
+'use strict';
 
-angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
+angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
+
+    var sheet = (function () {
+        // Create the <style> tag
+        var style = document.createElement("style");
+
+        // Add a media (and/or media query) here if you'd like!
+        // style.setAttribute("media", "screen")
+        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
+
+        // WebKit hack :(
+        style.appendChild(document.createTextNode(""));
+
+        // Add the <style> element to the page
+        document.head.appendChild(style);
+
+        return style.sheet;
+    })();
+
+    var _styles = {};
+
+
+    var SmartCss = {
+        writeRule: function(selector){
+            SmartCss.deleteRuleFor(selector);
+            if(_.has(_styles, selector)){
+                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
+                    return  k + ':' +  v + ';'
+                }).join(' ') +'}';
+                sheet.insertRule(css, _.size(_styles) - 1);
+            }
+        },
+        add: function (selector, property, value, delay) {
+            if(!_.has(_styles, selector))
+                _styles[selector] = {};
+
+            if(value == undefined || value == null || value == '')
+                delete _styles[selector][property];
+            else
+                _styles[selector][property] = value;
+
+
+            if(_.keys(_styles[selector]).length == 0)
+                delete _styles[selector];
+
+            if(!delay)
+                delay = 0;
+            $timeout(function(){
+                SmartCss.writeRule(selector);
+            }, delay);
+
+        },
+        remove: function(selector, property, delay){
+            SmartCss.add(selector, property, null, delay);
+        },
+        deleteRuleFor: function (selector) {
+            _(sheet.rules).forEach(function (rule, idx) {
+                if (rule.selectorText == selector) {
+                    sheet.deleteRule(idx);
+                }
+            });
+        },
+        appViewSize: null
+    };
+
+    $rootScope.$on('$smartContentResize', function (event, data) {
+        SmartCss.appViewSize = data;
+    });
+
+    return SmartCss;
+
+});
+
+
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
+    var scripts = null;
+    var initialized = false;
+    var initializingPromise = null;
+
+    function init(){        
+        if(!initialized){
+            if(!initializingPromise){
+                initializingPromise = $http.get('app.scripts.json').then(function(res){
+                    scripts = res.data
+                    initialized = true;
+                });     
+            }
+            return initializingPromise;
+               
+        } else {
+            return $q.resolve();
+        }
+    }
+
+    var cache = {};
+
+    function isPending(scriptName){
+        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
+    }
+
+    function isRegistered(scriptName){
+        if(cache.hasOwnProperty(scriptName)){
+            return true;
+        } else {
+            return (scripts.prebuild.indexOf(scriptName) > -1);
+        }
+    }
+    function loadScript(scriptName){
+        if(!cache[scriptName]){
+            cache[scriptName] = $q.defer();
+            var el = document.createElement( 'script' );
+            el.onload = function(script){
+                console.log('script is lazy loaded:', scriptName)
+                cache[scriptName].resolve(scriptName);
+            };
+            el.src = scripts.paths[scriptName];
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(el, x);
+            
+        }
+        return cache[scriptName].promise;
+
+    }
+
+    function register(scriptName){
+        if(isPending(scriptName)){
+            return cache[scriptName].promise
+        }
+        if(isRegistered(scriptName)){
+            return $q.resolve(scriptName);
+        } else {
+            var dfd = $q.defer();
+            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
+                var depsPromises = [];
+                angular.forEach(scripts.shim[scriptName].deps, function(dep){
+
+                    depsPromises.push(register(dep))
+                    
+                })
+                $q.all(depsPromises).then(function(){
+                    loadScript(scriptName).then(function(){
+                        dfd.resolve(scriptName);
+                    })
+                })
+
+            } else {
+                
+                loadScript(scriptName).then(function(){
+                    dfd.resolve(scriptName);
+                })
+                 
+            }
+            return dfd.promise; 
+
+        }
+    }
     return {
-        replace: true,
-        restrict: 'E',
-        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
-        link: function(scope, element){
-            element.on('click', function(){
-                ezfb.login(function (res) {
-                    if (res.authResponse) {
-                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
-                    }
-                }, {scope: 'public_profile'});
+        register: function (scripts) {
+            
+            var dfd = $q.defer();
+            init().then(function(){
+                var promises = [];
+                if (angular.isString(scripts)) 
+                    scripts = [scripts];    
+
+                angular.forEach(scripts, function(script){
+                    promises.push(register(script));
+                })
+
+                $q.all(promises).then(function(resolves){
+                    dfd.resolve(resolves);
+                })
             })
+            return dfd.promise;
+
+        }
+    };
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('bigBreadcrumbs', function () {
+    return {
+        restrict: 'EA',
+        replace: true,
+        template: '<div><h1 class="page-title txt-color-blueDark"></h1></div>',
+        scope: {
+            items: '=',
+            icon: '@'
+        },
+        link: function (scope, element) {
+            var first = _.first(scope.items);
+
+            var icon = scope.icon || 'home';
+            element.find('h1').append('<i class="fa-fw fa fa-' + icon + '"></i> ' + first);
+            _.rest(scope.items).forEach(function (item) {
+                element.find('h1').append(' <span>> ' + item + '</span>')
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('dismisser', function () {
+    return {
+        restrict: 'A',
+        compile: function (element) {
+            element.removeAttr('dismisser data-dissmiser')
+            var closer = '<button class="close">&times;</button>';
+            element.prepend(closer);
+            element.on('click', '>button.close', function(){
+                element.fadeOut('fast',function(){ $(this).remove(); });
+
+            })
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('hrefVoid', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            element.attr('href','#');
+            element.on('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+            })
+        }
+    }
+});
+'use strict';
+
+/*
+* Directive for toggling a ng-model with a button
+* Source: https://gist.github.com/aeife/9374784
+*/
+
+angular.module('SmartAdmin.Layout').directive('radioToggle', function ($log) {
+    return {
+        scope: {
+            model: "=ngModel",
+            value: "@value"
+        },
+        link: function(scope, element, attrs) {
+
+            element.parent().on('click', function() {
+                scope.model = scope.value;
+                scope.$apply();
+            });
+        }
+    }
+});
+/**
+ * DETECT MOBILE DEVICES
+ * Description: Detects mobile device - if any of the listed device is
+ *
+ * detected class is inserted to <tElement>.
+ *
+ *  (so far this is covering most hand held devices)
+ */
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartDeviceDetect', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-device-detect data-smart-device-detect');
+
+            var isMobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+            
+            tElement.toggleClass('desktop-detected', !isMobile);
+            tElement.toggleClass('mobile-detected', isMobile);
+
 
         }
     }
 });
-"use strict";
+/**
+ *
+ * Description: Directive utilizes FastClick library.
+ *
+ *
+ * FastClick is a simple, easy-to-use library for eliminating the
+ * 300ms delay between a physical tap and the firing of a click event on mobile browsers.
+ * FastClick doesn't attach any listeners on desktop browsers.
+ * @link: https://github.com/ftlabs/fastclick
+ *
+ * On mobile devices 'needsclick' class is attached to <tElement>
+ *
+ */
 
-angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartFastClick', function () {
     return {
-        restrict: 'E',
-        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
-        replace: true,
-        link: function (scope, element) {
-            element.on('click', function(){
-                GooglePlus.login().then(function (authResult) {
-                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-fast-click data-smart-fast-click');
 
-                }, function (err) {
-                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
+            FastClick.attach(tElement);
 
-                });
-            })
+            if(!FastClick.notNeeded())
+                tElement.addClass('needsclick')
         }
-    };
+    }
 });
 
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartFitAppView', function ($rootScope, SmartCss) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-fit-app-view data-smart-fit-app-view leading-y data-leading-y');
+
+            var leadingY = attributes.leadingY ? parseInt(attributes.leadingY) : 0;
+
+            var selector = attributes.smartFitAppView;
+
+            if(SmartCss.appViewSize && SmartCss.appViewSize.height){
+                var height =  SmartCss.appViewSize.height - leadingY < 252 ? 252 :  SmartCss.appViewSize.height - leadingY;
+                SmartCss.add(selector, 'height', height+'px');
+            }
+
+            var listenerDestroy = $rootScope.$on('$smartContentResize', function (event, data) {
+                var height = data.height - leadingY < 252 ? 252 : data.height - leadingY;
+                SmartCss.add(selector, 'height', height+'px');
+            });
+
+            element.on('$destroy', function () {
+                listenerDestroy();
+                SmartCss.remove(selector, 'height');
+            });
+
+
+        }
+    }
+});
+
+"use strict";
+
+angular.module('SmartAdmin.Layout').directive('smartInclude', function () {
+        return {
+            replace: true,
+            restrict: 'A',
+            templateUrl: function (element, attr) {
+                return attr.smartInclude;
+            },
+            compile: function(element){
+                element[0].className = element[0].className.replace(/placeholder[^\s]+/g, '');
+            }
+        };
+    }
+);
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartLayout', function ($rootScope, $timeout, $interval, $q, SmartCss) {
+    
+    var _debug = 0;
+
+    function getDocHeight() {
+        var D = document;
+        return Math.max(
+            D.body.scrollHeight, D.documentElement.scrollHeight,
+            D.body.offsetHeight, D.documentElement.offsetHeight,
+            D.body.clientHeight, D.documentElement.clientHeight
+        );
+    }
+
+    var initialized = false, 
+           initializedResolver = $q.defer();
+    initializedResolver.promise.then(function () {
+        initialized = true;
+    });
+
+    var $window = $(window),
+        $document = $(document),
+        $html = $('html'),
+        $body = $('body'),
+        $navigation ,
+        $menu,
+        $ribbon,
+        $footer,
+        $contentAnimContainer;
+
+
+    (function cacheElements() {
+        $navigation = $('#header');
+        $menu = $('#left-panel');
+        $ribbon = $('#ribbon');
+        $footer = $('.page-footer');
+        if (_.every([$navigation, $menu, $ribbon, $footer], function ($it) {
+            return angular.isNumber($it.height())
+        })) {
+            initializedResolver.resolve();
+        } else {
+            $timeout(cacheElements, 100);
+        }
+    })();
+
+
+    return {
+        priority: 2014,
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-layout data-smart-layout');
+
+            var appViewHeight = 0 ,
+                appViewWidth = 0,
+                calcWidth,
+                calcHeight,
+                deltaX,
+                deltaY;
+
+            var forceResizeTrigger = false;
+
+            function resizeListener() {
+
+//                    full window height appHeight = Math.max($menu.outerHeight() - 10, getDocHeight() - 10);
+
+                var menuHeight = $body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.height() : 0;
+                var menuWidth = !$body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.width() + $menu.offset().left : 0;
+
+                var $content = $('#content');
+                var contentXPad = $content.outerWidth(true) - $content.width();
+                var contentYPad = $content.outerHeight(true) - $content.height();
+
+
+                calcWidth = $window.width() - menuWidth - contentXPad;
+                calcHeight = $window.height() - menuHeight - contentYPad - $navigation.height() - $ribbon.height() - $footer.height();
+
+                deltaX = appViewWidth - calcWidth;
+                deltaY = appViewHeight - calcHeight;
+                if (Math.abs(deltaX) || Math.abs(deltaY) || forceResizeTrigger) {
+
+                    //console.log('exec', calcWidth, calcHeight);
+                    $rootScope.$broadcast('$smartContentResize', {
+                        width: calcWidth,
+                        height: calcHeight,
+                        deltaX: deltaX,
+                        deltaY: deltaY
+                    });
+                    appViewWidth = calcWidth;
+                    appViewHeight = calcHeight;
+                    forceResizeTrigger = false;
+                }
+            }
+
+
+            var looping = false;
+            $interval(function () {
+                if (looping) loop();
+            }, 300);
+
+            var debouncedRun = _.debounce(function () {
+                run(300)
+            }, 300);
+
+            function run(delay) {
+                initializedResolver.promise.then(function () {
+                    attachOnResize(delay);
+                });
+            }
+
+            run(10);
+
+            function detachOnResize() {
+                looping = false;
+            }
+
+            function attachOnResize(delay) {
+                $timeout(function () {
+                    looping = true;
+                }, delay);
+            }
+
+            function loop() {
+                $body.toggleClass('mobile-view-activated', $window.width() < 979);
+
+                if ($window.width() < 979)
+                    $body.removeClass('minified');
+
+                resizeListener();
+            }
+
+            function handleHtmlId(toState) {
+                if (toState.data && toState.data.htmlId) $html.attr('id', toState.data.htmlId);
+                else $html.removeAttr('id');
+            }
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                //console.log(1, '$stateChangeStart', event, toState, toParams, fromState, fromParams);
+
+                handleHtmlId(toState);
+                detachOnResize();
+            });
+
+            // initialized with 1 cause we came here with one $viewContentLoading request
+            var viewContentLoading = 1;
+            $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
+                //console.log(2, '$viewContentLoading', event, viewConfig);
+                viewContentLoading++;
+            });
+
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                //console.log(3, '$stateChangeSuccess', event, toState, toParams, fromState, fromParams);
+                forceResizeTrigger = true;
+            });
+
+            $rootScope.$on('$viewContentLoaded', function (event) {
+                //console.log(4, '$viewContentLoaded', event);
+                viewContentLoading--;
+
+                if (viewContentLoading == 0 && initialized) {
+                    debouncedRun();
+                }
+            });
+        }
+    }
+});
+
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartPageTitle', function ($rootScope, $timeout) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-page-title data-smart-page-title');
+
+            var defaultTitle = attributes.smartPageTitle;
+            var listener = function(event, toState, toParams, fromState, fromParams) {
+                var title = defaultTitle;
+                if (toState.data && toState.data.title) title = toState.data.title + ' | ' + title;
+                // Set asynchronously so page changes before title does
+                $timeout(function() {
+                    $('html head title').text(title);
+                });
+            };
+
+            $rootScope.$on('$stateChangeStart', listener);
+
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('smartRouterAnimationWrap', function ($rootScope,$timeout) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-router-animation-wrap data-smart-router-animation-wrap wrap-for data-wrap-for');
+
+            element.addClass('router-animation-container');
+
+
+            var $loader = $('<div class="router-animation-loader"><i class="fa fa-gear fa-4x fa-spin"></i></div>')
+                .css({
+                    position: 'absolute',
+                    top: 50,
+                    left: 10
+                }).hide().appendTo(element);
+
+
+            var animateElementSelector = attributes.wrapFor;
+            var viewsToMatch = attributes.smartRouterAnimationWrap.split(/\s/);
+
+            var needRunContentViewAnimEnd = false;
+            function contentViewAnimStart() {
+                needRunContentViewAnimEnd = true;
+                element.css({
+                    height: element.height() + 'px',
+                    overflow: 'hidden'
+                }).addClass('active');
+                $loader.fadeIn();
+
+                $(animateElementSelector).addClass('animated faster fadeOutDown');
+            }
+
+            function contentViewAnimEnd() {
+                if(needRunContentViewAnimEnd){
+                    element.css({
+                        height: 'auto',
+                        overflow: 'visible'
+                    }).removeClass('active');
+                    
+
+                    $(animateElementSelector).addClass('animated faster fadeInUp');
+
+                    needRunContentViewAnimEnd = false;
+
+                    $timeout(function(){
+                        $(animateElementSelector).removeClass('animated');
+                    },10);
+                }
+                $loader.fadeOut();
+            }
+
+
+            var destroyForStart = $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                var isAnimRequired = _.any(viewsToMatch, function(view){
+                   return _.has(toState.views, view) || _.has(fromState.views, view);
+                });
+                if(isAnimRequired){
+                    contentViewAnimStart()
+                }
+            });
+
+            var destroyForEnd = $rootScope.$on('$viewContentLoaded', function (event) {
+                contentViewAnimEnd();
+            });
+
+            element.on('$destroy', function(){
+                destroyForStart();
+                destroyForEnd();
+
+            });
+
+
+
+        }
+    }
+});
+angular.module('SmartAdmin.Layout').directive('speechRecognition', function ($log) {
+	'use strict';
+
+	$.root_ = $('body');
+	var root, commands;
+
+    root = window;
+    window.appConfig = window.appConfig || {};
+
+	if (appConfig.voice_command) {
+		commands = appConfig.commands;
+	}
+
+
+	/*
+	 * SMART VOICE
+	 * Author: MyOrange | @bootstraphunt
+	 * http://www.myorange.ca
+	 */
+
+	var SpeechRecognition = root.SpeechRecognition || root.webkitSpeechRecognition || root.mozSpeechRecognition || root.msSpeechRecognition || root.oSpeechRecognition;
+
+// ref: http://updates.html5rocks.com/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API
+
+
+// function
+	$.speechApp = (function(speech) {
+
+		speech.start = function() {
+
+			// Add our commands to smartSpeechRecognition
+			smartSpeechRecognition.addCommands(commands);
+
+			if (smartSpeechRecognition) {
+				// activate plugin
+				smartSpeechRecognition.start();
+				// add btn class
+				$.root_.addClass("voice-command-active");
+				// play sound
+				$.speechApp.playON();
+				// set localStorage when switch is on manually
+				if (appConfig.voice_localStorage) {
+					localStorage.setItem('sm-setautovoice', 'true');
+				}
+
+			} else {
+				// if plugin not found
+				alert("speech plugin not loaded");
+			}
+
+		};
+		speech.stop = function() {
+
+			if (smartSpeechRecognition) {
+				// deactivate plugin
+				smartSpeechRecognition.abort();
+				// remove btn class
+				$.root_.removeClass("voice-command-active");
+				// sound
+				$.speechApp.playOFF();
+				// del localStorage when switch if off manually
+				if (appConfig.voice_localStorage) {
+					localStorage.setItem('sm-setautovoice', 'false');
+				}
+				// remove popover if visible
+				if ($('#speech-btn .popover').is(':visible')) {
+					$('#speech-btn .popover').fadeOut(250);
+				}
+			}
+
+		};
+
+		// play sound
+		speech.playON = function() {
+
+			var audioElement = document.createElement('audio');
+
+			if (navigator.userAgent.match('Firefox/'))
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".ogg");
+			else
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".mp3");
+
+			//$.get();
+			audioElement.addEventListener("load", function() {
+				audioElement.play();
+			}, true);
+
+			if (appConfig.sound_on) {
+				audioElement.pause();
+				audioElement.play();
+			}
+		};
+
+		speech.playOFF = function() {
+
+			var audioElement = document.createElement('audio');
+
+			if (navigator.userAgent.match('Firefox/'))
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".ogg");
+			else
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".mp3");
+
+			$.get();
+			audioElement.addEventListener("load", function() {
+				audioElement.play();
+			}, true);
+
+			if (appConfig.sound_on) {
+				audioElement.pause();
+				audioElement.play();
+			}
+		};
+
+		speech.playConfirmation = function() {
+
+			var audioElement = document.createElement('audio');
+
+			if (navigator.userAgent.match('Firefox/'))
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".ogg");
+			else
+				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".mp3");
+
+			$.get();
+			audioElement.addEventListener("load", function() {
+				audioElement.play();
+			}, true);
+
+			if (appConfig.sound_on) {
+				audioElement.pause();
+				audioElement.play();
+			}
+		};
+
+		return speech;
+
+	})({});
+
+
+
+	/*
+	 * SPEECH RECOGNITION ENGINE
+	 * Copyright (c) 2013 Tal Ater
+	 * Modified by MyOrange
+	 * All modifications made are hereby copyright (c) 2014 MyOrange
+	 */
+
+	(function(undefined) {"use strict";
+
+		// Check browser support
+		// This is done as early as possible, to make it as fast as possible for unsupported browsers
+		if (!SpeechRecognition) {
+			root.smartSpeechRecognition = null;
+			return undefined;
+		}
+
+		var commandsList = [], recognition, callbacks = {
+				start : [],
+				error : [],
+				end : [],
+				result : [],
+				resultMatch : [],
+				resultNoMatch : [],
+				errorNetwork : [],
+				errorPermissionBlocked : [],
+				errorPermissionDenied : []
+			}, autoRestart, lastStartedAt = 0,
+		//debugState = false, // decleared in app.appConfig.js
+		//appConfig.debugStyle = 'font-weight: bold; color: #00f;', // decleared in app.appConfig.js
+
+		// The command matching code is a modified version of Backbone.Router by Jeremy Ashkenas, under the MIT license.
+			optionalParam = /\s*\((.*?)\)\s*/g, optionalRegex = /(\(\?:[^)]+\))\?/g, namedParam = /(\(\?)?:\w+/g, splatParam = /\*\w+/g, escapeRegExp = /[\-{}\[\]+?.,\\\^$|#]/g, commandToRegExp = function(command) {
+				command = command.replace(escapeRegExp, '\\$&').replace(optionalParam, '(?:$1)?').replace(namedParam, function(match, optional) {
+					return optional ? match : '([^\\s]+)';
+				}).replace(splatParam, '(.*?)').replace(optionalRegex, '\\s*$1?\\s*');
+				return new RegExp('^' + command + '$', 'i');
+			};
+
+		// This method receives an array of callbacks to iterate over, and invokes each of them
+		var invokeCallbacks = function(callbacks) {
+			callbacks.forEach(function(callback) {
+				callback.callback.apply(callback.context);
+			});
+		};
+
+		var initIfNeeded = function() {
+			if (!isInitialized()) {
+				root.smartSpeechRecognition.init({}, false);
+			}
+		};
+
+		var isInitialized = function() {
+			return recognition !== undefined;
+		};
+
+		root.smartSpeechRecognition = {
+			// Initialize smartSpeechRecognition with a list of commands to recognize.
+			// e.g. smartSpeechRecognition.init({'hello :name': helloFunction})
+			// smartSpeechRecognition understands commands with named variables, splats, and optional words.
+			init : function(commands, resetCommands) {
+
+				// resetCommands defaults to true
+				if (resetCommands === undefined) {
+					resetCommands = true;
+				} else {
+					resetCommands = !!resetCommands;
+				}
+
+				// Abort previous instances of recognition already running
+				if (recognition && recognition.abort) {
+					recognition.abort();
+				}
+
+				// initiate SpeechRecognition
+				recognition = new SpeechRecognition();
+
+				// Set the max number of alternative transcripts to try and match with a command
+				recognition.maxAlternatives = 5;
+				recognition.continuous = true;
+				// Sets the language to the default 'en-US'. This can be changed with smartSpeechRecognition.setLanguage()
+				recognition.lang = appConfig.voice_command_lang || 'en-US';
+
+				recognition.onstart = function() {
+					invokeCallbacks(callbacks.start);
+					//debugState
+					if (appConfig.debugState) {
+						root.console.log('%c ✔ SUCCESS: User allowed access the microphone service to start ', appConfig.debugStyle_success);
+						root.console.log('Language setting is set to: ' + recognition.lang, appConfig.debugStyle);
+					}
+					$.root_.removeClass("service-not-allowed");
+					$.root_.addClass("service-allowed");
+				};
+
+				recognition.onerror = function(event) {
+					invokeCallbacks(callbacks.error);
+					switch (event.error) {
+						case 'network':
+							invokeCallbacks(callbacks.errorNetwork);
+							break;
+						case 'not-allowed':
+						case 'service-not-allowed':
+							// if permission to use the mic is denied, turn off auto-restart
+							autoRestart = false;
+							$.root_.removeClass("service-allowed");
+							$.root_.addClass("service-not-allowed");
+							//debugState
+							if (appConfig.debugState) {
+								root.console.log('%c WARNING: Microphone was not detected (either user denied access or it is not installed properly) ', appConfig.debugStyle_warning);
+							}
+							// determine if permission was denied by user or automatically.
+							if (new Date().getTime() - lastStartedAt < 200) {
+								invokeCallbacks(callbacks.errorPermissionBlocked);
+							} else {
+								invokeCallbacks(callbacks.errorPermissionDenied);
+								//console.log("You need your mic to be active")
+							}
+							break;
+					}
+				};
+
+				recognition.onend = function() {
+					invokeCallbacks(callbacks.end);
+					// smartSpeechRecognition will auto restart if it is closed automatically and not by user action.
+					if (autoRestart) {
+						// play nicely with the browser, and never restart smartSpeechRecognition automatically more than once per second
+						var timeSinceLastStart = new Date().getTime() - lastStartedAt;
+						if (timeSinceLastStart < 1000) {
+							setTimeout(root.smartSpeechRecognition.start, 1000 - timeSinceLastStart);
+						} else {
+							root.smartSpeechRecognition.start();
+						}
+					}
+				};
+
+				recognition.onresult = function(event) {
+					invokeCallbacks(callbacks.result);
+
+					var results = event.results[event.resultIndex], commandText;
+
+					// go over each of the 5 results and alternative results received (we've set maxAlternatives to 5 above)
+					for (var i = 0; i < results.length; i++) {
+						// the text recognized
+						commandText = results[i].transcript.trim();
+						if (appConfig.debugState) {
+							root.console.log('Speech recognized: %c' + commandText, appConfig.debugStyle);
+						}
+
+						// try and match recognized text to one of the commands on the list
+						for (var j = 0, l = commandsList.length; j < l; j++) {
+							var result = commandsList[j].command.exec(commandText);
+							if (result) {
+								var parameters = result.slice(1);
+								if (appConfig.debugState) {
+									root.console.log('command matched: %c' + commandsList[j].originalPhrase, appConfig.debugStyle);
+									if (parameters.length) {
+										root.console.log('with parameters', parameters);
+									}
+								}
+								// execute the matched command
+								commandsList[j].callback.apply(this, parameters);
+								invokeCallbacks(callbacks.resultMatch);
+
+								// for commands "sound on", "stop" and "mute" do not play sound or display message
+								//var myMatchedCommand = commandsList[j].originalPhrase;
+
+								var ignoreCallsFor = ["sound on", "mute", "stop"];
+
+								if (ignoreCallsFor.indexOf(commandsList[j].originalPhrase) < 0) {
+									// play sound when match found
+									console.log(2);
+									$.smallBox({
+										title : (commandsList[j].originalPhrase),
+										content : "loading...",
+										color : "#333",
+										sound_file : 'voice_alert',
+										timeout : 2000
+									});
+
+									if ($('#speech-btn .popover').is(':visible')) {
+										$('#speech-btn .popover').fadeOut(250);
+									}
+								}// end if
+
+								return true;
+							}
+						} // end for
+					}// end for
+
+					invokeCallbacks(callbacks.resultNoMatch);
+					//console.log("no match found for: " + commandText)
+					$.smallBox({
+						title : "Error: <strong>" + ' " ' + commandText + ' " ' + "</strong> no match found!",
+						content : "Please speak clearly into the microphone",
+						color : "#a90329",
+						timeout : 5000,
+						icon : "fa fa-microphone"
+					});
+					if ($('#speech-btn .popover').is(':visible')) {
+						$('#speech-btn .popover').fadeOut(250);
+					}
+					return false;
+				};
+
+				// build commands list
+				if (resetCommands) {
+					commandsList = [];
+				}
+				if (commands.length) {
+					this.addCommands(commands);
+				}
+			},
+
+			// Start listening (asking for permission first, if needed).
+			// Call this after you've initialized smartSpeechRecognition with commands.
+			// Receives an optional options object:
+			// { autoRestart: true }
+			start : function(options) {
+				initIfNeeded();
+				options = options || {};
+				if (options.autoRestart !== undefined) {
+					autoRestart = !!options.autoRestart;
+				} else {
+					autoRestart = true;
+				}
+				lastStartedAt = new Date().getTime();
+				recognition.start();
+			},
+
+			// abort the listening session (aka stop)
+			abort : function() {
+				autoRestart = false;
+				if (isInitialized) {
+					recognition.abort();
+				}
+			},
+
+			// Turn on output of debug messages to the console. Ugly, but super-handy!
+			debug : function(newState) {
+				if (arguments.length > 0) {
+					appConfig.debugState = !!newState;
+				} else {
+					appConfig.debugState = true;
+				}
+			},
+
+			// Set the language the user will speak in. If not called, defaults to 'en-US'.
+			// e.g. 'fr-FR' (French-France), 'es-CR' (Español-Costa Rica)
+			setLanguage : function(language) {
+				initIfNeeded();
+				recognition.lang = language;
+			},
+
+			// Add additional commands that smartSpeechRecognition will respond to. Similar in syntax to smartSpeechRecognition.init()
+			addCommands : function(commands) {
+				var cb, command;
+
+				initIfNeeded();
+
+				for (var phrase in commands) {
+					if (commands.hasOwnProperty(phrase)) {
+						cb = root[commands[phrase]] || commands[phrase];
+						if ( typeof cb !== 'function') {
+							continue;
+						}
+						//convert command to regex
+						command = commandToRegExp(phrase);
+
+						commandsList.push({
+							command : command,
+							callback : cb,
+							originalPhrase : phrase
+						});
+					}
+				}
+				if (appConfig.debugState) {
+					root.console.log('Commands successfully loaded: %c' + commandsList.length, appConfig.debugStyle);
+				}
+			},
+
+			// Remove existing commands. Called with a single phrase, array of phrases, or methodically. Pass no params to remove all commands.
+			removeCommands : function(commandsToRemove) {
+				if (commandsToRemove === undefined) {
+					commandsList = [];
+					return;
+				}
+				commandsToRemove = Array.isArray(commandsToRemove) ? commandsToRemove : [commandsToRemove];
+				commandsList = commandsList.filter(function(command) {
+					for (var i = 0; i < commandsToRemove.length; i++) {
+						if (commandsToRemove[i] === command.originalPhrase) {
+							return false;
+						}
+					}
+					return true;
+				});
+			},
+
+			// Lets the user add a callback of one of 9 types:
+			// start, error, end, result, resultMatch, resultNoMatch, errorNetwork, errorPermissionBlocked, errorPermissionDenied
+			// Can also optionally receive a context for the callback function as the third argument
+			addCallback : function(type, callback, context) {
+				if (callbacks[type] === undefined) {
+					return;
+				}
+				var cb = root[callback] || callback;
+				if ( typeof cb !== 'function') {
+					return;
+				}
+				callbacks[type].push({
+					callback : cb,
+					context : context || this
+				});
+			}
+		};
+
+	}).call(this);
+
+	var autoStart = function() {
+
+		smartSpeechRecognition.addCommands(commands);
+
+		if (smartSpeechRecognition) {
+			// activate plugin
+			smartSpeechRecognition.start();
+			// add btn class
+			$.root_.addClass("voice-command-active");
+			// set localStorage when switch is on manually
+			if (appConfig.voice_localStorage) {
+				localStorage.setItem('sm-setautovoice', 'true');
+			}
+
+		} else {
+			// if plugin not found
+			alert("speech plugin not loaded");
+		}
+	}
+// if already running with localstorage
+	if (SpeechRecognition && appConfig.voice_command && localStorage.getItem('sm-setautovoice') == 'true') {
+		autoStart();
+	}
+
+// auto start
+	if (SpeechRecognition && appConfig.voice_command_auto && appConfig.voice_command) {
+		autoStart();
+	}
+
+
+	var link = function(scope, element) {
+
+
+		if (SpeechRecognition && appConfig.voice_command) {
+
+			// create dynamic modal instance
+			var modal = $('<div class="modal fade" id="voiceModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
+			// attach to body
+			modal.appendTo("body");
+
+			element.on("click", function(e) {
+
+            	if ($.root_.hasClass("voice-command-active")) {
+					$.speechApp.stop();
+					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone-slash');
+				} else {
+					$.speechApp.start();
+					//add popover
+					$('#speech-btn .popover').fadeIn(350);
+					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone')
+
+				}
+
+				e.preventDefault();
+
+            });
+
+			//remove popover
+			$(document).mouseup(function(e) {
+				if (!$('#speech-btn .popover').is(e.target) && $('#speech-btn .popover').has(e.target).length === 0) {
+					$('#speech-btn .popover').fadeOut(250);
+				}
+			});
+
+
+			$("#speech-help-btn").on("click", function() {
+				commands.help();
+			});
+
+		}
+		else {
+			$("#speech-btn").addClass("display-none");
+		}
+
+
+	}
+
+
+
+    return {
+        restrict: 'AE',
+        link: link
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($rootScope, $state) {
+
+
+    return {
+        restrict: 'EA',
+        replace: true,
+        template: '<ol class="breadcrumb"><li>Home</li></ol>',
+        link: function (scope, element) {
+
+            function setBreadcrumbs(breadcrumbs) {
+                var html = '<li>Home</li>';
+                angular.forEach(breadcrumbs, function (crumb) {
+                    html += '<li>' + crumb + '</li>'
+                });
+                element.html(html)
+            }
+
+            function fetchBreadcrumbs(stateName, breadcrunbs) {
+
+                var state = $state.get(stateName);
+
+                if (state && state.data && state.data.title && breadcrunbs.indexOf(state.data.title) == -1) {
+                    breadcrunbs.unshift(state.data.title)
+                }
+
+                var parentName = stateName.replace(/.?\w+$/, '');
+                if (parentName) {
+                    return fetchBreadcrumbs(parentName, breadcrunbs);
+                } else {
+                    return breadcrunbs;
+                }
+            }
+
+            function processState(state) {
+                var breadcrumbs;
+                if (state.data && state.data.breadcrumbs) {
+                    breadcrumbs = state.data.breadcrumbs;
+                } else {
+                    breadcrumbs = fetchBreadcrumbs(state.name, []);
+                }
+                setBreadcrumbs(breadcrumbs);
+            }
+
+            processState($state.current);
+
+            $rootScope.$on('$stateChangeStart', function (event, state) {
+                processState(state);
+            })
+        }
+    }
+});
 'use strict';
 
 angular.module('app.graphs').directive('chartjsBarChart', function () {
@@ -9490,1233 +10717,6 @@ angular.module('app.graphs').directive('vectorMap', function () {
 });
 'use strict';
 
-angular.module('SmartAdmin.Layout').directive('bigBreadcrumbs', function () {
-    return {
-        restrict: 'EA',
-        replace: true,
-        template: '<div><h1 class="page-title txt-color-blueDark"></h1></div>',
-        scope: {
-            items: '=',
-            icon: '@'
-        },
-        link: function (scope, element) {
-            var first = _.first(scope.items);
-
-            var icon = scope.icon || 'home';
-            element.find('h1').append('<i class="fa-fw fa fa-' + icon + '"></i> ' + first);
-            _.rest(scope.items).forEach(function (item) {
-                element.find('h1').append(' <span>> ' + item + '</span>')
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('dismisser', function () {
-    return {
-        restrict: 'A',
-        compile: function (element) {
-            element.removeAttr('dismisser data-dissmiser')
-            var closer = '<button class="close">&times;</button>';
-            element.prepend(closer);
-            element.on('click', '>button.close', function(){
-                element.fadeOut('fast',function(){ $(this).remove(); });
-
-            })
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('hrefVoid', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            element.attr('href','#');
-            element.on('click', function(e){
-                e.preventDefault();
-                e.stopPropagation();
-            })
-        }
-    }
-});
-'use strict';
-
-/*
-* Directive for toggling a ng-model with a button
-* Source: https://gist.github.com/aeife/9374784
-*/
-
-angular.module('SmartAdmin.Layout').directive('radioToggle', function ($log) {
-    return {
-        scope: {
-            model: "=ngModel",
-            value: "@value"
-        },
-        link: function(scope, element, attrs) {
-
-            element.parent().on('click', function() {
-                scope.model = scope.value;
-                scope.$apply();
-            });
-        }
-    }
-});
-/**
- * DETECT MOBILE DEVICES
- * Description: Detects mobile device - if any of the listed device is
- *
- * detected class is inserted to <tElement>.
- *
- *  (so far this is covering most hand held devices)
- */
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartDeviceDetect', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-device-detect data-smart-device-detect');
-
-            var isMobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
-            
-            tElement.toggleClass('desktop-detected', !isMobile);
-            tElement.toggleClass('mobile-detected', isMobile);
-
-
-        }
-    }
-});
-/**
- *
- * Description: Directive utilizes FastClick library.
- *
- *
- * FastClick is a simple, easy-to-use library for eliminating the
- * 300ms delay between a physical tap and the firing of a click event on mobile browsers.
- * FastClick doesn't attach any listeners on desktop browsers.
- * @link: https://github.com/ftlabs/fastclick
- *
- * On mobile devices 'needsclick' class is attached to <tElement>
- *
- */
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartFastClick', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-fast-click data-smart-fast-click');
-
-            FastClick.attach(tElement);
-
-            if(!FastClick.notNeeded())
-                tElement.addClass('needsclick')
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartFitAppView', function ($rootScope, SmartCss) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-fit-app-view data-smart-fit-app-view leading-y data-leading-y');
-
-            var leadingY = attributes.leadingY ? parseInt(attributes.leadingY) : 0;
-
-            var selector = attributes.smartFitAppView;
-
-            if(SmartCss.appViewSize && SmartCss.appViewSize.height){
-                var height =  SmartCss.appViewSize.height - leadingY < 252 ? 252 :  SmartCss.appViewSize.height - leadingY;
-                SmartCss.add(selector, 'height', height+'px');
-            }
-
-            var listenerDestroy = $rootScope.$on('$smartContentResize', function (event, data) {
-                var height = data.height - leadingY < 252 ? 252 : data.height - leadingY;
-                SmartCss.add(selector, 'height', height+'px');
-            });
-
-            element.on('$destroy', function () {
-                listenerDestroy();
-                SmartCss.remove(selector, 'height');
-            });
-
-
-        }
-    }
-});
-
-"use strict";
-
-angular.module('SmartAdmin.Layout').directive('smartInclude', function () {
-        return {
-            replace: true,
-            restrict: 'A',
-            templateUrl: function (element, attr) {
-                return attr.smartInclude;
-            },
-            compile: function(element){
-                element[0].className = element[0].className.replace(/placeholder[^\s]+/g, '');
-            }
-        };
-    }
-);
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartLayout', function ($rootScope, $timeout, $interval, $q, SmartCss) {
-    
-    var _debug = 0;
-
-    function getDocHeight() {
-        var D = document;
-        return Math.max(
-            D.body.scrollHeight, D.documentElement.scrollHeight,
-            D.body.offsetHeight, D.documentElement.offsetHeight,
-            D.body.clientHeight, D.documentElement.clientHeight
-        );
-    }
-
-    var initialized = false, 
-           initializedResolver = $q.defer();
-    initializedResolver.promise.then(function () {
-        initialized = true;
-    });
-
-    var $window = $(window),
-        $document = $(document),
-        $html = $('html'),
-        $body = $('body'),
-        $navigation ,
-        $menu,
-        $ribbon,
-        $footer,
-        $contentAnimContainer;
-
-
-    (function cacheElements() {
-        $navigation = $('#header');
-        $menu = $('#left-panel');
-        $ribbon = $('#ribbon');
-        $footer = $('.page-footer');
-        if (_.every([$navigation, $menu, $ribbon, $footer], function ($it) {
-            return angular.isNumber($it.height())
-        })) {
-            initializedResolver.resolve();
-        } else {
-            $timeout(cacheElements, 100);
-        }
-    })();
-
-
-    return {
-        priority: 2014,
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-layout data-smart-layout');
-
-            var appViewHeight = 0 ,
-                appViewWidth = 0,
-                calcWidth,
-                calcHeight,
-                deltaX,
-                deltaY;
-
-            var forceResizeTrigger = false;
-
-            function resizeListener() {
-
-//                    full window height appHeight = Math.max($menu.outerHeight() - 10, getDocHeight() - 10);
-
-                var menuHeight = $body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.height() : 0;
-                var menuWidth = !$body.hasClass('menu-on-top') && $menu.is(':visible') ? $menu.width() + $menu.offset().left : 0;
-
-                var $content = $('#content');
-                var contentXPad = $content.outerWidth(true) - $content.width();
-                var contentYPad = $content.outerHeight(true) - $content.height();
-
-
-                calcWidth = $window.width() - menuWidth - contentXPad;
-                calcHeight = $window.height() - menuHeight - contentYPad - $navigation.height() - $ribbon.height() - $footer.height();
-
-                deltaX = appViewWidth - calcWidth;
-                deltaY = appViewHeight - calcHeight;
-                if (Math.abs(deltaX) || Math.abs(deltaY) || forceResizeTrigger) {
-
-                    //console.log('exec', calcWidth, calcHeight);
-                    $rootScope.$broadcast('$smartContentResize', {
-                        width: calcWidth,
-                        height: calcHeight,
-                        deltaX: deltaX,
-                        deltaY: deltaY
-                    });
-                    appViewWidth = calcWidth;
-                    appViewHeight = calcHeight;
-                    forceResizeTrigger = false;
-                }
-            }
-
-
-            var looping = false;
-            $interval(function () {
-                if (looping) loop();
-            }, 300);
-
-            var debouncedRun = _.debounce(function () {
-                run(300)
-            }, 300);
-
-            function run(delay) {
-                initializedResolver.promise.then(function () {
-                    attachOnResize(delay);
-                });
-            }
-
-            run(10);
-
-            function detachOnResize() {
-                looping = false;
-            }
-
-            function attachOnResize(delay) {
-                $timeout(function () {
-                    looping = true;
-                }, delay);
-            }
-
-            function loop() {
-                $body.toggleClass('mobile-view-activated', $window.width() < 979);
-
-                if ($window.width() < 979)
-                    $body.removeClass('minified');
-
-                resizeListener();
-            }
-
-            function handleHtmlId(toState) {
-                if (toState.data && toState.data.htmlId) $html.attr('id', toState.data.htmlId);
-                else $html.removeAttr('id');
-            }
-
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                //console.log(1, '$stateChangeStart', event, toState, toParams, fromState, fromParams);
-
-                handleHtmlId(toState);
-                detachOnResize();
-            });
-
-            // initialized with 1 cause we came here with one $viewContentLoading request
-            var viewContentLoading = 1;
-            $rootScope.$on('$viewContentLoading', function (event, viewConfig) {
-                //console.log(2, '$viewContentLoading', event, viewConfig);
-                viewContentLoading++;
-            });
-
-            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                //console.log(3, '$stateChangeSuccess', event, toState, toParams, fromState, fromParams);
-                forceResizeTrigger = true;
-            });
-
-            $rootScope.$on('$viewContentLoaded', function (event) {
-                //console.log(4, '$viewContentLoaded', event);
-                viewContentLoading--;
-
-                if (viewContentLoading == 0 && initialized) {
-                    debouncedRun();
-                }
-            });
-        }
-    }
-});
-
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartPageTitle', function ($rootScope, $timeout) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-page-title data-smart-page-title');
-
-            var defaultTitle = attributes.smartPageTitle;
-            var listener = function(event, toState, toParams, fromState, fromParams) {
-                var title = defaultTitle;
-                if (toState.data && toState.data.title) title = toState.data.title + ' | ' + title;
-                // Set asynchronously so page changes before title does
-                $timeout(function() {
-                    $('html head title').text(title);
-                });
-            };
-
-            $rootScope.$on('$stateChangeStart', listener);
-
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('smartRouterAnimationWrap', function ($rootScope,$timeout) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-router-animation-wrap data-smart-router-animation-wrap wrap-for data-wrap-for');
-
-            element.addClass('router-animation-container');
-
-
-            var $loader = $('<div class="router-animation-loader"><i class="fa fa-gear fa-4x fa-spin"></i></div>')
-                .css({
-                    position: 'absolute',
-                    top: 50,
-                    left: 10
-                }).hide().appendTo(element);
-
-
-            var animateElementSelector = attributes.wrapFor;
-            var viewsToMatch = attributes.smartRouterAnimationWrap.split(/\s/);
-
-            var needRunContentViewAnimEnd = false;
-            function contentViewAnimStart() {
-                needRunContentViewAnimEnd = true;
-                element.css({
-                    height: element.height() + 'px',
-                    overflow: 'hidden'
-                }).addClass('active');
-                $loader.fadeIn();
-
-                $(animateElementSelector).addClass('animated faster fadeOutDown');
-            }
-
-            function contentViewAnimEnd() {
-                if(needRunContentViewAnimEnd){
-                    element.css({
-                        height: 'auto',
-                        overflow: 'visible'
-                    }).removeClass('active');
-                    
-
-                    $(animateElementSelector).addClass('animated faster fadeInUp');
-
-                    needRunContentViewAnimEnd = false;
-
-                    $timeout(function(){
-                        $(animateElementSelector).removeClass('animated');
-                    },10);
-                }
-                $loader.fadeOut();
-            }
-
-
-            var destroyForStart = $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                var isAnimRequired = _.any(viewsToMatch, function(view){
-                   return _.has(toState.views, view) || _.has(fromState.views, view);
-                });
-                if(isAnimRequired){
-                    contentViewAnimStart()
-                }
-            });
-
-            var destroyForEnd = $rootScope.$on('$viewContentLoaded', function (event) {
-                contentViewAnimEnd();
-            });
-
-            element.on('$destroy', function(){
-                destroyForStart();
-                destroyForEnd();
-
-            });
-
-
-
-        }
-    }
-});
-angular.module('SmartAdmin.Layout').directive('speechRecognition', function ($log) {
-	'use strict';
-
-	$.root_ = $('body');
-	var root, commands;
-
-    root = window;
-    window.appConfig = window.appConfig || {};
-
-	if (appConfig.voice_command) {
-		commands = appConfig.commands;
-	}
-
-
-	/*
-	 * SMART VOICE
-	 * Author: MyOrange | @bootstraphunt
-	 * http://www.myorange.ca
-	 */
-
-	var SpeechRecognition = root.SpeechRecognition || root.webkitSpeechRecognition || root.mozSpeechRecognition || root.msSpeechRecognition || root.oSpeechRecognition;
-
-// ref: http://updates.html5rocks.com/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API
-
-
-// function
-	$.speechApp = (function(speech) {
-
-		speech.start = function() {
-
-			// Add our commands to smartSpeechRecognition
-			smartSpeechRecognition.addCommands(commands);
-
-			if (smartSpeechRecognition) {
-				// activate plugin
-				smartSpeechRecognition.start();
-				// add btn class
-				$.root_.addClass("voice-command-active");
-				// play sound
-				$.speechApp.playON();
-				// set localStorage when switch is on manually
-				if (appConfig.voice_localStorage) {
-					localStorage.setItem('sm-setautovoice', 'true');
-				}
-
-			} else {
-				// if plugin not found
-				alert("speech plugin not loaded");
-			}
-
-		};
-		speech.stop = function() {
-
-			if (smartSpeechRecognition) {
-				// deactivate plugin
-				smartSpeechRecognition.abort();
-				// remove btn class
-				$.root_.removeClass("voice-command-active");
-				// sound
-				$.speechApp.playOFF();
-				// del localStorage when switch if off manually
-				if (appConfig.voice_localStorage) {
-					localStorage.setItem('sm-setautovoice', 'false');
-				}
-				// remove popover if visible
-				if ($('#speech-btn .popover').is(':visible')) {
-					$('#speech-btn .popover').fadeOut(250);
-				}
-			}
-
-		};
-
-		// play sound
-		speech.playON = function() {
-
-			var audioElement = document.createElement('audio');
-
-			if (navigator.userAgent.match('Firefox/'))
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".ogg");
-			else
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_on' + ".mp3");
-
-			//$.get();
-			audioElement.addEventListener("load", function() {
-				audioElement.play();
-			}, true);
-
-			if (appConfig.sound_on) {
-				audioElement.pause();
-				audioElement.play();
-			}
-		};
-
-		speech.playOFF = function() {
-
-			var audioElement = document.createElement('audio');
-
-			if (navigator.userAgent.match('Firefox/'))
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".ogg");
-			else
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_off' + ".mp3");
-
-			$.get();
-			audioElement.addEventListener("load", function() {
-				audioElement.play();
-			}, true);
-
-			if (appConfig.sound_on) {
-				audioElement.pause();
-				audioElement.play();
-			}
-		};
-
-		speech.playConfirmation = function() {
-
-			var audioElement = document.createElement('audio');
-
-			if (navigator.userAgent.match('Firefox/'))
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".ogg");
-			else
-				audioElement.setAttribute('src', appConfig.sound_path + 'voice_alert' + ".mp3");
-
-			$.get();
-			audioElement.addEventListener("load", function() {
-				audioElement.play();
-			}, true);
-
-			if (appConfig.sound_on) {
-				audioElement.pause();
-				audioElement.play();
-			}
-		};
-
-		return speech;
-
-	})({});
-
-
-
-	/*
-	 * SPEECH RECOGNITION ENGINE
-	 * Copyright (c) 2013 Tal Ater
-	 * Modified by MyOrange
-	 * All modifications made are hereby copyright (c) 2014 MyOrange
-	 */
-
-	(function(undefined) {"use strict";
-
-		// Check browser support
-		// This is done as early as possible, to make it as fast as possible for unsupported browsers
-		if (!SpeechRecognition) {
-			root.smartSpeechRecognition = null;
-			return undefined;
-		}
-
-		var commandsList = [], recognition, callbacks = {
-				start : [],
-				error : [],
-				end : [],
-				result : [],
-				resultMatch : [],
-				resultNoMatch : [],
-				errorNetwork : [],
-				errorPermissionBlocked : [],
-				errorPermissionDenied : []
-			}, autoRestart, lastStartedAt = 0,
-		//debugState = false, // decleared in app.appConfig.js
-		//appConfig.debugStyle = 'font-weight: bold; color: #00f;', // decleared in app.appConfig.js
-
-		// The command matching code is a modified version of Backbone.Router by Jeremy Ashkenas, under the MIT license.
-			optionalParam = /\s*\((.*?)\)\s*/g, optionalRegex = /(\(\?:[^)]+\))\?/g, namedParam = /(\(\?)?:\w+/g, splatParam = /\*\w+/g, escapeRegExp = /[\-{}\[\]+?.,\\\^$|#]/g, commandToRegExp = function(command) {
-				command = command.replace(escapeRegExp, '\\$&').replace(optionalParam, '(?:$1)?').replace(namedParam, function(match, optional) {
-					return optional ? match : '([^\\s]+)';
-				}).replace(splatParam, '(.*?)').replace(optionalRegex, '\\s*$1?\\s*');
-				return new RegExp('^' + command + '$', 'i');
-			};
-
-		// This method receives an array of callbacks to iterate over, and invokes each of them
-		var invokeCallbacks = function(callbacks) {
-			callbacks.forEach(function(callback) {
-				callback.callback.apply(callback.context);
-			});
-		};
-
-		var initIfNeeded = function() {
-			if (!isInitialized()) {
-				root.smartSpeechRecognition.init({}, false);
-			}
-		};
-
-		var isInitialized = function() {
-			return recognition !== undefined;
-		};
-
-		root.smartSpeechRecognition = {
-			// Initialize smartSpeechRecognition with a list of commands to recognize.
-			// e.g. smartSpeechRecognition.init({'hello :name': helloFunction})
-			// smartSpeechRecognition understands commands with named variables, splats, and optional words.
-			init : function(commands, resetCommands) {
-
-				// resetCommands defaults to true
-				if (resetCommands === undefined) {
-					resetCommands = true;
-				} else {
-					resetCommands = !!resetCommands;
-				}
-
-				// Abort previous instances of recognition already running
-				if (recognition && recognition.abort) {
-					recognition.abort();
-				}
-
-				// initiate SpeechRecognition
-				recognition = new SpeechRecognition();
-
-				// Set the max number of alternative transcripts to try and match with a command
-				recognition.maxAlternatives = 5;
-				recognition.continuous = true;
-				// Sets the language to the default 'en-US'. This can be changed with smartSpeechRecognition.setLanguage()
-				recognition.lang = appConfig.voice_command_lang || 'en-US';
-
-				recognition.onstart = function() {
-					invokeCallbacks(callbacks.start);
-					//debugState
-					if (appConfig.debugState) {
-						root.console.log('%c ✔ SUCCESS: User allowed access the microphone service to start ', appConfig.debugStyle_success);
-						root.console.log('Language setting is set to: ' + recognition.lang, appConfig.debugStyle);
-					}
-					$.root_.removeClass("service-not-allowed");
-					$.root_.addClass("service-allowed");
-				};
-
-				recognition.onerror = function(event) {
-					invokeCallbacks(callbacks.error);
-					switch (event.error) {
-						case 'network':
-							invokeCallbacks(callbacks.errorNetwork);
-							break;
-						case 'not-allowed':
-						case 'service-not-allowed':
-							// if permission to use the mic is denied, turn off auto-restart
-							autoRestart = false;
-							$.root_.removeClass("service-allowed");
-							$.root_.addClass("service-not-allowed");
-							//debugState
-							if (appConfig.debugState) {
-								root.console.log('%c WARNING: Microphone was not detected (either user denied access or it is not installed properly) ', appConfig.debugStyle_warning);
-							}
-							// determine if permission was denied by user or automatically.
-							if (new Date().getTime() - lastStartedAt < 200) {
-								invokeCallbacks(callbacks.errorPermissionBlocked);
-							} else {
-								invokeCallbacks(callbacks.errorPermissionDenied);
-								//console.log("You need your mic to be active")
-							}
-							break;
-					}
-				};
-
-				recognition.onend = function() {
-					invokeCallbacks(callbacks.end);
-					// smartSpeechRecognition will auto restart if it is closed automatically and not by user action.
-					if (autoRestart) {
-						// play nicely with the browser, and never restart smartSpeechRecognition automatically more than once per second
-						var timeSinceLastStart = new Date().getTime() - lastStartedAt;
-						if (timeSinceLastStart < 1000) {
-							setTimeout(root.smartSpeechRecognition.start, 1000 - timeSinceLastStart);
-						} else {
-							root.smartSpeechRecognition.start();
-						}
-					}
-				};
-
-				recognition.onresult = function(event) {
-					invokeCallbacks(callbacks.result);
-
-					var results = event.results[event.resultIndex], commandText;
-
-					// go over each of the 5 results and alternative results received (we've set maxAlternatives to 5 above)
-					for (var i = 0; i < results.length; i++) {
-						// the text recognized
-						commandText = results[i].transcript.trim();
-						if (appConfig.debugState) {
-							root.console.log('Speech recognized: %c' + commandText, appConfig.debugStyle);
-						}
-
-						// try and match recognized text to one of the commands on the list
-						for (var j = 0, l = commandsList.length; j < l; j++) {
-							var result = commandsList[j].command.exec(commandText);
-							if (result) {
-								var parameters = result.slice(1);
-								if (appConfig.debugState) {
-									root.console.log('command matched: %c' + commandsList[j].originalPhrase, appConfig.debugStyle);
-									if (parameters.length) {
-										root.console.log('with parameters', parameters);
-									}
-								}
-								// execute the matched command
-								commandsList[j].callback.apply(this, parameters);
-								invokeCallbacks(callbacks.resultMatch);
-
-								// for commands "sound on", "stop" and "mute" do not play sound or display message
-								//var myMatchedCommand = commandsList[j].originalPhrase;
-
-								var ignoreCallsFor = ["sound on", "mute", "stop"];
-
-								if (ignoreCallsFor.indexOf(commandsList[j].originalPhrase) < 0) {
-									// play sound when match found
-									console.log(2);
-									$.smallBox({
-										title : (commandsList[j].originalPhrase),
-										content : "loading...",
-										color : "#333",
-										sound_file : 'voice_alert',
-										timeout : 2000
-									});
-
-									if ($('#speech-btn .popover').is(':visible')) {
-										$('#speech-btn .popover').fadeOut(250);
-									}
-								}// end if
-
-								return true;
-							}
-						} // end for
-					}// end for
-
-					invokeCallbacks(callbacks.resultNoMatch);
-					//console.log("no match found for: " + commandText)
-					$.smallBox({
-						title : "Error: <strong>" + ' " ' + commandText + ' " ' + "</strong> no match found!",
-						content : "Please speak clearly into the microphone",
-						color : "#a90329",
-						timeout : 5000,
-						icon : "fa fa-microphone"
-					});
-					if ($('#speech-btn .popover').is(':visible')) {
-						$('#speech-btn .popover').fadeOut(250);
-					}
-					return false;
-				};
-
-				// build commands list
-				if (resetCommands) {
-					commandsList = [];
-				}
-				if (commands.length) {
-					this.addCommands(commands);
-				}
-			},
-
-			// Start listening (asking for permission first, if needed).
-			// Call this after you've initialized smartSpeechRecognition with commands.
-			// Receives an optional options object:
-			// { autoRestart: true }
-			start : function(options) {
-				initIfNeeded();
-				options = options || {};
-				if (options.autoRestart !== undefined) {
-					autoRestart = !!options.autoRestart;
-				} else {
-					autoRestart = true;
-				}
-				lastStartedAt = new Date().getTime();
-				recognition.start();
-			},
-
-			// abort the listening session (aka stop)
-			abort : function() {
-				autoRestart = false;
-				if (isInitialized) {
-					recognition.abort();
-				}
-			},
-
-			// Turn on output of debug messages to the console. Ugly, but super-handy!
-			debug : function(newState) {
-				if (arguments.length > 0) {
-					appConfig.debugState = !!newState;
-				} else {
-					appConfig.debugState = true;
-				}
-			},
-
-			// Set the language the user will speak in. If not called, defaults to 'en-US'.
-			// e.g. 'fr-FR' (French-France), 'es-CR' (Español-Costa Rica)
-			setLanguage : function(language) {
-				initIfNeeded();
-				recognition.lang = language;
-			},
-
-			// Add additional commands that smartSpeechRecognition will respond to. Similar in syntax to smartSpeechRecognition.init()
-			addCommands : function(commands) {
-				var cb, command;
-
-				initIfNeeded();
-
-				for (var phrase in commands) {
-					if (commands.hasOwnProperty(phrase)) {
-						cb = root[commands[phrase]] || commands[phrase];
-						if ( typeof cb !== 'function') {
-							continue;
-						}
-						//convert command to regex
-						command = commandToRegExp(phrase);
-
-						commandsList.push({
-							command : command,
-							callback : cb,
-							originalPhrase : phrase
-						});
-					}
-				}
-				if (appConfig.debugState) {
-					root.console.log('Commands successfully loaded: %c' + commandsList.length, appConfig.debugStyle);
-				}
-			},
-
-			// Remove existing commands. Called with a single phrase, array of phrases, or methodically. Pass no params to remove all commands.
-			removeCommands : function(commandsToRemove) {
-				if (commandsToRemove === undefined) {
-					commandsList = [];
-					return;
-				}
-				commandsToRemove = Array.isArray(commandsToRemove) ? commandsToRemove : [commandsToRemove];
-				commandsList = commandsList.filter(function(command) {
-					for (var i = 0; i < commandsToRemove.length; i++) {
-						if (commandsToRemove[i] === command.originalPhrase) {
-							return false;
-						}
-					}
-					return true;
-				});
-			},
-
-			// Lets the user add a callback of one of 9 types:
-			// start, error, end, result, resultMatch, resultNoMatch, errorNetwork, errorPermissionBlocked, errorPermissionDenied
-			// Can also optionally receive a context for the callback function as the third argument
-			addCallback : function(type, callback, context) {
-				if (callbacks[type] === undefined) {
-					return;
-				}
-				var cb = root[callback] || callback;
-				if ( typeof cb !== 'function') {
-					return;
-				}
-				callbacks[type].push({
-					callback : cb,
-					context : context || this
-				});
-			}
-		};
-
-	}).call(this);
-
-	var autoStart = function() {
-
-		smartSpeechRecognition.addCommands(commands);
-
-		if (smartSpeechRecognition) {
-			// activate plugin
-			smartSpeechRecognition.start();
-			// add btn class
-			$.root_.addClass("voice-command-active");
-			// set localStorage when switch is on manually
-			if (appConfig.voice_localStorage) {
-				localStorage.setItem('sm-setautovoice', 'true');
-			}
-
-		} else {
-			// if plugin not found
-			alert("speech plugin not loaded");
-		}
-	}
-// if already running with localstorage
-	if (SpeechRecognition && appConfig.voice_command && localStorage.getItem('sm-setautovoice') == 'true') {
-		autoStart();
-	}
-
-// auto start
-	if (SpeechRecognition && appConfig.voice_command_auto && appConfig.voice_command) {
-		autoStart();
-	}
-
-
-	var link = function(scope, element) {
-
-
-		if (SpeechRecognition && appConfig.voice_command) {
-
-			// create dynamic modal instance
-			var modal = $('<div class="modal fade" id="voiceModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>');
-			// attach to body
-			modal.appendTo("body");
-
-			element.on("click", function(e) {
-
-            	if ($.root_.hasClass("voice-command-active")) {
-					$.speechApp.stop();
-					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone-slash');
-				} else {
-					$.speechApp.start();
-					//add popover
-					$('#speech-btn .popover').fadeIn(350);
-					//$('#speech-btn > span > a > i').removeClass().addClass('fa fa-microphone')
-
-				}
-
-				e.preventDefault();
-
-            });
-
-			//remove popover
-			$(document).mouseup(function(e) {
-				if (!$('#speech-btn .popover').is(e.target) && $('#speech-btn .popover').has(e.target).length === 0) {
-					$('#speech-btn .popover').fadeOut(250);
-				}
-			});
-
-
-			$("#speech-help-btn").on("click", function() {
-				commands.help();
-			});
-
-		}
-		else {
-			$("#speech-btn").addClass("display-none");
-		}
-
-
-	}
-
-
-
-    return {
-        restrict: 'AE',
-        link: link
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($rootScope, $state) {
-
-
-    return {
-        restrict: 'EA',
-        replace: true,
-        template: '<ol class="breadcrumb"><li>Home</li></ol>',
-        link: function (scope, element) {
-
-            function setBreadcrumbs(breadcrumbs) {
-                var html = '<li>Home</li>';
-                angular.forEach(breadcrumbs, function (crumb) {
-                    html += '<li>' + crumb + '</li>'
-                });
-                element.html(html)
-            }
-
-            function fetchBreadcrumbs(stateName, breadcrunbs) {
-
-                var state = $state.get(stateName);
-
-                if (state && state.data && state.data.title && breadcrunbs.indexOf(state.data.title) == -1) {
-                    breadcrunbs.unshift(state.data.title)
-                }
-
-                var parentName = stateName.replace(/.?\w+$/, '');
-                if (parentName) {
-                    return fetchBreadcrumbs(parentName, breadcrunbs);
-                } else {
-                    return breadcrunbs;
-                }
-            }
-
-            function processState(state) {
-                var breadcrumbs;
-                if (state.data && state.data.breadcrumbs) {
-                    breadcrumbs = state.data.breadcrumbs;
-                } else {
-                    breadcrumbs = fetchBreadcrumbs(state.name, []);
-                }
-                setBreadcrumbs(breadcrumbs);
-            }
-
-            processState($state.current);
-
-            $rootScope.$on('$stateChangeStart', function (event, state) {
-                processState(state);
-            })
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
-
-    var sheet = (function () {
-        // Create the <style> tag
-        var style = document.createElement("style");
-
-        // Add a media (and/or media query) here if you'd like!
-        // style.setAttribute("media", "screen")
-        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
-
-        // WebKit hack :(
-        style.appendChild(document.createTextNode(""));
-
-        // Add the <style> element to the page
-        document.head.appendChild(style);
-
-        return style.sheet;
-    })();
-
-    var _styles = {};
-
-
-    var SmartCss = {
-        writeRule: function(selector){
-            SmartCss.deleteRuleFor(selector);
-            if(_.has(_styles, selector)){
-                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
-                    return  k + ':' +  v + ';'
-                }).join(' ') +'}';
-                sheet.insertRule(css, _.size(_styles) - 1);
-            }
-        },
-        add: function (selector, property, value, delay) {
-            if(!_.has(_styles, selector))
-                _styles[selector] = {};
-
-            if(value == undefined || value == null || value == '')
-                delete _styles[selector][property];
-            else
-                _styles[selector][property] = value;
-
-
-            if(_.keys(_styles[selector]).length == 0)
-                delete _styles[selector];
-
-            if(!delay)
-                delay = 0;
-            $timeout(function(){
-                SmartCss.writeRule(selector);
-            }, delay);
-
-        },
-        remove: function(selector, property, delay){
-            SmartCss.add(selector, property, null, delay);
-        },
-        deleteRuleFor: function (selector) {
-            _(sheet.rules).forEach(function (rule, idx) {
-                if (rule.selectorText == selector) {
-                    sheet.deleteRule(idx);
-                }
-            });
-        },
-        appViewSize: null
-    };
-
-    $rootScope.$on('$smartContentResize', function (event, data) {
-        SmartCss.appViewSize = data;
-    });
-
-    return SmartCss;
-
-});
-
-
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
-    var scripts = null;
-    var initialized = false;
-    var initializingPromise = null;
-
-    function init(){        
-        if(!initialized){
-            if(!initializingPromise){
-                initializingPromise = $http.get('app.scripts.json').then(function(res){
-                    scripts = res.data
-                    initialized = true;
-                });     
-            }
-            return initializingPromise;
-               
-        } else {
-            return $q.resolve();
-        }
-    }
-
-    var cache = {};
-
-    function isPending(scriptName){
-        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
-    }
-
-    function isRegistered(scriptName){
-        if(cache.hasOwnProperty(scriptName)){
-            return true;
-        } else {
-            return (scripts.prebuild.indexOf(scriptName) > -1);
-        }
-    }
-    function loadScript(scriptName){
-        if(!cache[scriptName]){
-            cache[scriptName] = $q.defer();
-            var el = document.createElement( 'script' );
-            el.onload = function(script){
-                console.log('script is lazy loaded:', scriptName)
-                cache[scriptName].resolve(scriptName);
-            };
-            el.src = scripts.paths[scriptName];
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(el, x);
-            
-        }
-        return cache[scriptName].promise;
-
-    }
-
-    function register(scriptName){
-        if(isPending(scriptName)){
-            return cache[scriptName].promise
-        }
-        if(isRegistered(scriptName)){
-            return $q.resolve(scriptName);
-        } else {
-            var dfd = $q.defer();
-            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
-                var depsPromises = [];
-                angular.forEach(scripts.shim[scriptName].deps, function(dep){
-
-                    depsPromises.push(register(dep))
-                    
-                })
-                $q.all(depsPromises).then(function(){
-                    loadScript(scriptName).then(function(){
-                        dfd.resolve(scriptName);
-                    })
-                })
-
-            } else {
-                
-                loadScript(scriptName).then(function(){
-                    dfd.resolve(scriptName);
-                })
-                 
-            }
-            return dfd.promise; 
-
-        }
-    }
-    return {
-        register: function (scripts) {
-            
-            var dfd = $q.defer();
-            init().then(function(){
-                var promises = [];
-                if (angular.isString(scripts)) 
-                    scripts = [scripts];    
-
-                angular.forEach(scripts, function(script){
-                    promises.push(register(script));
-                })
-
-                $q.all(promises).then(function(resolves){
-                    dfd.resolve(resolves);
-                })
-            })
-            return dfd.promise;
-
-        }
-    };
-});
-'use strict';
-
 angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
     var dfd = $q.defer();
     var _user;
@@ -11865,417 +11865,6 @@ angular.module('app.tables').directive('jqGrid', function ($compile) {
         }
     }
 });
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form) {
-           lazyScript.register('jquery-validation').then(function(){
-
-               scope.countries = formsCommon.countries;
-
-               form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        fname : {
-                            required : true
-                        },
-                        lname : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        phone : {
-                            required : true
-                        },
-                        country : {
-                            required : true
-                        },
-                        city : {
-                            required : true
-                        },
-                        code : {
-                            required : true,
-                            digits : true
-                        },
-                        address : {
-                            required : true
-                        },
-                        name : {
-                            required : true
-                        },
-                        card : {
-                            required : true,
-                            creditcard : true
-                        },
-                        cvv : {
-                            required : true,
-                            digits : true
-                        },
-                        month : {
-                            required : true
-                        },
-                        year : {
-                            required : true,
-                            digits : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        fname : {
-                            required : 'Please enter your first name'
-                        },
-                        lname : {
-                            required : 'Please enter your last name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : 'Please enter a VALID email address'
-                        },
-                        phone : {
-                            required : 'Please enter your phone number'
-                        },
-                        country : {
-                            required : 'Please select your country'
-                        },
-                        city : {
-                            required : 'Please enter your city'
-                        },
-                        code : {
-                            required : 'Please enter code',
-                            digits : 'Digits only please'
-                        },
-                        address : {
-                            required : 'Please enter your full address'
-                        },
-                        name : {
-                            required : 'Please enter name on your card'
-                        },
-                        card : {
-                            required : 'Please enter your card number'
-                        },
-                        cvv : {
-                            required : 'Enter CVV2',
-                            digits : 'Digits only'
-                        },
-                        month : {
-                            required : 'Select month'
-                        },
-                        year : {
-                            required : 'Enter year',
-                            digits : 'Digits only please'
-                        }
-                    }
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCommentForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        url : {
-                            url : true
-                        },
-                        comment : {
-                            required : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Enter your name',
-                        },
-                        email : {
-                            required : 'Enter your email address',
-                            email : 'Enter a VALID email'
-                        },
-                        url : {
-                            email : 'Enter a VALID url'
-                        },
-                        comment : {
-                            required : 'Please enter your comment'
-                        }
-                    },
-
-                    // Ajax form submition
-                    submitHandler : function() {
-                        form.ajaxSubmit({
-                            success : function() {
-                                form.addClass('submited');
-                            }
-                        });
-                    }
-
-                }, formsCommon.validateOptions));
-            });
-
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartContactsForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        message : {
-                            required : true,
-                            minlength : 10
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Please enter your name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : 'Please enter a VALID email address'
-                        },
-                        message : {
-                            required : 'Please enter your message'
-                        }
-                    },
-
-                    // Ajax form submition
-                    submitHandler : function() {
-                        form.ajaxSubmit({
-                            success : function() {
-                                form.addClass('submited');
-                            }
-                        });
-                    }
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartOrderForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'E',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        phone : {
-                            required : true
-                        },
-                        interested : {
-                            required : true
-                        },
-                        budget : {
-                            required : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Please enter your name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : 'Please enter a VALID email address'
-                        },
-                        phone : {
-                            required : 'Please enter your phone number'
-                        },
-                        interested : {
-                            required : 'Please select interested service'
-                        },
-                        budget : {
-                            required : 'Please select your budget'
-                        }
-                    },
-
-                }, formsCommon.validateOptions));
-            });
-
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartRegistrationForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form, attributes) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-
-                    // Rules for form validation
-                    rules: {
-                        username: {
-                            required: true
-                        },
-                        email: {
-                            required: true,
-                            email: true
-                        },
-                        password: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20
-                        },
-                        passwordConfirm: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20,
-                            equalTo: '#password'
-                        },
-                        firstname: {
-                            required: true
-                        },
-                        lastname: {
-                            required: true
-                        },
-                        gender: {
-                            required: true
-                        },
-                        terms: {
-                            required: true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages: {
-                        login: {
-                            required: 'Please enter your login'
-                        },
-                        email: {
-                            required: 'Please enter your email address',
-                            email: 'Please enter a VALID email address'
-                        },
-                        password: {
-                            required: 'Please enter your password'
-                        },
-                        passwordConfirm: {
-                            required: 'Please enter your password one more time',
-                            equalTo: 'Please enter the same password as above'
-                        },
-                        firstname: {
-                            required: 'Please select your first name'
-                        },
-                        lastname: {
-                            required: 'Please select your last name'
-                        },
-                        gender: {
-                            required: 'Please select your gender'
-                        },
-                        terms: {
-                            required: 'You must agree with Terms and Conditions'
-                        }
-                    }
-
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'E',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        review : {
-                            required : true,
-                            minlength : 20
-                        },
-                        quality : {
-                            required : true
-                        },
-                        reliability : {
-                            required : true
-                        },
-                        overall : {
-                            required : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Please enter your name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : '<i class="fa fa-warning"></i><strong>Please enter a VALID email addres</strong>'
-                        },
-                        review : {
-                            required : 'Please enter your review'
-                        },
-                        quality : {
-                            required : 'Please rate quality of the product'
-                        },
-                        reliability : {
-                            required : 'Please rate reliability of the product'
-                        },
-                        overall : {
-                            required : 'Please rate the product'
-                        }
-                    }
-
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
 "use strict";
 
 
@@ -12716,6 +12305,507 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 });
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form) {
+           lazyScript.register('jquery-validation').then(function(){
+
+               scope.countries = formsCommon.countries;
+
+               form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        fname : {
+                            required : true
+                        },
+                        lname : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        phone : {
+                            required : true
+                        },
+                        country : {
+                            required : true
+                        },
+                        city : {
+                            required : true
+                        },
+                        code : {
+                            required : true,
+                            digits : true
+                        },
+                        address : {
+                            required : true
+                        },
+                        name : {
+                            required : true
+                        },
+                        card : {
+                            required : true,
+                            creditcard : true
+                        },
+                        cvv : {
+                            required : true,
+                            digits : true
+                        },
+                        month : {
+                            required : true
+                        },
+                        year : {
+                            required : true,
+                            digits : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        fname : {
+                            required : 'Please enter your first name'
+                        },
+                        lname : {
+                            required : 'Please enter your last name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        phone : {
+                            required : 'Please enter your phone number'
+                        },
+                        country : {
+                            required : 'Please select your country'
+                        },
+                        city : {
+                            required : 'Please enter your city'
+                        },
+                        code : {
+                            required : 'Please enter code',
+                            digits : 'Digits only please'
+                        },
+                        address : {
+                            required : 'Please enter your full address'
+                        },
+                        name : {
+                            required : 'Please enter name on your card'
+                        },
+                        card : {
+                            required : 'Please enter your card number'
+                        },
+                        cvv : {
+                            required : 'Enter CVV2',
+                            digits : 'Digits only'
+                        },
+                        month : {
+                            required : 'Select month'
+                        },
+                        year : {
+                            required : 'Enter year',
+                            digits : 'Digits only please'
+                        }
+                    }
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCommentForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        url : {
+                            url : true
+                        },
+                        comment : {
+                            required : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Enter your name',
+                        },
+                        email : {
+                            required : 'Enter your email address',
+                            email : 'Enter a VALID email'
+                        },
+                        url : {
+                            email : 'Enter a VALID url'
+                        },
+                        comment : {
+                            required : 'Please enter your comment'
+                        }
+                    },
+
+                    // Ajax form submition
+                    submitHandler : function() {
+                        form.ajaxSubmit({
+                            success : function() {
+                                form.addClass('submited');
+                            }
+                        });
+                    }
+
+                }, formsCommon.validateOptions));
+            });
+
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartContactsForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        message : {
+                            required : true,
+                            minlength : 10
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Please enter your name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        message : {
+                            required : 'Please enter your message'
+                        }
+                    },
+
+                    // Ajax form submition
+                    submitHandler : function() {
+                        form.ajaxSubmit({
+                            success : function() {
+                                form.addClass('submited');
+                            }
+                        });
+                    }
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartOrderForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'E',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        phone : {
+                            required : true
+                        },
+                        interested : {
+                            required : true
+                        },
+                        budget : {
+                            required : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Please enter your name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        phone : {
+                            required : 'Please enter your phone number'
+                        },
+                        interested : {
+                            required : 'Please select interested service'
+                        },
+                        budget : {
+                            required : 'Please select your budget'
+                        }
+                    },
+
+                }, formsCommon.validateOptions));
+            });
+
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartRegistrationForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form, attributes) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+
+                    // Rules for form validation
+                    rules: {
+                        username: {
+                            required: true
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20
+                        },
+                        passwordConfirm: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20,
+                            equalTo: '#password'
+                        },
+                        firstname: {
+                            required: true
+                        },
+                        lastname: {
+                            required: true
+                        },
+                        gender: {
+                            required: true
+                        },
+                        terms: {
+                            required: true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages: {
+                        login: {
+                            required: 'Please enter your login'
+                        },
+                        email: {
+                            required: 'Please enter your email address',
+                            email: 'Please enter a VALID email address'
+                        },
+                        password: {
+                            required: 'Please enter your password'
+                        },
+                        passwordConfirm: {
+                            required: 'Please enter your password one more time',
+                            equalTo: 'Please enter the same password as above'
+                        },
+                        firstname: {
+                            required: 'Please select your first name'
+                        },
+                        lastname: {
+                            required: 'Please select your last name'
+                        },
+                        gender: {
+                            required: 'Please select your gender'
+                        },
+                        terms: {
+                            required: 'You must agree with Terms and Conditions'
+                        }
+                    }
+
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'E',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        review : {
+                            required : true,
+                            minlength : 20
+                        },
+                        quality : {
+                            required : true
+                        },
+                        reliability : {
+                            required : true
+                        },
+                        overall : {
+                            required : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Please enter your name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : '<i class="fa fa-warning"></i><strong>Please enter a VALID email addres</strong>'
+                        },
+                        review : {
+                            required : 'Please enter your review'
+                        },
+                        quality : {
+                            required : 'Please rate quality of the product'
+                        },
+                        reliability : {
+                            required : 'Please rate reliability of the product'
+                        },
+                        overall : {
+                            required : 'Please rate the product'
+                        }
+                    }
+
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
     return {
         restrict: 'A',
@@ -12904,24 +12994,6 @@ angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
         }
     }
 });
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-dropzone data-smart-dropzone');
-
-            tElement.dropzone({
-                addRemoveLinks : true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-        }
-    }
-});
-
 'use strict';
 
 angular.module('SmartAdmin.Forms').directive('smartClockpicker', function () {
@@ -13251,6 +13323,24 @@ angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout
 });
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-dropzone data-smart-dropzone');
+
+            tElement.dropzone({
+                addRemoveLinks : true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+        }
+    }
+});
+
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
     return {
         restrict: 'A',
@@ -13440,96 +13530,6 @@ angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
 
             setStep(currentStep);
 
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
-            });
         }
     }
 });
