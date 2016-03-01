@@ -203,9 +203,12 @@ angular.module('app.policy').filter('propsFilter', function() {
         for (var i = 0; i < keys.length; i++) {
           var prop = keys[i];
           var text = props[prop].toUpperCase();
-          if (item['py'].indexOf(text) == 0) {
-            itemMatches = true;
-            break;
+          var pylist = item['py'];
+          for(var j = 0; j < pylist.length; j++){
+              if (pylist[j].indexOf(text) == 0) {
+                itemMatches = true;
+                break;
+              }
           }
         }
 

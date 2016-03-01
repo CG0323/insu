@@ -15,7 +15,7 @@ var schema = new mongoose.Schema({
     wechats: [String],
     created_at: { type: Date },
     updated_at: { type: Date },
-    py: String
+    py: [String]
 });
 
 mongoose.model('Client', schema);
