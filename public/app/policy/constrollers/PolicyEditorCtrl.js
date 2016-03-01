@@ -45,6 +45,8 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
 
 
     vm.submit = function () {
+        vm.policy.client = vm.clientInfo._id;
+        console.log(vm.policy.company);
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -145,7 +147,8 @@ angular.module('app.policy').directive('upper', function () {
             var capitalize = function (inputValue) {
                 if (inputValue == undefined) inputValue = '';
                 var capitalized = inputValue.toUpperCase();
-                if (capitalized !== inputValue) {
+                var re=/[^/u4e00-/u9fa5]/;
+                if (re.test(inputValue) && capitalized !== inputValue) {
                     modelCtrl.$setViewValue(capitalized);
                     modelCtrl.$render();
                 }
@@ -186,4 +189,35 @@ angular.module('app.policy').directive('price', function () {
             removeIllegalInput(scope[attrs.ngModel]);
         }
     };
+});
+
+angular.module('app.policy').filter('propsFilter', function() {
+  return function(items, props) {
+    var out = [];
+
+    if (angular.isArray(items)) {
+      items.forEach(function(item) {
+        var itemMatches = false;
+
+        var keys = Object.keys(props);
+        for (var i = 0; i < keys.length; i++) {
+          var prop = keys[i];
+          var text = props[prop].toUpperCase();
+          if (item['py'].indexOf(text) == 0) {
+            itemMatches = true;
+            break;
+          }
+        }
+
+        if (itemMatches) {
+          out.push(item);
+        }
+      });
+    } else {
+      // Let the output be the input untouched
+      out = items;
+    }
+
+    return out;
+  }
 });

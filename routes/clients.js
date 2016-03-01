@@ -4,6 +4,7 @@ var Client = require('../models/client.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
+var mkPy = require('../utils/pinyin.js');
 
 router.get('/', function(req, res, next) {
   var query = {};
@@ -15,6 +16,11 @@ router.get('/', function(req, res, next) {
   }
   Client.find(query).exec()
   .then(function(clients){
+    for(var i = 0; i<clients.length; i++){
+      var name = clients[i].name;
+      var py = mkPy(name);
+      clients[i].py = py;
+    }
     res.json(clients);
   },
   function(err){
@@ -120,5 +126,7 @@ router.get('/secret-add-clients', function (req, res, next) {
     res.status(200).json({ status: 'Clients added!' });
   });
 });
+
+
 
 module.exports = router;

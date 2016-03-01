@@ -10,7 +10,7 @@
  */
 
 angular.module('app', [
-//'ngSanitize',
+    'ngSanitize',
     'ngAnimate',
     'restangular',
     'ui.router',
@@ -19,6 +19,7 @@ angular.module('app', [
     "validation",
     "validation.rule",
     "matchMedia",
+    "ui.select",
 // Smartadmin Angular Common Module
     'SmartAdmin',
 

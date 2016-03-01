@@ -14,7 +14,8 @@ var schema = new mongoose.Schema({
     phone: Number,
     wechats: [String],
     created_at: { type: Date },
-    updated_at: { type: Date }
+    updated_at: { type: Date },
+    py: String
 });
 
 mongoose.model('Client', schema);

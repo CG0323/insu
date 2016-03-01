@@ -103,7 +103,7 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         policy.policy_no = req.body.policy_no;
-        policy.insu_company = req.body.insu_company;
+        // policy.insu_company = req.body.insu_company;
         policy.plate_no = req.body.plate_no;
         policy.applicant = req.body.applicant;
         policy.frame_no = req.body.frame_no;
@@ -137,6 +137,7 @@ router.put('/:id', function (req, res) {
         policy.catogary = req.body.catogary;
         policy.payment_bank = req.body.payment_bank;
         policy.payment_proof = req.body.payment_proof;
+        Policy.company = req.body.company;
         policy.save(function (err) {
             if (err){
               logger.error(err);

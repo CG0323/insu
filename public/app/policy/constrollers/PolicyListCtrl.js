@@ -103,6 +103,6 @@ angular.module('app.policy')
  })
 .filter("combinePlate", function () {
     return function (fieldValueUnused, item) {
-        return (item.plate_province + item.plate_no);
+        return (item.plate_no);
     }
  });

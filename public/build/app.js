@@ -290,7 +290,7 @@ $(function () {
  */
 
 angular.module('app', [
-//'ngSanitize',
+    'ngSanitize',
     'ngAnimate',
     'restangular',
     'ui.router',
@@ -299,6 +299,7 @@ angular.module('app', [
     "validation",
     "validation.rule",
     "matchMedia",
+    "ui.select",
 // Smartadmin Angular Common Module
     'SmartAdmin',
 
@@ -1600,7 +1601,7 @@ angular.module('app.organization').config(function ($stateProvider) {
 "use strict";
 
 
-angular.module('app.policy', ['ui.router','validation'])
+angular.module('app.policy', ['ui.router','validation','ui.select'])
 
 
 angular.module('app.policy').config(function ($stateProvider) {
@@ -2012,8 +2013,8 @@ angular.module('app.chat', ['ngSanitize'])
 }]);
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\r\n<!-- widget options:\r\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\r\n\r\ndata-widget-colorbutton=\"false\"\r\ndata-widget-editbutton=\"false\"\r\ndata-widget-togglebutton=\"false\"\r\ndata-widget-deletebutton=\"false\"\r\ndata-widget-fullscreenbutton=\"false\"\r\ndata-widget-custombutton=\"false\"\r\ndata-widget-collapsed=\"true\"\r\ndata-widget-sortable=\"false\"\r\n\r\n-->\r\n<header>\r\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\r\n\r\n    <h2>Live Feeds </h2>\r\n\r\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\r\n        <li class=\"active\">\r\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\r\n        </li>\r\n    </ul>\r\n\r\n</header>\r\n\r\n<!-- widget div-->\r\n<div class=\"no-padding\">\r\n\r\n    <div class=\"widget-body\">\r\n        <!-- content -->\r\n        <div id=\"myTabContent\" class=\"tab-content\">\r\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\r\n                <div class=\"row no-space\">\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\r\n														<span class=\"demo-liveupdate-1\"> <span\r\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\r\n                                                                class=\"onoffswitch\">\r\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\r\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\r\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\r\n                                                                    <span class=\"onoffswitch-inner\"\r\n                                                                          data-swchon-text=\"ON\"\r\n                                                                          data-swchoff-text=\"OFF\"></span>\r\n                                                                    <span class=\"onoffswitch-switch\"></span>\r\n                                                                </label> </span> </span>\r\n\r\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\r\n\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\r\n\r\n                        <div class=\"row\">\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\r\n                                    class=\"pull-right\">130/200</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\r\n                                    class=\"pull-right\">440 GB</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\r\n                                    class=\"pull-right\">77%</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\r\n                                    class=\"pull-right\">7 Days</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\r\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\r\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\r\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\r\n                                a bug</a> </span> </span>\r\n\r\n                        </div>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n\r\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">35</span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">78.9 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">23 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-darken\">10GB</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\r\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Temperature <i\r\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s1 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s2\">\r\n                <div class=\"widget-body-toolbar bg-color-white\">\r\n\r\n                    <form class=\"form-inline\" role=\"form\">\r\n\r\n                        <div class=\"form-group\">\r\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\r\n                        </div>\r\n\r\n                        <div class=\"btn-group hidden-phone pull-right\">\r\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                            <ul class=\"dropdown-menu pull-right\">\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                                </li>\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                                </li>\r\n                            </ul>\r\n                        </div>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n                <div class=\"padding-10\">\r\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s2 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s3\">\r\n\r\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\r\n\r\n                    <div class=\"inline-group\">\r\n\r\n                        <label for=\"gra-0\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\r\n                            <i></i> Target </label>\r\n                        <label for=\"gra-1\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\r\n                            <i></i> Actual </label>\r\n                        <label for=\"gra-2\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\r\n                            <i></i> Signups </label>\r\n                    </div>\r\n\r\n                    <div class=\"btn-group hidden-phone pull-right\">\r\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                        <ul class=\"dropdown-menu pull-right\">\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                            </li>\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"padding-10\">\r\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\r\n                </div>\r\n            </div>\r\n            <!-- end s3 tab pane -->\r\n        </div>\r\n\r\n        <!-- end content -->\r\n    </div>\r\n\r\n</div>\r\n<!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\r\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\r\n<!-- END HEADER -->\r\n\r\n\r\n<!-- Left panel : Navigation area -->\r\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\r\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\r\n\r\n<!-- END NAVIGATION -->\r\n\r\n<!-- MAIN PANEL -->\r\n<div id=\"main\" role=\"main\">\r\n    <!--<demo-states></demo-states>-->\r\n\r\n    <!-- RIBBON -->\r\n    <div id=\"ribbon\">\r\n\r\n				<!--<span class=\"ribbon-button-alignment\">\r\n					<span id=\"refresh\" class=\"btn btn-ribbon\" reset-widgets\r\n                          tooltip-placement=\"bottom\"\r\n                          tooltip-html=\"<i class=\'text-warning fa fa-warning\'></i> Warning! This will reset all your widget settings.\">\r\n						<i class=\"fa fa-refresh\"></i>\r\n					</span>\r\n				</span>-->\r\n\r\n        <!-- breadcrumb -->\r\n        <state-breadcrumbs></state-breadcrumbs>\r\n        <!-- end breadcrumb -->\r\n\r\n\r\n    </div>\r\n    <!-- END RIBBON -->\r\n\r\n\r\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\r\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\r\n    </div>\r\n\r\n</div>\r\n<!-- END MAIN PANEL -->\r\n\r\n<!-- PAGE FOOTER -->\r\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\r\n\r\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\r\n\r\n<!-- END PAGE FOOTER -->\r\n\r\n\r\n");
-$templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis-widget data-widget-color=\"blueDark\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-calendar\"></i> </span>\r\n\r\n        <h2> My Events </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <div class=\"btn-group dropdown\" dropdown >\r\n                <button class=\"btn dropdown-toggle btn-xs btn-default\" dropdown-toggle>\r\n                    Showing <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu js-status-update pull-right\">\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'month\')\">Month</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaWeek\')\">Agenda</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaDay\')\">Today</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding\">\r\n            <!-- content goes here -->\r\n            <div class=\"widget-body-toolbar\">\r\n\r\n                <div id=\"calendar-buttons\">\r\n\r\n                    <div class=\"btn-group\">\r\n                        <a ng-click=\"prev()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-left\"></i></a>\r\n                        <a ng-click=\"next()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-right\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div id=\"calendar\"></div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
+$templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis-widget data-widget-color=\"blueDark\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-calendar\"></i> </span>\r\n\r\n        <h2> My Events </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <div class=\"btn-group dropdown\" dropdown >\r\n                <button class=\"btn dropdown-toggle btn-xs btn-default\" dropdown-toggle>\r\n                    Showing <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu js-status-update pull-right\">\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'month\')\">Month</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaWeek\')\">Agenda</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaDay\')\">Today</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding\">\r\n            <!-- content goes here -->\r\n            <div class=\"widget-body-toolbar\">\r\n\r\n                <div id=\"calendar-buttons\">\r\n\r\n                    <div class=\"btn-group\">\r\n                        <a ng-click=\"prev()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-left\"></i></a>\r\n                        <a ng-click=\"next()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-right\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div id=\"calendar\"></div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
 $templateCache.put("app/dashboard/projects/recent-projects.tpl.html","<div class=\"project-context hidden-xs dropdown\" dropdown>\r\n\r\n    <span class=\"label\">{{getWord(\'Projects\')}}:</span>\r\n    <span class=\"project-selector dropdown-toggle\" dropdown-toggle>{{getWord(\'Recent projects\')}} <i ng-if=\"projects.length\"\r\n            class=\"fa fa-angle-down\"></i></span>\r\n\r\n    <ul class=\"dropdown-menu\" ng-if=\"projects.length\">\r\n        <li ng-repeat=\"project in projects\">\r\n            <a href=\"{{project.href}}\">{{project.title}}</a>\r\n        </li>\r\n        <li class=\"divider\"></li>\r\n        <li>\r\n            <a ng-click=\"clearProjects()\"><i class=\"fa fa-power-off\"></i> Clear</a>\r\n        </li>\r\n    </ul>\r\n\r\n</div>");
 $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-widget\" jarvis-widget data-widget-editbutton=\"false\" data-widget-color=\"blue\"\r\n     ng-controller=\"TodoCtrl\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\r\n\r\n        <h2> ToDo\'s </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <button class=\"btn btn-xs btn-default\" ng-class=\"{active: newTodo}\" ng-click=\"toggleAdd()\"><i ng-class=\"{ \'fa fa-plus\': !newTodo, \'fa fa-times\': newTodo}\"></i> Add</button>\r\n\r\n        </div>\r\n    </header>\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding smart-form\">\r\n            <!-- content goes here -->\r\n            <div ng-show=\"newTodo\">\r\n                <h5 class=\"todo-group-title\"><i class=\"fa fa-plus-circle\"></i> New Todo</h5>\r\n\r\n                <form name=\"newTodoForm\" class=\"smart-form\">\r\n                    <fieldset>\r\n                        <section>\r\n                            <label class=\"input\">\r\n                                <input type=\"text\" required class=\"input-lg\" ng-model=\"newTodo.title\"\r\n                                       placeholder=\"What needs to be done?\">\r\n                            </label>\r\n                        </section>\r\n                        <section>\r\n                            <div class=\"col-xs-6\">\r\n                                <label class=\"select\">\r\n                                    <select class=\"input-sm\" ng-model=\"newTodo.state\"\r\n                                            ng-options=\"state as state for state in states\"></select> <i></i> </label>\r\n                            </div>\r\n                        </section>\r\n                    </fieldset>\r\n                    <footer>\r\n                        <button ng-disabled=\"newTodoForm.$invalid\" type=\"button\" class=\"btn btn-primary\"\r\n                                ng-click=\"createTodo()\">\r\n                            Add\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-default\" ng-click=\"toggleAdd()\">\r\n                            Cancel\r\n                        </button>\r\n                    </footer>\r\n                </form>\r\n            </div>\r\n\r\n            <todo-list state=\"Critical\"  title=\"Critical Tasks\" icon=\"warning\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Important\" title=\"Important Tasks\" icon=\"exclamation\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Completed\" title=\"Completed Tasks\" icon=\"check\" todos=\"todos\"></todo-list>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
@@ -2036,277 +2037,6 @@ $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html","<form id=\"profileForm\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label>Email address</label>\r\n            <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n        </div>\r\n    </fieldset>\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label>Password</label>\r\n            <input type=\"password\" class=\"form-control\" name=\"password\" />\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html","<form id=\"togglingForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name <sup>*</sup></label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Company <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"company\"\r\n                       required data-bv-notempty-message=\"The company name is required\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#jobInfo\">\r\n                    Add more info\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"jobInfo\" style=\"display: none;\">\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Job title <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"job\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Department <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"department\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Mobile phone <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"mobilePhone\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#phoneInfo\">\r\n                    Add more phone numbers\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"phoneInfo\" style=\"display: none;\">\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Home phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"homePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Office phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"officePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>");
 $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<div class=\"demo\"><span id=\"demo-setting\"><i class=\"fa fa-cog txt-color-blueDark\"></i></span>\r\n\r\n    <form>\r\n        <legend class=\"no-padding margin-bottom-10\">Layout Options</legend>\r\n        <section>\r\n            <label><input type=\"checkbox\" ng-model=\"fixedHeader\"\r\n                          class=\"checkbox style-0\"><span>Fixed Header</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedNavigation\"\r\n                          class=\"checkbox style-0\"><span>Fixed Navigation</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedRibbon\"\r\n                          class=\"checkbox style-0\"><span>Fixed Ribbon</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedPageFooter\"\r\n                          class=\"checkbox style-0\"><span>Fixed Footer</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"insideContainer\"\r\n                          class=\"checkbox style-0\"><span>Inside <b>.container</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"rtl\"\r\n                          class=\"checkbox style-0\"><span>RTL</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"menuOnTop\"\r\n                          class=\"checkbox style-0\"><span>Menu on <b>top</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"colorblindFriendly\"\r\n                          class=\"checkbox style-0\"><span>For Colorblind <div\r\n                    class=\"font-xs text-right\">(experimental)\r\n            </div></span>\r\n            </label><span id=\"smart-bgimages\"></span></section>\r\n        <section><h6 class=\"margin-top-10 semi-bold margin-bottom-5\">Clear Localstorage</h6><a\r\n                ng-click=\"factoryReset()\" class=\"btn btn-xs btn-block btn-primary\" id=\"reset-smart-widget\"><i\r\n                class=\"fa fa-refresh\"></i> Factory Reset</a></section>\r\n\r\n        <h6 class=\"margin-top-10 semi-bold margin-bottom-5\">SmartAdmin Skins</h6>\r\n\r\n\r\n        <section id=\"smart-styles\">\r\n            <a ng-repeat=\"skin in skins\" ng-click=\"setSkin(skin)\" class=\"{{skin.class}}\" style=\"{{skin.style}}\"><i ng-if=\"skin.name == $parent.smartSkin\" class=\"fa fa-check fa-fw\"></i> {{skin.label}}</a>\r\n        </section>\r\n    </form>\r\n</div>");}]);
-'use strict'
-
-angular.module('app.forms').value('formsCommon', {
-        countries: [
-            {key: "244", value: "Aaland Islands"},
-            {key: "1", value: "Afghanistan"},
-            {key: "2", value: "Albania"},
-            {key: "3", value: "Algeria"},
-            {key: "4", value: "American Samoa"},
-            {key: "5", value: "Andorra"},
-            {key: "6", value: "Angola"},
-            {key: "7", value: "Anguilla"},
-            {key: "8", value: "Antarctica"},
-            {key: "9", value: "Antigua and Barbuda"},
-            {key: "10", value: "Argentina"},
-            {key: "11", value: "Armenia"},
-            {key: "12", value: "Aruba"},
-            {key: "13", value: "Australia"},
-            {key: "14", value: "Austria"},
-            {key: "15", value: "Azerbaijan"},
-            {key: "16", value: "Bahamas"},
-            {key: "17", value: "Bahrain"},
-            {key: "18", value: "Bangladesh"},
-            {key: "19", value: "Barbados"},
-            {key: "20", value: "Belarus"},
-            {key: "21", value: "Belgium"},
-            {key: "22", value: "Belize"},
-            {key: "23", value: "Benin"},
-            {key: "24", value: "Bermuda"},
-            {key: "25", value: "Bhutan"},
-            {key: "26", value: "Bolivia"},
-            {key: "245", value: "Bonaire, Sint Eustatius and Saba"},
-            {key: "27", value: "Bosnia and Herzegovina"},
-            {key: "28", value: "Botswana"},
-            {key: "29", value: "Bouvet Island"},
-            {key: "30", value: "Brazil"},
-            {key: "31", value: "British Indian Ocean Territory"},
-            {key: "32", value: "Brunei Darussalam"},
-            {key: "33", value: "Bulgaria"},
-            {key: "34", value: "Burkina Faso"},
-            {key: "35", value: "Burundi"},
-            {key: "36", value: "Cambodia"},
-            {key: "37", value: "Cameroon"},
-            {key: "38", value: "Canada"},
-            {key: "251", value: "Canary Islands"},
-            {key: "39", value: "Cape Verde"},
-            {key: "40", value: "Cayman Islands"},
-            {key: "41", value: "Central African Republic"},
-            {key: "42", value: "Chad"},
-            {key: "43", value: "Chile"},
-            {key: "44", value: "China"},
-            {key: "45", value: "Christmas Island"},
-            {key: "46", value: "Cocos (Keeling) Islands"},
-            {key: "47", value: "Colombia"},
-            {key: "48", value: "Comoros"},
-            {key: "49", value: "Congo"},
-            {key: "50", value: "Cook Islands"},
-            {key: "51", value: "Costa Rica"},
-            {key: "52", value: "Cote D'Ivoire"},
-            {key: "53", value: "Croatia"},
-            {key: "54", value: "Cuba"},
-            {key: "246", value: "Curacao"},
-            {key: "55", value: "Cyprus"},
-            {key: "56", value: "Czech Republic"},
-            {key: "237", value: "Democratic Republic of Congo"},
-            {key: "57", value: "Denmark"},
-            {key: "58", value: "Djibouti"},
-            {key: "59", value: "Dominica"},
-            {key: "60", value: "Dominican Republic"},
-            {key: "61", value: "East Timor"},
-            {key: "62", value: "Ecuador"},
-            {key: "63", value: "Egypt"},
-            {key: "64", value: "El Salvador"},
-            {key: "65", value: "Equatorial Guinea"},
-            {key: "66", value: "Eritrea"},
-            {key: "67", value: "Estonia"},
-            {key: "68", value: "Ethiopia"},
-            {key: "69", value: "Falkland Islands (Malvinas)"},
-            {key: "70", value: "Faroe Islands"},
-            {key: "71", value: "Fiji"},
-            {key: "72", value: "Finland"},
-            {key: "74", value: "France, skypolitan"},
-            {key: "75", value: "French Guiana"},
-            {key: "76", value: "French Polynesia"},
-            {key: "77", value: "French Southern Territories"},
-            {key: "126", value: "FYROM"},
-            {key: "78", value: "Gabon"},
-            {key: "79", value: "Gambia"},
-            {key: "80", value: "Georgia"},
-            {key: "81", value: "Germany"},
-            {key: "82", value: "Ghana"},
-            {key: "83", value: "Gibraltar"},
-            {key: "84", value: "Greece"},
-            {key: "85", value: "Greenland"},
-            {key: "86", value: "Grenada"},
-            {key: "87", value: "Guadeloupe"},
-            {key: "88", value: "Guam"},
-            {key: "89", value: "Guatemala"},
-            {key: "241", value: "Guernsey"},
-            {key: "90", value: "Guinea"},
-            {key: "91", value: "Guinea-Bissau"},
-            {key: "92", value: "Guyana"},
-            {key: "93", value: "Haiti"},
-            {key: "94", value: "Heard and Mc Donald Islands"},
-            {key: "95", value: "Honduras"},
-            {key: "96", value: "Hong Kong"},
-            {key: "97", value: "Hungary"},
-            {key: "98", value: "Iceland"},
-            {key: "99", value: "India"},
-            {key: "100", value: "Indonesia"},
-            {key: "101", value: "Iran (Islamic Republic of)"},
-            {key: "102", value: "Iraq"},
-            {key: "103", value: "Ireland"},
-            {key: "104", value: "Israel"},
-            {key: "105", value: "Italy"},
-            {key: "106", value: "Jamaica"},
-            {key: "107", value: "Japan"},
-            {key: "240", value: "Jersey"},
-            {key: "108", value: "Jordan"},
-            {key: "109", value: "Kazakhstan"},
-            {key: "110", value: "Kenya"},
-            {key: "111", value: "Kiribati"},
-            {key: "113", value: "Korea, Republic of"},
-            {key: "114", value: "Kuwait"},
-            {key: "115", value: "Kyrgyzstan"},
-            {key: "116", value: "Lao People's Democratic Republic"},
-            {key: "117", value: "Latvia"},
-            {key: "118", value: "Lebanon"},
-            {key: "119", value: "Lesotho"},
-            {key: "120", value: "Liberia"},
-            {key: "121", value: "Libyan Arab Jamahiriya"},
-            {key: "122", value: "Liechtenstein"},
-            {key: "123", value: "Lithuania"},
-            {key: "124", value: "Luxembourg"},
-            {key: "125", value: "Macau"},
-            {key: "127", value: "Madagascar"},
-            {key: "128", value: "Malawi"},
-            {key: "129", value: "Malaysia"},
-            {key: "130", value: "Maldives"},
-            {key: "131", value: "Mali"},
-            {key: "132", value: "Malta"},
-            {key: "133", value: "Marshall Islands"},
-            {key: "134", value: "Martinique"},
-            {key: "135", value: "Mauritania"},
-            {key: "136", value: "Mauritius"},
-            {key: "137", value: "Mayotte"},
-            {key: "138", value: "Mexico"},
-            {key: "139", value: "Micronesia, Federated States of"},
-            {key: "140", value: "Moldova, Republic of"},
-            {key: "141", value: "Monaco"},
-            {key: "142", value: "Mongolia"},
-            {key: "242", value: "Montenegro"},
-            {key: "143", value: "Montserrat"},
-            {key: "144", value: "Morocco"},
-            {key: "145", value: "Mozambique"},
-            {key: "146", value: "Myanmar"},
-            {key: "147", value: "Namibia"},
-            {key: "148", value: "Nauru"},
-            {key: "149", value: "Nepal"},
-            {key: "150", value: "Netherlands"},
-            {key: "151", value: "Netherlands Antilles"},
-            {key: "152", value: "New Caledonia"},
-            {key: "153", value: "New Zealand"},
-            {key: "154", value: "Nicaragua"},
-            {key: "155", value: "Niger"},
-            {key: "156", value: "Nigeria"},
-            {key: "157", value: "Niue"},
-            {key: "158", value: "Norfolk Island"},
-            {key: "112", value: "North Korea"},
-            {key: "159", value: "Northern Mariana Islands"},
-            {key: "160", value: "Norway"},
-            {key: "161", value: "Oman"},
-            {key: "162", value: "Pakistan"},
-            {key: "163", value: "Palau"},
-            {key: "247", value: "Palestinian Territory, Occupied"},
-            {key: "164", value: "Panama"},
-            {key: "165", value: "Papua New Guinea"},
-            {key: "166", value: "Paraguay"},
-            {key: "167", value: "Peru"},
-            {key: "168", value: "Philippines"},
-            {key: "169", value: "Pitcairn"},
-            {key: "170", value: "Poland"},
-            {key: "171", value: "Portugal"},
-            {key: "172", value: "Puerto Rico"},
-            {key: "173", value: "Qatar"},
-            {key: "174", value: "Reunion"},
-            {key: "175", value: "Romania"},
-            {key: "176", value: "Russian Federation"},
-            {key: "177", value: "Rwanda"},
-            {key: "178", value: "Saint Kitts and Nevis"},
-            {key: "179", value: "Saint Lucia"},
-            {key: "180", value: "Saint Vincent and the Grenadines"},
-            {key: "181", value: "Samoa"},
-            {key: "182", value: "San Marino"},
-            {key: "183", value: "Sao Tome and Principe"},
-            {key: "184", value: "Saudi Arabia"},
-            {key: "185", value: "Senegal"},
-            {key: "243", value: "Serbia"},
-            {key: "186", value: "Seychelles"},
-            {key: "187", value: "Sierra Leone"},
-            {key: "188", value: "Singapore"},
-            {key: "189", value: "Slovak Republic"},
-            {key: "190", value: "Slovenia"},
-            {key: "191", value: "Solomon Islands"},
-            {key: "192", value: "Somalia"},
-            {key: "193", value: "South Africa"},
-            {key: "194", value: "South Georgia &amp; South Sandwich Islands"},
-            {key: "248", value: "South Sudan"},
-            {key: "195", value: "Spain"},
-            {key: "196", value: "Sri Lanka"},
-            {key: "249", value: "St. Barthelemy"},
-            {key: "197", value: "St. Helena"},
-            {key: "250", value: "St. Martin (French part)"},
-            {key: "198", value: "St. Pierre and Miquelon"},
-            {key: "199", value: "Sudan"},
-            {key: "200", value: "Suriname"},
-            {key: "201", value: "Svalbard and Jan Mayen Islands"},
-            {key: "202", value: "Swaziland"},
-            {key: "203", value: "Sweden"},
-            {key: "204", value: "Switzerland"},
-            {key: "205", value: "Syrian Arab Republic"},
-            {key: "206", value: "Taiwan"},
-            {key: "207", value: "Tajikistan"},
-            {key: "208", value: "Tanzania, United Republic of"},
-            {key: "209", value: "Thailand"},
-            {key: "210", value: "Togo"},
-            {key: "211", value: "Tokelau"},
-            {key: "212", value: "Tonga"},
-            {key: "213", value: "Trinidad and Tobago"},
-            {key: "214", value: "Tunisia"},
-            {key: "215", value: "Turkey"},
-            {key: "216", value: "Turkmenistan"},
-            {key: "217", value: "Turks and Caicos Islands"},
-            {key: "218", value: "Tuvalu"},
-            {key: "219", value: "Uganda"},
-            {key: "220", value: "Ukraine"},
-            {key: "221", value: "United Arab Emirates"},
-            {key: "222", value: "United Kingdom"},
-            {key: "223", value: "United States"},
-            {key: "224", value: "United States Minor Outlying Islands"},
-            {key: "225", value: "Uruguay"},
-            {key: "226", value: "Uzbekistan"},
-            {key: "227", value: "Vanuatu"},
-            {key: "228", value: "Vatican City State (Holy See)"},
-            {key: "229", value: "Venezuela"},
-            {key: "230", value: "Viet Nam"},
-            {key: "231", value: "Virgin Islands (British)"},
-            {key: "232", value: "Virgin Islands (U.S.)"},
-            {key: "233", value: "Wallis and Futuna Islands"},
-            {key: "234", value: "Western Sahara"},
-            {key: "235", value: "Yemen"},
-            {key: "238", value: "Zambia"},
-            {key: "239", value: "Zimbabwe"}
-        ],
-        validateOptions: {
-            errorElement: 'em',
-            errorClass: 'invalid',
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element).parent().addClass('state-error').removeClass('state-success');
-
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element).parent().removeClass('state-error').addClass('state-success');
-            },
-            errorPlacement : function(error, element) {
-                error.insertAfter(element.parent());
-            }
-        }
-    });
 'use strict';
 
 angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $interval, CalendarEvent) {
@@ -2615,6 +2345,277 @@ angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $i
 
 
 });
+'use strict'
+
+angular.module('app.forms').value('formsCommon', {
+        countries: [
+            {key: "244", value: "Aaland Islands"},
+            {key: "1", value: "Afghanistan"},
+            {key: "2", value: "Albania"},
+            {key: "3", value: "Algeria"},
+            {key: "4", value: "American Samoa"},
+            {key: "5", value: "Andorra"},
+            {key: "6", value: "Angola"},
+            {key: "7", value: "Anguilla"},
+            {key: "8", value: "Antarctica"},
+            {key: "9", value: "Antigua and Barbuda"},
+            {key: "10", value: "Argentina"},
+            {key: "11", value: "Armenia"},
+            {key: "12", value: "Aruba"},
+            {key: "13", value: "Australia"},
+            {key: "14", value: "Austria"},
+            {key: "15", value: "Azerbaijan"},
+            {key: "16", value: "Bahamas"},
+            {key: "17", value: "Bahrain"},
+            {key: "18", value: "Bangladesh"},
+            {key: "19", value: "Barbados"},
+            {key: "20", value: "Belarus"},
+            {key: "21", value: "Belgium"},
+            {key: "22", value: "Belize"},
+            {key: "23", value: "Benin"},
+            {key: "24", value: "Bermuda"},
+            {key: "25", value: "Bhutan"},
+            {key: "26", value: "Bolivia"},
+            {key: "245", value: "Bonaire, Sint Eustatius and Saba"},
+            {key: "27", value: "Bosnia and Herzegovina"},
+            {key: "28", value: "Botswana"},
+            {key: "29", value: "Bouvet Island"},
+            {key: "30", value: "Brazil"},
+            {key: "31", value: "British Indian Ocean Territory"},
+            {key: "32", value: "Brunei Darussalam"},
+            {key: "33", value: "Bulgaria"},
+            {key: "34", value: "Burkina Faso"},
+            {key: "35", value: "Burundi"},
+            {key: "36", value: "Cambodia"},
+            {key: "37", value: "Cameroon"},
+            {key: "38", value: "Canada"},
+            {key: "251", value: "Canary Islands"},
+            {key: "39", value: "Cape Verde"},
+            {key: "40", value: "Cayman Islands"},
+            {key: "41", value: "Central African Republic"},
+            {key: "42", value: "Chad"},
+            {key: "43", value: "Chile"},
+            {key: "44", value: "China"},
+            {key: "45", value: "Christmas Island"},
+            {key: "46", value: "Cocos (Keeling) Islands"},
+            {key: "47", value: "Colombia"},
+            {key: "48", value: "Comoros"},
+            {key: "49", value: "Congo"},
+            {key: "50", value: "Cook Islands"},
+            {key: "51", value: "Costa Rica"},
+            {key: "52", value: "Cote D'Ivoire"},
+            {key: "53", value: "Croatia"},
+            {key: "54", value: "Cuba"},
+            {key: "246", value: "Curacao"},
+            {key: "55", value: "Cyprus"},
+            {key: "56", value: "Czech Republic"},
+            {key: "237", value: "Democratic Republic of Congo"},
+            {key: "57", value: "Denmark"},
+            {key: "58", value: "Djibouti"},
+            {key: "59", value: "Dominica"},
+            {key: "60", value: "Dominican Republic"},
+            {key: "61", value: "East Timor"},
+            {key: "62", value: "Ecuador"},
+            {key: "63", value: "Egypt"},
+            {key: "64", value: "El Salvador"},
+            {key: "65", value: "Equatorial Guinea"},
+            {key: "66", value: "Eritrea"},
+            {key: "67", value: "Estonia"},
+            {key: "68", value: "Ethiopia"},
+            {key: "69", value: "Falkland Islands (Malvinas)"},
+            {key: "70", value: "Faroe Islands"},
+            {key: "71", value: "Fiji"},
+            {key: "72", value: "Finland"},
+            {key: "74", value: "France, skypolitan"},
+            {key: "75", value: "French Guiana"},
+            {key: "76", value: "French Polynesia"},
+            {key: "77", value: "French Southern Territories"},
+            {key: "126", value: "FYROM"},
+            {key: "78", value: "Gabon"},
+            {key: "79", value: "Gambia"},
+            {key: "80", value: "Georgia"},
+            {key: "81", value: "Germany"},
+            {key: "82", value: "Ghana"},
+            {key: "83", value: "Gibraltar"},
+            {key: "84", value: "Greece"},
+            {key: "85", value: "Greenland"},
+            {key: "86", value: "Grenada"},
+            {key: "87", value: "Guadeloupe"},
+            {key: "88", value: "Guam"},
+            {key: "89", value: "Guatemala"},
+            {key: "241", value: "Guernsey"},
+            {key: "90", value: "Guinea"},
+            {key: "91", value: "Guinea-Bissau"},
+            {key: "92", value: "Guyana"},
+            {key: "93", value: "Haiti"},
+            {key: "94", value: "Heard and Mc Donald Islands"},
+            {key: "95", value: "Honduras"},
+            {key: "96", value: "Hong Kong"},
+            {key: "97", value: "Hungary"},
+            {key: "98", value: "Iceland"},
+            {key: "99", value: "India"},
+            {key: "100", value: "Indonesia"},
+            {key: "101", value: "Iran (Islamic Republic of)"},
+            {key: "102", value: "Iraq"},
+            {key: "103", value: "Ireland"},
+            {key: "104", value: "Israel"},
+            {key: "105", value: "Italy"},
+            {key: "106", value: "Jamaica"},
+            {key: "107", value: "Japan"},
+            {key: "240", value: "Jersey"},
+            {key: "108", value: "Jordan"},
+            {key: "109", value: "Kazakhstan"},
+            {key: "110", value: "Kenya"},
+            {key: "111", value: "Kiribati"},
+            {key: "113", value: "Korea, Republic of"},
+            {key: "114", value: "Kuwait"},
+            {key: "115", value: "Kyrgyzstan"},
+            {key: "116", value: "Lao People's Democratic Republic"},
+            {key: "117", value: "Latvia"},
+            {key: "118", value: "Lebanon"},
+            {key: "119", value: "Lesotho"},
+            {key: "120", value: "Liberia"},
+            {key: "121", value: "Libyan Arab Jamahiriya"},
+            {key: "122", value: "Liechtenstein"},
+            {key: "123", value: "Lithuania"},
+            {key: "124", value: "Luxembourg"},
+            {key: "125", value: "Macau"},
+            {key: "127", value: "Madagascar"},
+            {key: "128", value: "Malawi"},
+            {key: "129", value: "Malaysia"},
+            {key: "130", value: "Maldives"},
+            {key: "131", value: "Mali"},
+            {key: "132", value: "Malta"},
+            {key: "133", value: "Marshall Islands"},
+            {key: "134", value: "Martinique"},
+            {key: "135", value: "Mauritania"},
+            {key: "136", value: "Mauritius"},
+            {key: "137", value: "Mayotte"},
+            {key: "138", value: "Mexico"},
+            {key: "139", value: "Micronesia, Federated States of"},
+            {key: "140", value: "Moldova, Republic of"},
+            {key: "141", value: "Monaco"},
+            {key: "142", value: "Mongolia"},
+            {key: "242", value: "Montenegro"},
+            {key: "143", value: "Montserrat"},
+            {key: "144", value: "Morocco"},
+            {key: "145", value: "Mozambique"},
+            {key: "146", value: "Myanmar"},
+            {key: "147", value: "Namibia"},
+            {key: "148", value: "Nauru"},
+            {key: "149", value: "Nepal"},
+            {key: "150", value: "Netherlands"},
+            {key: "151", value: "Netherlands Antilles"},
+            {key: "152", value: "New Caledonia"},
+            {key: "153", value: "New Zealand"},
+            {key: "154", value: "Nicaragua"},
+            {key: "155", value: "Niger"},
+            {key: "156", value: "Nigeria"},
+            {key: "157", value: "Niue"},
+            {key: "158", value: "Norfolk Island"},
+            {key: "112", value: "North Korea"},
+            {key: "159", value: "Northern Mariana Islands"},
+            {key: "160", value: "Norway"},
+            {key: "161", value: "Oman"},
+            {key: "162", value: "Pakistan"},
+            {key: "163", value: "Palau"},
+            {key: "247", value: "Palestinian Territory, Occupied"},
+            {key: "164", value: "Panama"},
+            {key: "165", value: "Papua New Guinea"},
+            {key: "166", value: "Paraguay"},
+            {key: "167", value: "Peru"},
+            {key: "168", value: "Philippines"},
+            {key: "169", value: "Pitcairn"},
+            {key: "170", value: "Poland"},
+            {key: "171", value: "Portugal"},
+            {key: "172", value: "Puerto Rico"},
+            {key: "173", value: "Qatar"},
+            {key: "174", value: "Reunion"},
+            {key: "175", value: "Romania"},
+            {key: "176", value: "Russian Federation"},
+            {key: "177", value: "Rwanda"},
+            {key: "178", value: "Saint Kitts and Nevis"},
+            {key: "179", value: "Saint Lucia"},
+            {key: "180", value: "Saint Vincent and the Grenadines"},
+            {key: "181", value: "Samoa"},
+            {key: "182", value: "San Marino"},
+            {key: "183", value: "Sao Tome and Principe"},
+            {key: "184", value: "Saudi Arabia"},
+            {key: "185", value: "Senegal"},
+            {key: "243", value: "Serbia"},
+            {key: "186", value: "Seychelles"},
+            {key: "187", value: "Sierra Leone"},
+            {key: "188", value: "Singapore"},
+            {key: "189", value: "Slovak Republic"},
+            {key: "190", value: "Slovenia"},
+            {key: "191", value: "Solomon Islands"},
+            {key: "192", value: "Somalia"},
+            {key: "193", value: "South Africa"},
+            {key: "194", value: "South Georgia &amp; South Sandwich Islands"},
+            {key: "248", value: "South Sudan"},
+            {key: "195", value: "Spain"},
+            {key: "196", value: "Sri Lanka"},
+            {key: "249", value: "St. Barthelemy"},
+            {key: "197", value: "St. Helena"},
+            {key: "250", value: "St. Martin (French part)"},
+            {key: "198", value: "St. Pierre and Miquelon"},
+            {key: "199", value: "Sudan"},
+            {key: "200", value: "Suriname"},
+            {key: "201", value: "Svalbard and Jan Mayen Islands"},
+            {key: "202", value: "Swaziland"},
+            {key: "203", value: "Sweden"},
+            {key: "204", value: "Switzerland"},
+            {key: "205", value: "Syrian Arab Republic"},
+            {key: "206", value: "Taiwan"},
+            {key: "207", value: "Tajikistan"},
+            {key: "208", value: "Tanzania, United Republic of"},
+            {key: "209", value: "Thailand"},
+            {key: "210", value: "Togo"},
+            {key: "211", value: "Tokelau"},
+            {key: "212", value: "Tonga"},
+            {key: "213", value: "Trinidad and Tobago"},
+            {key: "214", value: "Tunisia"},
+            {key: "215", value: "Turkey"},
+            {key: "216", value: "Turkmenistan"},
+            {key: "217", value: "Turks and Caicos Islands"},
+            {key: "218", value: "Tuvalu"},
+            {key: "219", value: "Uganda"},
+            {key: "220", value: "Ukraine"},
+            {key: "221", value: "United Arab Emirates"},
+            {key: "222", value: "United Kingdom"},
+            {key: "223", value: "United States"},
+            {key: "224", value: "United States Minor Outlying Islands"},
+            {key: "225", value: "Uruguay"},
+            {key: "226", value: "Uzbekistan"},
+            {key: "227", value: "Vanuatu"},
+            {key: "228", value: "Vatican City State (Holy See)"},
+            {key: "229", value: "Venezuela"},
+            {key: "230", value: "Viet Nam"},
+            {key: "231", value: "Virgin Islands (British)"},
+            {key: "232", value: "Virgin Islands (U.S.)"},
+            {key: "233", value: "Wallis and Futuna Islands"},
+            {key: "234", value: "Western Sahara"},
+            {key: "235", value: "Yemen"},
+            {key: "238", value: "Zambia"},
+            {key: "239", value: "Zimbabwe"}
+        ],
+        validateOptions: {
+            errorElement: 'em',
+            errorClass: 'invalid',
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element).parent().addClass('state-error').removeClass('state-success');
+
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element).parent().removeClass('state-error').addClass('state-success');
+            },
+            errorPlacement : function(error, element) {
+                error.insertAfter(element.parent());
+            }
+        }
+    });
 'use strict';
 
 angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
@@ -2644,203 +2645,242 @@ angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, 
         "order": [[1, 'asc']]
     }
 });
+'use strict';
+/**
+ * @ngdoc function
+ * @name myApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the myApp
+ */
+angular.module('app.auth').controller('AuthCtrl',
+    ['$rootScope','$scope', '$state', 'AuthService',
+        function ($rootScope,$scope, $state, AuthService) {
+
+            var vm = this;
+            vm.username= "";
+            vm.password= "";
+            vm.login = function () {
+                // initial values
+                $scope.error = false;
+                $scope.disabled = true;
+                // call login from service
+                AuthService.login(vm.username, vm.password)
+                    // handle success
+                    .then(function(user) {  
+                        console.log("给rootscope user赋值")
+                        $rootScope.user = user;
+                        if(user.role == "出单员"){
+                            $state.go('app.policy.new');
+                        }else
+                        {
+                            $state.go('app.policy.to-be-paid');
+                        }
+                        
+                        $scope.disabled = false;
+                        vm.username= "";
+                        vm.password= "";
+                    },
+                    function(err){
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                    }
+                    )
+                    // handle error
+                    .catch(function () {
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                        $scope.disabled = false;
+                        //vm.username= "";
+                        // vm.password= "";
+                    });
+
+            };
+        }]);
+
 "use strict";
 
-angular.module('app.client').factory('ClientService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveClient: saveClient,
-                getOrgClients: getOrgClients,
-                getIndClients: getIndClients,
-                getClient: getClient,
-                deleteClient: deleteClient,
-                getFollowers: getFollowers,
-                getWechatsByIds: getWechatsByIds
+angular.module('app.auth').directive('loginInfo', function(AuthService){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            AuthService.getUser()
+            .then(function(user){
+                scope.user = user;
+            },
+            function(err){
+            }
+            );
+        }
+    }
+})
+
+"use strict";
+
+angular.module('app.calendar').directive('dragableEvent', function ($log) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+
+            // $log.log(element.scope());
+
+            var eventObject = element.scope().event;
+
+            element.data('eventObject', eventObject);
+
+
+            element.draggable({
+                zIndex: 999,
+                revert: true, // will cause the event to go back to its
+                revertDuration: 0 //  original position after the drag
             });
 
-            function saveClient(client) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
 
-                if (client._id) {
-                    client.updated_at = Date.now();
-                    $http.put('/api/clients/' + client._id, client)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    client.created_at = Date.now();
-                    client.updated_at = client.created_at;
-                    $http.post('/api/clients', client)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
+        }
+    }
+})
+"use strict";
 
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
+angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
+        scope: {
+            events: "=events"
+        },
+        link: function (scope, element) {
 
-                $http.get('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
 
-                // return promise object
-                return deferred.promise;
-            }
+            var $calendar = $("#calendar");
 
-            function deleteClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
+            var calendar = null;
 
-                $http.delete('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
 
-                // return promise object
-                return deferred.promise;
-            }
+            function initCalendar() {
 
-            function getOrgClients() {
+                // $log.log(events);
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
 
-                // send a post request to the server
-                $http.get('/api/clients?type=organization')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
+                calendar = $calendar.fullCalendar({
+                    lang: 'en',
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
+                    droppable: true,
 
-                // return promise object
-                return deferred.promise;
-            }
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
+                    },
 
-            function getIndClients() {
+                    drop: function (date, allDay) { // this function is called when something is dropped
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
+                        // retrieve the dropped element's stored Event Object
+                        var originalEventObject = $(this).data('eventObject');
             
-            function getFollowers() {
+                        // we need to copy it, so that multiple events don't have a reference to the same object
+                        var copiedEventObject = $.extend({}, originalEventObject);
+            
+                        // assign it the date that was reported
+                        copiedEventObject.start = date;
+                        copiedEventObject.allDay = allDay;
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
+                        // $log.log(scope);
+            
+                        // render the event on the calendar
+                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+            
+                        // is the "remove after drop" checkbox checked?
+                        if ($('#drop-remove').is(':checked')) {
 
-                // send a post request to the server
-                $http.get('/wechat/followers')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
+                            // if so, remove the element from the "Draggable Events" list
+                            // $(this).remove();
+                            // $log.log($(this).scope());
+                            var index = $(this).scope().$index;
+
+                            $("#external-events").scope().eventsExternal.splice(index, 1);
+                            $(this).remove();
+
                         }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
+            
+                    },
 
-                // return promise object
-                return deferred.promise;
+                    select: function (start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    allDay: allDay
+                                }, true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },
+
+                    // events: scope.events,
+
+                    events: function(start, end, timezone, callback) {
+
+                        callback(scope.events);
+
+                    },
+
+                    eventRender: function (event, element, icon) {
+                        if (!event.description == "") {
+                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
+                        }
+                        if (!event.icon == "") {
+                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
+                        }
+                    }
+                });
+
+                $('.fc-header-right, .fc-header-center', $calendar).hide();
             }
-            
-            function getWechatsByIds(openIds) {
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
 
-                $http.post('/wechat/byids', openIds)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
+            initCalendar();
 
-                // return promise object
-                return deferred.promise;
-            }
-            
-            
-           
-        }]);
+
+            // Now events will be refetched every time events scope is updated in controller!!!
+            scope.$watch("events", function(newValue, oldValue) {
+
+                $calendar.fullCalendar( 'refetchEvents' );
+
+            }, true);
+
+
+            scope.next = function () {
+                $('.fc-button-next', $calendar).click();
+            };
+            scope.prev = function () {
+                $('.fc-button-prev', $calendar).click();
+            };
+            scope.today = function () {
+                $('.fc-button-today', $calendar).click();
+            };
+            scope.changeView = function (period) {
+                $calendar.fullCalendar('changeView', period);
+            };
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
+    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
+});
 'use strict'
 
 angular.module('app.client').controller('IndClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
@@ -3146,6 +3186,307 @@ angular.module('app.client').controller('OrgClientListController', function(scre
 
 });
 
+"use strict";
+
+angular.module('app.client').factory('ClientService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveClient: saveClient,
+                getOrgClients: getOrgClients,
+                getIndClients: getIndClients,
+                getClient: getClient,
+                deleteClient: deleteClient,
+                getFollowers: getFollowers,
+                getWechatsByIds: getWechatsByIds
+            });
+
+            function saveClient(client) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (client._id) {
+                    client.updated_at = Date.now();
+                    $http.put('/api/clients/' + client._id, client)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    client.created_at = Date.now();
+                    client.updated_at = client.created_at;
+                    $http.post('/api/clients', client)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getIndClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFollowers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/wechat/followers')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getWechatsByIds(openIds) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.post('/wechat/byids', openIds)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            
+           
+        }]);
+'use strict'
+
+angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.company = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(companyId)
+            .then(function (company) {
+                vm.company = company;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.saveCompany(vm.company)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.company = {};
+                if (vm.back) {
+                    $state.go("app.company.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.companies = [];
+
+
+
+    vm.refreshCompanies = function(){
+       CompanyService.getCompanies()
+       .then(function(companies){
+           vm.companies = companies;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshCompanies();
+	
+    vm.view = function(companyId){
+        $state.go("app.company.view", {companyId: companyId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (companyId) {
+        $.SmartMessageBox({
+            title: "删除保险公司",
+            content: "确认删除该保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompany(companyId)
+                    .then(function(){
+                        vm.refreshCompanies();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
 'use strict';
 
 angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
@@ -3211,240 +3552,268 @@ angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log
 
 });
 
+"use strict";	
+
+angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
+
+	$scope.activeTab = 'default';
+	$scope.currentActivityItems = [];
+	
+	// Getting different type of activites
+	activityService.get(function(data){
+
+		$scope.activities = data.activities;
+		
+	});
+
+
+	$scope.isActive = function(tab){
+		return $scope.activeTab === tab;
+	};
+
+	$scope.setTab = function(activityType){
+		$scope.activeTab = activityType;
+
+		activityService.getbytype(activityType, function(data) {
+
+			$scope.currentActivityItems = data.data;
+
+		});
+
+	};
+
+});
 "use strict";
 
-angular.module('app.calendar').directive('dragableEvent', function ($log) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
+angular.module('app').directive('activitiesDropdownToggle', function($log) {
 
-            // $log.log(element.scope());
+	var link = function($scope,$element, attrs){
+		var ajax_dropdown = null;
 
-            var eventObject = element.scope().event;
+		$element.on('click',function(){
+			var badge = $(this).find('.badge');
 
-            element.data('eventObject', eventObject);
+			if (badge.hasClass('bg-color-red')) {
 
+				badge.removeClass('bg-color-red').text(0);
 
-            element.draggable({
-                zIndex: 999,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0 //  original position after the drag
+			}
+
+			ajax_dropdown = $(this).next('.ajax-dropdown');
+
+			if (!ajax_dropdown.is(':visible')) {
+
+				ajax_dropdown.fadeIn(150);
+
+				$(this).addClass('active');
+
+			}
+			 else {
+				
+				ajax_dropdown.fadeOut(150);
+				
+				$(this).removeClass('active');
+
+			}
+
+		})
+
+		$(document).mouseup(function(e) {
+			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
+				ajax_dropdown.fadeOut(150);
+				$element.removeClass('active');
+			}
+		});
+	}
+	
+	return{
+		restrict:'EA',
+		link:link
+	}
+});
+"use strict";
+
+angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
+
+	function getActivities(callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getActivitiesByType(type, callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+	
+	return{
+		get:function(callback){
+			getActivities(callback);
+		},
+		getbytype:function(type,callback){
+			getActivitiesByType(type, callback);
+		}
+	}
+});
+"use strict";
+
+angular.module('app.company').factory('CompanyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveCompany: saveCompany,
+                getCompanies: getCompanies,
+                getCompany: getCompany,
+                deleteCompany: deleteCompany,
             });
 
-
-        }
-    }
-})
-"use strict";
-
-angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
-        scope: {
-            events: "=events"
-        },
-        link: function (scope, element) {
-
-
-            var $calendar = $("#calendar");
-
-            var calendar = null;
-
-
-            function initCalendar() {
-
-                // $log.log(events);
-
-
-                calendar = $calendar.fullCalendar({
-                    lang: 'en',
-                    editable: true,
-                    draggable: true,
-                    selectable: false,
-                    selectHelper: true,
-                    unselectAuto: false,
-                    disableResizing: false,
-                    droppable: true,
-
-                    header: {
-                        left: 'title', //,today
-                        center: 'prev, next, today',
-                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
-                    },
-
-                    drop: function (date, allDay) { // this function is called when something is dropped
-
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-            
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-            
-                        // assign it the date that was reported
-                        copiedEventObject.start = date;
-                        copiedEventObject.allDay = allDay;
-
-                        // $log.log(scope);
-            
-                        // render the event on the calendar
-                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-            
-                        // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
-
-                            // if so, remove the element from the "Draggable Events" list
-                            // $(this).remove();
-                            // $log.log($(this).scope());
-                            var index = $(this).scope().$index;
-
-                            $("#external-events").scope().eventsExternal.splice(index, 1);
-                            $(this).remove();
-
-                        }
-            
-                    },
-
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.fullCalendar('renderEvent', {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                }, true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
-
-                    // events: scope.events,
-
-                    events: function(start, end, timezone, callback) {
-
-                        callback(scope.events);
-
-                    },
-
-                    eventRender: function (event, element, icon) {
-                        if (!event.description == "") {
-                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-                        }
-                        if (!event.icon == "") {
-                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-                        }
-                    }
-                });
-
-                $('.fc-header-right, .fc-header-center', $calendar).hide();
+            function saveCompany(company) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (company._id) {
+                    company.updated_at = Date.now();
+                    $http.put('api/companies/' + company._id, company)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    company.created_at = Date.now();
+                    company.updated_at = company.created_at;
+                    $http.post('api/companies', company)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
             }
 
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-            initCalendar();
-
-
-            // Now events will be refetched every time events scope is updated in controller!!!
-            scope.$watch("events", function(newValue, oldValue) {
-
-                $calendar.fullCalendar( 'refetchEvents' );
-
-            }, true);
-
-
-            scope.next = function () {
-                $('.fc-button-next', $calendar).click();
-            };
-            scope.prev = function () {
-                $('.fc-button-prev', $calendar).click();
-            };
-            scope.today = function () {
-                $('.fc-button-today', $calendar).click();
-            };
-            scope.changeView = function (period) {
-                $calendar.fullCalendar('changeView', period);
-            };
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
-    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
-});
-'use strict';
-/**
- * @ngdoc function
- * @name myApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the myApp
- */
-angular.module('app.auth').controller('AuthCtrl',
-    ['$rootScope','$scope', '$state', 'AuthService',
-        function ($rootScope,$scope, $state, AuthService) {
-
-            var vm = this;
-            vm.username= "";
-            vm.password= "";
-            vm.login = function () {
-                // initial values
-                $scope.error = false;
-                $scope.disabled = true;
-                // call login from service
-                AuthService.login(vm.username, vm.password)
-                    // handle success
-                    .then(function(user) {  
-                        console.log("给rootscope user赋值")
-                        $rootScope.user = user;
-                        if(user.role == "出单员"){
-                            $state.go('app.policy.new');
-                        }else
-                        {
-                            $state.go('app.policy.to-be-paid');
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
                         }
-                        
-                        $scope.disabled = false;
-                        vm.username= "";
-                        vm.password= "";
-                    },
-                    function(err){
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                    }
-                    )
-                    // handle error
-                    .catch(function () {
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                        $scope.disabled = false;
-                        //vm.username= "";
-                        // vm.password= "";
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
                     });
 
-            };
-        }]);
+                // return promise object
+                return deferred.promise;
+            }
 
+            function deleteCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 "use strict";
 
-angular.module('app.auth').directive('loginInfo', function(AuthService){
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
 
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            AuthService.getUser()
-            .then(function(user){
-                scope.user = user;
-            },
-            function(err){
-            }
-            );
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
         }
-    }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
 })
 
 "use strict";
@@ -3582,347 +3951,305 @@ angular.module('app.auth').factory('AuthService',
         }]);
 "use strict";
 
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
-        });
-    });
-})
-
-
-"use strict";
-
-angular.module('app.forms').controller('FormLayoutsCtrl', function($scope, $modal, $log){
-
-    $scope.openModal = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'app/forms/views/form-layout-modal.html',
-            controller: 'ModalDemoCtrl' 
-        });
-
-        modalInstance.result.then(function () {
-            $log.info('Modal closed at: ' + new Date());
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-
-
-    };
-
-    $scope.registration = {};
-
-    $scope.$watch('registration.date', function(changed){
-        console.log('registration model changed', $scope.registration)
-    })
-
-
-});
-
-"use strict";
-
-angular.module('app.forms').controller('FormPluginsCtrl', function($scope, $log){
-
-	$scope.editableOptions =  {
-		mode: 'popup',
-		disabled: false
-	};
-
-	$scope.toggleInline = function() {
-		if($scope.editableOptions.mode == 'popup') {
-			$scope.editableOptions.mode = 'inline';
-		}
-		else {
-			$scope.editableOptions.mode = 'popup'
-		}
-	};
-
-	$scope.toggleDisabled = function() {
-		$scope.editableOptions.disabled = !$scope.editableOptions.disabled;
-	};
-
-});
-"use strict";
-
-
-angular.module('app.forms').controller('FormWizardCtrl', function($scope){
-
-    $scope.wizard1CompleteCallback = function(wizardData){
-        console.log('wizard1CompleteCallback', wizardData);
-        $.smallBox({
-            title: "Congratulations! Smart wizard finished",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            iconSmall: "fa fa-check bounce animated",
-            timeout: 4000
-        });
-    };
-
-    $scope.wizard2CompleteCallback = function(wizardData){
-        console.log('wizard2CompleteCallback', wizardData);
-        $.smallBox({
-            title: "Congratulations! Smart fuekux wizard finished",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            iconSmall: "fa fa-check bounce animated",
-            timeout: 4000
-        });
-
-    };
-
-});
-"use strict";
-
-angular.module('app.forms').controller('FormXeditableCtrl', function($scope, $log){
-
-    $scope.username = 'superuser';
-    $scope.firstname = null;
-    $scope.sex = 'not selected';
-    $scope.group = "Admin";
-    $scope.vacation = "25.02.2013";
-    $scope.combodate = "15/05/1984";
-    $scope.event = null;
-    $scope.comments = 'awesome user!';
-    $scope.state2 = 'California';
-    $scope.fruits = 'peach<br/>apple';
-    
-
-    $scope.fruits_data = [
-        {value: 'banana', text: 'banana'},
-        {value: 'peach', text: 'peach'},
-        {value: 'apple', text: 'apple'},
-        {value: 'watermelon', text: 'watermelon'},
-        {value: 'orange', text: 'orange'}]
-    ;
-
-
-    $scope.genders =  [
-        {value: 'not selected', text: 'not selected'},
-        {value: 'Male', text: 'Male'},
-        {value: 'Female', text: 'Female'}
-    ];
-
-    $scope.groups =  [
-        {value: 'Guest', text: 'Guest'},
-        {value: 'Service', text: 'Service'},
-        {value: 'Customer', text: 'Customer'},
-        {value: 'Operator', text: 'Operator'},
-        {value: 'Support', text: 'Support'},
-        {value: 'Admin', text: 'Admin'}
-    ]; 
-
-});
-"use strict";
-
-
-angular.module('app.forms').controller('ImageEditorCtrl', function ($scope) {
-
-    // api tab
-    $scope.apiDemoSelection = [100, 100, 400, 300];
-
-    $scope.apiDemoOptions = {
-        allowSelect: true,
-        allowResize: true,
-        allowMove: true,
-        animate: false
-    };
-
-    $scope.apiRandomSelection = function () {
-        $scope.apiDemoOptions.animate = false;
-        $scope.apiDemoSelection = [
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400),
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400)
-        ]
-    };
-
-    $scope.apiRandomAnimation = function () {
-        $scope.apiDemoOptions.animate = true;
-        $scope.apiDemoSelection = [
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400),
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400)
-        ]
-    };
-
-    $scope.apiReleaseSelection = function () {
-        $scope.apiDemoOptions.animate = true;
-        $scope.apiDemoSelection = 'release';
-    };
-
-
-    $scope.apiToggleDisable = function () {
-        $scope.apiDemoOptions.disabled = !$scope.apiDemoOptions.disabled;
-    };
-
-    $scope.apiToggleDestroy = function () {
-        $scope.apiDemoOptions.destroyed = !$scope.apiDemoOptions.destroyed;
-    };
-
-    $scope.apiDemoShowAspect = false;
-    $scope.apiDemoToggleAspect = function () {
-        $scope.apiDemoShowAspect = !$scope.apiDemoShowAspect;
-        if ($scope.apiDemoShowAspect)
-            $scope.apiDemoOptions.aspectRatio = 4 / 3;
-        else
-            $scope.apiDemoOptions.aspectRatio = 0;
-    };
-
-    $scope.apiDemoShowSizeRestrict = false;
-    $scope.apiDemoToggleSizeRestrict = function () {
-        $scope.apiDemoShowSizeRestrict = !$scope.apiDemoShowSizeRestrict;
-        if ($scope.apiDemoShowSizeRestrict) {
-            $scope.apiDemoOptions.minSizeWidth = 80;
-            $scope.apiDemoOptions.minSizeHeight = 80;
-            $scope.apiDemoOptions.maxSizeWidth = 350;
-            $scope.apiDemoOptions.maxSizeHeight = 350;
-        } else {
-            $scope.apiDemoOptions.minSizeWidth = 0;
-            $scope.apiDemoOptions.minSizeHeight = 0;
-            $scope.apiDemoOptions.maxSizeWidth = 0;
-            $scope.apiDemoOptions.maxSizeHeight = 0;
-        }
-
-    };
-
-
-    $scope.setApiDemoImage = function (image) {
-        $scope.apiDemoImage = image;
-        $scope.apiDemoOptions.src = image.src;
-        $scope.apiDemoOptions.bgOpacity = image.bgOpacity;
-        $scope.apiDemoOptions.outerImage = image.outerImage;
-        $scope.apiRandomAnimation();
-    };
-
-    $scope.apiDemoImages = [
-        {
-            name: 'Lego',
-            src: 'styles/img/superbox/superbox-full-24.jpg',
-            bgOpacity: .6
-        },
-        {
-            name: 'Breakdance',
-            src: 'styles/img/superbox/superbox-full-7.jpg',
-            bgOpacity: .6
-        },
-        {
-            name: 'Dragon Fly',
-            src: 'styles/img/superbox/superbox-full-20.jpg',
-            bgOpacity: 1,
-            outerImage: 'styles/img/superbox/superbox-full-20-bw.jpg'
-        }
-    ];
-
-    $scope.apiDemoImage = $scope.apiDemoImages[1];
-
-    // animations tab
-    $scope.animationsDemoOptions = {
-        bgOpacity: undefined,
-        bgColor: undefined,
-        bgFade: true,
-        shade: false,
-        animate: true
-    };
-    $scope.animationsDemoSelection = undefined;
-    $scope.selections = {
-        1: [217, 122, 382, 284],
-        2: [20, 20, 580, 380],
-        3: [24, 24, 176, 376],
-        4: [347, 165, 550, 355],
-        5: [136, 55, 472, 183],
-        Release: 'release'
-    };
-
-    $scope.opacities = {
-        Low: .2,
-        Mid: .5,
-        High: .8,
-        Full: 1
-    };
-
-    $scope.colors = {
-        R: '#900',
-        B: '#4BB6F0',
-        Y: '#F0B207',
-        G: '#46B81C',
-        W: 'white',
-        K: 'black'
-    };
-
-
-    // styling tab
-
-    $scope.styles = [
-        {
-            name: 'jcrop-light',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'white',
-            bgOpacity: 0.5
-        },
-        {
-            name: 'jcrop-dark',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'black',
-            bgOpacity: 0.4
-        },
-        {
-            name: 'jcrop-normal',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'black',
-            bgOpacity: 0.6
-        }
-    ];
-
-    $scope.demoStyle = $scope.styles[0]
-});
-'use strict'
-
-angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalInstance){
-    $scope.closeModal = function(){
-        $modalInstance.dismiss('cancel');
+angular.module('app').factory('Project', function($http, APP_CONFIG){
+    return {
+        list: $http.get(APP_CONFIG.apiRootUrl + '/projects.json')
     }
 });
 "use strict";
 
-angular.module('app.company').factory('CompanyService',
+angular.module('app').directive('recentProjects', function(Project){
+    return {
+        restrict: "EA",
+        replace: true,
+        templateUrl: "app/dashboard/projects/recent-projects.tpl.html",
+        scope: true,
+        link: function(scope, element){
+
+            Project.list.then(function(response){
+                scope.projects = response.data;
+            });
+            scope.clearProjects = function(){
+                scope.projects = [];
+            }
+        }
+    }
+});
+"use strict";
+
+angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
+    $scope.newTodo = undefined;
+
+    $scope.states = ['Critical', 'Important', 'Completed'];
+
+    $scope.todos = Todo.getList().$object;
+
+    // $scope.$watch('todos', function(){ }, true)
+
+    $scope.toggleAdd = function () {
+        if (!$scope.newTodo) {
+            $scope.newTodo = {
+                state: 'Important'
+            };
+        } else {
+            $scope.newTodo = undefined;
+        }
+    };
+
+    $scope.createTodo = function () {
+        $scope.todos.push($scope.newTodo);
+        $scope.newTodo = undefined;
+        // $scope.newTodo.$save(function (respoonse) {
+        //     $scope.todos.push(respoonse);
+        //     $scope.newTodo = undefined;
+        // });
+    };
+
+    $scope.deleteTodo = function (todo) {
+        todo.remove().then(function () {
+            $scope.todos.splice($scope.todos.indexOf(todo), 1);
+        });
+
+    };
+
+});
+'use strict'
+
+angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+    var vm = this;
+    vm.user = {};
+    vm.editable = false;
+
+    if ($state.is("app.employee.finance.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var userId = $stateParams.userId;
+    if (userId) {
+        EmployeeService.getUser(userId)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        vm.user.role="财务";
+        EmployeeService.saveUser(vm.user)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "用户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.user = {};
+                if (vm.back) {
+                    $state.go("app.employee.finance");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.employee').controller('FinanceListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+    var vm = this;
+    vm.users = [];
+
+
+
+    vm.refreshUsers = function(){
+       EmployeeService.getFinances()
+       .then(function(users){
+           vm.users = users;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshUsers();
+	
+    vm.view = function(userId){
+        $state.go("app.employee.finance.view", {userId: userId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (userId) {
+        $.SmartMessageBox({
+            title: "删除账号",
+            content: "确认删除该用户？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                EmployeeService.deleteUser(userId)
+                    .then(function(){
+                        vm.refreshUsers();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.employee').controller('SellerEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+    var vm = this;
+    vm.user = {};
+    vm.editable = false;
+    vm.organizations=[];
+
+    EmployeeService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+
+    if ($state.is("app.employee.seller.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var userId = $stateParams.userId;
+    if (userId) {
+        EmployeeService.getUser(userId)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+    
+    
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        vm.user.role="出单员";
+        EmployeeService.saveUser(vm.user)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "用户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.user = {};
+                if (vm.back) {
+                    $state.go("app.employee.seller");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.employee').controller('SellerListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+    var vm = this;
+    vm.users = [];
+
+
+
+    vm.refreshUsers = function(){
+       EmployeeService.getSellers()
+       .then(function(users){
+           vm.users = users;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshUsers();
+	
+    vm.view = function(userId){
+        $state.go("app.employee.seller.view", {userId: userId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (userId) {
+        $.SmartMessageBox({
+            title: "删除账号",
+            content: "确认删除该用户？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                EmployeeService.deleteUser(userId)
+                    .then(function(){
+                        vm.refreshUsers();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.employee').factory('EmployeeService',
     ['$q', '$http',
         function ($q, $http) {
             // return available functions for use in controllers
             return ({
-                saveCompany: saveCompany,
-                getCompanies: getCompanies,
-                getCompany: getCompany,
-                deleteCompany: deleteCompany,
+                saveUser: saveUser,
+                getSellers: getSellers,
+                getFinances: getFinances,
+                getUser: getUser,
+                deleteUser: deleteUser,
+                getOrganizations: getOrganizations
             });
 
-            function saveCompany(company) {
+            function saveUser(user) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                if (company._id) {
-                    company.updated_at = Date.now();
-                    $http.put('api/companies/' + company._id, company)
+
+                if (user._id) {
+                    user.updated_at = Date.now();
+                    $http.put('/users/' + user._id, user)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -3934,9 +4261,9 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         });
                 } else {
-                    company.created_at = Date.now();
-                    company.updated_at = company.created_at;
-                    $http.post('api/companies', company)
+                    user.created_at = Date.now();
+                    user.updated_at = user.created_at;
+                    $http.post('/users', user)
                     // handle success
                         .success(function (data, status) {
                             if (status === 200) {
@@ -3955,11 +4282,11 @@ angular.module('app.company').factory('CompanyService',
                 return deferred.promise;
             }
 
-            function getCompany(companyId) {
+            function getUser(userID) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('api/companies/' + companyId)
+                $http.get('/users/' + userID)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -3977,11 +4304,11 @@ angular.module('app.company').factory('CompanyService',
                 return deferred.promise;
             }
 
-            function deleteCompany(companyId) {
+            function deleteUser(userId) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.delete('api/companies/' + companyId)
+                $http.delete('/users/' + userId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -3999,13 +4326,61 @@ angular.module('app.company').factory('CompanyService',
                 return deferred.promise;
             }
 
-            function getCompanies() {
+            function getSellers() {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('api/companies')
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getFinances() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=finance')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }         
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -4328,466 +4703,307 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
         label : "Site visitors"
     }];
 });
-"use strict";	
 
-angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
-
-	$scope.activeTab = 'default';
-	$scope.currentActivityItems = [];
-	
-	// Getting different type of activites
-	activityService.get(function(data){
-
-		$scope.activities = data.activities;
-		
-	});
-
-
-	$scope.isActive = function(tab){
-		return $scope.activeTab === tab;
-	};
-
-	$scope.setTab = function(activityType){
-		$scope.activeTab = activityType;
-
-		activityService.getbytype(activityType, function(data) {
-
-			$scope.currentActivityItems = data.data;
-
-		});
-
-	};
-
-});
 "use strict";
 
-angular.module('app').directive('activitiesDropdownToggle', function($log) {
+angular.module('app.forms').controller('FormLayoutsCtrl', function($scope, $modal, $log){
 
-	var link = function($scope,$element, attrs){
-		var ajax_dropdown = null;
+    $scope.openModal = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/forms/views/form-layout-modal.html',
+            controller: 'ModalDemoCtrl' 
+        });
 
-		$element.on('click',function(){
-			var badge = $(this).find('.badge');
+        modalInstance.result.then(function () {
+            $log.info('Modal closed at: ' + new Date());
 
-			if (badge.hasClass('bg-color-red')) {
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
 
-				badge.removeClass('bg-color-red').text(0);
 
-			}
+    };
 
-			ajax_dropdown = $(this).next('.ajax-dropdown');
+    $scope.registration = {};
 
-			if (!ajax_dropdown.is(':visible')) {
+    $scope.$watch('registration.date', function(changed){
+        console.log('registration model changed', $scope.registration)
+    })
 
-				ajax_dropdown.fadeIn(150);
 
-				$(this).addClass('active');
-
-			}
-			 else {
-				
-				ajax_dropdown.fadeOut(150);
-				
-				$(this).removeClass('active');
-
-			}
-
-		})
-
-		$(document).mouseup(function(e) {
-			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
-				ajax_dropdown.fadeOut(150);
-				$element.removeClass('active');
-			}
-		});
-	}
-	
-	return{
-		restrict:'EA',
-		link:link
-	}
 });
+
 "use strict";
 
-angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
+angular.module('app.forms').controller('FormPluginsCtrl', function($scope, $log){
 
-	function getActivities(callback){
+	$scope.editableOptions =  {
+		mode: 'popup',
+		disabled: false
+	};
 
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getActivitiesByType(type, callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-	
-	return{
-		get:function(callback){
-			getActivities(callback);
-		},
-		getbytype:function(type,callback){
-			getActivitiesByType(type, callback);
+	$scope.toggleInline = function() {
+		if($scope.editableOptions.mode == 'popup') {
+			$scope.editableOptions.mode = 'inline';
 		}
-	}
+		else {
+			$scope.editableOptions.mode = 'popup'
+		}
+	};
+
+	$scope.toggleDisabled = function() {
+		$scope.editableOptions.disabled = !$scope.editableOptions.disabled;
+	};
+
 });
 "use strict";
 
-angular.module('app').factory('Project', function($http, APP_CONFIG){
-    return {
-        list: $http.get(APP_CONFIG.apiRootUrl + '/projects.json')
-    }
+
+angular.module('app.forms').controller('FormWizardCtrl', function($scope){
+
+    $scope.wizard1CompleteCallback = function(wizardData){
+        console.log('wizard1CompleteCallback', wizardData);
+        $.smallBox({
+            title: "Congratulations! Smart wizard finished",
+            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+            color: "#5F895F",
+            iconSmall: "fa fa-check bounce animated",
+            timeout: 4000
+        });
+    };
+
+    $scope.wizard2CompleteCallback = function(wizardData){
+        console.log('wizard2CompleteCallback', wizardData);
+        $.smallBox({
+            title: "Congratulations! Smart fuekux wizard finished",
+            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+            color: "#5F895F",
+            iconSmall: "fa fa-check bounce animated",
+            timeout: 4000
+        });
+
+    };
+
 });
 "use strict";
 
-angular.module('app').directive('recentProjects', function(Project){
-    return {
-        restrict: "EA",
-        replace: true,
-        templateUrl: "app/dashboard/projects/recent-projects.tpl.html",
-        scope: true,
-        link: function(scope, element){
+angular.module('app.forms').controller('FormXeditableCtrl', function($scope, $log){
 
-            Project.list.then(function(response){
-                scope.projects = response.data;
-            });
-            scope.clearProjects = function(){
-                scope.projects = [];
-            }
-        }
-    }
+    $scope.username = 'superuser';
+    $scope.firstname = null;
+    $scope.sex = 'not selected';
+    $scope.group = "Admin";
+    $scope.vacation = "25.02.2013";
+    $scope.combodate = "15/05/1984";
+    $scope.event = null;
+    $scope.comments = 'awesome user!';
+    $scope.state2 = 'California';
+    $scope.fruits = 'peach<br/>apple';
+    
+
+    $scope.fruits_data = [
+        {value: 'banana', text: 'banana'},
+        {value: 'peach', text: 'peach'},
+        {value: 'apple', text: 'apple'},
+        {value: 'watermelon', text: 'watermelon'},
+        {value: 'orange', text: 'orange'}]
+    ;
+
+
+    $scope.genders =  [
+        {value: 'not selected', text: 'not selected'},
+        {value: 'Male', text: 'Male'},
+        {value: 'Female', text: 'Female'}
+    ];
+
+    $scope.groups =  [
+        {value: 'Guest', text: 'Guest'},
+        {value: 'Service', text: 'Service'},
+        {value: 'Customer', text: 'Customer'},
+        {value: 'Operator', text: 'Operator'},
+        {value: 'Support', text: 'Support'},
+        {value: 'Admin', text: 'Admin'}
+    ]; 
+
 });
 "use strict";
 
-angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
-    $scope.newTodo = undefined;
 
-    $scope.states = ['Critical', 'Important', 'Completed'];
+angular.module('app.forms').controller('ImageEditorCtrl', function ($scope) {
 
-    $scope.todos = Todo.getList().$object;
+    // api tab
+    $scope.apiDemoSelection = [100, 100, 400, 300];
 
-    // $scope.$watch('todos', function(){ }, true)
+    $scope.apiDemoOptions = {
+        allowSelect: true,
+        allowResize: true,
+        allowMove: true,
+        animate: false
+    };
 
-    $scope.toggleAdd = function () {
-        if (!$scope.newTodo) {
-            $scope.newTodo = {
-                state: 'Important'
-            };
+    $scope.apiRandomSelection = function () {
+        $scope.apiDemoOptions.animate = false;
+        $scope.apiDemoSelection = [
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400),
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400)
+        ]
+    };
+
+    $scope.apiRandomAnimation = function () {
+        $scope.apiDemoOptions.animate = true;
+        $scope.apiDemoSelection = [
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400),
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400)
+        ]
+    };
+
+    $scope.apiReleaseSelection = function () {
+        $scope.apiDemoOptions.animate = true;
+        $scope.apiDemoSelection = 'release';
+    };
+
+
+    $scope.apiToggleDisable = function () {
+        $scope.apiDemoOptions.disabled = !$scope.apiDemoOptions.disabled;
+    };
+
+    $scope.apiToggleDestroy = function () {
+        $scope.apiDemoOptions.destroyed = !$scope.apiDemoOptions.destroyed;
+    };
+
+    $scope.apiDemoShowAspect = false;
+    $scope.apiDemoToggleAspect = function () {
+        $scope.apiDemoShowAspect = !$scope.apiDemoShowAspect;
+        if ($scope.apiDemoShowAspect)
+            $scope.apiDemoOptions.aspectRatio = 4 / 3;
+        else
+            $scope.apiDemoOptions.aspectRatio = 0;
+    };
+
+    $scope.apiDemoShowSizeRestrict = false;
+    $scope.apiDemoToggleSizeRestrict = function () {
+        $scope.apiDemoShowSizeRestrict = !$scope.apiDemoShowSizeRestrict;
+        if ($scope.apiDemoShowSizeRestrict) {
+            $scope.apiDemoOptions.minSizeWidth = 80;
+            $scope.apiDemoOptions.minSizeHeight = 80;
+            $scope.apiDemoOptions.maxSizeWidth = 350;
+            $scope.apiDemoOptions.maxSizeHeight = 350;
         } else {
-            $scope.newTodo = undefined;
+            $scope.apiDemoOptions.minSizeWidth = 0;
+            $scope.apiDemoOptions.minSizeHeight = 0;
+            $scope.apiDemoOptions.maxSizeWidth = 0;
+            $scope.apiDemoOptions.maxSizeHeight = 0;
         }
-    };
-
-    $scope.createTodo = function () {
-        $scope.todos.push($scope.newTodo);
-        $scope.newTodo = undefined;
-        // $scope.newTodo.$save(function (respoonse) {
-        //     $scope.todos.push(respoonse);
-        //     $scope.newTodo = undefined;
-        // });
-    };
-
-    $scope.deleteTodo = function (todo) {
-        todo.remove().then(function () {
-            $scope.todos.splice($scope.todos.indexOf(todo), 1);
-        });
 
     };
 
+
+    $scope.setApiDemoImage = function (image) {
+        $scope.apiDemoImage = image;
+        $scope.apiDemoOptions.src = image.src;
+        $scope.apiDemoOptions.bgOpacity = image.bgOpacity;
+        $scope.apiDemoOptions.outerImage = image.outerImage;
+        $scope.apiRandomAnimation();
+    };
+
+    $scope.apiDemoImages = [
+        {
+            name: 'Lego',
+            src: 'styles/img/superbox/superbox-full-24.jpg',
+            bgOpacity: .6
+        },
+        {
+            name: 'Breakdance',
+            src: 'styles/img/superbox/superbox-full-7.jpg',
+            bgOpacity: .6
+        },
+        {
+            name: 'Dragon Fly',
+            src: 'styles/img/superbox/superbox-full-20.jpg',
+            bgOpacity: 1,
+            outerImage: 'styles/img/superbox/superbox-full-20-bw.jpg'
+        }
+    ];
+
+    $scope.apiDemoImage = $scope.apiDemoImages[1];
+
+    // animations tab
+    $scope.animationsDemoOptions = {
+        bgOpacity: undefined,
+        bgColor: undefined,
+        bgFade: true,
+        shade: false,
+        animate: true
+    };
+    $scope.animationsDemoSelection = undefined;
+    $scope.selections = {
+        1: [217, 122, 382, 284],
+        2: [20, 20, 580, 380],
+        3: [24, 24, 176, 376],
+        4: [347, 165, 550, 355],
+        5: [136, 55, 472, 183],
+        Release: 'release'
+    };
+
+    $scope.opacities = {
+        Low: .2,
+        Mid: .5,
+        High: .8,
+        Full: 1
+    };
+
+    $scope.colors = {
+        R: '#900',
+        B: '#4BB6F0',
+        Y: '#F0B207',
+        G: '#46B81C',
+        W: 'white',
+        K: 'black'
+    };
+
+
+    // styling tab
+
+    $scope.styles = [
+        {
+            name: 'jcrop-light',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'white',
+            bgOpacity: 0.5
+        },
+        {
+            name: 'jcrop-dark',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'black',
+            bgOpacity: 0.4
+        },
+        {
+            name: 'jcrop-normal',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'black',
+            bgOpacity: 0.6
+        }
+    ];
+
+    $scope.demoStyle = $scope.styles[0]
 });
 'use strict'
 
-angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.company = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.new")) {
-        vm.editable = true;
+angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalInstance){
+    $scope.closeModal = function(){
+        $modalInstance.dismiss('cancel');
     }
-
-
-
-    var companyId = $stateParams.companyId;
-    if (companyId) {
-        CompanyService.getCompany(companyId)
-            .then(function (company) {
-                vm.company = company;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.saveCompany(vm.company)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.company = {};
-                if (vm.back) {
-                    $state.go("app.company.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.companies = [];
-
-
-
-    vm.refreshCompanies = function(){
-       CompanyService.getCompanies()
-       .then(function(companies){
-           vm.companies = companies;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshCompanies();
-	
-    vm.view = function(companyId){
-        $state.go("app.company.view", {companyId: companyId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (companyId) {
-        $.SmartMessageBox({
-            title: "删除保险公司",
-            content: "确认删除该保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompany(companyId)
-                    .then(function(){
-                        vm.refreshCompanies();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
 });
-
-"use strict";
-
-angular.module('app.employee').factory('EmployeeService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveUser: saveUser,
-                getSellers: getSellers,
-                getFinances: getFinances,
-                getUser: getUser,
-                deleteUser: deleteUser,
-                getOrganizations: getOrganizations
-            });
-
-            function saveUser(user) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (user._id) {
-                    user.updated_at = Date.now();
-                    $http.put('/users/' + user._id, user)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    user.created_at = Date.now();
-                    user.updated_at = user.created_at;
-                    $http.post('/users', user)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getUser(userID) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/users/' + userID)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteUser(userId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/users/' + userId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getFinances() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=finance')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }         
-            
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 "use strict";
 
 angular.module('app.inbox').directive('messageLabels', function (InboxConfig) {
@@ -5069,221 +5285,82 @@ angular.module('app.maps').directive('smartMap', function (Initializer) {
 
     }
 });
-'use strict'
+// Google async initializer needs global function, so we use $window
+angular.module('app.maps')
+.factory('Initializer', function($window, $q){
 
-angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
-    var vm = this;
-    vm.user = {};
-    vm.editable = false;
+    //Google's url for async maps initialization accepting callback function
+    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
+        mapsDefer = $q.defer();
 
-    if ($state.is("app.employee.finance.new")) {
-        vm.editable = true;
-    }
+    //Callback function - resolving promise after maps successfully loaded
+    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
+
+    //Async loader
+    var asyncLoad = function(asyncUrl, callbackName) {
+      var script = document.createElement('script');
+      //script.type = 'text/javascript';
+      script.src = asyncUrl + callbackName;
+      document.body.appendChild(script);
+    };
+    //Start loading google maps
+    asyncLoad(asyncUrl, 'googleMapsInitialized');
+
+    //Usage: Initializer.mapsInitialized.then(callback)
+    return {
+        mapsInitialized : mapsDefer.promise
+    };
+})
+"use strict";
 
 
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
 
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        vm.user.role="财务";
-        EmployeeService.saveUser(vm.user)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "用户已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.user = {};
-                if (vm.back) {
-                    $state.go("app.employee.finance");
-                }
-            }, function (err) { });
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
     };
 
 
+    function getMapType(key){
+        var keyData = styles[key];
 
-}); 
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
 
+        return keyData.cache;
+    }
 
-'use strict'
-
-angular.module('app.employee').controller('FinanceListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
-    var vm = this;
-    vm.users = [];
-
-
-
-    vm.refreshUsers = function(){
-       EmployeeService.getFinances()
-       .then(function(users){
-           vm.users = users;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshUsers();
-	
-    vm.view = function(userId){
-        $state.go("app.employee.finance.view", {userId: userId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (userId) {
-        $.SmartMessageBox({
-            title: "删除账号",
-            content: "确认删除该用户？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                EmployeeService.deleteUser(userId)
-                    .then(function(){
-                        vm.refreshUsers();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
         });
-    };
-    
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
 
 });
-
-'use strict'
-
-angular.module('app.employee').controller('SellerEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
-    var vm = this;
-    vm.user = {};
-    vm.editable = false;
-    vm.organizations=[];
-
-    EmployeeService.getOrganizations()
-        .then(function (organizations) {
-            vm.organizations = organizations;
-        })
-
-
-    if ($state.is("app.employee.seller.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
-            });
-    }
-    
-    
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        vm.user.role="出单员";
-        EmployeeService.saveUser(vm.user)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "用户已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.user = {};
-                if (vm.back) {
-                    $state.go("app.employee.seller");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.employee').controller('SellerListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
-    var vm = this;
-    vm.users = [];
-
-
-
-    vm.refreshUsers = function(){
-       EmployeeService.getSellers()
-       .then(function(users){
-           vm.users = users;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshUsers();
-	
-    vm.view = function(userId){
-        $state.go("app.employee.seller.view", {userId: userId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (userId) {
-        $.SmartMessageBox({
-            title: "删除账号",
-            content: "确认删除该用户？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                EmployeeService.deleteUser(userId)
-                    .then(function(){
-                        vm.refreshUsers();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
 'use strict'
 
 angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
@@ -5507,6 +5584,336 @@ angular.module('app.organization').factory('OrganizationService',
                 return deferred.promise;
             }
         }]);
+'use strict'
+
+angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
+    var vm = this;
+    vm.policy = {};
+    vm.policy.plate_province = "苏";
+    vm.clientInfo = {};
+    vm.sellerInfo = $rootScope.user;
+    PolicyService.getClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+    PolicyService.getCompanies()
+        .then(function (companies) {
+            vm.companies = companies;
+        })
+
+    vm.editable = false;
+    if ($state.is("app.policy.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var policyId = $stateParams.policyId;
+    if (policyId) {
+        PolicyService.getPolicy(policyId)
+            .then(function (policy) {
+                vm.policy = policy;
+                vm.clientInfo = policy.client;
+                vm.sellerInfo = policy.seller;
+                policy.client = policy.client._id;
+                policy.seller = policy.seller._id;
+            });
+    }
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+
+    vm.submit = function () {
+        vm.policy.client = vm.clientInfo._id;
+        console.log(vm.policy.company);
+        PolicyService.savePolicy(vm.policy)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保单已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.policy = {};
+                vm.policy.plate_province = "苏";
+                if (vm.back) {
+                    $state.go("app.policy.to-be-paid");
+                }
+            }, function (err) { });
+    };
+
+    vm.pay = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认已支付该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "已支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.updateFee = function () {
+        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
+        if (vm.policy.mandatory_fee_income) {
+            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+        }
+        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
+        if (vm.policy.commercial_fee_income) {
+            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+        }
+        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
+        if (vm.policy.tax_fee_income) {
+            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income)) {
+            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+        }
+
+        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
+
+        if (vm.policy.mandatory_fee_payment) {
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+        }
+        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
+        if (vm.policy.commercial_fee_payment) {
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+        }
+        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
+        if (vm.policy.tax_fee_payment) {
+            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment)) {
+            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_addition) {
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_substraction) {
+            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+
+
+    }
+});
+
+angular.module('app.policy').directive('upper', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var capitalize = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                var capitalized = inputValue.toUpperCase();
+                if (capitalized !== inputValue) {
+                    modelCtrl.$setViewValue(capitalized);
+                    modelCtrl.$render();
+                }
+                return capitalized;
+            }
+            modelCtrl.$parsers.push(capitalize);
+            capitalize(scope[attrs.ngModel]);  // capitalize initial value
+        }
+    };
+});
+
+angular.module('app.policy').directive('price', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var removeIllegalInput = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+           
+                //先把非数字的都替换掉，除了数字和.
+                var output = inputValue.replace(/[^\d.]/g, "");
+                //必须保证第一个为数字而不是.
+                output = output.replace(/^\./g, "");
+                //保证只有出现一个.而没有多个.
+                output = output.replace(/\.{2,}/g, ".");
+                //保证.只出现一次，而不能出现两次以上
+                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                //只允许输入两位小数
+                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+
+                if (output !== inputValue) {
+                    modelCtrl.$setViewValue(output);
+                    modelCtrl.$render();
+                }
+                return output;
+            }
+            modelCtrl.$parsers.push(removeIllegalInput);
+            removeIllegalInput(scope[attrs.ngModel]);
+        }
+    };
+});
+
+angular.module('app.policy').filter('propsFilter', function() {
+  return function(items, props) {
+    var out = [];
+
+    if (angular.isArray(items)) {
+      items.forEach(function(item) {
+        var itemMatches = false;
+
+        var keys = Object.keys(props);
+        for (var i = 0; i < keys.length; i++) {
+          var prop = keys[i];
+          var text = props[prop].toUpperCase();
+          if (item['py'].indexOf(text) == 0) {
+            itemMatches = true;
+            break;
+          }
+        }
+
+        if (itemMatches) {
+          out.push(item);
+        }
+      });
+    } else {
+      // Let the output be the input untouched
+      out = items;
+    }
+
+    return out;
+  }
+});
+'use strict'
+
+angular.module('app.policy').controller('PolicyListController', function(screenSize, $timeout, $rootScope, $state, $scope, PolicyService){
+    var vm = this;
+    vm.policies = [];
+
+
+    vm.listType = "all";
+    if($state.is("app.policy.to-be-paid")){
+        vm.listType= "to-be-paid";
+        vm.tableHeader = "待支付保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields=["client.name", "plate"];
+        }
+    }else if($state.is("app.policy.paid")){
+        vm.listType = "paid";
+        vm.tableHeader = "已支付保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields=["client.name", "plate","paid_at"];
+        }
+    }
+
+    vm.onServerSideItemsRequested = function(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse){
+        vm.currentPage = currentPage;
+        vm.pageItems = pageItems;
+        PolicyService.searchPolicies(currentPage, pageItems, vm.listType)
+        .then(function(data){
+            vm.policies = data.policies;
+            vm.policyTotalCount = data.totalCount;
+        }, function(err){});
+    };
+
+
+    vm.refreshPolicies = function(){
+        if(typeof(vm.currentPage) == 'undefined'|| typeof(vm.pageItems) == 'undefined'){
+            return;
+        }
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+    };
+    
+    var poller = function(){
+        if($rootScope.user.role != "财务"){
+            return;
+        }
+        vm.refreshPolicies();
+        $timeout(poller, 1000*60);
+    };
+    
+    poller();
+
+    vm.isShowPayButton = function(policy){
+        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
+    };
+
+    vm.isShowDeleteButton = function(policy){
+        if($rootScope.user.role == "管理员") return true;
+        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
+    };
+
+    vm.isShowViewButton = function(policy){
+        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
+    };
+
+    vm.pay = function(policyId){
+        $state.go("app.policy.pay", {policyId: policyId});
+    };
+    
+    vm.view = function(policyId){
+        $state.go("app.policy.view", {policyId: policyId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (policyId) {
+        $.SmartMessageBox({
+            title: "删除保单",
+            content: "确认删除该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.deletePolicy(policyId)
+                    .then(function(){
+                        vm.refreshPolicies();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+angular.module('app.policy')
+.filter("computeTotal", function () {
+    return function (fieldValueUnused, item) {
+        return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
+    }
+ })
+.filter("combinePlate", function () {
+    return function (fieldValueUnused, item) {
+        return (item.plate_no);
+    }
+ });
 "use strict";
 
 angular.module('app.policy').factory('PolicyService',
@@ -5727,303 +6134,6 @@ angular.module('app.policy').factory('PolicyService',
             }
 
         }]);
-'use strict'
-
-angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
-    var vm = this;
-    vm.policy = {};
-    vm.policy.plate_province = "苏";
-    vm.clientInfo = {};
-    vm.sellerInfo = $rootScope.user;
-    PolicyService.getClients()
-        .then(function (clients) {
-            vm.clients = clients;
-        })
-    PolicyService.getCompanies()
-        .then(function (companies) {
-            vm.companies = companies;
-        })
-
-    vm.editable = false;
-    if ($state.is("app.policy.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var policyId = $stateParams.policyId;
-    if (policyId) {
-        PolicyService.getPolicy(policyId)
-            .then(function (policy) {
-                vm.policy = policy;
-                vm.clientInfo = policy.client;
-                vm.sellerInfo = policy.seller;
-                policy.client = policy.client._id;
-                policy.seller = policy.seller._id;
-            });
-    }
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-
-    vm.submit = function () {
-        PolicyService.savePolicy(vm.policy)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保单已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.policy = {};
-                vm.policy.plate_province = "苏";
-                if (vm.back) {
-                    $state.go("app.policy.to-be-paid");
-                }
-            }, function (err) { });
-    };
-
-    vm.pay = function () {
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认已支付该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "已支付";
-                vm.policy.paid_at = Date.now();
-                PolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-
-    };
-
-    vm.updateFee = function () {
-        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
-        if (vm.policy.mandatory_fee_income) {
-            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
-        }
-        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
-        if (vm.policy.commercial_fee_income) {
-            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
-        }
-        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
-        if (vm.policy.tax_fee_income) {
-            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
-        }
-        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income)) {
-            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
-        }
-
-        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
-
-        if (vm.policy.mandatory_fee_payment) {
-            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
-        }
-        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
-        if (vm.policy.commercial_fee_payment) {
-            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
-        }
-        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
-        if (vm.policy.tax_fee_payment) {
-            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
-        }
-        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment)) {
-            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-        if (vm.policy.payment_addition) {
-            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-        if (vm.policy.payment_substraction) {
-            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-
-
-    }
-});
-
-angular.module('app.policy').directive('upper', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            var capitalize = function (inputValue) {
-                if (inputValue == undefined) inputValue = '';
-                var capitalized = inputValue.toUpperCase();
-                if (capitalized !== inputValue) {
-                    modelCtrl.$setViewValue(capitalized);
-                    modelCtrl.$render();
-                }
-                return capitalized;
-            }
-            modelCtrl.$parsers.push(capitalize);
-            capitalize(scope[attrs.ngModel]);  // capitalize initial value
-        }
-    };
-});
-
-angular.module('app.policy').directive('price', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            var removeIllegalInput = function (inputValue) {
-                if (inputValue == undefined) inputValue = '';
-                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
-           
-                //先把非数字的都替换掉，除了数字和.
-                var output = inputValue.replace(/[^\d.]/g, "");
-                //必须保证第一个为数字而不是.
-                output = output.replace(/^\./g, "");
-                //保证只有出现一个.而没有多个.
-                output = output.replace(/\.{2,}/g, ".");
-                //保证.只出现一次，而不能出现两次以上
-                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-                //只允许输入两位小数
-                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
-
-                if (output !== inputValue) {
-                    modelCtrl.$setViewValue(output);
-                    modelCtrl.$render();
-                }
-                return output;
-            }
-            modelCtrl.$parsers.push(removeIllegalInput);
-            removeIllegalInput(scope[attrs.ngModel]);
-        }
-    };
-});
-'use strict'
-
-angular.module('app.policy').controller('PolicyListController', function(screenSize, $timeout, $rootScope, $state, $scope, PolicyService){
-    var vm = this;
-    vm.policies = [];
-
-
-    vm.listType = "all";
-    if($state.is("app.policy.to-be-paid")){
-        vm.listType= "to-be-paid";
-        vm.tableHeader = "待支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields=["client.name", "plate"];
-        }
-    }else if($state.is("app.policy.paid")){
-        vm.listType = "paid";
-        vm.tableHeader = "已支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields=["client.name", "plate","paid_at"];
-        }
-    }
-
-    vm.onServerSideItemsRequested = function(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse){
-        vm.currentPage = currentPage;
-        vm.pageItems = pageItems;
-        PolicyService.searchPolicies(currentPage, pageItems, vm.listType)
-        .then(function(data){
-            vm.policies = data.policies;
-            vm.policyTotalCount = data.totalCount;
-        }, function(err){});
-    };
-
-
-    vm.refreshPolicies = function(){
-        if(typeof(vm.currentPage) == 'undefined'|| typeof(vm.pageItems) == 'undefined'){
-            return;
-        }
-        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
-    };
-    
-    var poller = function(){
-        if($rootScope.user.role != "财务"){
-            return;
-        }
-        vm.refreshPolicies();
-        $timeout(poller, 1000*60);
-    };
-    
-    poller();
-
-    vm.isShowPayButton = function(policy){
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowDeleteButton = function(policy){
-        if($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowViewButton = function(policy){
-        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
-    };
-
-    vm.pay = function(policyId){
-        $state.go("app.policy.pay", {policyId: policyId});
-    };
-    
-    vm.view = function(policyId){
-        $state.go("app.policy.view", {policyId: policyId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (policyId) {
-        $.SmartMessageBox({
-            title: "删除保单",
-            content: "确认删除该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                PolicyService.deletePolicy(policyId)
-                    .then(function(){
-                        vm.refreshPolicies();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-angular.module('app.policy')
-.filter("computeTotal", function () {
-    return function (fieldValueUnused, item) {
-        return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
-    }
- })
-.filter("combinePlate", function () {
-    return function (fieldValueUnused, item) {
-        return (item.plate_province + item.plate_no);
-    }
- });
 'use strict';
 
 angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
@@ -6249,82 +6359,6 @@ angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
        jQuery('table').jqGrid('setSelection', row);
 
     }
-});
-// Google async initializer needs global function, so we use $window
-angular.module('app.maps')
-.factory('Initializer', function($window, $q){
-
-    //Google's url for async maps initialization accepting callback function
-    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
-        mapsDefer = $q.defer();
-
-    //Callback function - resolving promise after maps successfully loaded
-    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
-
-    //Async loader
-    var asyncLoad = function(asyncUrl, callbackName) {
-      var script = document.createElement('script');
-      //script.type = 'text/javascript';
-      script.src = asyncUrl + callbackName;
-      document.body.appendChild(script);
-    };
-    //Start loading google maps
-    asyncLoad(asyncUrl, 'googleMapsInitialized');
-
-    //Usage: Initializer.mapsInitialized.then(callback)
-    return {
-        mapsInitialized : mapsDefer.promise
-    };
-})
-"use strict";
-
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
 });
 "use strict";
 
@@ -7147,46 +7181,6 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
 });
 "use strict";
 
-angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
-    return {
-        replace: true,
-        restrict: 'E',
-        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
-        link: function(scope, element){
-            element.on('click', function(){
-                ezfb.login(function (res) {
-                    if (res.authResponse) {
-                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
-                    }
-                }, {scope: 'public_profile'});
-            })
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
-    return {
-        restrict: 'E',
-        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
-        replace: true,
-        link: function (scope, element) {
-            element.on('click', function(){
-                GooglePlus.login().then(function (authResult) {
-                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
-
-                }, function (err) {
-                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
-
-                });
-            })
-        }
-    };
-});
-
-"use strict";
-
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){
     return {
         restrict: 'A',
@@ -7331,190 +7325,6 @@ angular.module('SmartAdmin.Layout').directive('toggleMenu', function(){
             });
         }
     }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
-
-    var sheet = (function () {
-        // Create the <style> tag
-        var style = document.createElement("style");
-
-        // Add a media (and/or media query) here if you'd like!
-        // style.setAttribute("media", "screen")
-        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
-
-        // WebKit hack :(
-        style.appendChild(document.createTextNode(""));
-
-        // Add the <style> element to the page
-        document.head.appendChild(style);
-
-        return style.sheet;
-    })();
-
-    var _styles = {};
-
-
-    var SmartCss = {
-        writeRule: function(selector){
-            SmartCss.deleteRuleFor(selector);
-            if(_.has(_styles, selector)){
-                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
-                    return  k + ':' +  v + ';'
-                }).join(' ') +'}';
-                sheet.insertRule(css, _.size(_styles) - 1);
-            }
-        },
-        add: function (selector, property, value, delay) {
-            if(!_.has(_styles, selector))
-                _styles[selector] = {};
-
-            if(value == undefined || value == null || value == '')
-                delete _styles[selector][property];
-            else
-                _styles[selector][property] = value;
-
-
-            if(_.keys(_styles[selector]).length == 0)
-                delete _styles[selector];
-
-            if(!delay)
-                delay = 0;
-            $timeout(function(){
-                SmartCss.writeRule(selector);
-            }, delay);
-
-        },
-        remove: function(selector, property, delay){
-            SmartCss.add(selector, property, null, delay);
-        },
-        deleteRuleFor: function (selector) {
-            _(sheet.rules).forEach(function (rule, idx) {
-                if (rule.selectorText == selector) {
-                    sheet.deleteRule(idx);
-                }
-            });
-        },
-        appViewSize: null
-    };
-
-    $rootScope.$on('$smartContentResize', function (event, data) {
-        SmartCss.appViewSize = data;
-    });
-
-    return SmartCss;
-
-});
-
-
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
-    var scripts = null;
-    var initialized = false;
-    var initializingPromise = null;
-
-    function init(){        
-        if(!initialized){
-            if(!initializingPromise){
-                initializingPromise = $http.get('app.scripts.json').then(function(res){
-                    scripts = res.data
-                    initialized = true;
-                });     
-            }
-            return initializingPromise;
-               
-        } else {
-            return $q.resolve();
-        }
-    }
-
-    var cache = {};
-
-    function isPending(scriptName){
-        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
-    }
-
-    function isRegistered(scriptName){
-        if(cache.hasOwnProperty(scriptName)){
-            return true;
-        } else {
-            return (scripts.prebuild.indexOf(scriptName) > -1);
-        }
-    }
-    function loadScript(scriptName){
-        if(!cache[scriptName]){
-            cache[scriptName] = $q.defer();
-            var el = document.createElement( 'script' );
-            el.onload = function(script){
-                console.log('script is lazy loaded:', scriptName)
-                cache[scriptName].resolve(scriptName);
-            };
-            el.src = scripts.paths[scriptName];
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(el, x);
-            
-        }
-        return cache[scriptName].promise;
-
-    }
-
-    function register(scriptName){
-        if(isPending(scriptName)){
-            return cache[scriptName].promise
-        }
-        if(isRegistered(scriptName)){
-            return $q.resolve(scriptName);
-        } else {
-            var dfd = $q.defer();
-            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
-                var depsPromises = [];
-                angular.forEach(scripts.shim[scriptName].deps, function(dep){
-
-                    depsPromises.push(register(dep))
-                    
-                })
-                $q.all(depsPromises).then(function(){
-                    loadScript(scriptName).then(function(){
-                        dfd.resolve(scriptName);
-                    })
-                })
-
-            } else {
-                
-                loadScript(scriptName).then(function(){
-                    dfd.resolve(scriptName);
-                })
-                 
-            }
-            return dfd.promise; 
-
-        }
-    }
-    return {
-        register: function (scripts) {
-            
-            var dfd = $q.defer();
-            init().then(function(){
-                var promises = [];
-                if (angular.isString(scripts)) 
-                    scripts = [scripts];    
-
-                angular.forEach(scripts, function(script){
-                    promises.push(register(script));
-                })
-
-                $q.all(promises).then(function(resolves){
-                    dfd.resolve(resolves);
-                })
-            })
-            return dfd.promise;
-
-        }
-    };
 });
 'use strict';
 
@@ -8558,6 +8368,973 @@ angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($roo
             })
         }
     }
+});
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
+
+    var sheet = (function () {
+        // Create the <style> tag
+        var style = document.createElement("style");
+
+        // Add a media (and/or media query) here if you'd like!
+        // style.setAttribute("media", "screen")
+        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
+
+        // WebKit hack :(
+        style.appendChild(document.createTextNode(""));
+
+        // Add the <style> element to the page
+        document.head.appendChild(style);
+
+        return style.sheet;
+    })();
+
+    var _styles = {};
+
+
+    var SmartCss = {
+        writeRule: function(selector){
+            SmartCss.deleteRuleFor(selector);
+            if(_.has(_styles, selector)){
+                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
+                    return  k + ':' +  v + ';'
+                }).join(' ') +'}';
+                sheet.insertRule(css, _.size(_styles) - 1);
+            }
+        },
+        add: function (selector, property, value, delay) {
+            if(!_.has(_styles, selector))
+                _styles[selector] = {};
+
+            if(value == undefined || value == null || value == '')
+                delete _styles[selector][property];
+            else
+                _styles[selector][property] = value;
+
+
+            if(_.keys(_styles[selector]).length == 0)
+                delete _styles[selector];
+
+            if(!delay)
+                delay = 0;
+            $timeout(function(){
+                SmartCss.writeRule(selector);
+            }, delay);
+
+        },
+        remove: function(selector, property, delay){
+            SmartCss.add(selector, property, null, delay);
+        },
+        deleteRuleFor: function (selector) {
+            _(sheet.rules).forEach(function (rule, idx) {
+                if (rule.selectorText == selector) {
+                    sheet.deleteRule(idx);
+                }
+            });
+        },
+        appViewSize: null
+    };
+
+    $rootScope.$on('$smartContentResize', function (event, data) {
+        SmartCss.appViewSize = data;
+    });
+
+    return SmartCss;
+
+});
+
+
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
+    var scripts = null;
+    var initialized = false;
+    var initializingPromise = null;
+
+    function init(){        
+        if(!initialized){
+            if(!initializingPromise){
+                initializingPromise = $http.get('app.scripts.json').then(function(res){
+                    scripts = res.data
+                    initialized = true;
+                });     
+            }
+            return initializingPromise;
+               
+        } else {
+            return $q.resolve();
+        }
+    }
+
+    var cache = {};
+
+    function isPending(scriptName){
+        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
+    }
+
+    function isRegistered(scriptName){
+        if(cache.hasOwnProperty(scriptName)){
+            return true;
+        } else {
+            return (scripts.prebuild.indexOf(scriptName) > -1);
+        }
+    }
+    function loadScript(scriptName){
+        if(!cache[scriptName]){
+            cache[scriptName] = $q.defer();
+            var el = document.createElement( 'script' );
+            el.onload = function(script){
+                console.log('script is lazy loaded:', scriptName)
+                cache[scriptName].resolve(scriptName);
+            };
+            el.src = scripts.paths[scriptName];
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(el, x);
+            
+        }
+        return cache[scriptName].promise;
+
+    }
+
+    function register(scriptName){
+        if(isPending(scriptName)){
+            return cache[scriptName].promise
+        }
+        if(isRegistered(scriptName)){
+            return $q.resolve(scriptName);
+        } else {
+            var dfd = $q.defer();
+            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
+                var depsPromises = [];
+                angular.forEach(scripts.shim[scriptName].deps, function(dep){
+
+                    depsPromises.push(register(dep))
+                    
+                })
+                $q.all(depsPromises).then(function(){
+                    loadScript(scriptName).then(function(){
+                        dfd.resolve(scriptName);
+                    })
+                })
+
+            } else {
+                
+                loadScript(scriptName).then(function(){
+                    dfd.resolve(scriptName);
+                })
+                 
+            }
+            return dfd.promise; 
+
+        }
+    }
+    return {
+        register: function (scripts) {
+            
+            var dfd = $q.defer();
+            init().then(function(){
+                var promises = [];
+                if (angular.isString(scripts)) 
+                    scripts = [scripts];    
+
+                angular.forEach(scripts, function(script){
+                    promises.push(register(script));
+                })
+
+                $q.all(promises).then(function(resolves){
+                    dfd.resolve(resolves);
+                })
+            })
+            return dfd.promise;
+
+        }
+    };
+});
+'use strict';
+
+angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
+    var dfd = $q.defer();
+    var _user;
+    var ChatSrv = {
+        initialized: dfd.promise,
+        users: [],
+        messages: [],
+        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
+        status: 'Online',
+        setUser: function (user) {
+            if (ChatSrv.users.indexOf(_user) != -1)
+                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
+            _user = user;
+            ChatSrv.users.push(_user);
+        },
+        sendMessage: function (text) {
+            var message = {
+                user: _user,
+                body: text,
+                date: new Date()
+            };
+            this.messages.push(message);
+        }
+    };
+
+
+    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
+        ChatSrv.messages = res.data.messages;
+        ChatSrv.users = res.data.users;
+        dfd.resolve();
+    });
+
+    ChatSrv.initialized.then(function () {
+
+        User.initialized.then(function () {
+            ChatSrv.setUser({
+                username: User.username,
+                picture: User.picture,
+                status: ChatSrv.status
+            });
+        });
+
+        $rootScope.$watch(function () {
+            return User.username
+        }, function (name, oldName) {
+            if (name != oldName) {
+                ChatSrv.setUser({
+                    username: User.username,
+                    picture: User.picture,
+                    status: ChatSrv.status
+                });
+            }
+        });
+    });
+
+
+    return ChatSrv;
+
+});
+(function() {
+        
+   'use strict';
+
+    /*
+    * SMARTCHAT PLUGIN ARRAYS & CONFIG
+    * Dependency: js/plugin/moment/moment.min.js 
+    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
+    *             js/smart-chat-ui/smart.chat.ui.js
+    * (DO NOT CHANGE) 
+    */ 
+        var boxList = [],
+        showList = [],
+        nameList = [],
+        idList = [];
+    /*
+    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
+    */ 
+        var chatbox_config = {
+            width: 200,
+            gap: 35,
+            offset: 0
+        };
+
+
+
+    /*
+    * SMART CHAT ENGINE
+    * Copyright (c) 2013 Wen Pu
+    * Modified by MyOrange
+    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
+    */
+
+    // TODO: implement destroy()
+    (function($) {
+    $.widget("ui.chatbox", {
+        options: {
+            id: null, //id for the DOM element
+            title: null, // title of the chatbox
+            user: null, // can be anything associated with this chatbox
+            hidden: false,
+            offset: 0, // relative to right edge of the browser window
+            width: 300, // width of the chatbox
+            status: 'online', //
+            alertmsg: null,
+            alertshow: null,
+            messageSent: function(id, user, msg) {
+                // override this
+                this.boxManager.addMsg(user.first_name, msg);
+            },
+            boxClosed: function(id) {
+            }, // called when the close icon is clicked
+            boxManager: {
+                // thanks to the widget factory facility
+                // similar to http://alexsexton.com/?p=51
+                init: function(elem) {
+                    this.elem = elem;
+                },
+                addMsg: function(peer, msg) {
+                    var self = this;
+                    var box = self.elem.uiChatboxLog;
+                    var e = document.createElement('div');
+                    box.append(e);
+                    $(e).hide();
+
+                    var systemMessage = false;
+
+                    if (peer) {
+                        var peerName = document.createElement("b");
+                        $(peerName).text(peer + ": ");
+                        e.appendChild(peerName);
+                    } else {
+                        systemMessage = true;
+                    }
+
+                    var msgElement = document.createElement(
+                        systemMessage ? "i" : "span");
+                    $(msgElement).text(msg);
+                    e.appendChild(msgElement);
+                    $(e).addClass("ui-chatbox-msg");
+                    $(e).css("maxWidth", $(box).width());
+                    $(e).fadeIn();
+                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
+                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
+                    self._scrollToBottom();
+
+                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
+                        && !self.highlightLock) {
+                        self.highlightLock = true;
+                        self.highlightBox();
+                    }
+                },
+                highlightBox: function() {
+                    var self = this;
+                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
+                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
+                        self.highlightLock = false;
+                        self._scrollToBottom();
+                    });
+                },
+                toggleBox: function() {
+                    this.elem.uiChatbox.toggle();
+                },
+                _scrollToBottom: function() {
+                    var box = this.elem.uiChatboxLog;
+                    box.scrollTop(box.get(0).scrollHeight);
+                }
+            }
+        },
+        toggleContent: function(event) {
+            this.uiChatboxContent.toggle();
+            if (this.uiChatboxContent.is(":visible")) {
+                this.uiChatboxInputBox.focus();
+            }
+        },
+        widget: function() {
+            return this.uiChatbox
+        },
+        _create: function() {
+            var self = this,
+            options = self.options,
+            title = options.title || "No Title",
+            // chatbox
+            uiChatbox = (self.uiChatbox = $('<div></div>'))
+                .appendTo(document.body)
+                .addClass('ui-widget ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox'
+                         )
+                .attr('outline', 0)
+                .focusin(function() {
+                    // ui-state-highlight is not really helpful here
+                    //self.uiChatbox.removeClass('ui-state-highlight');
+                    self.uiChatboxTitlebar.addClass('ui-state-focus');
+                })
+                .focusout(function() {
+                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
+                }),
+            // titlebar
+            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
+                .addClass('ui-widget-header ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox-titlebar ' +
+                          self.options.status +
+                          ' ui-dialog-header' // take advantage of dialog header style
+                         )
+                .click(function(event) {
+                    self.toggleContent(event);
+                })
+                .appendTo(uiChatbox),
+            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
+                .html(title)
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon '
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    uiChatbox.hide();
+                    self.options.boxClosed(self.options.id);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarCloseText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-times')
+                .appendTo(uiChatboxTitlebarClose),
+            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon'
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    self.toggleContent(event);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarMinimizeText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-minus')
+                .appendTo(uiChatboxTitlebarMinimize),
+            // content
+            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-content '
+                         )
+                .appendTo(uiChatbox),
+            uiChatboxLog = (self.uiChatboxLog = self.element)
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-log ' +
+                          'custom-scroll'
+                         )
+                .appendTo(uiChatboxContent),
+            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input'
+                         )
+                .click(function(event) {
+                    // anything?
+                })
+                .appendTo(uiChatboxContent),
+            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input-box '
+                         )
+                .appendTo(uiChatboxInput)
+                .keydown(function(event) {
+                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
+                        var msg = $.trim($(this).val());
+                        if (msg.length > 0) {
+                            self.options.messageSent(self.options.id, self.options.user, msg);
+                        }
+                        $(this).val('');
+                        return false;
+                    }
+                })
+                .focusin(function() {
+                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
+                    var box = $(this).parent().prev();
+                    box.scrollTop(box.get(0).scrollHeight);
+                })
+                .focusout(function() {
+                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
+                });
+
+            // disable selection
+            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
+
+            // switch focus to input box when whatever clicked
+            uiChatboxContent.children().click(function() {
+                // click on any children, set focus on input box
+                self.uiChatboxInputBox.focus();
+            });
+
+            self._setWidth(self.options.width);
+            self._position(self.options.offset);
+
+            self.options.boxManager.init(self);
+
+            if (!self.options.hidden) {
+                uiChatbox.show();
+            }
+            
+            $(".ui-chatbox [rel=tooltip]").tooltip();
+            //console.log("tooltip created");
+        },
+        _setOption: function(option, value) {
+            if (value != null) {
+                switch (option) {
+                case "hidden":
+                    if (value)
+                        this.uiChatbox.hide();
+                    else
+                        this.uiChatbox.show();
+                    break;
+                case "offset":
+                    this._position(value);
+                    break;
+                case "width":
+                    this._setWidth(value);
+                    break;
+                }
+            }
+            $.Widget.prototype._setOption.apply(this, arguments);
+        },
+        _setWidth: function(width) {
+            this.uiChatbox.width((width + 28) + "px");
+            //this.uiChatboxTitlebar.width((width + 28) + "px");
+            //this.uiChatboxLog.width(width + "px");
+           // this.uiChatboxInput.css("maxWidth", width + "px");
+            // padding:2, boarder:2, margin:5
+            this.uiChatboxInputBox.css("width", (width + 18) + "px");
+        },
+        _position: function(offset) {
+            this.uiChatbox.css("right", offset);
+        }
+    });
+    }(jQuery));
+
+
+    /*
+    * jQuery CSSEmoticons plugin 0.2.9
+    *
+    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+    *
+    * Dual licensed under the MIT and GPL licenses:
+    *   http://www.opensource.org/licenses/mit-license.php
+    *   http://www.gnu.org/licenses/gpl.html
+    *
+    * Date: Sun Oct 22 1:00:00 2010 -0500
+    */
+    (function($) {
+    $.fn.emoticonize = function(options) {
+
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+
+    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
+
+    var threeCharacterEmoticons = [
+        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
+        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
+        //  it'll work again if you set preMatch equal to '()'
+        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
+      // ":{)",
+      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
+      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
+      // and the twoCharacterEmoticons from below, but with a space inserted
+      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
+    ];
+
+    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
+      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
+    ];
+
+    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
+      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
+      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
+      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
+      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
+      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
+      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
+      "O_O":    { cssClass: "no-rotate" },
+      "o_o":    { cssClass: "no-rotate" },
+      "0_o":    { cssClass: "no-rotate" },
+      "O_o":    { cssClass: "no-rotate" },
+      "T_T":    { cssClass: "no-rotate" },
+      "^_^":    { cssClass: "no-rotate" },
+      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
+      "O: )":   { cssClass: "small-emoticon" },
+      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
+      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
+      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
+      //"O-O":  { cssClass: "no-rotate" },
+      //"O=)":    { cssClass: "small-emoticon" } 
+    }
+
+    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
+    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
+    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
+    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
+    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
+    var preMatch = '(^|[\\s\\0])';
+
+    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
+      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
+      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var emoticon in specialEmoticons ){
+      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
+      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
+    }
+
+    var exclude = 'span.css-emoticon';
+    if(opts.exclude){ exclude += ','+opts.exclude; }
+    var excludeArray = exclude.split(',')
+
+    return this.not(exclude).each(function() {
+      var container = $(this);
+      var cssClass = 'css-emoticon'
+      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
+      
+      for( var emoticon in specialEmoticons ){
+        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
+        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
+      }
+      $(threeCharacterEmoticons).each(function(){
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
+      });                                                          
+      $(twoCharacterEmoticons).each(function(){                    
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
+      });
+      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
+      $.each(excludeArray,function(index,item){
+        container.find($.trim(item)+" span.css-emoticon").each(function(){
+          $(this).replaceWith($(this).text());
+        });
+      });
+      if(opts.animate){
+        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
+      }
+    });
+    }
+
+    $.fn.unemoticonize = function(options) {
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+    return this.each(function() {
+      var container = $(this);
+      container.find('span.css-emoticon').each(function(){
+        // add delay equal to animate speed if animate is not false
+        var span = $(this);
+        if(opts.animate){
+          span.addClass('un-transformed-emoticon');
+          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
+        }else{
+          span.replaceWith(span.text());
+        }
+      });
+    });
+    }
+
+    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
+    })(jQuery);
+
+    var chatboxManager = function () {
+        
+    var init = function (options) {
+        $.extend(chatbox_config, options)
+    };
+
+
+    var delBox = function (id) {
+        // TODO
+    };
+
+    var getNextOffset = function () {
+        return (chatbox_config.width + chatbox_config.gap) * showList.length;
+    };
+
+    var boxClosedCallback = function (id) {
+        // close button in the titlebar is clicked
+        var idx = showList.indexOf(id);
+        if (idx != -1) {
+            showList.splice(idx, 1);
+            var diff = chatbox_config.width + chatbox_config.gap;
+            for (var i = idx; i < showList.length; i++) {
+                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
+                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
+            }
+        } else {
+            alert("NOTE: Id missing from array: " + id);
+        }
+    };
+
+    // caller should guarantee the uniqueness of id
+    var addBox = function (id, user, name) {
+        var idx1 = showList.indexOf(id);
+        var idx2 = boxList.indexOf(id);
+        if (idx1 != -1) {
+            // found one in show box, do nothing
+        } else if (idx2 != -1) {
+            // exists, but hidden
+            // show it and put it back to showList
+            $("#" + id).chatbox("option", "offset", getNextOffset());
+            var manager = $("#" + id).chatbox("option", "boxManager");
+            manager.toggleBox();
+            showList.push(id);
+        } else {
+            var el = document.createElement('div');
+            el.setAttribute('id', id);
+            $(el).chatbox({
+                id: id,
+                user: user,
+                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
+                hidden: false,
+                offset: getNextOffset(),
+                width: chatbox_config.width,
+                status: user.status,
+                alertmsg: user.alertmsg,
+                alertshow: user.alertshow,
+                messageSent: dispatch,
+                boxClosed: boxClosedCallback
+            });
+            boxList.push(id);
+            showList.push(id);
+            nameList.push(user.first_name);
+        }
+    };
+
+    var messageSentCallback = function (id, user, msg) {
+        var idx = boxList.indexOf(id);
+        chatbox_config.messageSent(nameList[idx], msg);
+    };
+
+    // not used in demo
+    var dispatch = function (id, user, msg) {
+        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
+        if ($('#chatlog').length){
+            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
+        }
+        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
+    }
+
+    return {
+        init: init,
+        addBox: addBox,
+        delBox: delBox,
+        dispatch: dispatch
+    };
+    }();
+
+    var link = function (scope, element, attributes) {
+
+        $('a[data-chat-id]').click(function (event, ui) {
+            if(!$(this).hasClass('offline')){
+
+                var $this = $(this),
+                    temp_chat_id = $this.attr("data-chat-id"),
+                    fname = $this.attr("data-chat-fname"),
+                    lname = $this.attr("data-chat-lname"),
+                    status = $this.attr("data-chat-status") || "online",
+                    alertmsg = $this.attr("data-chat-alertmsg"),
+                    alertshow =  $this.attr("data-chat-alertshow") || false;
+
+
+                chatboxManager.addBox(temp_chat_id, {
+                    // dest:"dest" + counter, 
+                    // not used in demo
+                    title: "username" + temp_chat_id,
+                    first_name: fname,
+                    last_name: lname,
+                    status: status,
+                    alertmsg: alertmsg,
+                    alertshow: alertshow
+                    //you can add your own options too
+                });
+            }
+
+            event.preventDefault();
+
+        });
+
+    }
+
+    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
+        return {
+            restrict: 'A',
+            replace: true,
+            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
+            link: link
+        }
+    });
+
+})(); 
+"use strict";
+
+angular.module('app.chat').directive('chatUsers', function(ChatApi){
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
+        scope: true,
+        link: function(scope, element){
+            scope.open = false;
+            scope.openToggle = function(){
+                scope.open = !scope.open;
+            };
+
+            scope.chatUserFilter = '';
+
+            ChatApi.initialized.then(function () {
+                scope.chatUsers = ChatApi.users;
+            });
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.chat').directive('chatWidget', function (ChatApi) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
+        scope: {},
+        link: function (scope, element) {
+            scope.newMessage = '';
+
+            scope.sendMessage = function () {
+                ChatApi.sendMessage(scope.newMessage);
+                scope.newMessage = '';
+            };
+
+            scope.messageTo = function(user){
+                scope.newMessage += (user.username + ', ');
+            };
+
+            ChatApi.initialized.then(function () {
+                scope.chatMessages = ChatApi.messages;
+            });
+            scope.$watch(function () {
+                return ChatApi.messages.length
+            }, function (count) {
+                if (count){
+                    var $body = $('.chat-body', element);
+                    $body.animate({scrollTop: $body[0].scrollHeight});
+                }
+            })
+        }
+    }
+});
+"use strict";
+
+angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
+    return {
+        replace: true,
+        restrict: 'E',
+        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
+        link: function(scope, element){
+            element.on('click', function(){
+                ezfb.login(function (res) {
+                    if (res.authResponse) {
+                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
+                    }
+                }, {scope: 'public_profile'});
+            })
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
+    return {
+        restrict: 'E',
+        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
+        replace: true,
+        link: function (scope, element) {
+            element.on('click', function(){
+                GooglePlus.login().then(function (authResult) {
+                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
+
+                }, function (err) {
+                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
+
+                });
+            })
+        }
+    };
+});
+
+"use strict";
+
+ angular.module('app').directive('todoList', function ($timeout, Todo) {
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
+        scope: {
+            todos: '='
+        },
+        link: function (scope, element, attributes) {
+            scope.title = attributes.title
+            scope.icon = attributes.icon
+            scope.state = attributes.state
+            scope.filter = {
+                state: scope.state
+            }
+
+            element.find('.todo').sortable({
+                handle: '.handle',
+                connectWith: ".todo",
+                receive: function (event, ui) {
+
+                   
+                    var todo = ui.item.scope().todo;
+                    var state = scope.state
+                    // // console.log(ui.item, todo, state)
+                    // // console.log(state, todo)
+                    if (todo && state) {
+                        todo.setState(state);
+                         // ui.sender.sortable("cancel");
+                        // scope.$apply();
+                    } else {
+                        console.log('Wat', todo, state);
+                    }
+                    
+                }
+            }).disableSelection();
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
@@ -10714,749 +11491,6 @@ angular.module('app.graphs').directive('vectorMap', function () {
             })
         }
     }
-});
-'use strict';
-
-angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
-    var dfd = $q.defer();
-    var _user;
-    var ChatSrv = {
-        initialized: dfd.promise,
-        users: [],
-        messages: [],
-        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
-        status: 'Online',
-        setUser: function (user) {
-            if (ChatSrv.users.indexOf(_user) != -1)
-                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
-            _user = user;
-            ChatSrv.users.push(_user);
-        },
-        sendMessage: function (text) {
-            var message = {
-                user: _user,
-                body: text,
-                date: new Date()
-            };
-            this.messages.push(message);
-        }
-    };
-
-
-    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
-        ChatSrv.messages = res.data.messages;
-        ChatSrv.users = res.data.users;
-        dfd.resolve();
-    });
-
-    ChatSrv.initialized.then(function () {
-
-        User.initialized.then(function () {
-            ChatSrv.setUser({
-                username: User.username,
-                picture: User.picture,
-                status: ChatSrv.status
-            });
-        });
-
-        $rootScope.$watch(function () {
-            return User.username
-        }, function (name, oldName) {
-            if (name != oldName) {
-                ChatSrv.setUser({
-                    username: User.username,
-                    picture: User.picture,
-                    status: ChatSrv.status
-                });
-            }
-        });
-    });
-
-
-    return ChatSrv;
-
-});
-(function() {
-        
-   'use strict';
-
-    /*
-    * SMARTCHAT PLUGIN ARRAYS & CONFIG
-    * Dependency: js/plugin/moment/moment.min.js 
-    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
-    *             js/smart-chat-ui/smart.chat.ui.js
-    * (DO NOT CHANGE) 
-    */ 
-        var boxList = [],
-        showList = [],
-        nameList = [],
-        idList = [];
-    /*
-    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
-    */ 
-        var chatbox_config = {
-            width: 200,
-            gap: 35,
-            offset: 0
-        };
-
-
-
-    /*
-    * SMART CHAT ENGINE
-    * Copyright (c) 2013 Wen Pu
-    * Modified by MyOrange
-    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
-    */
-
-    // TODO: implement destroy()
-    (function($) {
-    $.widget("ui.chatbox", {
-        options: {
-            id: null, //id for the DOM element
-            title: null, // title of the chatbox
-            user: null, // can be anything associated with this chatbox
-            hidden: false,
-            offset: 0, // relative to right edge of the browser window
-            width: 300, // width of the chatbox
-            status: 'online', //
-            alertmsg: null,
-            alertshow: null,
-            messageSent: function(id, user, msg) {
-                // override this
-                this.boxManager.addMsg(user.first_name, msg);
-            },
-            boxClosed: function(id) {
-            }, // called when the close icon is clicked
-            boxManager: {
-                // thanks to the widget factory facility
-                // similar to http://alexsexton.com/?p=51
-                init: function(elem) {
-                    this.elem = elem;
-                },
-                addMsg: function(peer, msg) {
-                    var self = this;
-                    var box = self.elem.uiChatboxLog;
-                    var e = document.createElement('div');
-                    box.append(e);
-                    $(e).hide();
-
-                    var systemMessage = false;
-
-                    if (peer) {
-                        var peerName = document.createElement("b");
-                        $(peerName).text(peer + ": ");
-                        e.appendChild(peerName);
-                    } else {
-                        systemMessage = true;
-                    }
-
-                    var msgElement = document.createElement(
-                        systemMessage ? "i" : "span");
-                    $(msgElement).text(msg);
-                    e.appendChild(msgElement);
-                    $(e).addClass("ui-chatbox-msg");
-                    $(e).css("maxWidth", $(box).width());
-                    $(e).fadeIn();
-                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
-                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
-                    self._scrollToBottom();
-
-                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
-                        && !self.highlightLock) {
-                        self.highlightLock = true;
-                        self.highlightBox();
-                    }
-                },
-                highlightBox: function() {
-                    var self = this;
-                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
-                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
-                        self.highlightLock = false;
-                        self._scrollToBottom();
-                    });
-                },
-                toggleBox: function() {
-                    this.elem.uiChatbox.toggle();
-                },
-                _scrollToBottom: function() {
-                    var box = this.elem.uiChatboxLog;
-                    box.scrollTop(box.get(0).scrollHeight);
-                }
-            }
-        },
-        toggleContent: function(event) {
-            this.uiChatboxContent.toggle();
-            if (this.uiChatboxContent.is(":visible")) {
-                this.uiChatboxInputBox.focus();
-            }
-        },
-        widget: function() {
-            return this.uiChatbox
-        },
-        _create: function() {
-            var self = this,
-            options = self.options,
-            title = options.title || "No Title",
-            // chatbox
-            uiChatbox = (self.uiChatbox = $('<div></div>'))
-                .appendTo(document.body)
-                .addClass('ui-widget ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox'
-                         )
-                .attr('outline', 0)
-                .focusin(function() {
-                    // ui-state-highlight is not really helpful here
-                    //self.uiChatbox.removeClass('ui-state-highlight');
-                    self.uiChatboxTitlebar.addClass('ui-state-focus');
-                })
-                .focusout(function() {
-                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                }),
-            // titlebar
-            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
-                .addClass('ui-widget-header ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox-titlebar ' +
-                          self.options.status +
-                          ' ui-dialog-header' // take advantage of dialog header style
-                         )
-                .click(function(event) {
-                    self.toggleContent(event);
-                })
-                .appendTo(uiChatbox),
-            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
-                .html(title)
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon '
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    uiChatbox.hide();
-                    self.options.boxClosed(self.options.id);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarCloseText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-times')
-                .appendTo(uiChatboxTitlebarClose),
-            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon'
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    self.toggleContent(event);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarMinimizeText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-minus')
-                .appendTo(uiChatboxTitlebarMinimize),
-            // content
-            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-content '
-                         )
-                .appendTo(uiChatbox),
-            uiChatboxLog = (self.uiChatboxLog = self.element)
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-log ' +
-                          'custom-scroll'
-                         )
-                .appendTo(uiChatboxContent),
-            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input'
-                         )
-                .click(function(event) {
-                    // anything?
-                })
-                .appendTo(uiChatboxContent),
-            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input-box '
-                         )
-                .appendTo(uiChatboxInput)
-                .keydown(function(event) {
-                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
-                        var msg = $.trim($(this).val());
-                        if (msg.length > 0) {
-                            self.options.messageSent(self.options.id, self.options.user, msg);
-                        }
-                        $(this).val('');
-                        return false;
-                    }
-                })
-                .focusin(function() {
-                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
-                    var box = $(this).parent().prev();
-                    box.scrollTop(box.get(0).scrollHeight);
-                })
-                .focusout(function() {
-                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
-                });
-
-            // disable selection
-            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
-
-            // switch focus to input box when whatever clicked
-            uiChatboxContent.children().click(function() {
-                // click on any children, set focus on input box
-                self.uiChatboxInputBox.focus();
-            });
-
-            self._setWidth(self.options.width);
-            self._position(self.options.offset);
-
-            self.options.boxManager.init(self);
-
-            if (!self.options.hidden) {
-                uiChatbox.show();
-            }
-            
-            $(".ui-chatbox [rel=tooltip]").tooltip();
-            //console.log("tooltip created");
-        },
-        _setOption: function(option, value) {
-            if (value != null) {
-                switch (option) {
-                case "hidden":
-                    if (value)
-                        this.uiChatbox.hide();
-                    else
-                        this.uiChatbox.show();
-                    break;
-                case "offset":
-                    this._position(value);
-                    break;
-                case "width":
-                    this._setWidth(value);
-                    break;
-                }
-            }
-            $.Widget.prototype._setOption.apply(this, arguments);
-        },
-        _setWidth: function(width) {
-            this.uiChatbox.width((width + 28) + "px");
-            //this.uiChatboxTitlebar.width((width + 28) + "px");
-            //this.uiChatboxLog.width(width + "px");
-           // this.uiChatboxInput.css("maxWidth", width + "px");
-            // padding:2, boarder:2, margin:5
-            this.uiChatboxInputBox.css("width", (width + 18) + "px");
-        },
-        _position: function(offset) {
-            this.uiChatbox.css("right", offset);
-        }
-    });
-    }(jQuery));
-
-
-    /*
-    * jQuery CSSEmoticons plugin 0.2.9
-    *
-    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
-    *
-    * Dual licensed under the MIT and GPL licenses:
-    *   http://www.opensource.org/licenses/mit-license.php
-    *   http://www.gnu.org/licenses/gpl.html
-    *
-    * Date: Sun Oct 22 1:00:00 2010 -0500
-    */
-    (function($) {
-    $.fn.emoticonize = function(options) {
-
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-
-    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
-
-    var threeCharacterEmoticons = [
-        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
-        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
-        //  it'll work again if you set preMatch equal to '()'
-        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
-      // ":{)",
-      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
-      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
-      // and the twoCharacterEmoticons from below, but with a space inserted
-      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
-    ];
-
-    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
-      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
-    ];
-
-    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
-      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
-      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
-      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
-      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
-      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
-      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
-      "O_O":    { cssClass: "no-rotate" },
-      "o_o":    { cssClass: "no-rotate" },
-      "0_o":    { cssClass: "no-rotate" },
-      "O_o":    { cssClass: "no-rotate" },
-      "T_T":    { cssClass: "no-rotate" },
-      "^_^":    { cssClass: "no-rotate" },
-      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
-      "O: )":   { cssClass: "small-emoticon" },
-      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
-      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
-      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
-      //"O-O":  { cssClass: "no-rotate" },
-      //"O=)":    { cssClass: "small-emoticon" } 
-    }
-
-    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
-    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
-    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
-    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
-    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
-    var preMatch = '(^|[\\s\\0])';
-
-    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
-      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
-      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var emoticon in specialEmoticons ){
-      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
-      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
-    }
-
-    var exclude = 'span.css-emoticon';
-    if(opts.exclude){ exclude += ','+opts.exclude; }
-    var excludeArray = exclude.split(',')
-
-    return this.not(exclude).each(function() {
-      var container = $(this);
-      var cssClass = 'css-emoticon'
-      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
-      
-      for( var emoticon in specialEmoticons ){
-        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
-        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
-      }
-      $(threeCharacterEmoticons).each(function(){
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
-      });                                                          
-      $(twoCharacterEmoticons).each(function(){                    
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
-      });
-      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
-      $.each(excludeArray,function(index,item){
-        container.find($.trim(item)+" span.css-emoticon").each(function(){
-          $(this).replaceWith($(this).text());
-        });
-      });
-      if(opts.animate){
-        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
-      }
-    });
-    }
-
-    $.fn.unemoticonize = function(options) {
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-    return this.each(function() {
-      var container = $(this);
-      container.find('span.css-emoticon').each(function(){
-        // add delay equal to animate speed if animate is not false
-        var span = $(this);
-        if(opts.animate){
-          span.addClass('un-transformed-emoticon');
-          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
-        }else{
-          span.replaceWith(span.text());
-        }
-      });
-    });
-    }
-
-    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
-    })(jQuery);
-
-    var chatboxManager = function () {
-        
-    var init = function (options) {
-        $.extend(chatbox_config, options)
-    };
-
-
-    var delBox = function (id) {
-        // TODO
-    };
-
-    var getNextOffset = function () {
-        return (chatbox_config.width + chatbox_config.gap) * showList.length;
-    };
-
-    var boxClosedCallback = function (id) {
-        // close button in the titlebar is clicked
-        var idx = showList.indexOf(id);
-        if (idx != -1) {
-            showList.splice(idx, 1);
-            var diff = chatbox_config.width + chatbox_config.gap;
-            for (var i = idx; i < showList.length; i++) {
-                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
-                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
-            }
-        } else {
-            alert("NOTE: Id missing from array: " + id);
-        }
-    };
-
-    // caller should guarantee the uniqueness of id
-    var addBox = function (id, user, name) {
-        var idx1 = showList.indexOf(id);
-        var idx2 = boxList.indexOf(id);
-        if (idx1 != -1) {
-            // found one in show box, do nothing
-        } else if (idx2 != -1) {
-            // exists, but hidden
-            // show it and put it back to showList
-            $("#" + id).chatbox("option", "offset", getNextOffset());
-            var manager = $("#" + id).chatbox("option", "boxManager");
-            manager.toggleBox();
-            showList.push(id);
-        } else {
-            var el = document.createElement('div');
-            el.setAttribute('id', id);
-            $(el).chatbox({
-                id: id,
-                user: user,
-                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
-                hidden: false,
-                offset: getNextOffset(),
-                width: chatbox_config.width,
-                status: user.status,
-                alertmsg: user.alertmsg,
-                alertshow: user.alertshow,
-                messageSent: dispatch,
-                boxClosed: boxClosedCallback
-            });
-            boxList.push(id);
-            showList.push(id);
-            nameList.push(user.first_name);
-        }
-    };
-
-    var messageSentCallback = function (id, user, msg) {
-        var idx = boxList.indexOf(id);
-        chatbox_config.messageSent(nameList[idx], msg);
-    };
-
-    // not used in demo
-    var dispatch = function (id, user, msg) {
-        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
-        if ($('#chatlog').length){
-            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
-        }
-        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
-    }
-
-    return {
-        init: init,
-        addBox: addBox,
-        delBox: delBox,
-        dispatch: dispatch
-    };
-    }();
-
-    var link = function (scope, element, attributes) {
-
-        $('a[data-chat-id]').click(function (event, ui) {
-            if(!$(this).hasClass('offline')){
-
-                var $this = $(this),
-                    temp_chat_id = $this.attr("data-chat-id"),
-                    fname = $this.attr("data-chat-fname"),
-                    lname = $this.attr("data-chat-lname"),
-                    status = $this.attr("data-chat-status") || "online",
-                    alertmsg = $this.attr("data-chat-alertmsg"),
-                    alertshow =  $this.attr("data-chat-alertshow") || false;
-
-
-                chatboxManager.addBox(temp_chat_id, {
-                    // dest:"dest" + counter, 
-                    // not used in demo
-                    title: "username" + temp_chat_id,
-                    first_name: fname,
-                    last_name: lname,
-                    status: status,
-                    alertmsg: alertmsg,
-                    alertshow: alertshow
-                    //you can add your own options too
-                });
-            }
-
-            event.preventDefault();
-
-        });
-
-    }
-
-    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
-        return {
-            restrict: 'A',
-            replace: true,
-            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
-            link: link
-        }
-    });
-
-})(); 
-"use strict";
-
-angular.module('app.chat').directive('chatUsers', function(ChatApi){
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
-        scope: true,
-        link: function(scope, element){
-            scope.open = false;
-            scope.openToggle = function(){
-                scope.open = !scope.open;
-            };
-
-            scope.chatUserFilter = '';
-
-            ChatApi.initialized.then(function () {
-                scope.chatUsers = ChatApi.users;
-            });
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.chat').directive('chatWidget', function (ChatApi) {
-    return {
-        replace: true,
-        restrict: 'E',
-        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
-        scope: {},
-        link: function (scope, element) {
-            scope.newMessage = '';
-
-            scope.sendMessage = function () {
-                ChatApi.sendMessage(scope.newMessage);
-                scope.newMessage = '';
-            };
-
-            scope.messageTo = function(user){
-                scope.newMessage += (user.username + ', ');
-            };
-
-            ChatApi.initialized.then(function () {
-                scope.chatMessages = ChatApi.messages;
-            });
-            scope.$watch(function () {
-                return ChatApi.messages.length
-            }, function (count) {
-                if (count){
-                    var $body = $('.chat-body', element);
-                    $body.animate({scrollTop: $body[0].scrollHeight});
-                }
-            })
-        }
-    }
-});
-"use strict";
-
- angular.module('app').directive('todoList', function ($timeout, Todo) {
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
-        scope: {
-            todos: '='
-        },
-        link: function (scope, element, attributes) {
-            scope.title = attributes.title
-            scope.icon = attributes.icon
-            scope.state = attributes.state
-            scope.filter = {
-                state: scope.state
-            }
-
-            element.find('.todo').sortable({
-                handle: '.handle',
-                connectWith: ".todo",
-                receive: function (event, ui) {
-
-                   
-                    var todo = ui.item.scope().todo;
-                    var state = scope.state
-                    // // console.log(ui.item, todo, state)
-                    // // console.log(state, todo)
-                    if (todo && state) {
-                        todo.setState(state);
-                         // ui.sender.sortable("cancel");
-                        // scope.$apply();
-                    } else {
-                        console.log('Wat', todo, state);
-                    }
-                    
-                }
-            }).disableSelection();
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
