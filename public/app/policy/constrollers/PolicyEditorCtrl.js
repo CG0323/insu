@@ -147,7 +147,7 @@ angular.module('app.policy').directive('upper', function () {
             var capitalize = function (inputValue) {
                 if (inputValue == undefined) inputValue = '';
                 var capitalized = inputValue.toUpperCase();
-                var re=/[^/u4e00-/u9fa5]/;
+                var re = /[^/u4e00-/u9fa5]/;
                 if (re.test(inputValue) && capitalized !== inputValue) {
                     modelCtrl.$setViewValue(capitalized);
                     modelCtrl.$render();
@@ -191,36 +191,49 @@ angular.module('app.policy').directive('price', function () {
     };
 });
 
-angular.module('app.policy').filter('propsFilter', function() {
-  return function(items, props) {
-    var out = [];
+angular.module('app.policy').filter('propsFilter', function () {
+    return function (items, props) {
+        var out = [];
 
-    if (angular.isArray(items)) {
-      items.forEach(function(item) {
-        var itemMatches = false;
+        if (angular.isArray(items)) {
+            items.forEach(function (item) {
+                var itemMatches = false;
 
-        var keys = Object.keys(props);
-        for (var i = 0; i < keys.length; i++) {
-          var prop = keys[i];
-          var text = props[prop].toUpperCase();
-          var pylist = item['py'];
-          for(var j = 0; j < pylist.length; j++){
-              if (pylist[j].indexOf(text) == 0) {
-                itemMatches = true;
-                break;
-              }
-          }
+                var keys = Object.keys(props);
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    if (/^[\u4e00-\u9fa5]+$/.test(text)) {
+                        if(item['name'].indexOf(text) == 0){
+                            itemMatches = true;
+                                break;
+                        }
+                    } else {
+                        var text = props[prop].toUpperCase();
+                        var pylist = item['py'];
+                      
+                        for (var j = 0; j < pylist.length; j++) {
+                            if (pylist[j].indexOf(text) == 0) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+                        if(itemMatches){
+                            break;
+                        }
+                    }
+
+
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
         }
 
-        if (itemMatches) {
-          out.push(item);
-        }
-      });
-    } else {
-      // Let the output be the input untouched
-      out = items;
+        return out;
     }
-
-    return out;
-  }
 });
