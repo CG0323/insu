@@ -74,6 +74,7 @@ router.put('/:id', function (req, res) {
         client.account = req.body.account;
         client.phone = req.body.phone;
         client.wechats = req.body.wechats;
+        client.other_accounts = req.body.other_accounts;
         client.save(function (err) {
             if (err){
               logger.error(err);

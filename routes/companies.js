@@ -52,6 +52,8 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         company.name = req.body.name;
+        company.contact = req.body.contact;
+        company.phone = req.body.phone;
         company.save(function (err) {
             if (err){
               logger.error(err);

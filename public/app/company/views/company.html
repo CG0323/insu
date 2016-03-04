@@ -25,6 +25,20 @@
                                                 <input type="text" class="input-lg" name="company" ng-model="vm.company.name" validator="required">
                                             </label>                                       
                                     </div>
+                                    <div class="row">
+                                        <label class="label">联系人</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input type="text" class="input-lg" name="contact" ng-model="vm.company.contact">
+                                        </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">联系电话</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-phone"></i>
+                                            <input type="text" class="input-lg" name="phone" ng-model="vm.company.phone" validator="phone">
+                                        </label>
+                                    </div>
                                     
                                 </fieldset>
                             </section>

@@ -27,6 +27,13 @@
                                     <dd>{{vm.clientInfo.bank}}</dd>
                                     <dt>账号</dt>
                                     <dd>{{vm.clientInfo.account}}</dd>
+                                    <div ng-repeat="other_account in vm.clientInfo.other_accounts">
+                                        <dt>开户行</dt>
+                                        <dd>{{other_account.bank}}</dd>
+                                        <dt>账号</dt>
+                                        <dd>{{other_account.account}}</dd>
+                                    </div>
+                                    
                                     <dt>投保人</dt>
                                     <dd>{{vm.policy.applicant.name}}</dd>
                                     <dt>车牌号</dt>

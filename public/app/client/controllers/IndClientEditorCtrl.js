@@ -6,6 +6,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.wechats = [];
     vm.bindedWechats = [];
     vm.editable = false;
+    vm.client.other_accounts = [];
 
     if ($state.is("app.client.individual.new")) {
         vm.editable = true;
@@ -54,6 +55,10 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         });
     }
 
+    vm.addAccount = function() {
+        var newItemNo = vm.client.other_accounts.length+1;
+        vm.client.other_accounts.push({'bank':'','account':''});
+    };
 
     vm.toggleEdit = function () {
         vm.editable = !vm.editable;
@@ -90,6 +95,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
                     timeout: 5000
                 });
                 vm.client = {};
+                vm.client.other_accounts = [];
                 if (vm.back) {
                     $state.go("app.client.individual");
                 }
