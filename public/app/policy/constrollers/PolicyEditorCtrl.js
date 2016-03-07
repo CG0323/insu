@@ -46,7 +46,6 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
 
     vm.submit = function () {
         vm.policy.client = vm.clientInfo._id;
-        console.log(vm.policy.company);
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({

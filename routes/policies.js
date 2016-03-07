@@ -137,7 +137,7 @@ router.put('/:id', function (req, res) {
         policy.catogary = req.body.catogary;
         policy.payment_bank = req.body.payment_bank;
         policy.payment_proof = req.body.payment_proof;
-        Policy.company = req.body.company;
+        policy.company = req.body.company;
         policy.save(function (err) {
             if (err){
               logger.error(err);

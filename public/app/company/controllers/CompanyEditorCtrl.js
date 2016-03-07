@@ -3,7 +3,12 @@
 angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
     var vm = this;
     vm.company = {};
-    
+    vm.companyCatogories=[];
+
+    CompanyService.getCompanyCatogories()
+        .then(function (companyCatogories) {
+            vm.companyCatogories = companyCatogories;
+        })
     
     vm.editable = false;
 

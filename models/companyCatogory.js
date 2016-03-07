@@ -6,13 +6,12 @@ var schema = new mongoose.Schema({
     name: String,
     created_at: { type: Date },
     updated_at: { type: Date },
-    contact: String,
-    phone: String,
-    catogory: { type: mongoose.Schema.Types.ObjectId, ref: 'CompanyCatogory' },
+    // contact: String,
+    // phone: String
 });
 
-mongoose.model('Company', schema);
+mongoose.model('CompanyCatogory', schema);
 
 module.exports = function (connection){
-    return (connection || mongoose).model('Company');
+    return (connection || mongoose).model('CompanyCatogory');
 };

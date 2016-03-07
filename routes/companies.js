@@ -6,7 +6,9 @@ var Q = require('q');
 var logger = require('../utils/logger.js');
 
 router.get('/', function(req, res, next) {
-  Company.find().exec()
+  Company.find()
+  .populate('catogory')
+  .exec()
   .then(function(companies){
     res.json(companies);
   },
@@ -54,6 +56,7 @@ router.put('/:id', function (req, res) {
         company.name = req.body.name;
         company.contact = req.body.contact;
         company.phone = req.body.phone;
+        company.catogory = req.body.catogory;
         company.save(function (err) {
             if (err){
               logger.error(err);

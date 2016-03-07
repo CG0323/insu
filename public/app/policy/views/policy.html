@@ -279,7 +279,7 @@
                                     <section class="col col-4">
                                         <label class="label">保险公司</label>
                                         <label class="select">
-                                            <select name='insu_company' class="input-lg" ng-model="vm.policy.company" ng-options="c._id as c.name for c in vm.companies"
+                                            <select name='insu_company' class="input-lg" ng-model="vm.policy.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies"
                                             validator="required">
                                                 <option value="">请选择保险公司</option>
                                             </select> <i></i>
