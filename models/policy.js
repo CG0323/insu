@@ -32,6 +32,7 @@ var schema = new mongoose.Schema({
   catogary: String,
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
   policy_status: String,
   created_at: { type: Date },
   updated_at: { type: Date },

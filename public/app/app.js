@@ -20,6 +20,7 @@ angular.module('app', [
     "validation.rule",
     "matchMedia",
     "ui.select",
+    "LocalStorageModule",
 // Smartadmin Angular Common Module
     'SmartAdmin',
 

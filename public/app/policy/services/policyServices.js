@@ -11,7 +11,9 @@ angular.module('app.policy').factory('PolicyService',
                 getCompanies: getCompanies,
                 getPolicy: getPolicy,
                 deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies
+                searchPolicies: searchPolicies,
+                getOrganizations: getOrganizations,
+                getSellers: getSellers
             });
 
             function savePolicy(policy) {
@@ -173,18 +175,16 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                
-                var filterByFields = {};
                 var orderBy = "created_at";
                 var orderByReverse = false;
                 if (type == "to-be-paid") {
-                    filterByFields = {"policy_status":"待支付"};
+                    filterSettings.policy_status = "待支付";
                     orderByReverse = false;
                 } else if (type == "paid") {
-                    filterByFields = {"policy_status":"已支付"};
+                    filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
                     
@@ -192,7 +192,7 @@ angular.module('app.policy').factory('PolicyService',
                     pageSize: pageSize,
                     currentPage: currentPage,
                     // filterBy: filterBy,
-                    filterByFields:filterByFields,
+                    filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true
@@ -210,6 +210,54 @@ angular.module('app.policy').factory('PolicyService',
                     })
                 // handle error
                     .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSellers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
                         deferred.reject(status);
                     });
 

@@ -6,6 +6,7 @@ var Q = require('q');
 var logger = require('../utils/logger.js');
 var Client = require('../models/client.js')(db);
 
+
 router.post('/', function (req, res) {
   var data = req.body;
   Policy.find({ policy_no: data.policy_no }, function (err, policies) {
@@ -14,6 +15,7 @@ router.post('/', function (req, res) {
     } else {
       var policy = new Policy(data);
       policy.seller = req.user._id;
+      policy.organization = req.user.org;
       policy.policy_status = '待支付';
       policy.save(function (err, policy, numAffected) {
         if (err) {
@@ -41,7 +43,7 @@ router.get('/', function (req, res) {
     query = {client: user.client_id, created_at:{$gt: d, $lt: end}};  //暂时只获取近七天保单信息
   }
   Policy.find(query)
-     .populate('client seller')
+     .populate('client seller organization')
      .exec()
      .then(function(policies){
        res.status(200).json(policies);
@@ -51,6 +53,22 @@ router.get('/', function (req, res) {
      });
 });
 
+
+router.get('/upgrade', function (req, res) {
+    
+    var query = Policy.find();
+    query
+        .populate('seller')
+        .exec()
+        .then(function(policies){
+          policies.forEach(function(policy){
+            policy.organization = policy.seller.org;
+            policy.save();
+          });
+          
+        });
+});
+
 router.get('/to-be-paid', function (req, res) {
   var user = req.user;
   var query = {policy_status:'待支付'};
@@ -58,7 +76,7 @@ router.get('/to-be-paid', function (req, res) {
     query = {seller: user._id, policy_status:'待支付'};
   }
   Policy.find(query)
-     .populate('client seller')
+     .populate('client seller organization')
      .exec()
      .then(function(policies){
        res.status(200).json(policies);
@@ -75,7 +93,7 @@ router.get('/paid', function (req, res) {
     query = {seller: user._id, policy_status:'已支付'};
   }
   Policy.find(query)
-     .populate('client seller')
+     .populate('client seller organization')
      .exec()
      .then(function(policies){
        res.status(200).json(policies);
@@ -87,7 +105,7 @@ router.get('/paid', function (req, res) {
 
 router.get('/:id', function (req, res) {
   Policy.findOne({_id: req.params.id})
-    .populate('client')
+    .populate('client organization')
     .populate({path:'seller',model:'User', populate:{path:'org', model:'Organization'}})
     .exec()
     .then(function(policy){
@@ -138,6 +156,7 @@ router.put('/:id', function (req, res) {
         policy.payment_bank = req.body.payment_bank;
         policy.payment_proof = req.body.payment_proof;
         policy.company = req.body.company;
+        policy.organization = req.body.organization;
         policy.save(function (err) {
             if (err){
               logger.error(err);
@@ -165,7 +184,7 @@ router.post('/search', function (req, res) {
     var conditions = {};
 
     for (var key in req.body.filterByFields) {
-        if (req.body.filterByFields.hasOwnProperty(key)) {
+        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null) {
             conditions[key] = req.body.filterByFields[key];
         }
     }
@@ -185,7 +204,7 @@ router.post('/search', function (req, res) {
         .sort(sortParam)
         .skip(req.body.currentPage*req.body.pageSize)
         .limit(req.body.pageSize)
-        .populate('client seller')
+        .populate('client seller organization')
         .exec()
         .then(function(policies){
           Policy.count(conditions,function(err,c){
@@ -201,6 +220,7 @@ router.post('/search', function (req, res) {
             logger.error(err);
         })
 });
+
 
 
 module.exports = router;

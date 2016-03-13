@@ -10,6 +10,7 @@
 
     <div class="row">
         <article class="col-sm-12">
+            
             <div>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
             </div>
@@ -24,36 +25,72 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
-                                    display-format="date:'yyyy-MM-dd'">
+                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <!--<th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
+
                                     <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="client.name" display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            业务来源
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </th>
-                                    <th field-name="total_income" display-name="跟单费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <!--<th field-name="total_income" display-name="跟单费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="total_payment" display-name="结算费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            营业部
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            出单员
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td field-name="client.name"></td>
+                                    <td field-name="organization.name"></td>
+                                    <td field-name="seller.name"></td>
                                     <td>
                                         <button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>
                                         <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
                                         <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
                                         <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
-                                    
+
                                     </td>
                                 </tr>
                             </tbody>

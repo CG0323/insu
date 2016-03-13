@@ -4,8 +4,9 @@
 angular.module('app.policy', ['ui.router','validation','ui.select'])
 
 
-angular.module('app.policy').config(function ($stateProvider) {
-
+angular.module('app.policy').config(function ($stateProvider, localStorageServiceProvider) {
+    localStorageServiceProvider.setPrefix('insu');
+    
     $stateProvider
         .state('app.policy', {
             abstract: true,
