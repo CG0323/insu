@@ -55,7 +55,7 @@ router.get('/', function (req, res) {
 
 
 router.get('/upgrade', function (req, res) {
-    
+    console.log("upgrading in progress");
     var query = Policy.find();
     query
         .populate('seller')
