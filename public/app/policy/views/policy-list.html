@@ -44,11 +44,11 @@
                                         </div>
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
-                                                <input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">
+                                                <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
                                                 
-                                                <!--<select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']" ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
-                                                </select>-->
+                                                </select>
                                             </div>
                                         </div>
                                     </th>
