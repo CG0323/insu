@@ -61,12 +61,19 @@ router.get('/upgrade', function (req, res) {
         .populate('seller')
         .exec()
         .then(function(policies){
-          console.log(policies);
-          policies.forEach(function(policy){
+          // console.log(policies);
+          for(var i =0; i < policies.length; i++)
+          {
+            var policy = policies[i];
             policy.organization = policy.seller.org;
             console.log(policy.organization);
             policy.save();
-          });
+          }
+          // policies.forEach(function(policy){
+          //   policy.organization = policy.seller.org;
+          //   console.log(policy.organization);
+          //   policy.save();
+          // });
           
         });
 });
