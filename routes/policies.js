@@ -68,7 +68,7 @@ router.get('/upgrade', function (req, res) {
             console.log(policy);
             policy.organization = policy.seller.org;
             // console.log(policy.organization);
-            // policy.save();
+            policy.save();
           }
           // policies.forEach(function(policy){
           //   policy.organization = policy.seller.org;
