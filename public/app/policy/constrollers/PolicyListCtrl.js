@@ -49,7 +49,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.filterChanged = function(){
-        console.log("filter changed");
         localStorageService.set("filterSettings", vm.filterSettings);
         vm.refreshPolicies();
     };
