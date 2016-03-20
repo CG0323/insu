@@ -89,104 +89,103 @@ router.get('/excel', function (req, res) {
      .populate('client seller organization company')
      .exec()
      .then(function(policies){
-        console.log(policies);
         var nodeExcel=require('excel-export');
         var dateFormat = require('dateformat');
         var conf={};
         conf.cols=[{
             caption:'提交日期',
             type:'string',
-		        width:50
+		        width:15
         },
         {
             caption:'保单号',
             type:'string',
-            width:120
+            width:30
         },
         {
             caption:'保险公司',
             type:'string',
-            width:120
+            width:50
         },
         {
             caption:'投保人',
             type:'string',
-            width:50
+            width:15
         },
         {
             caption:'车牌号',
             type:'string',
-            width:60
+            width:15
         },
         {
             caption:'投保人电话',
             type:'string',
-            width:80
+            width:15
         },
         {
             caption:'投保人身份证',
             type:'string',
-            width:100
+            width:25
         },
         {
             caption:'营业部',
             type:'string',
-            width:80
+            width:30
         },
         {
             caption:'出单员',
             type:'string',
-            width:50
+            width:15
         },
         {
             caption:'业务渠道',
             type:'string',
-            width:100
+            width:20
         },
         {
             caption:'交强险',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'交强险跟单费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'交强险结算费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'商业险',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'商业险跟单费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'商业险结算费',
             type:'number',
-            width:50
+            width:10
         },
          {
             caption:'车船税',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'车船税跟单费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'车船税结算费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'结算费加项',
@@ -196,32 +195,32 @@ router.get('/excel', function (req, res) {
         {
             caption:'结算费减项',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'总跟单费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'总结算费',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'利润',
             type:'number',
-            width:50
+            width:10
         },
         {
             caption:'支付日期',
             type:'string',
-            width:50
+            width:15
         },
         {
             caption:'支付银行',
             type:'string',
-            width:50
+            width:10
         }
         ];
         var arr = [];
@@ -244,6 +243,7 @@ router.get('/excel', function (req, res) {
             policy.commercial_fee,
             policy.commercial_fee_income,
             policy.commercial_fee_payment,
+            policy.tax_fee,
             policy.tax_fee_income,
             policy.tax_fee_payment,
             policy.payment_addition,
@@ -259,7 +259,7 @@ router.get('/excel', function (req, res) {
         conf.rows = arr;
         var result = nodeExcel.execute(conf);
         res.setHeader('Content-Type', 'application/vnd.openxmlformates');
-        res.setHeader("Content-Disposition", "attachment;filename=" + "历史保单.xlsx");
+        res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.xlsx");
         res.end(result, 'binary');
         
      },function(err){
