@@ -140,7 +140,7 @@ router.get('/excel', function (req, res) {
         {
             caption:'业务渠道',
             type:'string',
-            width:20
+            width:15
         },
         {
             caption:'交强险',
@@ -150,12 +150,12 @@ router.get('/excel', function (req, res) {
         {
             caption:'交强险跟单费',
             type:'number',
-            width:10
+            width:12
         },
         {
             caption:'交强险结算费',
             type:'number',
-            width:10
+            width:12
         },
         {
             caption:'商业险',
@@ -165,12 +165,12 @@ router.get('/excel', function (req, res) {
         {
             caption:'商业险跟单费',
             type:'number',
-            width:10
+            width:12
         },
         {
             caption:'商业险结算费',
             type:'number',
-            width:10
+            width:12
         },
          {
             caption:'车船税',
@@ -180,22 +180,22 @@ router.get('/excel', function (req, res) {
         {
             caption:'车船税跟单费',
             type:'number',
-            width:10
+            width:12
         },
         {
             caption:'车船税结算费',
             type:'number',
-            width:10
+            width:12
         },
         {
             caption:'结算费加项',
             type:'number',
-            width:50
+            width:12
         },
         {
             caption:'结算费减项',
             type:'number',
-            width:10
+            width:12
         },
         {
             caption:'总跟单费',
@@ -215,7 +215,7 @@ router.get('/excel', function (req, res) {
         {
             caption:'支付日期',
             type:'string',
-            width:15
+            width:12
         },
         {
             caption:'支付银行',
