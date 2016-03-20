@@ -79,6 +79,196 @@ router.get('/upgrade', function (req, res) {
         });
 });
 
+router.get('/excel', function (req, res) {
+  var user = req.user;
+  var query = {policy_status:'已支付'};
+  if(user.role == '出单员'){
+    query = {seller: user._id, policy_status:'已支付'};
+  }
+  Policy.find(query)
+     .populate('client seller organization company')
+     .exec()
+     .then(function(policies){
+        console.log(policies);
+        var nodeExcel=require('excel-export');
+        var dateFormat = require('dateformat');
+        var conf={};
+        conf.cols=[{
+            caption:'提交日期',
+            type:'string',
+		        width:50
+        },
+        {
+            caption:'保单号',
+            type:'string',
+            width:120
+        },
+        {
+            caption:'保险公司',
+            type:'string',
+            width:120
+        },
+        {
+            caption:'投保人',
+            type:'string',
+            width:50
+        },
+        {
+            caption:'车牌号',
+            type:'string',
+            width:60
+        },
+        {
+            caption:'投保人电话',
+            type:'string',
+            width:80
+        },
+        {
+            caption:'投保人身份证',
+            type:'string',
+            width:100
+        },
+        {
+            caption:'营业部',
+            type:'string',
+            width:80
+        },
+        {
+            caption:'出单员',
+            type:'string',
+            width:50
+        },
+        {
+            caption:'业务渠道',
+            type:'string',
+            width:100
+        },
+        {
+            caption:'交强险',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'交强险跟单费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'交强险结算费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'商业险',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'商业险跟单费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'商业险结算费',
+            type:'number',
+            width:50
+        },
+         {
+            caption:'车船税',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'车船税跟单费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'车船税结算费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'结算费加项',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'结算费减项',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'总跟单费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'总结算费',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'利润',
+            type:'number',
+            width:50
+        },
+        {
+            caption:'支付日期',
+            type:'string',
+            width:50
+        },
+        {
+            caption:'支付银行',
+            type:'string',
+            width:50
+        }
+        ];
+        var arr = [];
+        for (var i = 0; i < policies.length; i++) {
+          var policy = policies[i];
+          var a = [
+            (dateFormat(policy.created_at, "mm/dd/yyyy")), 
+            policy.policy_no, 
+            policy.company.name,
+            policy.applicant.name,
+            policy.plate_no,
+            policy.applicant.phone,
+            policy.applicant.identity,
+            policy.organization.name,
+            policy.seller.name,
+            policy.client.name,
+            policy.mandatory_fee,
+            policy.mandatory_fee_income,
+            policy.mandatory_fee_payment,
+            policy.commercial_fee,
+            policy.commercial_fee_income,
+            policy.commercial_fee_payment,
+            policy.tax_fee_income,
+            policy.tax_fee_payment,
+            policy.payment_addition,
+            policy.payment_substraction,
+            policy.total_income,
+            policy.total_payment,
+            policy.total_income - policy.total_payment,
+            (dateFormat(policy.paid_at, "mm/dd/yyyy")),
+            policy.payment_bank 
+            ];
+          arr.push(a);
+        }
+        conf.rows = arr;
+        var result = nodeExcel.execute(conf);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformates');
+        res.setHeader("Content-Disposition", "attachment;filename=" + "历史保单.xlsx");
+        res.end(result, 'binary');
+        
+     },function(err){
+       logger.error(err);
+       res.status(500).send(err);
+     });
+});
+
+
 router.get('/to-be-paid', function (req, res) {
   var user = req.user;
   var query = {policy_status:'待支付'};
@@ -230,6 +420,7 @@ router.post('/search', function (req, res) {
             logger.error(err);
         })
 });
+
 
 
 
