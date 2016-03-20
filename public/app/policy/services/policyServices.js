@@ -13,7 +13,8 @@ angular.module('app.policy').factory('PolicyService',
                 deletePolicy: deletePolicy,
                 searchPolicies: searchPolicies,
                 getOrganizations: getOrganizations,
-                getSellers: getSellers
+                getSellers: getSellers,
+                getExcel: getExcel
             });
 
             function savePolicy(policy) {
@@ -263,5 +264,30 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            function getExcel() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/policies/excel')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
 
         }]);

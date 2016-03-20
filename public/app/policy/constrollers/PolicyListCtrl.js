@@ -59,6 +59,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
+    
+    
 
     var poller = function () {
         if ($rootScope.user.role != "财务") {
@@ -69,6 +71,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     poller();
+
+    vm.exportPolicies = function () {      
+        vm.getExcel();
+    };
 
     vm.isShowPayButton = function (policy) {
         return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
