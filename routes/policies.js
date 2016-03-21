@@ -136,7 +136,7 @@ router.get('/excel', function (req, res) {
          '车船税跟单费',
          '车船税结算费',
          '结算费加项',
-         '结算费简项',
+         '结算费减项',
          '跟单费总额',
          '结算费总额',
          '支付日期',
@@ -154,11 +154,11 @@ router.get('/excel', function (req, res) {
           row.seller = {};
           row.client = {};
             row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
-            row.policy_no = policy.policy_no + '/t';
+            row.policy_no = 　"'" + policy.policy_no;
             row.company.name = policy.company.name;
             row.applicant.name = policy.applicant.name;
             row.plate_no = policy.plate_no;
-            row.applicant.phone = policy.applicant.phone + '/t';
+            row.applicant.phone = "'" + policy.applicant.phone;
             row.organization.name = policy.organization.name;
             row.seller.name = policy.seller.name;
             row.client.name = policy.client.name;
@@ -171,8 +171,8 @@ router.get('/excel', function (req, res) {
             row.tax_fee=policy.tax_fee;
             row.tax_fee_income=policy.tax_fee_income;
             row.tax_fee_payment=policy.tax_fee_payment;
-            row.payment_addition ? policy.payment_addition : 0;
-            row.payment_substraction ? policy.payment_substraction : 0;
+            row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
+            row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
             row.total_income=policy.total_income;
             row.total_payment=policy.total_payment;
             
