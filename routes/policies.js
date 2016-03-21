@@ -123,11 +123,6 @@ router.get('/excel', function (req, res) {
             width:15
         },
         {
-            caption:'投保人身份证',
-            type:'string',
-            width:25
-        },
-        {
             caption:'营业部',
             type:'string',
             width:30
@@ -233,7 +228,6 @@ router.get('/excel', function (req, res) {
             policy.applicant.name,
             policy.plate_no,
             policy.applicant.phone,
-            policy.applicant.identity,
             policy.organization.name,
             policy.seller.name,
             policy.client.name,
@@ -246,8 +240,8 @@ router.get('/excel', function (req, res) {
             policy.tax_fee,
             policy.tax_fee_income,
             policy.tax_fee_payment,
-            policy.payment_addition,
-            policy.payment_substraction,
+            policy.payment_addition ? policy.payment_addition : 0,
+            policy.payment_substraction ? policy.payment_substraction : 0,
             policy.total_income,
             policy.total_payment,
             policy.total_income - policy.total_payment,
