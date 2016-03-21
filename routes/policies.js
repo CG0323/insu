@@ -5,7 +5,7 @@ var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
 var Client = require('../models/client.js')(db);
-
+var Iconv = require('iconv').Iconv;
 
 router.post('/', function (req, res) {
   var data = req.body;
@@ -179,9 +179,10 @@ router.get('/excel', function (req, res) {
         
         json2csv({ data: policies, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
-          res.setHeader('Content-Type', 'text/csv');
+          var iconv = new Iconv('UTF-8','GBK')
+          res.setHeader('Content-Type', 'text/csv;charset=GBK');
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
-          res.end(csv, 'binary');
+          res.end(iconv.convert(csv), 'binary');
         });
         
      },function(err){
