@@ -147,37 +147,41 @@ router.get('/excel', function (req, res) {
         var arr = [];
         for (var i = 0; i < policies.length; i++) {
           var policy = policies[i];
-          var a = [
-            (dateFormat(policy.created_at, "mm/dd/yyyy")), 
-            policy.policy_no, 
-            policy.company.name,
-            policy.applicant.name,
-            policy.plate_no,
-            policy.applicant.phone,
-            policy.organization.name,
-            policy.seller.name,
-            policy.client.name,
-            policy.mandatory_fee,
-            policy.mandatory_fee_income,
-            policy.mandatory_fee_payment,
-            policy.commercial_fee,
-            policy.commercial_fee_income,
-            policy.commercial_fee_payment,
-            policy.tax_fee,
-            policy.tax_fee_income,
-            policy.tax_fee_payment,
-            policy.payment_addition ? policy.payment_addition : 0,
-            policy.payment_substraction ? policy.payment_substraction : 0,
-            policy.total_income,
-            policy.total_payment,
-            policy.total_income - policy.total_payment,
-            (dateFormat(policy.paid_at, "mm/dd/yyyy")),
-            policy.payment_bank 
-            ];
-          arr.push(a);
+          var row = {};
+          row.company = {};
+          row.applicant = {};
+          row.organization = {};
+          row.seller = {};
+          row.client = {};
+            row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
+            row.policy_no = policy.policy_no + '/t';
+            row.company.name = policy.company.name;
+            row.applicant.name = policy.applicant.name;
+            row.plate_no = policy.plate_no;
+            row.applicant.phone = policy.applicant.phone + '/t';
+            row.organization.name = policy.organization.name;
+            row.seller.name = policy.seller.name;
+            row.client.name = policy.client.name;
+            row.mandatory_fee=policy.mandatory_fee;
+            row.mandatory_fee_income=policy.mandatory_fee_income;
+            row.mandatory_fee_payment=policy.mandatory_fee_payment;
+            row.commercial_fee=policy.commercial_fee;
+            row.commercial_fee_income=policy.commercial_fee_income;
+            row.commercial_fee_payment=policy.commercial_fee_payment;
+            row.tax_fee=policy.tax_fee;
+            row.tax_fee_income=policy.tax_fee_income;
+            row.tax_fee_payment=policy.tax_fee_payment;
+            row.payment_addition ? policy.payment_addition : 0;
+            row.payment_substraction ? policy.payment_substraction : 0;
+            row.total_income=policy.total_income;
+            row.total_payment=policy.total_payment;
+            
+            row.paid_at= (dateFormat(policy.paid_at, "mm/dd/yyyy"));
+            row.payment_bank =policy.payment_bank;
+          arr.push(row);
         }
         
-        json2csv({ data: policies, fields: fields, fieldNames: fieldNames }, function (err, csv) {
+        json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
           // var content = iconv.decode(csv, 'utf-8');
           var final = iconv.encode(csv, 'GBK');
