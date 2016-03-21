@@ -179,7 +179,7 @@ router.get('/excel', function (req, res) {
         
         json2csv({ data: policies, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
-          res.setHeader('Content-Type', 'application/vnd.openxmlformates');
+          res.setHeader('Content-Type', 'application/vnd.ms-excel;charset=gb2312');
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
           res.end(csv, 'binary');
         });
