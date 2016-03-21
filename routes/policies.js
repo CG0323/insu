@@ -181,7 +181,7 @@ router.get('/excel', function (req, res) {
           if (err) console.log(err);
           console.log(csv);
           // var content = iconv.decode(csv, 'utf-8');
-          var final = iconv.encode(csv, 'BGK');
+          var final = iconv.encode(csv, 'GBK');
           res.setHeader('Content-Type', 'text/csv;charset=GBK');
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
           res.end(final, 'binary');
