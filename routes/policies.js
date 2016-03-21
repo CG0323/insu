@@ -179,8 +179,9 @@ router.get('/excel', function (req, res) {
         
         json2csv({ data: policies, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
-          var content = iconv.decode(csv, 'utf-8');
-          var final = iconv.encode(content, 'BGK');
+          console.log(csv);
+          // var content = iconv.decode(csv, 'utf-8');
+          var final = iconv.encode(csv, 'BGK');
           res.setHeader('Content-Type', 'text/csv;charset=GBK');
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
           res.end(final, 'binary');
