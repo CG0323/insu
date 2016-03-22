@@ -228,6 +228,7 @@ router.post('/excel', function (req, res) {
         .populate('client seller organization company')
         .exec()
         .then(function(policies){
+          console.log(policies);
             sendCSV(policies, res);  
         },function(err){
             logger.error(err);
