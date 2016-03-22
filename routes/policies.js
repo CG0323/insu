@@ -98,7 +98,7 @@ router.get('/excel', function (req, res) {
 
 function sendCSV(policies, res){
 
-         var json2csv = require('json2csv');
+       var json2csv = require('json2csv');
        var fields = [
          'created_at', 
          'policy_no',
@@ -221,6 +221,7 @@ router.post('/excel', function (req, res) {
     }else{
       sortParam = req.body.orderBy.toString();
     }
+    console.log(conditions);
     var query = Policy.find(conditions);
     query
         .sort(sortParam)

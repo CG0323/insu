@@ -236,7 +236,8 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true
                 };
-
+                    
+                console.log(config);
                 
                 $http.post("/api/policies/excel", config)
                 // handle success
