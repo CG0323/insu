@@ -14,7 +14,8 @@ angular.module('app.policy').factory('PolicyService',
                 searchPolicies: searchPolicies,
                 getOrganizations: getOrganizations,
                 getSellers: getSellers,
-                getExcel: getExcel
+                getExcel: getExcel,
+                getFilteredCSV: getFilteredCSV
             });
 
             function savePolicy(policy) {
@@ -217,7 +218,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
             
-            function getfilteredCSV(type, filterSettings) {
+            function getFilteredCSV(type, filterSettings) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
