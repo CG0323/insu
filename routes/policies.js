@@ -97,6 +97,7 @@ router.get('/excel', function (req, res) {
 });
 
 function sendCSV(policies, res){
+
          var json2csv = require('json2csv');
        var fields = [
          'created_at', 
@@ -190,11 +191,11 @@ function sendCSV(policies, res){
             row.payment_bank =policy.payment_bank;
           arr.push(row);
         }
-        
         json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
           // var content = iconv.decode(csv, 'utf-8');
           var final = iconv.encode(csv, 'GBK');
+          console.log(final);
           // final = final.replace("'''","'");
           res.setHeader('Content-Type', 'text/csv;charset=GBK');
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
@@ -204,7 +205,6 @@ function sendCSV(policies, res){
 
 router.post('/excel', function (req, res) {
     var conditions = {};
-
     for (var key in req.body.filterByFields) {
         if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
             conditions[key] = req.body.filterByFields[key];
