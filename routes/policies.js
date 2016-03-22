@@ -159,7 +159,6 @@ function sendCSV(policies, res){
         
         for (var i = 0; i < policies.length; i++) {
           var policy = policies[i];
-          console.log(policy);
           var row = {};
           row.company = {};
           row.applicant = {};
@@ -190,8 +189,10 @@ function sendCSV(policies, res){
             row.total_payment=policy.total_payment;
             row.status = policy.status;
             row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
-            row.payment_bank =policy.payment_bank;
+            row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
+            console.log(row);
           arr.push(row);
+          
         }
         json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
