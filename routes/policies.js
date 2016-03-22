@@ -156,8 +156,10 @@ function sendCSV(policies, res){
        
         var dateFormat = require('dateformat');
         var arr = [];
+        
         for (var i = 0; i < policies.length; i++) {
           var policy = policies[i];
+          console.log(policy);
           var row = {};
           row.company = {};
           row.applicant = {};
@@ -191,7 +193,6 @@ function sendCSV(policies, res){
             row.payment_bank =policy.payment_bank;
           arr.push(row);
         }
-        console.log(arr);
         json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
           // var content = iconv.decode(csv, 'utf-8');
