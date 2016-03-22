@@ -5,7 +5,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.policies = [];
     vm.organizations = [];
 
-    
+
     PolicyService.getClients()
         .then(function (clients) {
             vm.clients = clients;
@@ -48,19 +48,19 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }, function (err) { });
     };
 
-    vm.filterChanged = function(){
+    vm.filterChanged = function () {
         localStorageService.set("filterSettings", vm.filterSettings);
         vm.refreshPolicies();
     };
 
-    vm.refreshPolicies = function () {      
+    vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
-    
-    
+
+
 
     var poller = function () {
         if ($rootScope.user.role != "财务") {
@@ -72,8 +72,16 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     poller();
 
-    vm.exportPolicies = function () {      
-        vm.getExcel();
+    vm.exportFilteredPolicies = function () {
+        PolicyService.getfilteredCSV(vm.listType, vm.filterSettings)
+            .then(function (csv) {
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: 'data:attachment/csv;charset=GBK,' + encodeURI(csv),
+                    target: '_blank',
+                    download: 'statistics.csv'
+                })[0].click();
+            })
     };
 
     vm.isShowPayButton = function (policy) {

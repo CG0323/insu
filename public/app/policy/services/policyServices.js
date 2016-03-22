@@ -217,6 +217,44 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
             
+            function getfilteredCSV(type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true
+                };
+
+                
+                $http.post("/api/policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
             function getOrganizations() {
 
                 // create a new instance of deferred

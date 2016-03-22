@@ -89,7 +89,15 @@ router.get('/excel', function (req, res) {
      .populate('client seller organization company')
      .exec()
      .then(function(policies){
-       var json2csv = require('json2csv');
+       sendCSV(policies, res);     
+     },function(err){
+       logger.error(err);
+       res.status(500).send(err);
+     });
+});
+
+function sendCSV(policies, res){
+         var json2csv = require('json2csv');
        var fields = [
          'created_at', 
          'policy_no',
@@ -113,6 +121,7 @@ router.get('/excel', function (req, res) {
          'payment_substraction',
          'total_income',
          'total_payment',
+         'status',
          'paid_at',
          'payment_bank'
          ];
@@ -139,6 +148,7 @@ router.get('/excel', function (req, res) {
          '结算费减项',
          '跟单费总额',
          '结算费总额',
+         '保单状态',
          '支付日期',
          '支付银行'
          ];
@@ -175,7 +185,7 @@ router.get('/excel', function (req, res) {
             row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
             row.total_income=policy.total_income;
             row.total_payment=policy.total_payment;
-            
+            row.status = policy.status;
             row.paid_at= (dateFormat(policy.paid_at, "mm/dd/yyyy"));
             row.payment_bank =policy.payment_bank;
           arr.push(row);
@@ -190,11 +200,37 @@ router.get('/excel', function (req, res) {
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
           res.end(final, 'binary');
         });
-        
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
+}
+
+router.post('/excel', function (req, res) {
+    var conditions = {};
+
+    for (var key in req.body.filterByFields) {
+        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+            conditions[key] = req.body.filterByFields[key];
+        }
+    }
+    
+    if(req.user.role == '出单员'){
+       conditions['seller'] = req.user._id;
+    }
+
+    var sortParam ="";
+    if(req.body.orderByReverse){
+      sortParam = "-"+req.body.orderBy.toString();
+    }else{
+      sortParam = req.body.orderBy.toString();
+    }
+    var query = Policy.find(conditions);
+    query
+        .sort(sortParam)
+        .populate('client seller organization company')
+        .exec()
+        .then(function(policies){
+            sendCSV(policies, res);  
+        },function(err){
+            logger.error(err);
+        })
 });
 
 // router.get('/excel', function (req, res) {
