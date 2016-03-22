@@ -187,10 +187,11 @@ function sendCSV(policies, res){
             row.total_income=policy.total_income;
             row.total_payment=policy.total_payment;
             row.status = policy.status;
-            row.paid_at= (dateFormat(policy.paid_at, "mm/dd/yyyy"));
+            row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
             row.payment_bank =policy.payment_bank;
           arr.push(row);
         }
+        console.log(arr);
         json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
           // var content = iconv.decode(csv, 'utf-8');
@@ -228,7 +229,6 @@ router.post('/excel', function (req, res) {
         .populate('client seller organization company')
         .exec()
         .then(function(policies){
-          console.log(policies);
             sendCSV(policies, res);  
         },function(err){
             logger.error(err);
