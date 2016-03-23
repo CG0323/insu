@@ -236,14 +236,10 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true
                 };
-                    
-                console.log(config);
-                
                 $http.post("/api/policies/excel", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
-                            console.log(data);
                             deferred.resolve(data);
                         } else {
                             deferred.reject(status);

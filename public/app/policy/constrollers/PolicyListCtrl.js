@@ -73,10 +73,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     poller();
 
     vm.exportFilteredPolicies = function () {
-        console.log("in export function");
         PolicyService.getFilteredCSV(vm.listType, vm.filterSettings)
             .then(function (csv) {
-                console.log(csv);
                 var anchor = angular.element('<a/>');
                 anchor.attr({
                     href: 'data:attachment/csv;charset=GBK,' + encodeURI(csv),
