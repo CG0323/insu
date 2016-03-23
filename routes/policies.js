@@ -154,11 +154,8 @@ function sendCSV(policies, res){
        
         var dateFormat = require('dateformat');
         var arr = [];
-        
-        console.log(policies.length);
+
         for (var i = 0; i < policies.length; i++) {
-          console.log(i);
-          console.log(policies[i]);
           var policy = policies[i];
           var row = {};
           row.company = {};
@@ -172,41 +169,33 @@ function sendCSV(policies, res){
             row.applicant.name = policy.applicant.name;
             row.plate_no = policy.plate_no;
             row.applicant.phone = "'" + policy.applicant.phone;
-            console.log("A");
             row.organization.name = policy.organization.name;
-            console.log("A1");
             row.seller.name = policy.seller.name;
             
-            row.client.name = policy.client.name;
-            console.log("A2");
+            row.client.name = policy.client? policy.client.name : '';
             row.mandatory_fee=policy.mandatory_fee;
             row.mandatory_fee_income=policy.mandatory_fee_income;
             row.mandatory_fee_payment=policy.mandatory_fee_payment;
-            console.log("B");
             row.commercial_fee=policy.commercial_fee;
             row.commercial_fee_income=policy.commercial_fee_income;
             row.commercial_fee_payment=policy.commercial_fee_payment;
             row.tax_fee=policy.tax_fee;
             row.tax_fee_income=policy.tax_fee_income;
             row.tax_fee_payment=policy.tax_fee_payment;
-            console.log("C");
             row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
             row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
             row.total_income=policy.total_income;
             row.total_payment=policy.total_payment;
             row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
             row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
-            console.log("D");
           arr.push(row); 
-          console.log("row added");
         }
         console.log(arr);
         json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
           // var content = iconv.decode(csv, 'utf-8');
           var final = iconv.encode(csv, 'GBK');
-          console.log(final);
-          // final = final.replace("'''","'");
+
           res.setHeader('Content-Type', 'text/csv;charset=GBK');
           res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
           res.end(final, 'binary');
