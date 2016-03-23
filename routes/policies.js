@@ -158,6 +158,7 @@ function sendCSV(policies, res){
         console.log(policies.length);
         for (var i = 0; i < policies.length; i++) {
           console.log(i);
+          console.log(policies[i]);
           var policy = policies[i];
           var row = {};
           row.company = {};
