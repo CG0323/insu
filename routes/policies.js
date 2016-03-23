@@ -175,6 +175,7 @@ function sendCSV(policies, res){
             row.organization.name = policy.organization.name;
             row.seller.name = policy.seller.name;
             row.client.name = policy.client.name;
+            console.log("A1");
             row.mandatory_fee=policy.mandatory_fee;
             row.mandatory_fee_income=policy.mandatory_fee_income;
             row.mandatory_fee_payment=policy.mandatory_fee_payment;
