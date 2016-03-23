@@ -122,7 +122,6 @@ function sendCSV(policies, res){
          'payment_substraction',
          'total_income',
          'total_payment',
-         'status',
          'paid_at',
          'payment_bank'
          ];
@@ -149,7 +148,6 @@ function sendCSV(policies, res){
          '结算费减项',
          '跟单费总额',
          '结算费总额',
-         '保单状态',
          '支付日期',
          '支付银行'
          ];
@@ -187,7 +185,6 @@ function sendCSV(policies, res){
             row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
             row.total_income=policy.total_income;
             row.total_payment=policy.total_payment;
-            row.status = policy.status;
             row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
             row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
             console.log(row);
