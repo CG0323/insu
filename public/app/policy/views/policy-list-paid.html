@@ -12,8 +12,9 @@
         <article class="col-sm-12">
             <span>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <a ng-href="/api/policies/excel" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</a>
-                
+                <!--<a ng-href="/api/policies/excel" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</a>              -->
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+            
             </span>
 
 
