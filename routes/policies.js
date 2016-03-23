@@ -173,8 +173,9 @@ function sendCSV(policies, res){
             row.applicant.phone = "'" + policy.applicant.phone;
             console.log("A");
             row.organization.name = policy.organization.name;
-            row.seller.name = policy.seller.name;
             console.log("A1");
+            row.seller.name = policy.seller.name;
+            
             row.client.name = policy.client.name;
             console.log("A2");
             row.mandatory_fee=policy.mandatory_fee;
