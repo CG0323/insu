@@ -155,7 +155,9 @@ function sendCSV(policies, res){
         var dateFormat = require('dateformat');
         var arr = [];
         
+        console.log(policies.length);
         for (var i = 0; i < policies.length; i++) {
+          console.log(i);
           var policy = policies[i];
           var row = {};
           row.company = {};
@@ -187,10 +189,9 @@ function sendCSV(policies, res){
             row.total_payment=policy.total_payment;
             row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
             row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
-            console.log(row);
-          arr.push(row);
-          
+          arr.push(row); 
         }
+        console.log(arr);
         json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
           if (err) console.log(err);
           // var content = iconv.decode(csv, 'utf-8');
