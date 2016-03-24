@@ -75,9 +75,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.exportFilteredPolicies = function () {
         PolicyService.getFilteredCSV(vm.listType, vm.filterSettings)
             .then(function (csv) {
+                var file = new Blob(['\ufeff', csv ], {
+                    type : 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
                 var anchor = angular.element('<a/>');
                 anchor.attr({
-                    href: 'data:attachment/csv;charset=GBK,' + encodeURI(csv),
+                    href: fileURL,
                     target: '_blank',
                     download: 'statistics.csv'
                 })[0].click();

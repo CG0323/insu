@@ -14,7 +14,6 @@ angular.module('app.policy').factory('PolicyService',
                 searchPolicies: searchPolicies,
                 getOrganizations: getOrganizations,
                 getSellers: getSellers,
-                getExcel: getExcel,
                 getFilteredCSV: getFilteredCSV
             });
 
@@ -234,7 +233,7 @@ angular.module('app.policy').factory('PolicyService',
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
-                    requestTrapped: true
+                    requestTrapped: true,
                 };
                 $http.post("/api/policies/excel", config)
                 // handle success
@@ -301,30 +300,4 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
-            
-            function getExcel() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/policies/excel')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-
         }]);

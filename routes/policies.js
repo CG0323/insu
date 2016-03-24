@@ -79,131 +79,6 @@ router.get('/upgrade', function (req, res) {
         });
 });
 
-router.get('/excel', function (req, res) {
-  var user = req.user;
-  var query = {policy_status:'已支付'};
-  if(user.role == '出单员'){
-    query = {seller: user._id, policy_status:'已支付'};
-  }
-  Policy.find(query)
-     .populate('client seller organization company')
-     .exec()
-     .then(function(policies){
-       sendCSV(policies, res);     
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
-});
-
-function sendCSV(policies, res){
-
-       var json2csv = require('json2csv');
-       var fields = [
-         'created_at', 
-         'policy_no',
-         'company.name',
-         'applicant.name',
-         'plate_no',
-         'applicant.phone',
-         'organization.name',
-         'seller.name',
-         'client.name',
-         'mandatory_fee',
-         'mandatory_fee_income',
-         'mandatory_fee_payment',
-         'commercial_fee',
-         'commercial_fee_income',
-         'commercial_fee_payment',
-         'tax_fee',
-         'tax_fee_income',
-         'tax_fee_payment',
-         'payment_addition',
-         'payment_substraction',
-         'total_income',
-         'total_payment',
-         'policy_status',
-         'paid_at',
-         'payment_bank'
-         ];
-       var fieldNames = [
-         '提交日期', 
-         '保单号',
-         '保险公司',
-         '投保人',
-         '车牌号',
-         '投保人电话',
-         '营业部',
-         '出单员',
-         '业务渠道',
-         '交强险',
-         '交强险跟单费',
-         '交强险结算费',
-         '商业险',
-         '商业险跟单费',
-         '商业险结算费',
-         '车船税',
-         '车船税跟单费',
-         '车船税结算费',
-         '结算费加项',
-         '结算费减项',
-         '跟单费总额',
-         '结算费总额',
-         '保单状态',
-         '支付日期',
-         '支付银行'
-         ];
-       
-        var dateFormat = require('dateformat');
-        var arr = [];
-
-        for (var i = 0; i < policies.length; i++) {
-          var policy = policies[i];
-          var row = {};
-          row.company = {};
-          row.applicant = {};
-          row.organization = {};
-          row.seller = {};
-          row.client = {};
-            row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
-            row.policy_no = 　"'" + policy.policy_no;
-            row.company.name = policy.company.name;
-            row.applicant.name = policy.applicant.name;
-            row.plate_no = policy.plate_no;
-            row.applicant.phone = "'" + policy.applicant.phone;
-            row.organization.name = policy.organization.name;
-            row.seller.name = policy.seller.name;
-            
-            row.client.name = policy.client? policy.client.name : '';
-            row.mandatory_fee=policy.mandatory_fee;
-            row.mandatory_fee_income=policy.mandatory_fee_income;
-            row.mandatory_fee_payment=policy.mandatory_fee_payment;
-            row.commercial_fee=policy.commercial_fee;
-            row.commercial_fee_income=policy.commercial_fee_income;
-            row.commercial_fee_payment=policy.commercial_fee_payment;
-            row.tax_fee=policy.tax_fee;
-            row.tax_fee_income=policy.tax_fee_income;
-            row.tax_fee_payment=policy.tax_fee_payment;
-            row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
-            row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
-            row.total_income=policy.total_income;
-            row.total_payment=policy.total_payment;
-            row.policy_status = policy.policy_status;
-            row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
-            row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
-          arr.push(row); 
-        }
-        json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
-          if (err) console.log(err);
-          // var content = iconv.decode(csv, 'utf-8');
-          var final = iconv.encode(csv, 'GBK');
-
-          res.setHeader('Content-Type', 'text/csv;charset=GBK');
-          res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
-          res.end(final, 'binary');
-        });
-}
-
 router.post('/excel', function (req, res) {
     var conditions = {};
     for (var key in req.body.filterByFields) {
@@ -229,7 +104,109 @@ router.post('/excel', function (req, res) {
         .populate('client seller organization company')
         .exec()
         .then(function(policies){
-            sendCSV(policies, res);  
+            var json2csv = require('json2csv');
+            var fields = [
+                'created_at',
+                'policy_no',
+                'company.name',
+                'applicant.name',
+                'plate_no',
+                'applicant.phone',
+                'organization.name',
+                'seller.name',
+                'client.name',
+                'mandatory_fee',
+                'mandatory_fee_income',
+                'mandatory_fee_payment',
+                'commercial_fee',
+                'commercial_fee_income',
+                'commercial_fee_payment',
+                'tax_fee',
+                'tax_fee_income',
+                'tax_fee_payment',
+                'payment_addition',
+                'payment_substraction',
+                'total_income',
+                'total_payment',
+                'policy_status',
+                'paid_at',
+                'payment_bank'
+            ];
+            var fieldNames = [
+                '提交日期',
+                '保单号',
+                '保险公司',
+                '投保人',
+                '车牌号',
+                '投保人电话',
+                '营业部',
+                '出单员',
+                '业务渠道',
+                '交强险',
+                '交强险跟单费',
+                '交强险结算费',
+                '商业险',
+                '商业险跟单费',
+                '商业险结算费',
+                '车船税',
+                '车船税跟单费',
+                '车船税结算费',
+                '结算费加项',
+                '结算费减项',
+                '跟单费总额',
+                '结算费总额',
+                '保单状态',
+                '支付日期',
+                '支付银行'
+            ];
+
+            var dateFormat = require('dateformat');
+            var arr = [];
+
+            for (var i = 0; i < policies.length; i++) {
+                var policy = policies[i];
+                var row = {};
+                row.company = {};
+                row.applicant = {};
+                row.organization = {};
+                row.seller = {};
+                row.client = {};
+                row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
+                row.policy_no = 　"'" + policy.policy_no;
+                row.company.name = policy.company.name;
+                row.applicant.name = policy.applicant.name;
+                row.plate_no = policy.plate_no;
+                row.applicant.phone = "'" + policy.applicant.phone;
+                row.organization.name = policy.organization.name;
+                row.seller.name = policy.seller.name;
+
+                row.client.name = policy.client? policy.client.name : '';
+                row.mandatory_fee=policy.mandatory_fee;
+                row.mandatory_fee_income=policy.mandatory_fee_income;
+                row.mandatory_fee_payment=policy.mandatory_fee_payment;
+                row.commercial_fee=policy.commercial_fee;
+                row.commercial_fee_income=policy.commercial_fee_income;
+                row.commercial_fee_payment=policy.commercial_fee_payment;
+                row.tax_fee=policy.tax_fee;
+                row.tax_fee_income=policy.tax_fee_income;
+                row.tax_fee_payment=policy.tax_fee_payment;
+                row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
+                row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
+                row.total_income=policy.total_income;
+                row.total_payment=policy.total_payment;
+                row.policy_status = policy.policy_status;
+                row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
+                row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
+                arr.push(row);
+            }
+            json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
+                if (err) console.log(err);
+
+                var dataBuffer = Buffer.concat([new Buffer('\xEF\xBB\xBF', 'binary'), new Buffer(csv)]);
+                res.setHeader('Content-Type', 'text/csv;charset=utf-8');
+                res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
+                res.send(dataBuffer);
+            });
         },function(err){
             logger.error(err);
         })
