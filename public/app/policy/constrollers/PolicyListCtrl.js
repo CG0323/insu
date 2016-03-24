@@ -75,9 +75,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.exportFilteredPolicies = function () {
         PolicyService.getFilteredCSV(vm.listType, vm.filterSettings)
             .then(function (csv) {
-                var gbk = UTF8ToGB2312(csv);
-                // var file = new Blob(['\ufeff', csv ], {
-                var file = new Blob([gbk], {
+                var file = new Blob(['\ufeff', csv ], {
                     type : 'application/csv'
                 });
                 var fileURL = window.URL.createObjectURL(file);
