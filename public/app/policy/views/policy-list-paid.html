@@ -77,6 +77,8 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td field-name="client.name"></td>
+                                    <td field-name="organization.name"></td>
                                     <td>
                                         <button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>
                                         <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
