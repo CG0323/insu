@@ -41,16 +41,38 @@
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="client.name" display-name="业务来源" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="client.name" display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            业务来源
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </th>
                                     <th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            营业部
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </th>
                                     <th field-name="total_payment" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="paid_at" display-name="支付日期" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="payment_proof" display-name="凭证号" enable-filtering="false" enable-sorting="false">
-                                    </th>
+                                    <!--<th field-name="payment_proof" display-name="凭证号" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
                                 </tr>
                             </thead>
                             <tbody>
