@@ -74,6 +74,29 @@ router.post('/logout', function (req, res) {
   res.status(200).json({ status: 'Bye!' });
 });
 
+router.post('/changepsw', function (req, res) {
+
+  User.authenticate()(req.user.username, req.body.password, function (err, user, options) {
+    if (err){
+      res.status(400).send('旧密码错误');
+    }
+    else if (user === false) {
+      res.status(400).send('旧密码错误');
+    } else {
+      req.user.setPassword(req.body.newPassword, function () {
+        req.user.save(function (err) {
+          if (err) {
+            logger.error(err);
+            res.status(400).send('密码修改失败');
+          }
+          logger.info(req.user.name + " 修改了密码。" + req.clientIP);
+          res.json({status:"success", message: '用户密码已成功更新' });
+        });
+      });
+    }
+  });
+});
+
 router.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) {

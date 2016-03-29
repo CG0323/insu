@@ -3,7 +3,6 @@
 angular.module('app.auth').factory('AuthService',
     ['$q', '$timeout', '$http', '$cookies',
         function ($q, $timeout, $http, $cookies) {
-
             // return available functions for use in controllers
             return ({
                 isLoggedIn: isLoggedIn,
@@ -11,7 +10,8 @@ angular.module('app.auth').factory('AuthService',
                 login: login,
                 logout: logout,
                 register: register,
-                getUser: getUser
+                getUser: getUser,
+                changePassword: changePassword
             });
 
             function isLoggedIn() {
@@ -128,6 +128,30 @@ angular.module('app.auth').factory('AuthService',
                 // return promise object
                 return deferred.promise;
 
+            }
+
+            function changePassword(password, newPassword) {
+                console.log("in service");
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.post('/users/changepsw', {password:password, newPassword:newPassword})
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200 && data.status) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject();
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
             }
 
         }]);

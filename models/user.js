@@ -18,6 +18,8 @@ var schema = new mongoose.Schema({
 
 schema.plugin(passportLocalMongoose);
 
+
+
 mongoose.model('User', schema);
 
 module.exports = function (connection){
