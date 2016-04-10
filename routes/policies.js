@@ -215,6 +215,7 @@ router.post('/excel', function (req, res) {
                 row.total_income=policy.total_income;
                 row.total_payment=policy.total_payment;
                 row.profit= policy.total_income - policy.total_payment;
+                row.profit = row.profit.toFix(2);
                 row.policy_status = policy.policy_status;
                 row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
                 row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
