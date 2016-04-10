@@ -116,13 +116,19 @@ router.post('/excel', function (req, res) {
                 'seller.name',
                 'client.name',
                 'mandatory_fee',
+                'mandatory_fee_income_rate',
                 'mandatory_fee_income',
+                'mandatory_fee_payment_rate',
                 'mandatory_fee_payment',
                 'commercial_fee',
+                'commercial_fee_income_rate',
                 'commercial_fee_income',
+                'commercial_fee_payment_rate',
                 'commercial_fee_payment',
                 'tax_fee',
+                'tax_fee_income_rate',
                 'tax_fee_income',
+                'tax_fee_payment_rate',
                 'tax_fee_payment',
                 'payment_addition',
                 'payment_substraction',
@@ -143,13 +149,19 @@ router.post('/excel', function (req, res) {
                 '出单员',
                 '业务渠道',
                 '交强险',
+                '交强险跟单费比例',
                 '交强险跟单费',
+                '交强险结算费比例',
                 '交强险结算费',
                 '商业险',
+                '商业险跟单费比例',
                 '商业险跟单费',
+                '商业险结算费比例',
                 '商业险结算费',
                 '车船税',
                 '车船税跟单费',
+                '车船税跟单费比例',
+                '车船税结算费',
                 '车船税结算费',
                 '结算费加项',
                 '结算费减项',
@@ -182,13 +194,19 @@ router.post('/excel', function (req, res) {
 
                 row.client.name = policy.client? policy.client.name : '';
                 row.mandatory_fee=policy.mandatory_fee;
+                row.mandatory_fee_income_rate=policy.mandatory_fee_income_rate+"%";
                 row.mandatory_fee_income=policy.mandatory_fee_income;
+                row.mandatory_fee_payment_rate=policy.mandatory_fee_payment_rate+"%";
                 row.mandatory_fee_payment=policy.mandatory_fee_payment;
                 row.commercial_fee=policy.commercial_fee;
+                row.commercial_fee_income_rate=policy.commercial_fee_income_rate+"%";
                 row.commercial_fee_income=policy.commercial_fee_income;
+                row.commercial_fee_payment_rate=policy.commercial_fee_payment_rate+"%";
                 row.commercial_fee_payment=policy.commercial_fee_payment;
                 row.tax_fee=policy.tax_fee;
+                row.tax_fee_income_rate=policy.tax_fee_income_rate+"%";
                 row.tax_fee_income=policy.tax_fee_income;
+                row.tax_fee_payment_rate=policy.tax_fee_payment_rate+"%";
                 row.tax_fee_payment=policy.tax_fee_payment;
                 row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
                 row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;

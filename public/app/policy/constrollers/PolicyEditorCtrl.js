@@ -136,12 +136,6 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
             vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
         }
-        // else if (vm.policy.payment_substraction) {
-        //     vm.policy.payment_substraction_rate = vm.policy.payment_substraction / vm.policy.total_payment * 100;
-        //     vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
-        //     vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        // }
-
 
     }
 });
