@@ -134,6 +134,7 @@ router.post('/excel', function (req, res) {
                 'payment_substraction',
                 'total_income',
                 'total_payment',
+                'profit',
                 'policy_status',
                 'paid_at',
                 'payment_bank'
@@ -167,6 +168,7 @@ router.post('/excel', function (req, res) {
                 '结算费减项',
                 '跟单费总额',
                 '结算费总额',
+                '毛利润',
                 '保单状态',
                 '支付日期',
                 '支付银行'
@@ -212,6 +214,7 @@ router.post('/excel', function (req, res) {
                 row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
                 row.total_income=policy.total_income;
                 row.total_payment=policy.total_payment;
+                row.profit= policy.total_income - policy.total_payment;
                 row.policy_status = policy.policy_status;
                 row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
                 row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
