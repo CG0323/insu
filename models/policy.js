@@ -39,6 +39,7 @@ var schema = new mongoose.Schema({
   paid_at: {type: Date},
   total_income: Number,
   payment_addition: Number,
+  payment_substraction_rate: Number,
   payment_substraction: Number,
   payment_addition_comment: String,
   payment_substraction_comment: String,

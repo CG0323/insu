@@ -475,6 +475,7 @@ router.put('/:id', function (req, res) {
         policy.total_income = req.body.total_income;
         policy.payment_addition = req.body.payment_addition;
         policy.payment_addition_comment = req.body.payment_addition_comment;
+        policy.payment_substraction_rate = req.body.payment_substraction_rate;
         policy.payment_substraction = req.body.payment_substraction;
         policy.payment_substraction_comment = req.body.payment_substraction_comment;
         policy.total_payment = req.body.total_payment;
