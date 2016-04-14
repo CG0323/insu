@@ -6100,7 +6100,7 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
         }
         if (vm.policy.payment_substraction_rate) {
-            vm.policy.payment_substraction = parseFloat(vm.policy.total_payment) * vm.policy.payment_substraction_rate / 100;
+            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment)- parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
             vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
             vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
@@ -9787,6 +9787,38 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 });
 "use strict";
 
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
+});
+"use strict";
+
  angular.module('app').directive('todoList', function ($timeout, Todo) {
 
     return {
@@ -9827,38 +9859,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 
         }
     }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
