@@ -120,21 +120,24 @@ router.post('/excel', function (req, res) {
                 'mandatory_fee_income',
                 'mandatory_fee_payment_rate',
                 'mandatory_fee_payment',
+                'mandatory_fee_profit',
                 'commercial_fee',
                 'commercial_fee_income_rate',
                 'commercial_fee_income',
                 'commercial_fee_payment_rate',
                 'commercial_fee_payment',
+                'commercial_fee_profit',
                 'tax_fee',
                 'tax_fee_income_rate',
                 'tax_fee_income',
                 'tax_fee_payment_rate',
                 'tax_fee_payment',
+                'tax_fee_profit',
                 'payment_addition',
                 'payment_substraction',
                 'total_income',
                 'total_payment',
-                'profit',
+                'total_profit',
                 'policy_status',
                 'paid_at',
                 'payment_bank'
@@ -154,21 +157,24 @@ router.post('/excel', function (req, res) {
                 '交强险跟单费',
                 '交强险结算费比例',
                 '交强险结算费',
+                '交强险毛利润',
                 '商业险',
                 '商业险跟单费比例',
                 '商业险跟单费',
                 '商业险结算费比例',
                 '商业险结算费',
+                '商业险毛利润',
                 '车船税',
                 '车船税跟单费',
                 '车船税跟单费比例',
                 '车船税结算费',
                 '车船税结算费',
+                '车船税毛利润',
                 '结算费加项',
                 '结算费减项',
                 '跟单费总额',
                 '结算费总额',
-                '毛利润',
+                '总毛利润',
                 '保单状态',
                 '支付日期',
                 '支付银行'
@@ -200,22 +206,28 @@ router.post('/excel', function (req, res) {
                 row.mandatory_fee_income=policy.mandatory_fee_income;
                 row.mandatory_fee_payment_rate=policy.mandatory_fee_payment_rate+"%";
                 row.mandatory_fee_payment=policy.mandatory_fee_payment;
+                row.mandatory_fee_profit=policy.mandatory_fee_income - policy.mandatory_fee_payment;
+                row.mandatory_fee_profit=row.mandatory_fee_profit.toFixed(2);
                 row.commercial_fee=policy.commercial_fee;
                 row.commercial_fee_income_rate=policy.commercial_fee_income_rate+"%";
                 row.commercial_fee_income=policy.commercial_fee_income;
                 row.commercial_fee_payment_rate=policy.commercial_fee_payment_rate+"%";
                 row.commercial_fee_payment=policy.commercial_fee_payment;
+                row.commercial_fee_profit=policy.commercial_fee_income - policy.commercial_fee_payment;
+                row.commercial_fee_profit = policy.commercial_fee_profit.toFixed(2);
                 row.tax_fee=policy.tax_fee;
                 row.tax_fee_income_rate=policy.tax_fee_income_rate+"%";
                 row.tax_fee_income=policy.tax_fee_income;
                 row.tax_fee_payment_rate=policy.tax_fee_payment_rate+"%";
                 row.tax_fee_payment=policy.tax_fee_payment;
+                row.tax_fee_profit = policy.tax_fee_income - policy.tax_fee_payment;
+                row.tax_fee_profit = row.tax_fee_profit.toFixed(2);
                 row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
                 row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
                 row.total_income=policy.total_income;
                 row.total_payment=policy.total_payment;
-                row.profit= policy.total_income - policy.total_payment;
-                row.profit = row.profit.toFixed(2);
+                row.total_profit= policy.total_income - policy.total_payment;
+                row.total_profit = row.total_profit.toFixed(2);
                 row.policy_status = policy.policy_status;
                 row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
                 row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
