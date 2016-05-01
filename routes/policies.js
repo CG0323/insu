@@ -214,7 +214,7 @@ router.post('/excel', function (req, res) {
                 row.commercial_fee_payment_rate=policy.commercial_fee_payment_rate+"%";
                 row.commercial_fee_payment=policy.commercial_fee_payment;
                 row.commercial_fee_profit=policy.commercial_fee_income - policy.commercial_fee_payment;
-                row.commercial_fee_profit = policy.commercial_fee_profit.toFixed(2);
+                row.commercial_fee_profit = row.commercial_fee_profit.toFixed(2);
                 row.tax_fee=policy.tax_fee;
                 row.tax_fee_income_rate=policy.tax_fee_income_rate+"%";
                 row.tax_fee_income=policy.tax_fee_income;
