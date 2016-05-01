@@ -25,13 +25,17 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     if ($state.is("app.policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : {};
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : {};
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
         }
     } else if ($state.is("app.policy.paid")) {
         vm.listType = "paid";
-        vm.filterSettings = {};
+        vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : {};
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : {};
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate", "paid_at"];
@@ -41,7 +45,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings)
+        PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -50,6 +54,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.filterChanged = function () {
         localStorageService.set("filterSettings", vm.filterSettings);
+        localStorageService.set('fromDate', vm.fromDate);
+        localStorageService.set('toDate', vm.toDate);
         vm.refreshPolicies();
     };
 
@@ -73,7 +79,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     poller();
 
     vm.exportFilteredPolicies = function () {
-        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings)
+        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv ], {
                     type : 'application/csv'

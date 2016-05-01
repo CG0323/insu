@@ -9,12 +9,16 @@
 
 
     <div class="row">
-        <article class="col-sm-12">    
+       <article class="col-sm-12">
             <span>
+               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-            </span>
 
+            </span>
 
 
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
@@ -45,8 +49,9 @@
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
                                                 <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
-                                                
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']" ng-change="vm.filterChanged()">
+
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
@@ -58,7 +63,8 @@
                                         </div>
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
@@ -70,7 +76,8 @@
                                         </div>
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>

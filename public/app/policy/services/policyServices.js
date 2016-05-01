@@ -176,7 +176,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -188,6 +188,7 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+                console.log(fromDate);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -195,7 +196,9 @@ angular.module('app.policy').factory('PolicyService',
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
-                    requestTrapped: true
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: toDate
                 };
 
                 
@@ -217,7 +220,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
             
-            function getFilteredCSV(type, filterSettings) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -234,6 +237,8 @@ angular.module('app.policy').factory('PolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: toDate
                 };
                 $http.post("/api/policies/excel", config)
                 // handle success

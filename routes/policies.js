@@ -97,7 +97,13 @@ router.post('/excel', function (req, res) {
     }else{
       sortParam = req.body.orderBy.toString();
     }
-    console.log(conditions);
+    if(req.body.fromDate != 'undefined' && req.body.toDate != 'undefined'){
+        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
+    }else if(req.body.fromDate != 'undefined' ){
+        conditions['created_at']={$gte:req.body.fromDate};
+    }else if(req.body.toDate != 'undefined' ){
+        conditions['created_at']={$lte:req.body.toDate};
+    }
     var query = Policy.find(conditions);
     query
         .sort(sortParam)
@@ -246,190 +252,6 @@ router.post('/excel', function (req, res) {
         })
 });
 
-// router.get('/excel', function (req, res) {
-//   var user = req.user;
-//   var query = {policy_status:'已支付'};
-//   if(user.role == '出单员'){
-//     query = {seller: user._id, policy_status:'已支付'};
-//   }
-//   Policy.find(query)
-//      .populate('client seller organization company')
-//      .exec()
-//      .then(function(policies){
-//         var nodeExcel=require('excel-export');
-//         var dateFormat = require('dateformat');
-//         var conf={};
-//         conf.cols=[{
-//             caption:'提交日期',
-//             type:'string',
-// 		        width:15
-//         },
-//         {
-//             caption:'保单号',
-//             type:'string',
-//             width:30
-//         },
-//         {
-//             caption:'保险公司',
-//             type:'string',
-//             width:50
-//         },
-//         {
-//             caption:'投保人',
-//             type:'string',
-//             width:15
-//         },
-//         {
-//             caption:'车牌号',
-//             type:'string',
-//             width:15
-//         },
-//         {
-//             caption:'投保人电话',
-//             type:'string',
-//             width:15
-//         },
-//         {
-//             caption:'营业部',
-//             type:'string',
-//             width:30
-//         },
-//         {
-//             caption:'出单员',
-//             type:'string',
-//             width:15
-//         },
-//         {
-//             caption:'业务渠道',
-//             type:'string',
-//             width:15
-//         },
-//         {
-//             caption:'交强险',
-//             type:'number',
-//             width:10
-//         },
-//         {
-//             caption:'交强险跟单费',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'交强险结算费',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'商业险',
-//             type:'number',
-//             width:10
-//         },
-//         {
-//             caption:'商业险跟单费',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'商业险结算费',
-//             type:'number',
-//             width:12
-//         },
-//          {
-//             caption:'车船税',
-//             type:'number',
-//             width:10
-//         },
-//         {
-//             caption:'车船税跟单费',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'车船税结算费',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'结算费加项',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'结算费减项',
-//             type:'number',
-//             width:12
-//         },
-//         {
-//             caption:'总跟单费',
-//             type:'number',
-//             width:10
-//         },
-//         {
-//             caption:'总结算费',
-//             type:'number',
-//             width:10
-//         },
-//         {
-//             caption:'利润',
-//             type:'number',
-//             width:10
-//         },
-//         {
-//             caption:'支付日期',
-//             type:'string',
-//             width:12
-//         },
-//         {
-//             caption:'支付银行',
-//             type:'string',
-//             width:10
-//         }
-//         ];
-//         var arr = [];
-//         for (var i = 0; i < policies.length; i++) {
-//           var policy = policies[i];
-//           var a = [
-//             (dateFormat(policy.created_at, "mm/dd/yyyy")), 
-//             policy.policy_no, 
-//             policy.company.name,
-//             policy.applicant.name,
-//             policy.plate_no,
-//             policy.applicant.phone,
-//             policy.organization.name,
-//             policy.seller.name,
-//             policy.client.name,
-//             policy.mandatory_fee,
-//             policy.mandatory_fee_income,
-//             policy.mandatory_fee_payment,
-//             policy.commercial_fee,
-//             policy.commercial_fee_income,
-//             policy.commercial_fee_payment,
-//             policy.tax_fee,
-//             policy.tax_fee_income,
-//             policy.tax_fee_payment,
-//             policy.payment_addition ? policy.payment_addition : 0,
-//             policy.payment_substraction ? policy.payment_substraction : 0,
-//             policy.total_income,
-//             policy.total_payment,
-//             policy.total_income - policy.total_payment,
-//             (dateFormat(policy.paid_at, "mm/dd/yyyy")),
-//             policy.payment_bank 
-//             ];
-//           arr.push(a);
-//         }
-//         conf.rows = arr;
-//         var result = nodeExcel.execute(conf);
-//         res.setHeader('Content-Type', 'application/vnd.openxmlformates');
-//         res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.xlsx");
-//         res.end(result, 'binary');
-        
-//      },function(err){
-//        logger.error(err);
-//        res.status(500).send(err);
-//      });
-// });
-
-
 router.get('/to-be-paid', function (req, res) {
   var user = req.user;
   var query = {policy_status:'待支付'};
@@ -561,6 +383,15 @@ router.post('/search', function (req, res) {
     }else{
       sortParam = req.body.orderBy.toString();
     }
+    
+    if(req.body.fromDate != 'undefined' && req.body.toDate != 'undefined'){
+        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
+    }else if(req.body.fromDate != 'undefined' ){
+        conditions['created_at']={$gte:req.body.fromDate};
+    }else if(req.body.toDate != 'undefined' ){
+        conditions['created_at']={$lte:req.body.toDate};
+    }
+    
     var query = Policy.find(conditions);
     query
         .sort(sortParam)
