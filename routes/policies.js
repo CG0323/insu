@@ -384,11 +384,11 @@ router.post('/search', function (req, res) {
       sortParam = req.body.orderBy.toString();
     }
     
-    if(req.body.fromDate != 'undefined' && req.body.toDate != 'undefined'){
+    if(req.body.fromDate != undefined && req.body.toDate != undefined){
         conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != 'undefined' ){
+    }else if(req.body.fromDate != undefined ){
         conditions['created_at']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != 'undefined' ){
+    }else if(req.body.toDate != undefined ){
         conditions['created_at']={$lte:req.body.toDate};
     }
     
