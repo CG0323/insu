@@ -25,8 +25,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     if ($state.is("app.policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : new Date(new Date().getFullYear(), 0, 1);
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : new Date();
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined //new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined //new Date();
+        console.log(vm.fromDate);
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];

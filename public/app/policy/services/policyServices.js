@@ -188,7 +188,6 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
-                console.log(fromDate);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
