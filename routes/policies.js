@@ -414,6 +414,55 @@ router.post('/search', function (req, res) {
         })
 });
 
+router.post('/summary', function (req, res) {
+    var conditions = {};
+
+    for (var key in req.body.filterByFields) {
+        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+            conditions[key] = req.body.filterByFields[key];
+        }
+    }
+    
+    if(req.user.role == '出单员'){
+       conditions['seller'] = req.user._id;
+    }
+
+    var sortParam ="";
+    if(req.body.orderByReverse){
+      sortParam = "-"+req.body.orderBy.toString();
+    }else{
+      sortParam = req.body.orderBy.toString();
+    }
+    
+    if(req.body.fromDate != undefined && req.body.toDate != undefined){
+        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
+    }else if(req.body.fromDate != undefined ){
+        conditions['created_at']={$gte:req.body.fromDate};
+    }else if(req.body.toDate != undefined ){
+        conditions['created_at']={$lte:req.body.toDate};
+    }
+    
+    var query = Policy.find(conditions);
+    query
+        .exec()
+        .then(function(policies){
+            var totalIncome = 0;
+            var totalPayment = 0;
+            for(var i = 0; i < policies.length; i++){
+              totalIncome += policies[i].total_income;  
+              totalPayment += policies[i].total_profit;
+            };
+          res.status(200).json({
+            total_income: totalIncome,
+            total_payment: totalPayment,
+            total_profit: totalIncome - totalPayment
+        });
+        },function(err){
+            logger.error(err);
+        })
+});
+
+
 
 
 

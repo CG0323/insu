@@ -4,6 +4,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     var vm = this;
     vm.policies = [];
     vm.organizations = [];
+    vm.totalIncome = 0;
+    vm.totalPayment = 0;
+    vm.totalProfit = 0;
 
 
     PolicyService.getClients()
@@ -25,8 +28,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     if ($state.is("app.policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined //new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined //new Date();
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         console.log(vm.fromDate);
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
@@ -35,8 +38,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     } else if ($state.is("app.policy.paid")) {
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : {};
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : {};
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate", "paid_at"];
@@ -58,6 +61,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         localStorageService.set('fromDate', vm.fromDate);
         localStorageService.set('toDate', vm.toDate);
         vm.refreshPolicies();
+        vm.refreshSummary();
     };
 
     vm.refreshPolicies = function () {
@@ -65,6 +69,18 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             return;
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+    };
+    
+    vm.refreshSummary = function () {
+        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+            return;
+        }
+        PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (data) {
+                vm.totalIncome = data.total_income;
+                vm.totalPayment = data.total_payment;
+                vm.totalProfit = data.total_profit;
+            }, function (err) { });
     };
 
 
@@ -74,6 +90,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             return;
         }
         vm.refreshPolicies();
+        vm.refreshSummary();
         $timeout(poller, 1000 * 60);
     };
 

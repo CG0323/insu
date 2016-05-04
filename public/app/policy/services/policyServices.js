@@ -14,7 +14,8 @@ angular.module('app.policy').factory('PolicyService',
                 searchPolicies: searchPolicies,
                 getOrganizations: getOrganizations,
                 getSellers: getSellers,
-                getFilteredCSV: getFilteredCSV
+                getFilteredCSV: getFilteredCSV,
+                getSummary: getSummary
             });
 
             function savePolicy(policy) {
@@ -202,6 +203,46 @@ angular.module('app.policy').factory('PolicyService',
 
                 
                 $http.post("/api/policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSummary(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: toDate
+                };
+
+                
+                $http.post("/api/policies/summary", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
