@@ -72,9 +72,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
     
     vm.refreshSummary = function () {
-        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
-            return;
-        }
+        // if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+        //     return;
+        // }
         PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
@@ -89,7 +89,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if ($rootScope.user.role == "出单员") {
             return;
         }
-        console.log("hahaherhddde");
         vm.refreshPolicies();
         vm.refreshSummary();
         $timeout(poller, 1000 * 60);
