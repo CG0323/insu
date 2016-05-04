@@ -75,6 +75,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
+        console.log("hahaherhe");
         PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
