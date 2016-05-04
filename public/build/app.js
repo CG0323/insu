@@ -9856,6 +9856,38 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 });
 "use strict";
 
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
+});
+"use strict";
+
  angular.module('app').directive('todoList', function ($timeout, Todo) {
 
     return {
@@ -9896,38 +9928,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 
         }
     }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
@@ -11346,53 +11346,6 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
         }
     }
 });
-'use strict';
-
-angular.module('app.graphs').directive('vectorMap', function () {
-    return {
-        restrict: 'EA',
-        scope: {
-            mapData: '='
-        },
-        link: function (scope, element, attributes) {
-            var data = scope.mapData;
-
-            element.vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: '#fff',
-                regionStyle: {
-                    initial: {
-                        fill: '#c4c4c4'
-                    },
-                    hover: {
-                        "fill-opacity": 1
-                    }
-                },
-                series: {
-                    regions: [
-                        {
-                            values: data,
-                            scale: ['#85a8b6', '#4d7686'],
-                            normalizeFunction: 'polynomial'
-                        }
-                    ]
-                },
-                onRegionLabelShow: function (e, el, code) {
-                    if (typeof data[code] == 'undefined') {
-                        e.preventDefault();
-                    } else {
-                        var countrylbl = data[code];
-                        el.html(el.html() + ': ' + countrylbl + ' visits');
-                    }
-                }
-            });
-
-            element.on('$destroy', function(){
-                element.children('.jvectormap-container').data('mapObject').remove();
-            })
-        }
-    }
-});
 
 "use strict";
 
@@ -12082,6 +12035,53 @@ angular.module('app.graphs').directive('morrisYearGraph', function(){
                 labels : ['Licensed', 'SORN']
             })
 
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('vectorMap', function () {
+    return {
+        restrict: 'EA',
+        scope: {
+            mapData: '='
+        },
+        link: function (scope, element, attributes) {
+            var data = scope.mapData;
+
+            element.vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
+                    },
+                    hover: {
+                        "fill-opacity": 1
+                    }
+                },
+                series: {
+                    regions: [
+                        {
+                            values: data,
+                            scale: ['#85a8b6', '#4d7686'],
+                            normalizeFunction: 'polynomial'
+                        }
+                    ]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data[code] == 'undefined') {
+                        e.preventDefault();
+                    } else {
+                        var countrylbl = data[code];
+                        el.html(el.html() + ': ' + countrylbl + ' visits');
+                    }
+                }
+            });
+
+            element.on('$destroy', function(){
+                element.children('.jvectormap-container').data('mapObject').remove();
+            })
         }
     }
 });
