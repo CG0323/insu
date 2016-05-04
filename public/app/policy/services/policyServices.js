@@ -246,6 +246,7 @@ angular.module('app.policy').factory('PolicyService',
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
+                            console.log(data);
                             deferred.resolve(data);
                         } else {
                             deferred.reject(status);
