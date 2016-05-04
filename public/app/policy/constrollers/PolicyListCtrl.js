@@ -38,8 +38,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     } else if ($state.is("app.policy.paid")) {
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.fromDate = undefined;
+        vm.toDate = undefined;
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate", "paid_at"];
