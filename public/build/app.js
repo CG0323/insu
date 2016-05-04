@@ -6294,7 +6294,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     var poller = function () {
-        if ($rootScope.user.role != "财务") {
+        if ($rootScope.user.role == "出单员") {
             return;
         }
         vm.refreshPolicies();
@@ -6627,7 +6627,6 @@ angular.module('app.policy').factory('PolicyService',
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
-                            console.log(data);
                             deferred.resolve(data);
                         } else {
                             deferred.reject(status);
@@ -9857,38 +9856,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 });
 "use strict";
 
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
-});
-"use strict";
-
  angular.module('app').directive('todoList', function ($timeout, Todo) {
 
     return {
@@ -9929,6 +9896,38 @@ angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
 
         }
     }
+});
+"use strict";
+
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 

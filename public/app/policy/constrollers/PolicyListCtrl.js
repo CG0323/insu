@@ -86,7 +86,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     var poller = function () {
-        if ($rootScope.user.role != "财务") {
+        if ($rootScope.user.role == "出单员") {
             return;
         }
         vm.refreshPolicies();

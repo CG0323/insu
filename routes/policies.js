@@ -450,7 +450,7 @@ router.post('/summary', function (req, res) {
             var totalPayment = 0;
             for(var i = 0; i < policies.length; i++){
               totalIncome += policies[i].total_income;  
-              totalPayment += policies[i].total_profit;
+              totalPayment += policies[i].total_payment;
             };
           res.status(200).json({
             total_income: totalIncome,
