@@ -189,6 +189,8 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -198,7 +200,7 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: toDate
+                    toDate: end
                 };
 
                 
@@ -232,16 +234,17 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
                 var config = {
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: toDate
+                    toDate: end
                 };
 
-                
                 $http.post("/api/policies/summary", config)
                 // handle success
                     .success(function (data, status) {
