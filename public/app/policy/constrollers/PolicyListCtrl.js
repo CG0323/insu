@@ -30,7 +30,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
-        console.log(vm.fromDate);
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -70,11 +69,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
-    
+
     vm.refreshSummary = function () {
-        // if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
-        //     return;
-        // }
+
         PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
@@ -82,6 +79,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 vm.totalProfit = data.total_profit;
             }, function (err) { });
     };
+
 
 
 
@@ -99,8 +97,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.exportFilteredPolicies = function () {
         PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (csv) {
-                var file = new Blob(['\ufeff', csv ], {
-                    type : 'application/csv'
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
                 });
                 var fileURL = window.URL.createObjectURL(file);
                 var anchor = angular.element('<a/>');
@@ -111,7 +109,38 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 })[0].click();
             })
     };
-    
+
+    vm.bulkPay = function () {
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                        vm.refreshSummary();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+
+
+    };
 
     vm.isShowPayButton = function (policy) {
         return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
@@ -134,6 +163,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         $state.go("app.policy.view", { policyId: policyId });
     };
 
+
     /*
      * SmartAlerts
      */
@@ -148,6 +178,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 PolicyService.deletePolicy(policyId)
                     .then(function () {
                         vm.refreshPolicies();
+                        vm.refreshSummary();
                     })
             }
             if (ButtonPressed === "取消") {

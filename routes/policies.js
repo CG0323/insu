@@ -70,11 +70,6 @@ router.get('/upgrade', function (req, res) {
             // console.log(policy.organization);
             policy.save();
           }
-          // policies.forEach(function(policy){
-          //   policy.organization = policy.seller.org;
-          //   console.log(policy.organization);
-          //   policy.save();
-          // });
           
         });
 });
@@ -462,8 +457,49 @@ router.post('/summary', function (req, res) {
         })
 });
 
+router.post('/bulk-pay', function (req, res) {
+    var conditions = {};
 
+    for (var key in req.body.filterByFields) {
+        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+            conditions[key] = req.body.filterByFields[key];
+        }
+    }
+    
+    if(req.user.role == '出单员'){
+       conditions['seller'] = req.user._id;
+    }
 
+    var sortParam ="";
+    if(req.body.orderByReverse){
+      sortParam = "-"+req.body.orderBy.toString();
+    }else{
+      sortParam = req.body.orderBy.toString();
+    }
+    
+    if(req.body.fromDate != undefined && req.body.toDate != undefined){
+        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
+    }else if(req.body.fromDate != undefined ){
+        conditions['created_at']={$gte:req.body.fromDate};
+    }else if(req.body.toDate != undefined ){
+        conditions['created_at']={$lte:req.body.toDate};
+    }
 
+    var query = Policy.find(conditions);
+    query
+        .exec()
+        .then(function(policies){
+            for(var i = 0; i < policies.length; i++){
+              policies[i].policy_status = '已支付';  
+              policies[i].paid_at = Date.now();  
+              policies[i].save();
+              logger.info(req.user.name + " 更新了一份保单，保单号为："+ policies[i].policy_no +"。"+ req.clientIP);
+            };
+        logger.info(req.user.name + " 批量支付了保单。"+ req.clientIP);     
+        res.json({message: '保单已成功批量支付'});       
+        },function(err){
+            logger.error(err);
+        })
+});
 
 module.exports = router;
