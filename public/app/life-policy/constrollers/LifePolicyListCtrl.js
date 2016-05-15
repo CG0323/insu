@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, PolicyService, localStorageService) {
+angular.module('app.life-policy').controller('LifePolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, LifePolicyService, localStorageService) {
     var vm = this;
     vm.policies = [];
     vm.organizations = [];
@@ -9,46 +9,46 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.totalProfit = 0;
 
 
-    PolicyService.getClients()
+    LifePolicyService.getClients()
         .then(function (clients) {
             vm.clients = clients;
         })
-    PolicyService.getOrganizations()
+    LifePolicyService.getOrganizations()
         .then(function (organizations) {
             vm.organizations = organizations;
         })
 
-    PolicyService.getSellers()
+    LifePolicyService.getSellers()
         .then(function (sellers) {
             vm.sellers = sellers;
         })
 
 
     vm.listType = "all";
-    if ($state.is("app.policy.to-be-paid")) {
+    if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
-        vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.filterSettings = localStorageService.get("life-filterSettings") ? localStorageService.get("life-filterSettings") : {};
+        vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
+        vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate"];
+            vm.displayFields = ["client.name", "applicant.name"];
         }
-    } else if ($state.is("app.policy.paid")) {
+    } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
-        vm.filterSettings = localStorageService.get("paid-filterSettings") ? localStorageService.get("paid-filterSettings") : {};
-        vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
-        vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
+        vm.filterSettings = localStorageService.get("life-paid-filterSettings") ? localStorageService.get("life-paid-filterSettings") : {};
+        vm.fromDate = localStorageService.get("life-paid-fromDate") ? localStorageService.get("life-paid-fromDate") : undefined;
+        vm.toDate = localStorageService.get("life-paid-toDate") ? localStorageService.get("life-paid-toDate") : undefined;
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate", "paid_at"];
+            vm.displayFields = ["client.name", "applicant.name", "paid_at"];
         }
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -56,15 +56,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.filterChanged = function () {
-        if ($state.is("app.policy.to-be-paid")) {
-            localStorageService.set("filterSettings", vm.filterSettings);
-            localStorageService.set('fromDate', vm.fromDate);
-            localStorageService.set('toDate', vm.toDate);
+        if ($state.is("app.life-policy.to-be-paid")) {
+            localStorageService.set("life-filterSettings", vm.filterSettings);
+            localStorageService.set('life-fromDate', vm.fromDate);
+            localStorageService.set('life-toDate', vm.toDate);
         }
-        else if ($state.is("app.policy.paid")) {
-            localStorageService.set("paid-filterSettings", vm.filterSettings);
-            localStorageService.set('paid-fromDate', vm.fromDate);
-            localStorageService.set('paid-toDate', vm.toDate);
+        else if ($state.is("app.life-policy.paid")) {
+            localStorageService.set("life-paid-filterSettings", vm.filterSettings);
+            localStorageService.set('life-paid-fromDate', vm.fromDate);
+            localStorageService.set('life-paid-toDate', vm.toDate);
         }
         
         vm.refreshPolicies();
@@ -80,7 +80,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.refreshSummary = function () {
 
-        PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        LifePolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
                 vm.totalPayment = data.total_payment;
@@ -103,7 +103,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     poller();
 
     vm.exportFilteredPolicies = function () {
-        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'
@@ -113,7 +113,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 anchor.attr({
                     href: fileURL,
                     target: '_blank',
-                    download: 'statistics.csv'
+                    download: 'life.csv'
                 })[0].click();
             })
     };
@@ -125,7 +125,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                PolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+                LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
                     .then(function (data) {
                         $.smallBox({
                             title: "服务器确认信息",
@@ -164,11 +164,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.pay = function (policyId) {
-        $state.go("app.policy.pay", { policyId: policyId });
+        $state.go("app.life-policy.pay", { policyId: policyId });
     };
 
     vm.view = function (policyId) {
-        $state.go("app.policy.view", { policyId: policyId });
+        $state.go("app.life-policy.view", { policyId: policyId });
     };
 
 
@@ -183,7 +183,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                PolicyService.deletePolicy(policyId)
+                LifePolicyService.deletePolicy(policyId)
                     .then(function () {
                         vm.refreshPolicies();
                         vm.refreshSummary();
@@ -199,14 +199,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 });
 
-angular.module('app.policy')
+angular.module('app.life-policy')
     .filter("computeTotal", function () {
         return function (fieldValueUnused, item) {
             return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
-        }
-    })
-    .filter("combinePlate", function () {
-        return function (fieldValueUnused, item) {
-            return (item.plate_no);
         }
     });

@@ -11,19 +11,40 @@
         -->
 
         <ul data-smart-menu>
-            <li data-ui-sref-active="active">
-                <a ng-show="user.role=='出单员'" data-ui-sref="app.policy.new" title="保单录入"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> <span
-                        class="menu-item-parent">保单录入</span></a>
+            <li data-menu-collapse>
+                 <a href="#"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> <span class="menu-item-parent">保单录入</span></a>
+                 <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.policy.new">车险</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.new">寿险</a>
+                    </li>
+                </ul>
             </li>
-             <li data-ui-sref-active="active">
-                <a data-ui-sref="app.policy.to-be-paid" title="待支付保单"><i class="fa fa-lg fa-fw fa-table"></i> <span
-                        class="menu-item-parent">待支付保单</span></a>
-            </li>
-            <li data-ui-sref-active="active">
-                <a data-ui-sref="app.policy.paid" title="已支付保单"><i class="fa fa-lg fa-fw fa-table"></i> <span
-                        class="menu-item-parent">已支付保单</span></a>
+             <li data-menu-collapse>
+                 <a href="#"><i class="fa fa-lg fa-fw fa-table"></i> <span class="menu-item-parent">待支付保单</span></a>
+                 <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.policy.to-be-paid">车险</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.to-be-paid">寿险</a>
+                    </li>
+                </ul>
             </li>
             
+            <li data-menu-collapse>
+                 <a href="#"><i class="fa fa-lg fa-fw fa-table"></i> <span class="menu-item-parent">已支付保单</span></a>
+                 <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.policy.paid">车险</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.paid">寿险</a>
+                    </li>
+                </ul>
+            </li>
             <li ng-show="user.role=='管理员'" data-menu-collapse>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">客户账号管理</span></a>
                 <ul>

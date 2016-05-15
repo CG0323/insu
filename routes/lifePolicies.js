@@ -1,6 +1,6 @@
 var express = require('express');
 var db = require('../utils/database.js').connection;
-var Policy = require('../models/policy.js')(db);
+var Policy = require('../models/life-policy.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
@@ -22,7 +22,7 @@ router.post('/', function (req, res) {
           logger.error(err);
           res.status(500).send(err);
         } else {
-          logger.info(req.user.name + " 提交了一份保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
+          logger.info(req.user.name + " 提交了一份寿险保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
           res.status(200).json({ message: '保单已成功添加' });
         }
       });
@@ -111,34 +111,28 @@ router.post('/excel', function (req, res) {
                 'policy_no',
                 'company.name',
                 'applicant.name',
-                'plate_no',
+                'applicant.benefit_name',
                 'applicant.phone',
+                'applicant.identity',
                 'organization.name',
                 'seller.name',
                 'client.name',
-                'mandatory_fee',
-                'mandatory_fee_income_rate',
-                'mandatory_fee_income',
-                'mandatory_fee_payment_rate',
-                'mandatory_fee_payment',
-                'mandatory_fee_profit',
-                'commercial_fee',
-                'commercial_fee_income_rate',
-                'commercial_fee_income',
-                'commercial_fee_payment_rate',
-                'commercial_fee_payment',
-                'commercial_fee_profit',
-                'tax_fee',
-                'tax_fee_income_rate',
-                'tax_fee_income',
-                'tax_fee_payment_rate',
-                'tax_fee_payment',
-                'tax_fee_profit',
+                'stage',
+                'policy_name',
+                'fee',
+                'income_rate',
+                'income',
+                'income_addition_rate',
+                'income_addition',
+                'income_total',
+                'payment_rate',
+                'payment',
+                'payment_addition_rate',
                 'payment_addition',
-                'payment_substraction',
-                'total_income',
-                'total_payment',
-                'total_profit',
+                // 'payment_substraction_rate',
+                // 'payment_substraction',
+                'payment_total',
+                'profit',
                 'policy_status',
                 'paid_at',
                 'payment_bank'
@@ -148,33 +142,27 @@ router.post('/excel', function (req, res) {
                 '保单号',
                 '保险公司',
                 '投保人',
-                '车牌号',
-                '投保人电话',
+                '被保险人',
+                '电话',
+                '身份证号',
                 '营业部',
                 '出单员',
                 '业务渠道',
-                '交强险',
-                '交强险跟单费比例',
-                '交强险跟单费',
-                '交强险结算费比例',
-                '交强险结算费',
-                '交强险毛利润',
-                '商业险',
-                '商业险跟单费比例',
-                '商业险跟单费',
-                '商业险结算费比例',
-                '商业险结算费',
-                '商业险毛利润',
-                '车船税',
-                '车船税跟单费',
-                '车船税跟单费比例',
-                '车船税结算费',
-                '车船税结算费',
-                '车船税毛利润',
-                '结算费加项',
-                '结算费减项',
-                '跟单费总额',
-                '结算费总额',
+                '期数',
+                '险种名称',
+                '保费',
+                '跟单费比例',
+                '跟单费',
+                '跟单费奖励比例',
+                '跟单费奖励',
+                '收入小计',
+                '结算费比例',
+                '结算费',
+                '其他费用比例',
+                '其他费用',
+                // '结算费减项比例',
+                // '结算费减项',
+                '支出小计',
                 '总毛利润',
                 '保单状态',
                 '支付日期',
@@ -196,39 +184,29 @@ router.post('/excel', function (req, res) {
                 row.policy_no = 　"'" + policy.policy_no;
                 row.company.name = policy.company.name;
                 row.applicant.name = policy.applicant.name;
-                row.plate_no = policy.plate_no;
+                row.applicant.benefit_name = policy.applicant.benefit_name;
                 row.applicant.phone = "'" + policy.applicant.phone;
+                row.applicant.identity = "'" + policy.applicant.identity;
                 row.organization.name = policy.organization.name;
                 row.seller.name = policy.seller.name;
-
                 row.client.name = policy.client? policy.client.name : '';
-                row.mandatory_fee=policy.mandatory_fee;
-                row.mandatory_fee_income_rate=policy.mandatory_fee_income_rate+"%";
-                row.mandatory_fee_income=policy.mandatory_fee_income;
-                row.mandatory_fee_payment_rate=policy.mandatory_fee_payment_rate+"%";
-                row.mandatory_fee_payment=policy.mandatory_fee_payment;
-                row.mandatory_fee_profit=policy.mandatory_fee_income - policy.mandatory_fee_payment;
-                row.mandatory_fee_profit=row.mandatory_fee_profit.toFixed(2);
-                row.commercial_fee=policy.commercial_fee;
-                row.commercial_fee_income_rate=policy.commercial_fee_income_rate+"%";
-                row.commercial_fee_income=policy.commercial_fee_income;
-                row.commercial_fee_payment_rate=policy.commercial_fee_payment_rate+"%";
-                row.commercial_fee_payment=policy.commercial_fee_payment;
-                row.commercial_fee_profit=policy.commercial_fee_income - policy.commercial_fee_payment;
-                row.commercial_fee_profit = row.commercial_fee_profit.toFixed(2);
-                row.tax_fee=policy.tax_fee;
-                row.tax_fee_income_rate=policy.tax_fee_income_rate+"%";
-                row.tax_fee_income=policy.tax_fee_income;
-                row.tax_fee_payment_rate=policy.tax_fee_payment_rate+"%";
-                row.tax_fee_payment=policy.tax_fee_payment;
-                row.tax_fee_profit = policy.tax_fee_income - policy.tax_fee_payment;
-                row.tax_fee_profit = row.tax_fee_profit.toFixed(2);
-                row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
-                row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
-                row.total_income=policy.total_income;
-                row.total_payment=policy.total_payment;
-                row.total_profit= policy.total_income - policy.total_payment;
-                row.total_profit = row.total_profit.toFixed(2);
+                row.stage = policy.stage;
+                row.policy_name = policy.policy_name;
+                row.fee = policy.fee;
+                row.income_rate = policy.income_rate+"%";
+                row.income = policy.income;
+                row.income_addition_rate = policy.income_addition_rate+"%";
+                row.income_addition = policy.income_addition;
+                row.income_total = policy.income_total;
+                row.payment_rate = policy.payment_rate+"%";
+                row.payment = policy.payment;
+                row.payment_addition_rate = policy.payment_addition_rate+"%";
+                row.payment_addition = policy.payment_addition;
+                // row.payment_substraction_rate = policy.payment_substraction_rate+"%";
+                // row.payment_substraction = policy.payment_substraction;
+                row.payment_total = policy.payment_total;
+                row.profit = policy.profit;
+                
                 row.policy_status = policy.policy_status;
                 row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
                 row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
@@ -239,7 +217,7 @@ router.post('/excel', function (req, res) {
 
                 var dataBuffer = Buffer.concat([new Buffer('\xEF\xBB\xBF', 'binary'), new Buffer(csv)]);
                 res.setHeader('Content-Type', 'text/csv;charset=utf-8');
-                res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
+                res.setHeader("Content-Disposition", "attachment;filename=" + "life.csv");
                 res.send(dataBuffer);
             });
         },function(err){
@@ -299,39 +277,27 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         policy.policy_no = req.body.policy_no;
-        // policy.insu_company = req.body.insu_company;
-        policy.plate_no = req.body.plate_no;
         policy.applicant = req.body.applicant;
-        policy.frame_no = req.body.frame_no;
-        policy.engine_no = req.body.engine_no;
-        policy.mandatory_fee = req.body.mandatory_fee;
-        policy.mandatory_fee_income_rate = req.body.mandatory_fee_income_rate;
-        policy.mandatory_fee_income = req.body.mandatory_fee_income;
-        policy.mandatory_fee_payment_rate = req.body.mandatory_fee_payment_rate;
-        policy.mandatory_fee_payment = req.body.mandatory_fee_payment;
-        policy.commercial_fee = req.body.commercial_fee;
-        policy.commercial_fee_income_rate = req.body.commercial_fee_income_rate;
-        policy.commercial_fee_income = req.body.commercial_fee_income;
-        policy.commercial_fee_payment_rate = req.body.commercial_fee_payment_rate;
-        policy.commercial_fee_payment = req.body.commercial_fee_payment;
-        policy.tax_fee = req.body.tax_fee;
-        policy.tax_fee_income_rate = req.body.tax_fee_income_rate;
-        policy.tax_fee_income = req.body.tax_fee_income;
-        policy.tax_fee_payment_rate = req.body.tax_fee_payment_rate;
-        policy.tax_fee_payment = req.body.tax_fee_payment;
+        policy.stage = req.body.stage;
+        policy.policy_name = req.body.policy_name;
+        policy.fee = req.body.fee;
+        policy.income_rate = req.body.income_rate;
+        policy.income = req.body.income;
+        policy.income_addition_rate = req.body.income_addition_rate;
+        policy.income_addition = req.body.income_addition;
+        policy.income_addition_comment = req.body.income_addition_comment;
+        policy.income_total = req.body.income_total;
+        policy.payment_rate = req.body.payment_rate;
+        policy.payment = req.body.payment;
+        policy.payment_addition_rate = req.body.payment_addition_rate;
+        policy.payment_addition = req.body.payment_addition;
+        policy.payment_addition_comment = req.body.payment_addition_comment;
+        policy.payment_total = req.body.payment_total;
+        policy.profit = req.body.profit;        
         policy.client = req.body.client;
         policy.seller = req.body.seller;
         policy.policy_status = req.body.policy_status;
-        policy.paid_at = req.body.paid_at;
-        policy.total_income = req.body.total_income;
-        policy.payment_addition = req.body.payment_addition;
-        policy.payment_addition_comment = req.body.payment_addition_comment;
-        policy.payment_substraction_rate = req.body.payment_substraction_rate;
-        policy.payment_substraction = req.body.payment_substraction;
-        policy.payment_substraction_comment = req.body.payment_substraction_comment;
-        policy.total_payment = req.body.total_payment;
-        policy.effective_date = req.body.effective_date;
-        policy.catogary = req.body.catogary;
+        policy.paid_at = req.body.paid_at;     
         policy.payment_bank = req.body.payment_bank;
         policy.payment_proof = req.body.payment_proof;
         policy.company = req.body.company;
@@ -341,7 +307,7 @@ router.put('/:id', function (req, res) {
               logger.error(err);
               res.send(err);
             }
-            logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
+            logger.info(req.user.name + " 更新了一份寿险保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
             res.json({message: '保单已成功更新'});
         });
 
@@ -354,7 +320,7 @@ router.delete('/:id', function (req, res) {
       logger.error(err);
       res.send(err);
     }
-    logger.info(req.user.name + " 删除了一份保单。"+ req.clientIP);
+    logger.info(req.user.name + " 删除了一份寿险保单。"+ req.clientIP);
     res.json({ message: '保单已成功删除' });
   });
 });
@@ -444,8 +410,8 @@ router.post('/summary', function (req, res) {
             var totalIncome = 0;
             var totalPayment = 0;
             for(var i = 0; i < policies.length; i++){
-              totalIncome += policies[i].total_income;  
-              totalPayment += policies[i].total_payment;
+              totalIncome += policies[i].income_total;  
+              totalPayment += policies[i].payment_total;
             };
           res.status(200).json({
             total_income: totalIncome,
@@ -493,9 +459,9 @@ router.post('/bulk-pay', function (req, res) {
               policies[i].policy_status = '已支付';  
               policies[i].paid_at = Date.now();  
               policies[i].save();
-              logger.info(req.user.name + " 更新了一份保单，保单号为："+ policies[i].policy_no +"。"+ req.clientIP);
+              logger.info(req.user.name + " 更新了一份寿险保单，保单号为："+ policies[i].policy_no +"。"+ req.clientIP);
             };
-        logger.info(req.user.name + " 批量支付了保单。"+ req.clientIP);     
+        logger.info(req.user.name + " 批量支付了寿险保单。"+ req.clientIP);     
         res.json({message: '保单已成功批量支付'});       
         },function(err){
             logger.error(err);

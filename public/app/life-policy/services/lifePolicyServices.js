@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('app.policy').factory('PolicyService',
+angular.module('app.life-policy').factory('LifePolicyService',
     ['$q', '$http',
         function ($q, $http) {
             // return available functions for use in controllers
@@ -25,7 +25,7 @@ angular.module('app.policy').factory('PolicyService',
 
                 if (policy._id) {
                     policy.updated_at = Date.now();
-                    $http.put('/api/policies/' + policy._id, policy)
+                    $http.put('/api/life-policies/' + policy._id, policy)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -39,7 +39,7 @@ angular.module('app.policy').factory('PolicyService',
                 } else {
                     policy.created_at = Date.now();
                     policy.updated_at = policy.created_at;
-                    $http.post('/api/policies', policy)
+                    $http.post('/api/life-policies', policy)
                     // handle success
                         .success(function (data, status) {
                             if (status === 200) {
@@ -62,11 +62,11 @@ angular.module('app.policy').factory('PolicyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                var url = "/api/policies"
+                var url = "/api/life-policies"
                 if (type == "to-be-paid") {
-                    url = "/api/policies/to-be-paid";
+                    url = "/api/life-policies/to-be-paid";
                 } else if (type == "paid") {
-                    url = "/api/policies/paid";
+                    url = "/api/life-policies/paid";
                 }
                 $http.get(url)
                 // handle success
@@ -90,7 +90,7 @@ angular.module('app.policy').factory('PolicyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('/api/policies/' + policyId)
+                $http.get('/api/life-policies/' + policyId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -112,7 +112,7 @@ angular.module('app.policy').factory('PolicyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.delete('/api/policies/' + policyId)
+                $http.delete('/api/life-policies/' + policyId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -206,11 +206,10 @@ angular.module('app.policy').factory('PolicyService',
                 };
 
                 
-                $http.post("/api/policies/search", config)
+                $http.post("/api/life-policies/search", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
-                            console.log(data);
                             deferred.resolve(data);
                         } else {
                             deferred.reject(status);
@@ -248,7 +247,7 @@ angular.module('app.policy').factory('PolicyService',
                     toDate: end
                 };
 
-                $http.post("/api/policies/summary", config)
+                $http.post("/api/life-policies/summary", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -289,7 +288,7 @@ angular.module('app.policy').factory('PolicyService',
                     toDate: end
                 };
 
-                $http.post("/api/policies/bulk-pay", config)
+                $http.post("/api/life-policies/bulk-pay", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -329,7 +328,7 @@ angular.module('app.policy').factory('PolicyService',
                     fromDate: fromDate,
                     toDate: end
                 };
-                $http.post("/api/policies/excel", config)
+                $http.post("/api/life-policies/excel", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

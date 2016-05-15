@@ -2,6 +2,7 @@ var express = require('express');
 var orders = require('./orders.js');
 var clients = require('./clients.js');
 var policies = require('./policies.js');
+var lifePolicies = require('./lifePolicies.js')
 var organizations = require('./organizations.js');
 var companies = require('./companies.js');
 var companyCatogories = require('./companyCatogories.js');
@@ -15,7 +16,7 @@ router.use('/policies', policies);
 router.use('/organizations', organizations);
 router.use('/companies', companies);
 router.use('/companycatogories', companyCatogories);
-
+router.use('/life-policies', lifePolicies);
 function ensureAuthenticated(req, res, next) {
     // console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {

@@ -1,64 +1,64 @@
 "use strict";
 
 
-angular.module('app.policy', ['ui.router','validation','ui.select'])
+angular.module('app.life-policy', ['ui.router','validation','ui.select'])
 
 
-angular.module('app.policy').config(function ($stateProvider, localStorageServiceProvider) {
+angular.module('app.life-policy').config(function ($stateProvider, localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('insu');
     
     $stateProvider
-        .state('app.policy', {
+        .state('app.life-policy', {
             abstract: true,
             data: {
-                title: '车险'
+                title: '寿险'
             }
         })
-        .state('app.policy.new', {
-            url: '/policies/new',
+        .state('app.life-policy.new', {
+            url: '/life-policies/new',
             data: {
                 title: '保单录入'
             },
             views: {
                 "content@app": {
-                    controller: 'PolicyEditorController as vm',
-                    templateUrl: 'app/policy/views/policy.html'
+                    controller: 'LifePolicyEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy.html'
                 }
             }
         })
-        .state('app.policy.pay', {
-            url: '/policies/pay/:policyId',
+        .state('app.life-policy.pay', {
+            url: '/life-policies/pay/:policyId',
             data: {
                 title: '保单支付'
             },
             views: {
                 "content@app": {
-                    controller: 'PolicyEditorController as vm',
-                    templateUrl: 'app/policy/views/policy.html'
+                    controller: 'LifePolicyEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy.html'
                 }
             }
         })
-        .state('app.policy.view', {
-            url: '/policies/view/:policyId',
+        .state('app.life-policy.view', {
+            url: '/life-policies/view/:policyId',
             data: {
                 title: '保单查看'
             },
             views: {
                 "content@app": {
-                    controller: 'PolicyEditorController as vm',
-                    templateUrl: 'app/policy/views/policy.html'
+                    controller: 'LifePolicyEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy.html'
                 }
             }
         })
-        .state('app.policy.to-be-paid', {
-            url: '/policies/to-be-paid',
+        .state('app.life-policy.to-be-paid', {
+            url: '/life-policies/to-be-paid',
             data: {
                 title: '待支付保单'
             },
             views: {
                 "content@app": {
-                    controller: 'PolicyListController as vm',
-                    templateUrl: 'app/policy/views/policy-list.html'
+                    controller: 'LifePolicyListController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy-list.html'
                 }
             },
             resolve: {
@@ -74,15 +74,15 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
-        .state('app.policy.paid', {
-            url: '/policies/paid',
+        .state('app.life-policy.paid', {
+            url: '/life-policies/paid',
             data: {
                 title: '已支付保单'
             },
             views: {
                 "content@app": {
-                    controller: 'PolicyListController as vm',
-                    templateUrl: 'app/policy/views/policy-list-paid.html'
+                    controller: 'LifePolicyListController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy-list-paid.html'
                 }
             },
             resolve: {

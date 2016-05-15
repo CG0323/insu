@@ -40,6 +40,7 @@ angular.module('app', [
     'app.misc',
     'app.smartAdmin',
     'app.policy',
+    'app.life-policy',
     'app.client',
     'app.employee',
     'app.organization',
