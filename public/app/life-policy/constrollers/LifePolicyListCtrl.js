@@ -4,9 +4,9 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     var vm = this;
     vm.policies = [];
     vm.organizations = [];
-    vm.totalIncome = 0;
-    vm.totalPayment = 0;
-    vm.totalProfit = 0;
+    // vm.totalIncome = 0;
+    // vm.totalPayment = 0;
+    // vm.totalProfit = 0;
 
 
     LifePolicyService.getClients()
@@ -27,13 +27,10 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     vm.listType = "all";
     if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
-        vm.filterSettings = localStorageService.get("life-filterSettings") ? localStorageService.get("life-filterSettings") : {};
+        vm.filterSettings = localStorageService.get("life-filterSettings1") ? localStorageService.get("life-filterSettings1") : {};
         vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
-        vm.tableHeader = "待支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "applicant.name"];
-        }
+        vm.tableHeader = "保单列表";
     } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("life-paid-filterSettings") ? localStorageService.get("life-paid-filterSettings") : {};
@@ -57,7 +54,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
     vm.filterChanged = function () {
         if ($state.is("app.life-policy.to-be-paid")) {
-            localStorageService.set("life-filterSettings", vm.filterSettings);
+            localStorageService.set("life-filterSettings1", vm.filterSettings);
             localStorageService.set('life-fromDate', vm.fromDate);
             localStorageService.set('life-toDate', vm.toDate);
         }
@@ -68,7 +65,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         }
         
         vm.refreshPolicies();
-        vm.refreshSummary();
     };
 
     vm.refreshPolicies = function () {
@@ -76,16 +72,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             return;
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
-    };
-
-    vm.refreshSummary = function () {
-
-        LifePolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-            .then(function (data) {
-                vm.totalIncome = data.total_income;
-                vm.totalPayment = data.total_payment;
-                vm.totalProfit = data.total_profit;
-            }, function (err) { });
     };
 
 
@@ -96,7 +82,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             return;
         }
         vm.refreshPolicies();
-        vm.refreshSummary();
         $timeout(poller, 1000 * 60);
     };
 
@@ -118,37 +103,34 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             })
     };
 
-    vm.bulkPay = function () {
-        $.SmartMessageBox({
-            title: "批量修改保单状态",
-            content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已批量更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        vm.refreshPolicies();
-                        vm.refreshSummary();
-                    }, function (err) {
+    // vm.bulkPay = function () {
+    //     $.SmartMessageBox({
+    //         title: "批量修改保单状态",
+    //         content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
+    //         buttons: '[取消][确认]'
+    //     }, function (ButtonPressed) {
+    //         if (ButtonPressed === "确认") {
+    //             LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+    //                 .then(function (data) {
+    //                     $.smallBox({
+    //                         title: "服务器确认信息",
+    //                         content: "保单状态已批量更改为已支付",
+    //                         color: "#739E73",
+    //                         iconSmall: "fa fa-check",
+    //                         timeout: 5000
+    //                     });
+    //                     vm.refreshPolicies();
+    //                     vm.refreshSummary();
+    //                 }, function (err) {
 
-                    });
-            }
-            if (ButtonPressed === "取消") {
+    //                 });
+    //         }
+    //         if (ButtonPressed === "取消") {
 
-            }
+    //         }
 
-        });
-
-
-
-    };
+    //     });
+    // };
 
     vm.isShowPayButton = function (policy) {
         return $rootScope.user.role == "财务" && policy.policy_status == "待支付";

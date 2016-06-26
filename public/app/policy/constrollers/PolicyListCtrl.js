@@ -97,7 +97,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.refreshPolicies();
         vm.refreshSummary();
-        $timeout(poller, 1000 * 60);
+        $timeout(poller, 1000 * 60 * 2);
     };
 
     poller();

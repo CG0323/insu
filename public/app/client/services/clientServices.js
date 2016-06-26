@@ -8,6 +8,7 @@ angular.module('app.client').factory('ClientService',
                 saveClient: saveClient,
                 getOrgClients: getOrgClients,
                 getIndClients: getIndClients,
+                getLifeClients: getLifeClients,
                 getClient: getClient,
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
@@ -128,6 +129,30 @@ angular.module('app.client').factory('ClientService',
 
                 // send a post request to the server
                 $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getLifeClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=life')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

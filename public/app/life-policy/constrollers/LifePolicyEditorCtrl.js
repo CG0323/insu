@@ -3,7 +3,11 @@
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
     var vm = this;
     vm.policy = {};
+    vm.applicant = {};
     vm.clientInfo = {};
+    vm.zy_clientInfo = {};
+    vm.managerInfo = {};
+    vm.directorInfo = {};
     vm.sellerInfo = $rootScope.user;
     LifePolicyService.getClients()
         .then(function (clients) {
@@ -13,9 +17,26 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         .then(function (companies) {
             vm.companies = companies;
         })
+    LifePolicyService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
 
     vm.editable = false;
+
+    vm.addSubPolicy = function () {
+        vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'payment_rate': undefined, 'payment': undefined });
+    };
+
+    vm.addInsurant = function () {
+        vm.policy.insurants.push({ 'name': '', 'address': '', 'phone': '', 'identity': '', 'sex': '', 'birthday': undefined });
+    };
+
     if ($state.is("app.life-policy.new")) {
+        vm.policy.sub_policies = [];
+        vm.policy.insurants = [];
+        vm.addSubPolicy();
+        vm.addInsurant();
         vm.editable = true;
     }
 
@@ -28,8 +49,15 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
+                vm.zy_clientInfo = policy.zy_client;
+                vm.managerInfo = policy.manager;
+                vm.directorInfo = policy.director;
+
                 policy.client = policy.client._id;
                 policy.seller = policy.seller._id;
+                policy.zy_client = policy.zy_client._id;
+                policy.manager = policy.manager._id;
+                policy.director = policy.director._id;
             });
     }
 
@@ -43,8 +71,13 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     }
 
 
+
+
     vm.submit = function () {
         vm.policy.client = vm.clientInfo._id;
+        vm.policy.zy_client = vm.zy_clientInfo._id;
+        vm.policy.manager = vm.managerInfo._id;
+        vm.policy.director = vm.directorInfo._id;
         LifePolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -55,74 +88,68 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                     timeout: 5000
                 });
                 vm.policy = {};
-                vm.policy.plate_province = "苏";
+                vm.applicant = {};
+                vm.clientInfo = {};
+                vm.zy_clientInfo = {};
+                vm.managerInfo = {};
+                vm.directorInfo = {};
+                vm.policy.sub_policies = [];
+                vm.policy.insurants = [];
+                vm.addSubPolicy();
+                vm.addInsurant();
                 if (vm.back) {
                     $state.go("app.life-policy.to-be-paid");
                 }
             }, function (err) { });
     };
 
-    vm.pay = function () {
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认已支付该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "已支付";
-                vm.policy.paid_at = Date.now();
-                LifePolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
+    // vm.pay = function () {
+    //     $.SmartMessageBox({
+    //         title: "修改保单状态",
+    //         content: "确认已支付该保单？",
+    //         buttons: '[取消][确认]'
+    //     }, function (ButtonPressed) {
+    //         if (ButtonPressed === "确认") {
+    //             vm.policy.policy_status = "已支付";
+    //             vm.policy.paid_at = Date.now();
+    //             LifePolicyService.savePolicy(vm.policy)
+    //                 .then(function (data) {
+    //                     $.smallBox({
+    //                         title: "服务器确认信息",
+    //                         content: "保单状态已成功更改为已支付",
+    //                         color: "#739E73",
+    //                         iconSmall: "fa fa-check",
+    //                         timeout: 5000
+    //                     });
+    //                 }, function (err) { });
+    //         }
+    //         if (ButtonPressed === "取消") {
 
-            }
+    //         }
 
-        });
+    //     });
 
-    };
+    // };
 
-    vm.updateFee = function () {
-        vm.policy.income = vm.policy.fee * vm.policy.income_rate / 100;
-        if (vm.policy.income) {
-            vm.policy.income = vm.policy.income.toFixed(2);
+    vm.updateFee = function (subPolicy) {
+        if(subPolicy.fee == undefined) return;
+        subPolicy.payment = subPolicy.fee * subPolicy.payment_rate / 100;
+        vm.policy.payment_total = 0;
+        for (var i = 0; i < vm.policy.sub_policies.length; i++) {
+            vm.policy.payment_total += vm.policy.sub_policies[i].payment;
         }
-        vm.policy.income_addition = vm.policy.fee * vm.policy.income_addition_rate / 100;
-        if (vm.policy.income_addition) {
-            vm.policy.income_addition = vm.policy.income_addition.toFixed(2);
+        vm.policy.taxed_payment_total = vm.policy.payment_total * 0.95;
+        vm.policy.taxed_payment_total = vm.policy.taxed_payment_total.toFixed(2);
+        vm.policy.zy_payment = vm.policy.total_fee * vm.policy.zy_rate * 0.95 / 100;
+        vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
+    }
+
+    vm.updateZYPayment = function () {
+        if (vm.policy.zy_rate) {
+            vm.policy.zy_payment = vm.policy.total_fee * vm.policy.zy_rate * 0.95 / 100;
+            vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
         }
-        
-        if(!isNaN(vm.policy.income) && !isNaN(vm.policy.income_addition)){
-            vm.policy.income_total = parseFloat(vm.policy.income) + parseFloat(vm.policy.income_addition);
-            vm.policy.income_total = vm.policy.income_total.toFixed(2);
-        }
-        
-        vm.policy.payment = vm.policy.fee * vm.policy.payment_rate / 100;
-        if (vm.policy.payment) {
-            vm.policy.payment = vm.policy.payment.toFixed(2);
-        }
-        vm.policy.payment_addition = vm.policy.fee * vm.policy.payment_addition_rate / 100;
-        if (vm.policy.payment_addition) {
-            vm.policy.payment_addition = vm.policy.payment_addition.toFixed(2);
-        }
-        
-        if(!isNaN(vm.policy.payment) && !isNaN(vm.policy.payment_addition)){
-            vm.policy.payment_total = parseFloat(vm.policy.payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.payment_total = vm.policy.payment_total.toFixed(2);
-        }
-                
-        if(!isNaN(vm.policy.income_total) && !isNaN(vm.policy.payment_total)){
-            vm.policy.profit = parseFloat(vm.policy.income_total) - parseFloat(vm.policy.payment_total);
-            vm.policy.profit = vm.policy.profit.toFixed(2);
-        }
+
     }
 });
 
@@ -177,6 +204,27 @@ angular.module('app.life-policy').directive('price', function () {
     };
 });
 
+angular.module('app.life-policy').directive('dateFormat', ['$filter',function($filter) {
+    var dateFilter = $filter('date');
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+
+            function formatter(value) {
+                return dateFilter(value, 'yyyy-MM-dd'); //format
+            }
+
+            function parser() {
+                return ctrl.$modelValue;
+            }
+
+            ctrl.$formatters.push(formatter);
+            ctrl.$parsers.unshift(parser);
+
+        }
+    };
+}]);
+
 angular.module('app.life-policy').filter('propsFilter', function () {
     return function (items, props) {
         var out = [];
@@ -189,21 +237,21 @@ angular.module('app.life-policy').filter('propsFilter', function () {
                 for (var i = 0; i < keys.length; i++) {
                     var prop = keys[i];
                     if (/^[\u4e00-\u9fa5]+$/.test(text)) {
-                        if(item['name'].indexOf(text) == 0){
+                        if (item['name'].indexOf(text) == 0) {
                             itemMatches = true;
-                                break;
+                            break;
                         }
                     } else {
                         var text = props[prop].toUpperCase();
                         var pylist = item['py'];
-                      
+
                         for (var j = 0; j < pylist.length; j++) {
                             if (pylist[j].indexOf(text) == 0) {
                                 itemMatches = true;
                                 break;
                             }
                         }
-                        if(itemMatches){
+                        if (itemMatches) {
                             break;
                         }
                     }

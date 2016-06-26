@@ -705,7 +705,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client', {
             abstract: true,
             data: {
-                title: '客户信息管理'
+                title: '业务员信息管理'
             }
         })
         .state('app.client.organization', {
@@ -723,7 +723,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.individual', {
             url: '/clients/individual',
             data: {
-                title: '个人客户'
+                title: '车险个人业务员'
             },
             views: {
                 "content@app": {
@@ -732,10 +732,22 @@ angular.module('app.client').config(function ($stateProvider) {
                 }
             }
         })
+        .state('app.client.life', {
+            url: '/clients/life',
+            data: {
+                title: '寿险业务员'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeClientListController as vm',
+                    templateUrl: 'app/client/views/life-client-list.html'
+                }
+            }
+        })
         .state('app.client.organization.view', {
             url: '/clients/view/:clientId',
             data: {
-                title: '客户信息查看'
+                title: '机构信息查看'
             },
             views: {
                 "content@app": {
@@ -747,7 +759,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.organization.new', {
             url: '/new',
             data: {
-                title: '添加机构客户'
+                title: '添加车险机构客户'
             },
             views: {
                 "content@app": {
@@ -759,7 +771,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.individual.view', {
             url: '/view/:clientId',
             data: {
-                title: '客户信息查看'
+                title: '车险业务员信息查看'
             },
             views: {
                 "content@app": {
@@ -771,12 +783,36 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.individual.new', {
             url: '/new',
             data: {
-                title: '添加个人客户'
+                title: '添加车险业务员'
             },
             views: {
                 "content@app": {
                     controller: 'IndClientEditorController as vm',
                     templateUrl: 'app/client/views/Ind-client.html'
+                }
+            }
+        })
+        .state('app.client.life.view', {
+            url: '/view/:clientId',
+            data: {
+                title: '寿险业务员信息查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeClientEditorController as vm',
+                    templateUrl: 'app/client/views/life-client.html'
+                }
+            }
+        })
+        .state('app.client.life.new', {
+            url: '/new',
+            data: {
+                title: '添加寿险业务员'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeClientEditorController as vm',
+                    templateUrl: 'app/client/views/life-client.html'
                 }
             }
         })
@@ -1555,6 +1591,90 @@ angular.module('app.life-policy').config(function ($stateProvider, localStorageS
                 }
             }
         })
+        .state('app.life-policy.salary', {
+            abstract: true,
+            data: {
+                title: '寿险'
+            }
+        })
+        .state('app.life-policy.salary.new', {
+            url: '/life-salaries/new',
+            data: {
+                title: '月度主管薪酬结算单录入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeSalaryEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-salary.html'
+                }
+            }
+        })
+        .state('app.life-policy.salary.list', {
+            url: '/life-salaries/list',
+            data: {
+                title: '月度主管薪酬结算单列表'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeSalaryListController as vm',
+                    templateUrl: 'app/life-policy/views/life-salary-list.html'
+                }
+            }
+        })
+        .state('app.life-policy.salary.view', {
+            url: '/life-salaries/view/:salaryId',
+            data: {
+                title: '薪酬结算单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeSalaryEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-salary.html'
+                }
+            }
+        })
+        .state('app.life-policy.statement', {
+            abstract: true,
+            data: {
+                title: '寿险'
+            }
+        })
+        .state('app.life-policy.statement.new', {
+            url: '/life-statements/new',
+            data: {
+                title: '保险公司对账单录入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeStatementEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-statement.html'
+                }
+            }
+        })
+        .state('app.life-policy.statement.list', {
+            url: '/life-statements/list',
+            data: {
+                title: '保险公司对账单列表'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeStatementListController as vm',
+                    templateUrl: 'app/life-policy/views/life-statement-list.html'
+                }
+            }
+        })
+        .state('app.life-policy.statement.view', {
+            url: '/life-statements/view/:statementId',
+            data: {
+                title: '对账单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeStatementEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-statement.html'
+                }
+            }
+        })
 });
     "use strict";
 
@@ -2150,32 +2270,6 @@ angular.module('app.widgets', ['ui.router'])
 
     angular.module('SmartAdmin.Layout', []);
 })();
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\r\n<!-- widget options:\r\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\r\n\r\ndata-widget-colorbutton=\"false\"\r\ndata-widget-editbutton=\"false\"\r\ndata-widget-togglebutton=\"false\"\r\ndata-widget-deletebutton=\"false\"\r\ndata-widget-fullscreenbutton=\"false\"\r\ndata-widget-custombutton=\"false\"\r\ndata-widget-collapsed=\"true\"\r\ndata-widget-sortable=\"false\"\r\n\r\n-->\r\n<header>\r\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\r\n\r\n    <h2>Live Feeds </h2>\r\n\r\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\r\n        <li class=\"active\">\r\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\r\n        </li>\r\n    </ul>\r\n\r\n</header>\r\n\r\n<!-- widget div-->\r\n<div class=\"no-padding\">\r\n\r\n    <div class=\"widget-body\">\r\n        <!-- content -->\r\n        <div id=\"myTabContent\" class=\"tab-content\">\r\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\r\n                <div class=\"row no-space\">\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\r\n														<span class=\"demo-liveupdate-1\"> <span\r\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\r\n                                                                class=\"onoffswitch\">\r\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\r\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\r\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\r\n                                                                    <span class=\"onoffswitch-inner\"\r\n                                                                          data-swchon-text=\"ON\"\r\n                                                                          data-swchoff-text=\"OFF\"></span>\r\n                                                                    <span class=\"onoffswitch-switch\"></span>\r\n                                                                </label> </span> </span>\r\n\r\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\r\n\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\r\n\r\n                        <div class=\"row\">\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\r\n                                    class=\"pull-right\">130/200</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\r\n                                    class=\"pull-right\">440 GB</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\r\n                                    class=\"pull-right\">77%</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\r\n                                    class=\"pull-right\">7 Days</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\r\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\r\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\r\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\r\n                                a bug</a> </span> </span>\r\n\r\n                        </div>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n\r\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">35</span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">78.9 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">23 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-darken\">10GB</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\r\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Temperature <i\r\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s1 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s2\">\r\n                <div class=\"widget-body-toolbar bg-color-white\">\r\n\r\n                    <form class=\"form-inline\" role=\"form\">\r\n\r\n                        <div class=\"form-group\">\r\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\r\n                        </div>\r\n\r\n                        <div class=\"btn-group hidden-phone pull-right\">\r\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                            <ul class=\"dropdown-menu pull-right\">\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                                </li>\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                                </li>\r\n                            </ul>\r\n                        </div>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n                <div class=\"padding-10\">\r\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s2 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s3\">\r\n\r\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\r\n\r\n                    <div class=\"inline-group\">\r\n\r\n                        <label for=\"gra-0\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\r\n                            <i></i> Target </label>\r\n                        <label for=\"gra-1\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\r\n                            <i></i> Actual </label>\r\n                        <label for=\"gra-2\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\r\n                            <i></i> Signups </label>\r\n                    </div>\r\n\r\n                    <div class=\"btn-group hidden-phone pull-right\">\r\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                        <ul class=\"dropdown-menu pull-right\">\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                            </li>\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"padding-10\">\r\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\r\n                </div>\r\n            </div>\r\n            <!-- end s3 tab pane -->\r\n        </div>\r\n\r\n        <!-- end content -->\r\n    </div>\r\n\r\n</div>\r\n<!-- end widget div -->\r\n</div>\r\n");
-$templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\r\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\r\n<!-- END HEADER -->\r\n\r\n\r\n<!-- Left panel : Navigation area -->\r\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\r\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\r\n\r\n<!-- END NAVIGATION -->\r\n\r\n<!-- MAIN PANEL -->\r\n<div id=\"main\" role=\"main\">\r\n    <!--<demo-states></demo-states>-->\r\n\r\n    <!-- RIBBON -->\r\n    <div id=\"ribbon\">\r\n\r\n				<!--<span class=\"ribbon-button-alignment\">\r\n					<span id=\"refresh\" class=\"btn btn-ribbon\" reset-widgets\r\n                          tooltip-placement=\"bottom\"\r\n                          tooltip-html=\"<i class=\'text-warning fa fa-warning\'></i> Warning! This will reset all your widget settings.\">\r\n						<i class=\"fa fa-refresh\"></i>\r\n					</span>\r\n				</span>-->\r\n\r\n        <!-- breadcrumb -->\r\n        <state-breadcrumbs></state-breadcrumbs>\r\n        <!-- end breadcrumb -->\r\n\r\n\r\n    </div>\r\n    <!-- END RIBBON -->\r\n\r\n\r\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\r\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\r\n    </div>\r\n\r\n</div>\r\n<!-- END MAIN PANEL -->\r\n\r\n<!-- PAGE FOOTER -->\r\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\r\n\r\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\r\n\r\n<!-- END PAGE FOOTER -->\r\n\r\n\r\n");
-$templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
-$templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis-widget data-widget-color=\"blueDark\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-calendar\"></i> </span>\r\n\r\n        <h2> My Events </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <div class=\"btn-group dropdown\" dropdown >\r\n                <button class=\"btn dropdown-toggle btn-xs btn-default\" dropdown-toggle>\r\n                    Showing <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu js-status-update pull-right\">\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'month\')\">Month</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaWeek\')\">Agenda</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaDay\')\">Today</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding\">\r\n            <!-- content goes here -->\r\n            <div class=\"widget-body-toolbar\">\r\n\r\n                <div id=\"calendar-buttons\">\r\n\r\n                    <div class=\"btn-group\">\r\n                        <a ng-click=\"prev()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-left\"></i></a>\r\n                        <a ng-click=\"next()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-right\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div id=\"calendar\"></div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>\r\n");
-$templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
-$templateCache.put("app/dashboard/projects/recent-projects.tpl.html","<div class=\"project-context hidden-xs dropdown\" dropdown>\r\n\r\n    <span class=\"label\">{{getWord(\'Projects\')}}:</span>\r\n    <span class=\"project-selector dropdown-toggle\" dropdown-toggle>{{getWord(\'Recent projects\')}} <i ng-if=\"projects.length\"\r\n            class=\"fa fa-angle-down\"></i></span>\r\n\r\n    <ul class=\"dropdown-menu\" ng-if=\"projects.length\">\r\n        <li ng-repeat=\"project in projects\">\r\n            <a href=\"{{project.href}}\">{{project.title}}</a>\r\n        </li>\r\n        <li class=\"divider\"></li>\r\n        <li>\r\n            <a ng-click=\"clearProjects()\"><i class=\"fa fa-power-off\"></i> Clear</a>\r\n        </li>\r\n    </ul>\r\n\r\n</div>");
-$templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-widget\" jarvis-widget data-widget-editbutton=\"false\" data-widget-color=\"blue\"\r\n     ng-controller=\"TodoCtrl\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\r\n\r\n        <h2> ToDo\'s </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <button class=\"btn btn-xs btn-default\" ng-class=\"{active: newTodo}\" ng-click=\"toggleAdd()\"><i ng-class=\"{ \'fa fa-plus\': !newTodo, \'fa fa-times\': newTodo}\"></i> Add</button>\r\n\r\n        </div>\r\n    </header>\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding smart-form\">\r\n            <!-- content goes here -->\r\n            <div ng-show=\"newTodo\">\r\n                <h5 class=\"todo-group-title\"><i class=\"fa fa-plus-circle\"></i> New Todo</h5>\r\n\r\n                <form name=\"newTodoForm\" class=\"smart-form\">\r\n                    <fieldset>\r\n                        <section>\r\n                            <label class=\"input\">\r\n                                <input type=\"text\" required class=\"input-lg\" ng-model=\"newTodo.title\"\r\n                                       placeholder=\"What needs to be done?\">\r\n                            </label>\r\n                        </section>\r\n                        <section>\r\n                            <div class=\"col-xs-6\">\r\n                                <label class=\"select\">\r\n                                    <select class=\"input-sm\" ng-model=\"newTodo.state\"\r\n                                            ng-options=\"state as state for state in states\"></select> <i></i> </label>\r\n                            </div>\r\n                        </section>\r\n                    </fieldset>\r\n                    <footer>\r\n                        <button ng-disabled=\"newTodoForm.$invalid\" type=\"button\" class=\"btn btn-primary\"\r\n                                ng-click=\"createTodo()\">\r\n                            Add\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-default\" ng-click=\"toggleAdd()\">\r\n                            Cancel\r\n                        </button>\r\n                    </footer>\r\n                </form>\r\n            </div>\r\n\r\n            <todo-list state=\"Critical\"  title=\"Critical Tasks\" icon=\"warning\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Important\" title=\"Important Tasks\" icon=\"exclamation\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Completed\" title=\"Completed Tasks\" icon=\"check\" todos=\"todos\"></todo-list>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
-$templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
-$templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-6\">\r\n            <span class=\"txt-color-white txt-big\">红叶保险代理@结算系统</span>\r\n        </div>\r\n    </div>\r\n</div>");
-$templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\r\n<div id=\"logo-group\">\r\n\r\n    <!-- PLACE YOUR LOGO HERE -->\r\n    <span id=\"logo\"> <img src=\"styles/img/hy-text-logo.png\" alt=\"SmartAdmin\"> </span>\r\n    <!-- END LOGO PLACEHOLDER -->\r\n\r\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\r\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\r\n    <!--<span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \r\n        <i class=\"fa fa-user\"></i> \r\n        <b class=\"badge bg-color-red\">21</b> \r\n    </span>\r\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>-->\r\n</div>\r\n\r\n\r\n<!--<recent-projects></recent-projects>-->\r\n\r\n\r\n\r\n<!-- pulled right: nav area -->\r\n<div class=\"pull-right\">\r\n\r\n    <!-- collapse menu button -->\r\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\r\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\r\n                class=\"fa fa-reorder\"></i></a> </span>\r\n    </div>\r\n    <!-- end collapse menu -->\r\n\r\n    <!-- #MOBILE -->\r\n    <!-- Top menu profile link : this shows only when top menu is active -->\r\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\r\n        <li class=\"\">\r\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\r\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\r\n            </a>\r\n            <ul class=\"dropdown-menu pull-right\">\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\r\n                            class=\"fa fa-cog\"></i> Setting</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\r\n                        <u>P</u>rofile</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\r\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n\r\n    <!-- logout button -->\r\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\r\n        <span> <a ng-click=\"logout()\" title=\"Sign Out\" data-action=\"userLogout\"\r\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\r\n                class=\"fa fa-sign-out\"></i></a> </span>\r\n    </div>\r\n    <!-- end logout button -->\r\n\r\n    <!-- input: search field -->\r\n    <!--<form action=\"#/search\" class=\"header-search pull-right\">\r\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\r\n					\"ActionScript\",\r\n					\"AppleScript\",\r\n					\"Asp\",\r\n					\"BASIC\",\r\n					\"C\",\r\n					\"C++\",\r\n					\"Clojure\",\r\n					\"COBOL\",\r\n					\"ColdFusion\",\r\n					\"Erlang\",\r\n					\"Fortran\",\r\n					\"Groovy\",\r\n					\"Haskell\",\r\n					\"Java\",\r\n					\"JavaScript\",\r\n					\"Lisp\",\r\n					\"Perl\",\r\n					\"PHP\",\r\n					\"Python\",\r\n					\"Ruby\",\r\n					\"Scala\",\r\n					\"Scheme\"]\'>\r\n        <button type=\"submit\">\r\n            <i class=\"fa fa-search\"></i>\r\n        </button>\r\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\r\n    </form>-->\r\n    <!-- end input: search field -->\r\n\r\n    <!-- fullscreen button -->\r\n    <!--<div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\r\n        <span> <a full-screen title=\"Full Screen\"><i\r\n                class=\"fa fa-arrows-alt\"></i></a> </span>\r\n    </div>-->\r\n    <!-- end fullscreen button -->\r\n\r\n    <!-- #Voice Command: Start Speech -->\r\n    <!--<div id=\"speech-btn\" class=\"btn-header transparent pull-right hidden-sm hidden-xs\">\r\n        <div>\r\n            <a title=\"Voice Command\" id=\"voice-command-btn\" speech-recognition><i class=\"fa fa-microphone\"></i></a>\r\n\r\n            <div class=\"popover bottom\">\r\n                <div class=\"arrow\"></div>\r\n                <div class=\"popover-content\">\r\n                    <h4 class=\"vc-title\">Voice command activated <br>\r\n                        <small>Please speak clearly into the mic</small>\r\n                    </h4>\r\n                    <h4 class=\"vc-title-error text-center\">\r\n                        <i class=\"fa fa-microphone-slash\"></i> Voice command failed\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must <strong>\"Allow\"</strong> Microphone</small>\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must have <strong>Internet Connection</strong></small>\r\n                    </h4>\r\n                    <a href-void class=\"btn btn-success\" id=\"speech-help-btn\">See Commands</a>\r\n                    <a href-void class=\"btn bg-color-purple txt-color-white\"\r\n                       onclick=\"$(\'#speech-btn .popover\').fadeOut(50);\">Close Popup</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>-->\r\n    <!-- end voice command -->\r\n\r\n\r\n\r\n    <!-- multiple lang dropdown : find all flags in the flags page -->\r\n    <language-selector ng-show=\"false\"></language-selector>\r\n    <!-- end multiple lang -->\r\n\r\n</div>\r\n<!-- end pulled right: nav area -->\r\n\r\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">客户账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人客户</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.new\">添加一级保险公司</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
-$templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\r\n    <ul id=\"sparks\" class=\"\">\r\n        <li class=\"sparks-info\">\r\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\r\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\r\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\r\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\r\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</div>\r\n			");
-$templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\r\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\r\n\r\n<!-- MODAL PLACE HOLDER\r\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\r\n<div class=\"modal-dialog\">\r\n<div class=\"modal-content\"></div>\r\n</div>\r\n</div>   -->\r\n<!--////////////////////////////////////-->\r\n\r\n<!--<div class=\"modal-header\">\r\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\r\n&times;\r\n</button>\r\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\r\n</div>-->\r\n<div class=\"modal-body\">\r\n\r\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\r\n	<hr class=\"simple\">\r\n	<h5>Instruction</h5>\r\n\r\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\r\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\r\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\r\n	<br>\r\n	<br>\r\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\r\n	<br>\r\n	<br>\r\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\r\n	<br>\r\n	<br>\r\n	<h5>Commands</h5>\r\n	<ul>\r\n		<li>\r\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\r\n		</li>\r\n		<li>\r\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\r\n		</li>\r\n		<li>\r\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\r\n		</li>\r\n		<li>\r\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\r\n		</li>\r\n		<li>\r\n			<strong>\'logout\'</strong> - logs you out\r\n		</li>\r\n	</ul>\r\n	<br>\r\n	<h5>Adding your own commands</h5>\r\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \r\n\r\n	<hr class=\"simple\">\r\n	<div class=\"text-right\">\r\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\r\n			Got it!\r\n		</button>\r\n	</div>\r\n\r\n</div>\r\n<!--<div class=\"modal-footer\">\r\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\r\n</div> -->");
-$templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\r\n	<ul>\r\n		<li>\r\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\r\n		</li>\r\n	</ul>\r\n</div>");
-$templateCache.put("app/dashboard/chat/directives/aside-chat-widget.tpl.html","<ul>\r\n    <li>\r\n        <div class=\"display-users\">\r\n            <input class=\"form-control chat-user-filter\" placeholder=\"Filter\" type=\"text\">\r\n            <dl>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha1\"\r\n                       data-chat-fname=\"Sadi\"\r\n                       data-chat-lname=\"Orlaf\"\r\n                       data-chat-status=\"busy\"\r\n                       data-chat-alertmsg=\"Sadi Orlaf is in a meeting. Please do not disturb!\"\r\n                       data-chat-alertshow=\"true\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/5.png\' alt=\'Sadi Orlaf\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Sadi Orlaf</h3>\r\n												<p>Marketing Executive</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Sadi Orlaf\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha2\"\r\n                       data-chat-fname=\"Jessica\"\r\n                       data-chat-lname=\"Dolof\"\r\n                       data-chat-status=\"online\"\r\n                       data-chat-alertmsg=\"\"\r\n                       data-chat-alertshow=\"false\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/1.png\' alt=\'Jessica Dolof\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Jessica Dolof</h3>\r\n												<p>Sales Administrator</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Jessica Dolof\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha3\"\r\n                       data-chat-fname=\"Zekarburg\"\r\n                       data-chat-lname=\"Almandalie\"\r\n                       data-chat-status=\"online\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/3.png\' alt=\'Zekarburg Almandalie\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Zekarburg Almandalie</h3>\r\n												<p>Sales Admin</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Zekarburg Almandalie\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha4\"\r\n                       data-chat-fname=\"Barley\"\r\n                       data-chat-lname=\"Krazurkth\"\r\n                       data-chat-status=\"away\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/4.png\' alt=\'Barley Krazurkth\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Barley Krazurkth</h3>\r\n												<p>Sales Director</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Barley Krazurkth\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr offline\"\r\n                       data-chat-id=\"cha5\"\r\n                       data-chat-fname=\"Farhana\"\r\n                       data-chat-lname=\"Amrin\"\r\n                       data-chat-status=\"incognito\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/female.png\' alt=\'Farhana Amrin\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Farhana Amrin</h3>\r\n												<p>Support Admin <small><i class=\'fa fa-music\'></i> Playing Beethoven Classics</small></p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Farhana Amrin (offline)\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr offline\"\r\n                       data-chat-id=\"cha6\"\r\n                       data-chat-fname=\"Lezley\"\r\n                       data-chat-lname=\"Jacob\"\r\n                       data-chat-status=\"incognito\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/male.png\' alt=\'Lezley Jacob\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Lezley Jacob</h3>\r\n												<p>Sales Director</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Lezley Jacob (offline)\r\n                    </a>\r\n                </dt>\r\n            </dl>\r\n\r\n\r\n            <!--<a href=\"chat.html\" class=\"btn btn-xs btn-default btn-block sa-chat-learnmore-btn\">About the API</a>-->\r\n        </div>\r\n    </li>\r\n</ul>");
-$templateCache.put("app/dashboard/chat/directives/chat-users.tpl.html","<div id=\"chat-container\" ng-class=\"{open: open}\">\r\n    <span class=\"chat-list-open-close\" ng-click=\"openToggle()\"><i class=\"fa fa-user\"></i><b>!</b></span>\r\n\r\n    <div class=\"chat-list-body custom-scroll\">\r\n        <ul id=\"chat-users\">\r\n            <li ng-repeat=\"chatUser in chatUsers | filter: chatUserFilter\">\r\n                <a ng-click=\"messageTo(chatUser)\"><img ng-src=\"{{chatUser.picture}}\">{{chatUser.username}} <span\r\n                        class=\"badge badge-inverse\">{{chatUser.username.length}}</span><span class=\"state\"><i\r\n                        class=\"fa fa-circle txt-color-green pull-right\"></i></span></a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"chat-list-footer\">\r\n        <div class=\"control-group\">\r\n            <form class=\"smart-form\">\r\n                <section>\r\n                    <label class=\"input\" >\r\n                        <input type=\"text\" ng-model=\"chatUserFilter\" id=\"filter-chat-list\" placeholder=\"Filter\">\r\n                    </label>\r\n                </section>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>");
-$templateCache.put("app/dashboard/chat/directives/chat-widget.tpl.html","<div id=\"chat-widget\" jarvis-widget data-widget-color=\"blueDark\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\">\r\n\r\n\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-comments txt-color-white\"></i> </span>\r\n\r\n        <h2> SmartMessage </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n\r\n            <div class=\"btn-group\" data-dropdown>\r\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" dropdown-toggle>\r\n                    Status <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu pull-right js-status-update\">\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\r\n                    </li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\r\n                    </li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\r\n                    </li>\r\n                    <li class=\"divider\"></li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-power-off\"></i> Log Off</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body widget-hide-overflow no-padding\">\r\n            <!-- content goes here -->\r\n\r\n            <chat-users></chat-users>\r\n\r\n            <!-- CHAT BODY -->\r\n            <div id=\"chat-body\" class=\"chat-body custom-scroll\">\r\n                <ul>\r\n                    <li class=\"message\" ng-repeat=\"message in chatMessages\">\r\n                        <img class=\"message-picture online\" ng-src=\"{{message.user.picture}}\">\r\n\r\n                        <div class=\"message-text\">\r\n                            <time>\r\n                                {{message.date | date }}\r\n                            </time>\r\n                            <a ng-click=\"messageTo(message.user)\" class=\"username\">{{message.user.username}}</a>\r\n                            <div ng-bind-html=\"message.body\"></div>\r\n\r\n                        </div>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n\r\n            <!-- CHAT FOOTER -->\r\n            <div class=\"chat-footer\">\r\n\r\n                <!-- CHAT TEXTAREA -->\r\n                <div class=\"textarea-div\">\r\n\r\n                    <div class=\"typearea\">\r\n                        <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\"\r\n                                  class=\"custom-scroll\" ng-model=\"newMessage\"></textarea>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <!-- CHAT REPLY/SEND -->\r\n											<span class=\"textarea-controls\">\r\n												<button class=\"btn btn-sm btn-primary pull-right\" ng-click=\"sendMessage()\">\r\n                                                    Reply\r\n                                                </button> <span class=\"pull-right smart-form\"\r\n                                                                style=\"margin-top: 3px; margin-right: 10px;\"> <label\r\n                                                    class=\"checkbox pull-right\">\r\n                                                <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\r\n                                                <i></i>Press <strong> ENTER </strong> to send </label> </span> <a\r\n                                                    href-void class=\"pull-left\"><i\r\n                                                    class=\"fa fa-camera fa-fw fa-lg\"></i></a> </span>\r\n\r\n            </div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
-$templateCache.put("app/dashboard/todo/directives/todo-list.tpl.html","<div>\r\n    <h5 class=\"todo-group-title\"><i class=\"fa fa-{{icon}}\"></i> {{title}} (\r\n        <small class=\"num-of-tasks\">{{scopeItems.length}}</small>\r\n        )\r\n    </h5>\r\n    <ul class=\"todo\">\r\n        <li ng-class=\"{complete: todo.completedAt}\" ng-repeat=\"todo in todos | orderBy: todo._id | filter: filter  track by todo._id\" >\r\n    	<span class=\"handle\"> <label class=\"checkbox\">\r\n            <input type=\"checkbox\" ng-click=\"todo.toggle()\" ng-checked=\"todo.completedAt\"\r\n                   name=\"checkbox-inline\">\r\n            <i></i> </label> </span>\r\n\r\n            <p>\r\n                <strong>Ticket #{{$index + 1}}</strong> - {{todo.title}}\r\n                <span class=\"text-muted\" ng-if=\"todo.description\">{{todo.description}}</span>\r\n                <span class=\"date\">{{todo.createdAt | date}} &dash; <a ng-click=\"deleteTodo(todo)\" class=\"text-muted\"><i\r\n                        class=\"fa fa-trash\"></i></a></span>\r\n\r\n            </p>\r\n        </li>\r\n    </ul>\r\n</div>");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-attribute-form.tpl.html","<form id=\"attributeForm\" class=\"form-horizontal\"\r\n      data-bv-message=\"This value is not valid\"\r\n      data-bv-feedbackicons-valid=\"glyphicon glyphicon-ok\"\r\n      data-bv-feedbackicons-invalid=\"glyphicon glyphicon-remove\"\r\n      data-bv-feedbackicons-validating=\"glyphicon glyphicon-refresh\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Set validator options via HTML attributes\r\n        </legend>\r\n\r\n        <div class=\"alert alert-warning\">\r\n            <code>&lt; input\r\n                data-bv-validatorname\r\n                data-bv-validatorname-validatoroption=\"...\" / &gt;</code>\r\n\r\n            <br>\r\n            <br>\r\n            More validator options can be found here:\r\n            <a href=\"http://bootstrapvalidator.com/validators/\" target=\"_blank\">http://bootstrapvalidator.com/validators/</a>\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name</label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The first name is required and cannot be empty\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The last name is required and cannot be empty\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Username</label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"username\"\r\n                       data-bv-message=\"The username is not valid\"\r\n\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The username is required and cannot be empty\"\r\n\r\n                       data-bv-regexp=\"true\"\r\n                       data-bv-regexp-regexp=\"^[a-zA-Z0-9_\\.]+$\"\r\n                       data-bv-regexp-message=\"The username can only consist of alphabetical, number, dot and underscore\"\r\n\r\n                       data-bv-stringlength=\"true\"\r\n                       data-bv-stringlength-min=\"6\"\r\n                       data-bv-stringlength-max=\"30\"\r\n                       data-bv-stringlength-message=\"The username must be more than 6 and less than 30 characters long\"\r\n\r\n                       data-bv-different=\"true\"\r\n                       data-bv-different-field=\"password\"\r\n                       data-bv-different-message=\"The username and password cannot be the same as each other\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Email address</label>\r\n            <div class=\"col-lg-5\">\r\n                <input class=\"form-control\" name=\"email\" type=\"email\"\r\n                       data-bv-emailaddress=\"true\"\r\n                       data-bv-emailaddress-message=\"The input is not a valid email address\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Password</label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"password\" class=\"form-control\" name=\"password\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The password is required and cannot be empty\"\r\n\r\n                       data-bv-identical=\"true\"\r\n                       data-bv-identical-field=\"confirmPassword\"\r\n                       data-bv-identical-message=\"The password and its confirm are not the same\"\r\n\r\n                       data-bv-different=\"true\"\r\n                       data-bv-different-field=\"username\"\r\n                       data-bv-different-message=\"The password cannot be the same as username\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Retype password</label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"password\" class=\"form-control\" name=\"confirmPassword\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The confirm password is required and cannot be empty\"\r\n\r\n                       data-bv-identical=\"true\"\r\n                       data-bv-identical-field=\"password\"\r\n                       data-bv-identical-message=\"The password and its confirm are not the same\"\r\n\r\n                       data-bv-different=\"true\"\r\n                       data-bv-different-field=\"username\"\r\n                       data-bv-different-message=\"The password cannot be the same as username\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Languages</label>\r\n            <div class=\"col-lg-5\">\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"english\"\r\n                               data-bv-message=\"Please specify at least one language you can speak\"\r\n                               data-bv-notempty=\"true\" />\r\n                        English </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"french\" />\r\n                        French </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"german\" />\r\n                        German </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"russian\" />\r\n                        Russian </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"other\" />\r\n                        Other </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n     ");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-button-group-form.tpl.html","<form id=\"buttonGroupForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Gender</label>\r\n            <div class=\"col-lg-9\">\r\n                <div class=\"btn-group\" data-toggle=\"buttons\">\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"radio\" name=\"gender\" value=\"male\" />\r\n                        Male </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"radio\" name=\"gender\" value=\"female\" />\r\n                        Female </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"radio\" name=\"gender\" value=\"other\" />\r\n                        Other </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Languages</label>\r\n            <div class=\"col-lg-9\">\r\n                <div class=\"btn-group\" data-toggle=\"buttons\">\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"english\" />\r\n                        English </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"german\" />\r\n                        German </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"french\" />\r\n                        French </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"russian\" />\r\n                        Russian </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"italian\">\r\n                        Italian </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-contact-form.tpl.html","<form id=\"contactForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>Showing messages in custom area</legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Full name</label>\r\n            <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" name=\"fullName\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Email</label>\r\n            <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Title</label>\r\n            <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" name=\"title\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Content</label>\r\n            <div class=\"col-md-6\">\r\n                <textarea class=\"form-control\" name=\"content\" rows=\"5\"></textarea>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <!-- #messages is where the messages are placed inside -->\r\n        <div class=\"form-group\">\r\n            <div class=\"col-md-9 col-md-offset-3\">\r\n                <div id=\"messages\"></div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-movie-form.tpl.html","\r\n<form id=\"movieForm\" method=\"post\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <div class=\"row\">\r\n                <div class=\"col-md-8\">\r\n                    <label class=\"control-label\">Movie title</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"title\" />\r\n                </div>\r\n\r\n                <div class=\"col-md-4 selectContainer\">\r\n                    <label class=\"control-label\">Genre</label>\r\n                    <select class=\"form-control\" name=\"genre\">\r\n                        <option value=\"\">Choose a genre</option>\r\n                        <option value=\"action\">Action</option>\r\n                        <option value=\"comedy\">Comedy</option>\r\n                        <option value=\"horror\">Horror</option>\r\n                        <option value=\"romance\">Romance</option>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <div class=\"row\">\r\n                <div class=\"col-sm-12 col-md-4\">\r\n                    <label class=\"control-label\">Director</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"director\" />\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-4\">\r\n                    <label class=\"control-label\">Writer</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"writer\" />\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-4\">\r\n                    <label class=\"control-label\">Producer</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"producer\" />\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <div class=\"row\">\r\n                <div class=\"col-sm-12 col-md-6\">\r\n                    <label class=\"control-label\">Website</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"website\" />\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-6\">\r\n                    <label class=\"control-label\">Youtube trailer</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"trailer\" />\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Review</label>\r\n            <textarea class=\"form-control\" name=\"review\" rows=\"8\"></textarea>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n\r\n            <div class=\"row\">\r\n                <div class=\"col-sm-12 col-md-12\">\r\n                    <label class=\"control-label\">Rating</label>\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-10\">\r\n\r\n                    <label class=\"radio radio-inline no-margin\">\r\n                        <input type=\"radio\" name=\"rating\" value=\"terrible\" class=\"radiobox style-2\" />\r\n                        <span>Terrible</span> </label>\r\n\r\n                    <label class=\"radio radio-inline\">\r\n                        <input type=\"radio\" name=\"rating\" value=\"watchable\" class=\"radiobox style-2\" />\r\n                        <span>Watchable</span> </label>\r\n                    <label class=\"radio radio-inline\">\r\n                        <input type=\"radio\" name=\"rating\" value=\"best\" class=\"radiobox style-2\" />\r\n                        <span>Best ever</span> </label>\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n\r\n ");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-product-form.tpl.html","<form id=\"productForm\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Price</label>\r\n            <div class=\"col-xs-9 col-lg-6 inputGroupContainer\">\r\n                <div class=\"input-group\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"price\" />\r\n                    <span class=\"input-group-addon\">$</span>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Amount</label>\r\n            <div class=\"col-xs-9 col-lg-6 inputGroupContainer\">\r\n                <div class=\"input-group\">\r\n                    <span class=\"input-group-addon\">&#8364;</span>\r\n                    <input type=\"text\" class=\"form-control\" name=\"amount\" />\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Color</label>\r\n            <div class=\"col-xs-9 col-lg-6 selectContainer\">\r\n                <select class=\"form-control\" name=\"color\">\r\n                    <option value=\"\">Choose a color</option>\r\n                    <option value=\"blue\">Blue</option>\r\n                    <option value=\"green\">Green</option>\r\n                    <option value=\"red\">Red</option>\r\n                    <option value=\"yellow\">Yellow</option>\r\n                    <option value=\"white\">White</option>\r\n                </select>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Size</label>\r\n            <div class=\"col-xs-9 col-lg-6 selectContainer\">\r\n                <select class=\"form-control\" name=\"size\">\r\n                    <option value=\"\">Choose a size</option>\r\n                    <option value=\"S\">S</option>\r\n                    <option value=\"M\">M</option>\r\n                    <option value=\"L\">L</option>\r\n                    <option value=\"XL\">XL</option>\r\n                </select>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n\r\n");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html","<form id=\"profileForm\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label>Email address</label>\r\n            <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n        </div>\r\n    </fieldset>\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label>Password</label>\r\n            <input type=\"password\" class=\"form-control\" name=\"password\" />\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n");
-$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html","<form id=\"togglingForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name <sup>*</sup></label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Company <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"company\"\r\n                       required data-bv-notempty-message=\"The company name is required\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#jobInfo\">\r\n                    Add more info\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"jobInfo\" style=\"display: none;\">\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Job title <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"job\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Department <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"department\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Mobile phone <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"mobilePhone\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#phoneInfo\">\r\n                    Add more phone numbers\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"phoneInfo\" style=\"display: none;\">\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Home phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"homePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Office phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"officePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>");
-$templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<div class=\"demo\"><span id=\"demo-setting\"><i class=\"fa fa-cog txt-color-blueDark\"></i></span>\r\n\r\n    <form>\r\n        <legend class=\"no-padding margin-bottom-10\">Layout Options</legend>\r\n        <section>\r\n            <label><input type=\"checkbox\" ng-model=\"fixedHeader\"\r\n                          class=\"checkbox style-0\"><span>Fixed Header</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedNavigation\"\r\n                          class=\"checkbox style-0\"><span>Fixed Navigation</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedRibbon\"\r\n                          class=\"checkbox style-0\"><span>Fixed Ribbon</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedPageFooter\"\r\n                          class=\"checkbox style-0\"><span>Fixed Footer</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"insideContainer\"\r\n                          class=\"checkbox style-0\"><span>Inside <b>.container</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"rtl\"\r\n                          class=\"checkbox style-0\"><span>RTL</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"menuOnTop\"\r\n                          class=\"checkbox style-0\"><span>Menu on <b>top</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"colorblindFriendly\"\r\n                          class=\"checkbox style-0\"><span>For Colorblind <div\r\n                    class=\"font-xs text-right\">(experimental)\r\n            </div></span>\r\n            </label><span id=\"smart-bgimages\"></span></section>\r\n        <section><h6 class=\"margin-top-10 semi-bold margin-bottom-5\">Clear Localstorage</h6><a\r\n                ng-click=\"factoryReset()\" class=\"btn btn-xs btn-block btn-primary\" id=\"reset-smart-widget\"><i\r\n                class=\"fa fa-refresh\"></i> Factory Reset</a></section>\r\n\r\n        <h6 class=\"margin-top-10 semi-bold margin-bottom-5\">SmartAdmin Skins</h6>\r\n\r\n\r\n        <section id=\"smart-styles\">\r\n            <a ng-repeat=\"skin in skins\" ng-click=\"setSkin(skin)\" class=\"{{skin.class}}\" style=\"{{skin.style}}\"><i ng-if=\"skin.name == $parent.smartSkin\" class=\"fa fa-check fa-fw\"></i> {{skin.label}}</a>\r\n        </section>\r\n    </form>\r\n</div>");}]);
     "use strict";
 
 
@@ -2198,6 +2292,32 @@ angular.module('app.chat', ['ngSanitize'])
         return $sce.trustAsHtml(val);
     };
 }]);
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\r\n<!-- widget options:\r\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\r\n\r\ndata-widget-colorbutton=\"false\"\r\ndata-widget-editbutton=\"false\"\r\ndata-widget-togglebutton=\"false\"\r\ndata-widget-deletebutton=\"false\"\r\ndata-widget-fullscreenbutton=\"false\"\r\ndata-widget-custombutton=\"false\"\r\ndata-widget-collapsed=\"true\"\r\ndata-widget-sortable=\"false\"\r\n\r\n-->\r\n<header>\r\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\r\n\r\n    <h2>Live Feeds </h2>\r\n\r\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\r\n        <li class=\"active\">\r\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\r\n        </li>\r\n    </ul>\r\n\r\n</header>\r\n\r\n<!-- widget div-->\r\n<div class=\"no-padding\">\r\n\r\n    <div class=\"widget-body\">\r\n        <!-- content -->\r\n        <div id=\"myTabContent\" class=\"tab-content\">\r\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\r\n                <div class=\"row no-space\">\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\r\n														<span class=\"demo-liveupdate-1\"> <span\r\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\r\n                                                                class=\"onoffswitch\">\r\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\r\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\r\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\r\n                                                                    <span class=\"onoffswitch-inner\"\r\n                                                                          data-swchon-text=\"ON\"\r\n                                                                          data-swchoff-text=\"OFF\"></span>\r\n                                                                    <span class=\"onoffswitch-switch\"></span>\r\n                                                                </label> </span> </span>\r\n\r\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\r\n\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\r\n\r\n                        <div class=\"row\">\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\r\n                                    class=\"pull-right\">130/200</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\r\n                                    class=\"pull-right\">440 GB</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\r\n                                    class=\"pull-right\">77%</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\r\n                                    class=\"pull-right\">7 Days</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\r\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\r\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\r\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\r\n                                a bug</a> </span> </span>\r\n\r\n                        </div>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n\r\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">35</span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">78.9 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">23 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-darken\">10GB</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\r\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Temperature <i\r\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s1 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s2\">\r\n                <div class=\"widget-body-toolbar bg-color-white\">\r\n\r\n                    <form class=\"form-inline\" role=\"form\">\r\n\r\n                        <div class=\"form-group\">\r\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\r\n                        </div>\r\n\r\n                        <div class=\"btn-group hidden-phone pull-right\">\r\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                            <ul class=\"dropdown-menu pull-right\">\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                                </li>\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                                </li>\r\n                            </ul>\r\n                        </div>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n                <div class=\"padding-10\">\r\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s2 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s3\">\r\n\r\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\r\n\r\n                    <div class=\"inline-group\">\r\n\r\n                        <label for=\"gra-0\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\r\n                            <i></i> Target </label>\r\n                        <label for=\"gra-1\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\r\n                            <i></i> Actual </label>\r\n                        <label for=\"gra-2\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\r\n                            <i></i> Signups </label>\r\n                    </div>\r\n\r\n                    <div class=\"btn-group hidden-phone pull-right\">\r\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                        <ul class=\"dropdown-menu pull-right\">\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                            </li>\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"padding-10\">\r\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\r\n                </div>\r\n            </div>\r\n            <!-- end s3 tab pane -->\r\n        </div>\r\n\r\n        <!-- end content -->\r\n    </div>\r\n\r\n</div>\r\n<!-- end widget div -->\r\n</div>\r\n");
+$templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\r\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\r\n<!-- END HEADER -->\r\n\r\n\r\n<!-- Left panel : Navigation area -->\r\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\r\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\r\n\r\n<!-- END NAVIGATION -->\r\n\r\n<!-- MAIN PANEL -->\r\n<div id=\"main\" role=\"main\">\r\n    <!--<demo-states></demo-states>-->\r\n\r\n    <!-- RIBBON -->\r\n    <div id=\"ribbon\">\r\n\r\n				<!--<span class=\"ribbon-button-alignment\">\r\n					<span id=\"refresh\" class=\"btn btn-ribbon\" reset-widgets\r\n                          tooltip-placement=\"bottom\"\r\n                          tooltip-html=\"<i class=\'text-warning fa fa-warning\'></i> Warning! This will reset all your widget settings.\">\r\n						<i class=\"fa fa-refresh\"></i>\r\n					</span>\r\n				</span>-->\r\n\r\n        <!-- breadcrumb -->\r\n        <state-breadcrumbs></state-breadcrumbs>\r\n        <!-- end breadcrumb -->\r\n\r\n\r\n    </div>\r\n    <!-- END RIBBON -->\r\n\r\n\r\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\r\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\r\n    </div>\r\n\r\n</div>\r\n<!-- END MAIN PANEL -->\r\n\r\n<!-- PAGE FOOTER -->\r\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\r\n\r\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\r\n\r\n<!-- END PAGE FOOTER -->\r\n\r\n\r\n");
+$templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
+$templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis-widget data-widget-color=\"blueDark\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-calendar\"></i> </span>\r\n\r\n        <h2> My Events </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <div class=\"btn-group dropdown\" dropdown >\r\n                <button class=\"btn dropdown-toggle btn-xs btn-default\" dropdown-toggle>\r\n                    Showing <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu js-status-update pull-right\">\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'month\')\">Month</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaWeek\')\">Agenda</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaDay\')\">Today</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding\">\r\n            <!-- content goes here -->\r\n            <div class=\"widget-body-toolbar\">\r\n\r\n                <div id=\"calendar-buttons\">\r\n\r\n                    <div class=\"btn-group\">\r\n                        <a ng-click=\"prev()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-left\"></i></a>\r\n                        <a ng-click=\"next()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-right\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div id=\"calendar\"></div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>\r\n");
+$templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
+$templateCache.put("app/dashboard/projects/recent-projects.tpl.html","<div class=\"project-context hidden-xs dropdown\" dropdown>\r\n\r\n    <span class=\"label\">{{getWord(\'Projects\')}}:</span>\r\n    <span class=\"project-selector dropdown-toggle\" dropdown-toggle>{{getWord(\'Recent projects\')}} <i ng-if=\"projects.length\"\r\n            class=\"fa fa-angle-down\"></i></span>\r\n\r\n    <ul class=\"dropdown-menu\" ng-if=\"projects.length\">\r\n        <li ng-repeat=\"project in projects\">\r\n            <a href=\"{{project.href}}\">{{project.title}}</a>\r\n        </li>\r\n        <li class=\"divider\"></li>\r\n        <li>\r\n            <a ng-click=\"clearProjects()\"><i class=\"fa fa-power-off\"></i> Clear</a>\r\n        </li>\r\n    </ul>\r\n\r\n</div>");
+$templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-widget\" jarvis-widget data-widget-editbutton=\"false\" data-widget-color=\"blue\"\r\n     ng-controller=\"TodoCtrl\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\r\n\r\n        <h2> ToDo\'s </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <button class=\"btn btn-xs btn-default\" ng-class=\"{active: newTodo}\" ng-click=\"toggleAdd()\"><i ng-class=\"{ \'fa fa-plus\': !newTodo, \'fa fa-times\': newTodo}\"></i> Add</button>\r\n\r\n        </div>\r\n    </header>\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding smart-form\">\r\n            <!-- content goes here -->\r\n            <div ng-show=\"newTodo\">\r\n                <h5 class=\"todo-group-title\"><i class=\"fa fa-plus-circle\"></i> New Todo</h5>\r\n\r\n                <form name=\"newTodoForm\" class=\"smart-form\">\r\n                    <fieldset>\r\n                        <section>\r\n                            <label class=\"input\">\r\n                                <input type=\"text\" required class=\"input-lg\" ng-model=\"newTodo.title\"\r\n                                       placeholder=\"What needs to be done?\">\r\n                            </label>\r\n                        </section>\r\n                        <section>\r\n                            <div class=\"col-xs-6\">\r\n                                <label class=\"select\">\r\n                                    <select class=\"input-sm\" ng-model=\"newTodo.state\"\r\n                                            ng-options=\"state as state for state in states\"></select> <i></i> </label>\r\n                            </div>\r\n                        </section>\r\n                    </fieldset>\r\n                    <footer>\r\n                        <button ng-disabled=\"newTodoForm.$invalid\" type=\"button\" class=\"btn btn-primary\"\r\n                                ng-click=\"createTodo()\">\r\n                            Add\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-default\" ng-click=\"toggleAdd()\">\r\n                            Cancel\r\n                        </button>\r\n                    </footer>\r\n                </form>\r\n            </div>\r\n\r\n            <todo-list state=\"Critical\"  title=\"Critical Tasks\" icon=\"warning\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Important\" title=\"Important Tasks\" icon=\"exclamation\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Completed\" title=\"Completed Tasks\" icon=\"check\" todos=\"todos\"></todo-list>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
+$templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
+$templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-6\">\r\n            <span class=\"txt-color-white txt-big\">红叶保险代理@结算系统</span>\r\n        </div>\r\n    </div>\r\n</div>");
+$templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\r\n<div id=\"logo-group\">\r\n\r\n    <!-- PLACE YOUR LOGO HERE -->\r\n    <span id=\"logo\"> <img src=\"styles/img/hy-text-logo.png\" alt=\"SmartAdmin\"> </span>\r\n    <!-- END LOGO PLACEHOLDER -->\r\n\r\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\r\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\r\n    <!--<span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \r\n        <i class=\"fa fa-user\"></i> \r\n        <b class=\"badge bg-color-red\">21</b> \r\n    </span>\r\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>-->\r\n</div>\r\n\r\n\r\n<!--<recent-projects></recent-projects>-->\r\n\r\n\r\n\r\n<!-- pulled right: nav area -->\r\n<div class=\"pull-right\">\r\n\r\n    <!-- collapse menu button -->\r\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\r\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\r\n                class=\"fa fa-reorder\"></i></a> </span>\r\n    </div>\r\n    <!-- end collapse menu -->\r\n\r\n    <!-- #MOBILE -->\r\n    <!-- Top menu profile link : this shows only when top menu is active -->\r\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\r\n        <li class=\"\">\r\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\r\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\r\n            </a>\r\n            <ul class=\"dropdown-menu pull-right\">\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\r\n                            class=\"fa fa-cog\"></i> Setting</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\r\n                        <u>P</u>rofile</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\r\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n\r\n    <!-- logout button -->\r\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\r\n        <span> <a ng-click=\"logout()\" title=\"Sign Out\" data-action=\"userLogout\"\r\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\r\n                class=\"fa fa-sign-out\"></i></a> </span>\r\n    </div>\r\n    <!-- end logout button -->\r\n\r\n    <!-- input: search field -->\r\n    <!--<form action=\"#/search\" class=\"header-search pull-right\">\r\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\r\n					\"ActionScript\",\r\n					\"AppleScript\",\r\n					\"Asp\",\r\n					\"BASIC\",\r\n					\"C\",\r\n					\"C++\",\r\n					\"Clojure\",\r\n					\"COBOL\",\r\n					\"ColdFusion\",\r\n					\"Erlang\",\r\n					\"Fortran\",\r\n					\"Groovy\",\r\n					\"Haskell\",\r\n					\"Java\",\r\n					\"JavaScript\",\r\n					\"Lisp\",\r\n					\"Perl\",\r\n					\"PHP\",\r\n					\"Python\",\r\n					\"Ruby\",\r\n					\"Scala\",\r\n					\"Scheme\"]\'>\r\n        <button type=\"submit\">\r\n            <i class=\"fa fa-search\"></i>\r\n        </button>\r\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\r\n    </form>-->\r\n    <!-- end input: search field -->\r\n\r\n    <!-- fullscreen button -->\r\n    <!--<div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\r\n        <span> <a full-screen title=\"Full Screen\"><i\r\n                class=\"fa fa-arrows-alt\"></i></a> </span>\r\n    </div>-->\r\n    <!-- end fullscreen button -->\r\n\r\n    <!-- #Voice Command: Start Speech -->\r\n    <!--<div id=\"speech-btn\" class=\"btn-header transparent pull-right hidden-sm hidden-xs\">\r\n        <div>\r\n            <a title=\"Voice Command\" id=\"voice-command-btn\" speech-recognition><i class=\"fa fa-microphone\"></i></a>\r\n\r\n            <div class=\"popover bottom\">\r\n                <div class=\"arrow\"></div>\r\n                <div class=\"popover-content\">\r\n                    <h4 class=\"vc-title\">Voice command activated <br>\r\n                        <small>Please speak clearly into the mic</small>\r\n                    </h4>\r\n                    <h4 class=\"vc-title-error text-center\">\r\n                        <i class=\"fa fa-microphone-slash\"></i> Voice command failed\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must <strong>\"Allow\"</strong> Microphone</small>\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must have <strong>Internet Connection</strong></small>\r\n                    </h4>\r\n                    <a href-void class=\"btn btn-success\" id=\"speech-help-btn\">See Commands</a>\r\n                    <a href-void class=\"btn bg-color-purple txt-color-white\"\r\n                       onclick=\"$(\'#speech-btn .popover\').fadeOut(50);\">Close Popup</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>-->\r\n    <!-- end voice command -->\r\n\r\n\r\n\r\n    <!-- multiple lang dropdown : find all flags in the flags page -->\r\n    <language-selector ng-show=\"false\"></language-selector>\r\n    <!-- end multiple lang -->\r\n\r\n</div>\r\n<!-- end pulled right: nav area -->\r\n\r\n</header>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">车险机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">车险个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.life\">寿险业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加车险机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加车险个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.life.new\">添加寿险业务员</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.new\">添加一级保险公司</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
+$templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\r\n    <ul id=\"sparks\" class=\"\">\r\n        <li class=\"sparks-info\">\r\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\r\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\r\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\r\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\r\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</div>\r\n			");
+$templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\r\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\r\n\r\n<!-- MODAL PLACE HOLDER\r\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\r\n<div class=\"modal-dialog\">\r\n<div class=\"modal-content\"></div>\r\n</div>\r\n</div>   -->\r\n<!--////////////////////////////////////-->\r\n\r\n<!--<div class=\"modal-header\">\r\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\r\n&times;\r\n</button>\r\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\r\n</div>-->\r\n<div class=\"modal-body\">\r\n\r\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\r\n	<hr class=\"simple\">\r\n	<h5>Instruction</h5>\r\n\r\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\r\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\r\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\r\n	<br>\r\n	<br>\r\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\r\n	<br>\r\n	<br>\r\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\r\n	<br>\r\n	<br>\r\n	<h5>Commands</h5>\r\n	<ul>\r\n		<li>\r\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\r\n		</li>\r\n		<li>\r\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\r\n		</li>\r\n		<li>\r\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\r\n		</li>\r\n		<li>\r\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\r\n		</li>\r\n		<li>\r\n			<strong>\'logout\'</strong> - logs you out\r\n		</li>\r\n	</ul>\r\n	<br>\r\n	<h5>Adding your own commands</h5>\r\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \r\n\r\n	<hr class=\"simple\">\r\n	<div class=\"text-right\">\r\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\r\n			Got it!\r\n		</button>\r\n	</div>\r\n\r\n</div>\r\n<!--<div class=\"modal-footer\">\r\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\r\n</div> -->");
+$templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\r\n	<ul>\r\n		<li>\r\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\r\n		</li>\r\n	</ul>\r\n</div>");
+$templateCache.put("app/dashboard/chat/directives/aside-chat-widget.tpl.html","<ul>\r\n    <li>\r\n        <div class=\"display-users\">\r\n            <input class=\"form-control chat-user-filter\" placeholder=\"Filter\" type=\"text\">\r\n            <dl>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha1\"\r\n                       data-chat-fname=\"Sadi\"\r\n                       data-chat-lname=\"Orlaf\"\r\n                       data-chat-status=\"busy\"\r\n                       data-chat-alertmsg=\"Sadi Orlaf is in a meeting. Please do not disturb!\"\r\n                       data-chat-alertshow=\"true\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/5.png\' alt=\'Sadi Orlaf\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Sadi Orlaf</h3>\r\n												<p>Marketing Executive</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Sadi Orlaf\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha2\"\r\n                       data-chat-fname=\"Jessica\"\r\n                       data-chat-lname=\"Dolof\"\r\n                       data-chat-status=\"online\"\r\n                       data-chat-alertmsg=\"\"\r\n                       data-chat-alertshow=\"false\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/1.png\' alt=\'Jessica Dolof\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Jessica Dolof</h3>\r\n												<p>Sales Administrator</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Jessica Dolof\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha3\"\r\n                       data-chat-fname=\"Zekarburg\"\r\n                       data-chat-lname=\"Almandalie\"\r\n                       data-chat-status=\"online\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/3.png\' alt=\'Zekarburg Almandalie\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Zekarburg Almandalie</h3>\r\n												<p>Sales Admin</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Zekarburg Almandalie\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha4\"\r\n                       data-chat-fname=\"Barley\"\r\n                       data-chat-lname=\"Krazurkth\"\r\n                       data-chat-status=\"away\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/4.png\' alt=\'Barley Krazurkth\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Barley Krazurkth</h3>\r\n												<p>Sales Director</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Barley Krazurkth\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr offline\"\r\n                       data-chat-id=\"cha5\"\r\n                       data-chat-fname=\"Farhana\"\r\n                       data-chat-lname=\"Amrin\"\r\n                       data-chat-status=\"incognito\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/female.png\' alt=\'Farhana Amrin\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Farhana Amrin</h3>\r\n												<p>Support Admin <small><i class=\'fa fa-music\'></i> Playing Beethoven Classics</small></p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Farhana Amrin (offline)\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr offline\"\r\n                       data-chat-id=\"cha6\"\r\n                       data-chat-fname=\"Lezley\"\r\n                       data-chat-lname=\"Jacob\"\r\n                       data-chat-status=\"incognito\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/male.png\' alt=\'Lezley Jacob\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Lezley Jacob</h3>\r\n												<p>Sales Director</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Lezley Jacob (offline)\r\n                    </a>\r\n                </dt>\r\n            </dl>\r\n\r\n\r\n            <!--<a href=\"chat.html\" class=\"btn btn-xs btn-default btn-block sa-chat-learnmore-btn\">About the API</a>-->\r\n        </div>\r\n    </li>\r\n</ul>");
+$templateCache.put("app/dashboard/chat/directives/chat-users.tpl.html","<div id=\"chat-container\" ng-class=\"{open: open}\">\r\n    <span class=\"chat-list-open-close\" ng-click=\"openToggle()\"><i class=\"fa fa-user\"></i><b>!</b></span>\r\n\r\n    <div class=\"chat-list-body custom-scroll\">\r\n        <ul id=\"chat-users\">\r\n            <li ng-repeat=\"chatUser in chatUsers | filter: chatUserFilter\">\r\n                <a ng-click=\"messageTo(chatUser)\"><img ng-src=\"{{chatUser.picture}}\">{{chatUser.username}} <span\r\n                        class=\"badge badge-inverse\">{{chatUser.username.length}}</span><span class=\"state\"><i\r\n                        class=\"fa fa-circle txt-color-green pull-right\"></i></span></a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"chat-list-footer\">\r\n        <div class=\"control-group\">\r\n            <form class=\"smart-form\">\r\n                <section>\r\n                    <label class=\"input\" >\r\n                        <input type=\"text\" ng-model=\"chatUserFilter\" id=\"filter-chat-list\" placeholder=\"Filter\">\r\n                    </label>\r\n                </section>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>");
+$templateCache.put("app/dashboard/chat/directives/chat-widget.tpl.html","<div id=\"chat-widget\" jarvis-widget data-widget-color=\"blueDark\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\">\r\n\r\n\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-comments txt-color-white\"></i> </span>\r\n\r\n        <h2> SmartMessage </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n\r\n            <div class=\"btn-group\" data-dropdown>\r\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" dropdown-toggle>\r\n                    Status <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu pull-right js-status-update\">\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\r\n                    </li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\r\n                    </li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\r\n                    </li>\r\n                    <li class=\"divider\"></li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-power-off\"></i> Log Off</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body widget-hide-overflow no-padding\">\r\n            <!-- content goes here -->\r\n\r\n            <chat-users></chat-users>\r\n\r\n            <!-- CHAT BODY -->\r\n            <div id=\"chat-body\" class=\"chat-body custom-scroll\">\r\n                <ul>\r\n                    <li class=\"message\" ng-repeat=\"message in chatMessages\">\r\n                        <img class=\"message-picture online\" ng-src=\"{{message.user.picture}}\">\r\n\r\n                        <div class=\"message-text\">\r\n                            <time>\r\n                                {{message.date | date }}\r\n                            </time>\r\n                            <a ng-click=\"messageTo(message.user)\" class=\"username\">{{message.user.username}}</a>\r\n                            <div ng-bind-html=\"message.body\"></div>\r\n\r\n                        </div>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n\r\n            <!-- CHAT FOOTER -->\r\n            <div class=\"chat-footer\">\r\n\r\n                <!-- CHAT TEXTAREA -->\r\n                <div class=\"textarea-div\">\r\n\r\n                    <div class=\"typearea\">\r\n                        <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\"\r\n                                  class=\"custom-scroll\" ng-model=\"newMessage\"></textarea>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <!-- CHAT REPLY/SEND -->\r\n											<span class=\"textarea-controls\">\r\n												<button class=\"btn btn-sm btn-primary pull-right\" ng-click=\"sendMessage()\">\r\n                                                    Reply\r\n                                                </button> <span class=\"pull-right smart-form\"\r\n                                                                style=\"margin-top: 3px; margin-right: 10px;\"> <label\r\n                                                    class=\"checkbox pull-right\">\r\n                                                <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\r\n                                                <i></i>Press <strong> ENTER </strong> to send </label> </span> <a\r\n                                                    href-void class=\"pull-left\"><i\r\n                                                    class=\"fa fa-camera fa-fw fa-lg\"></i></a> </span>\r\n\r\n            </div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
+$templateCache.put("app/dashboard/todo/directives/todo-list.tpl.html","<div>\r\n    <h5 class=\"todo-group-title\"><i class=\"fa fa-{{icon}}\"></i> {{title}} (\r\n        <small class=\"num-of-tasks\">{{scopeItems.length}}</small>\r\n        )\r\n    </h5>\r\n    <ul class=\"todo\">\r\n        <li ng-class=\"{complete: todo.completedAt}\" ng-repeat=\"todo in todos | orderBy: todo._id | filter: filter  track by todo._id\" >\r\n    	<span class=\"handle\"> <label class=\"checkbox\">\r\n            <input type=\"checkbox\" ng-click=\"todo.toggle()\" ng-checked=\"todo.completedAt\"\r\n                   name=\"checkbox-inline\">\r\n            <i></i> </label> </span>\r\n\r\n            <p>\r\n                <strong>Ticket #{{$index + 1}}</strong> - {{todo.title}}\r\n                <span class=\"text-muted\" ng-if=\"todo.description\">{{todo.description}}</span>\r\n                <span class=\"date\">{{todo.createdAt | date}} &dash; <a ng-click=\"deleteTodo(todo)\" class=\"text-muted\"><i\r\n                        class=\"fa fa-trash\"></i></a></span>\r\n\r\n            </p>\r\n        </li>\r\n    </ul>\r\n</div>");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-attribute-form.tpl.html","<form id=\"attributeForm\" class=\"form-horizontal\"\r\n      data-bv-message=\"This value is not valid\"\r\n      data-bv-feedbackicons-valid=\"glyphicon glyphicon-ok\"\r\n      data-bv-feedbackicons-invalid=\"glyphicon glyphicon-remove\"\r\n      data-bv-feedbackicons-validating=\"glyphicon glyphicon-refresh\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Set validator options via HTML attributes\r\n        </legend>\r\n\r\n        <div class=\"alert alert-warning\">\r\n            <code>&lt; input\r\n                data-bv-validatorname\r\n                data-bv-validatorname-validatoroption=\"...\" / &gt;</code>\r\n\r\n            <br>\r\n            <br>\r\n            More validator options can be found here:\r\n            <a href=\"http://bootstrapvalidator.com/validators/\" target=\"_blank\">http://bootstrapvalidator.com/validators/</a>\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name</label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The first name is required and cannot be empty\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The last name is required and cannot be empty\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Username</label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"username\"\r\n                       data-bv-message=\"The username is not valid\"\r\n\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The username is required and cannot be empty\"\r\n\r\n                       data-bv-regexp=\"true\"\r\n                       data-bv-regexp-regexp=\"^[a-zA-Z0-9_\\.]+$\"\r\n                       data-bv-regexp-message=\"The username can only consist of alphabetical, number, dot and underscore\"\r\n\r\n                       data-bv-stringlength=\"true\"\r\n                       data-bv-stringlength-min=\"6\"\r\n                       data-bv-stringlength-max=\"30\"\r\n                       data-bv-stringlength-message=\"The username must be more than 6 and less than 30 characters long\"\r\n\r\n                       data-bv-different=\"true\"\r\n                       data-bv-different-field=\"password\"\r\n                       data-bv-different-message=\"The username and password cannot be the same as each other\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Email address</label>\r\n            <div class=\"col-lg-5\">\r\n                <input class=\"form-control\" name=\"email\" type=\"email\"\r\n                       data-bv-emailaddress=\"true\"\r\n                       data-bv-emailaddress-message=\"The input is not a valid email address\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Password</label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"password\" class=\"form-control\" name=\"password\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The password is required and cannot be empty\"\r\n\r\n                       data-bv-identical=\"true\"\r\n                       data-bv-identical-field=\"confirmPassword\"\r\n                       data-bv-identical-message=\"The password and its confirm are not the same\"\r\n\r\n                       data-bv-different=\"true\"\r\n                       data-bv-different-field=\"username\"\r\n                       data-bv-different-message=\"The password cannot be the same as username\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Retype password</label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"password\" class=\"form-control\" name=\"confirmPassword\"\r\n                       data-bv-notempty=\"true\"\r\n                       data-bv-notempty-message=\"The confirm password is required and cannot be empty\"\r\n\r\n                       data-bv-identical=\"true\"\r\n                       data-bv-identical-field=\"password\"\r\n                       data-bv-identical-message=\"The password and its confirm are not the same\"\r\n\r\n                       data-bv-different=\"true\"\r\n                       data-bv-different-field=\"username\"\r\n                       data-bv-different-message=\"The password cannot be the same as username\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Languages</label>\r\n            <div class=\"col-lg-5\">\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"english\"\r\n                               data-bv-message=\"Please specify at least one language you can speak\"\r\n                               data-bv-notempty=\"true\" />\r\n                        English </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"french\" />\r\n                        French </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"german\" />\r\n                        German </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"russian\" />\r\n                        Russian </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                    <label>\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"other\" />\r\n                        Other </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n     ");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-button-group-form.tpl.html","<form id=\"buttonGroupForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Gender</label>\r\n            <div class=\"col-lg-9\">\r\n                <div class=\"btn-group\" data-toggle=\"buttons\">\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"radio\" name=\"gender\" value=\"male\" />\r\n                        Male </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"radio\" name=\"gender\" value=\"female\" />\r\n                        Female </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"radio\" name=\"gender\" value=\"other\" />\r\n                        Other </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Languages</label>\r\n            <div class=\"col-lg-9\">\r\n                <div class=\"btn-group\" data-toggle=\"buttons\">\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"english\" />\r\n                        English </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"german\" />\r\n                        German </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"french\" />\r\n                        French </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"russian\" />\r\n                        Russian </label>\r\n                    <label class=\"btn btn-default\">\r\n                        <input type=\"checkbox\" name=\"languages[]\" value=\"italian\">\r\n                        Italian </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-contact-form.tpl.html","<form id=\"contactForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>Showing messages in custom area</legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Full name</label>\r\n            <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" name=\"fullName\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Email</label>\r\n            <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Title</label>\r\n            <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" name=\"title\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-md-3 control-label\">Content</label>\r\n            <div class=\"col-md-6\">\r\n                <textarea class=\"form-control\" name=\"content\" rows=\"5\"></textarea>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <!-- #messages is where the messages are placed inside -->\r\n        <div class=\"form-group\">\r\n            <div class=\"col-md-9 col-md-offset-3\">\r\n                <div id=\"messages\"></div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-movie-form.tpl.html","\r\n<form id=\"movieForm\" method=\"post\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <div class=\"row\">\r\n                <div class=\"col-md-8\">\r\n                    <label class=\"control-label\">Movie title</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"title\" />\r\n                </div>\r\n\r\n                <div class=\"col-md-4 selectContainer\">\r\n                    <label class=\"control-label\">Genre</label>\r\n                    <select class=\"form-control\" name=\"genre\">\r\n                        <option value=\"\">Choose a genre</option>\r\n                        <option value=\"action\">Action</option>\r\n                        <option value=\"comedy\">Comedy</option>\r\n                        <option value=\"horror\">Horror</option>\r\n                        <option value=\"romance\">Romance</option>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <div class=\"row\">\r\n                <div class=\"col-sm-12 col-md-4\">\r\n                    <label class=\"control-label\">Director</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"director\" />\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-4\">\r\n                    <label class=\"control-label\">Writer</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"writer\" />\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-4\">\r\n                    <label class=\"control-label\">Producer</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"producer\" />\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <div class=\"row\">\r\n                <div class=\"col-sm-12 col-md-6\">\r\n                    <label class=\"control-label\">Website</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"website\" />\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-6\">\r\n                    <label class=\"control-label\">Youtube trailer</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"trailer\" />\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"control-label\">Review</label>\r\n            <textarea class=\"form-control\" name=\"review\" rows=\"8\"></textarea>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n\r\n            <div class=\"row\">\r\n                <div class=\"col-sm-12 col-md-12\">\r\n                    <label class=\"control-label\">Rating</label>\r\n                </div>\r\n\r\n                <div class=\"col-sm-12 col-md-10\">\r\n\r\n                    <label class=\"radio radio-inline no-margin\">\r\n                        <input type=\"radio\" name=\"rating\" value=\"terrible\" class=\"radiobox style-2\" />\r\n                        <span>Terrible</span> </label>\r\n\r\n                    <label class=\"radio radio-inline\">\r\n                        <input type=\"radio\" name=\"rating\" value=\"watchable\" class=\"radiobox style-2\" />\r\n                        <span>Watchable</span> </label>\r\n                    <label class=\"radio radio-inline\">\r\n                        <input type=\"radio\" name=\"rating\" value=\"best\" class=\"radiobox style-2\" />\r\n                        <span>Best ever</span> </label>\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</form>\r\n\r\n ");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-product-form.tpl.html","<form id=\"productForm\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Price</label>\r\n            <div class=\"col-xs-9 col-lg-6 inputGroupContainer\">\r\n                <div class=\"input-group\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"price\" />\r\n                    <span class=\"input-group-addon\">$</span>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Amount</label>\r\n            <div class=\"col-xs-9 col-lg-6 inputGroupContainer\">\r\n                <div class=\"input-group\">\r\n                    <span class=\"input-group-addon\">&#8364;</span>\r\n                    <input type=\"text\" class=\"form-control\" name=\"amount\" />\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Color</label>\r\n            <div class=\"col-xs-9 col-lg-6 selectContainer\">\r\n                <select class=\"form-control\" name=\"color\">\r\n                    <option value=\"\">Choose a color</option>\r\n                    <option value=\"blue\">Blue</option>\r\n                    <option value=\"green\">Green</option>\r\n                    <option value=\"red\">Red</option>\r\n                    <option value=\"yellow\">Yellow</option>\r\n                    <option value=\"white\">White</option>\r\n                </select>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-xs-2 col-lg-3 control-label\">Size</label>\r\n            <div class=\"col-xs-9 col-lg-6 selectContainer\">\r\n                <select class=\"form-control\" name=\"size\">\r\n                    <option value=\"\">Choose a size</option>\r\n                    <option value=\"S\">S</option>\r\n                    <option value=\"M\">M</option>\r\n                    <option value=\"L\">L</option>\r\n                    <option value=\"XL\">XL</option>\r\n                </select>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n\r\n");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html","<form id=\"profileForm\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label>Email address</label>\r\n            <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n        </div>\r\n    </fieldset>\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label>Password</label>\r\n            <input type=\"password\" class=\"form-control\" name=\"password\" />\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n");
+$templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html","<form id=\"togglingForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name <sup>*</sup></label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Company <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"company\"\r\n                       required data-bv-notempty-message=\"The company name is required\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#jobInfo\">\r\n                    Add more info\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"jobInfo\" style=\"display: none;\">\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Job title <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"job\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Department <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"department\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Mobile phone <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"mobilePhone\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#phoneInfo\">\r\n                    Add more phone numbers\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"phoneInfo\" style=\"display: none;\">\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Home phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"homePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Office phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"officePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>");
+$templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<div class=\"demo\"><span id=\"demo-setting\"><i class=\"fa fa-cog txt-color-blueDark\"></i></span>\r\n\r\n    <form>\r\n        <legend class=\"no-padding margin-bottom-10\">Layout Options</legend>\r\n        <section>\r\n            <label><input type=\"checkbox\" ng-model=\"fixedHeader\"\r\n                          class=\"checkbox style-0\"><span>Fixed Header</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedNavigation\"\r\n                          class=\"checkbox style-0\"><span>Fixed Navigation</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedRibbon\"\r\n                          class=\"checkbox style-0\"><span>Fixed Ribbon</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedPageFooter\"\r\n                          class=\"checkbox style-0\"><span>Fixed Footer</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"insideContainer\"\r\n                          class=\"checkbox style-0\"><span>Inside <b>.container</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"rtl\"\r\n                          class=\"checkbox style-0\"><span>RTL</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"menuOnTop\"\r\n                          class=\"checkbox style-0\"><span>Menu on <b>top</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"colorblindFriendly\"\r\n                          class=\"checkbox style-0\"><span>For Colorblind <div\r\n                    class=\"font-xs text-right\">(experimental)\r\n            </div></span>\r\n            </label><span id=\"smart-bgimages\"></span></section>\r\n        <section><h6 class=\"margin-top-10 semi-bold margin-bottom-5\">Clear Localstorage</h6><a\r\n                ng-click=\"factoryReset()\" class=\"btn btn-xs btn-block btn-primary\" id=\"reset-smart-widget\"><i\r\n                class=\"fa fa-refresh\"></i> Factory Reset</a></section>\r\n\r\n        <h6 class=\"margin-top-10 semi-bold margin-bottom-5\">SmartAdmin Skins</h6>\r\n\r\n\r\n        <section id=\"smart-styles\">\r\n            <a ng-repeat=\"skin in skins\" ng-click=\"setSkin(skin)\" class=\"{{skin.class}}\" style=\"{{skin.style}}\"><i ng-if=\"skin.name == $parent.smartSkin\" class=\"fa fa-check fa-fw\"></i> {{skin.label}}</a>\r\n        </section>\r\n    </form>\r\n</div>");}]);
 'use strict';
 
 angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $interval, CalendarEvent) {
@@ -3492,8 +3612,166 @@ angular.module('app.client').controller('IndClientListController', function(scre
     // With Callback
     vm.delete =  function (clientId) {
         $.SmartMessageBox({
-            title: "删除客户",
-            content: "确认删除该客户？",
+            title: "删除业务员",
+            content: "确认删除该业务员？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                ClientService.deleteClient(clientId)
+                    .then(function(){
+                        vm.refreshClients();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.client').controller('LifeClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
+    var vm = this;
+    vm.client = {};
+    vm.wechats = [];
+    vm.bindedWechats = [];
+    vm.editable = false;
+    vm.client.other_accounts = [];
+
+    if ($state.is("app.client.life.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var clientId = $stateParams.clientId;
+    if (clientId) {
+        ClientService.getClient(clientId)
+            .then(function (client) {
+                vm.client = client;
+                LoadWechats();
+            });
+    }else{
+        ClientService.getFollowers()
+                    .then(function (followers) {
+                        vm.wechats = followers;
+                    });
+    }
+    
+
+    function LoadWechats() {
+        var openIds = vm.client.wechats;
+        ClientService.getWechatsByIds(openIds)
+            .then(function (wechats) {
+                if (wechats && wechats.length > 0) {
+                    vm.bindedWechats = wechats;
+                }
+            })
+            .then(function () {
+                ClientService.getFollowers()
+                    .then(function (followers) {
+                        vm.wechats = followers;
+                        removeBindedWechatsFromFollowers();
+                    });
+            })
+    }
+
+
+    function removeBindedWechatsFromFollowers() {
+        vm.wechats = vm.wechats.filter(function (current) {
+            return vm.bindedWechats.filter(function (current_b) {
+                return current_b.openid == current.openid
+            }).length == 0
+        });
+    }
+
+    vm.addAccount = function() {
+        var newItemNo = vm.client.other_accounts.length+1;
+        vm.client.other_accounts.push({'bank':'','account':''});
+    };
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.bindWechat = function (wechat) {
+        vm.bindedWechats.push(wechat);
+        removeBindedWechatsFromFollowers();
+    }
+
+    vm.unbindWechat = function (i) {
+        vm.wechats.push(vm.bindedWechats[i]);
+        vm.bindedWechats.splice(i, 1);
+    }
+
+
+    vm.submit = function () {
+        vm.client.client_type = "寿险";
+        vm.client.wechats = vm.bindedWechats.map(function(wechat){
+            return wechat.openid;
+        })
+        ClientService.saveClient(vm.client)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "客户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.client = {};
+                vm.client.other_accounts = [];
+                if (vm.back) {
+                    $state.go("app.client.life");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.client').controller('LifeClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
+    var vm = this;
+    vm.clients = [];
+
+
+
+    vm.refreshClients = function(){
+       ClientService.getLifeClients()
+       .then(function(clients){
+           vm.clients = clients;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshClients();
+	
+    vm.view = function(clientId){
+        $state.go("app.client.life.view", {clientId: clientId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (clientId) {
+        $.SmartMessageBox({
+            title: "删除业务员",
+            content: "确认删除该业务员？",
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
@@ -3680,6 +3958,7 @@ angular.module('app.client').factory('ClientService',
                 saveClient: saveClient,
                 getOrgClients: getOrgClients,
                 getIndClients: getIndClients,
+                getLifeClients: getLifeClients,
                 getClient: getClient,
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
@@ -3800,6 +4079,30 @@ angular.module('app.client').factory('ClientService',
 
                 // send a post request to the server
                 $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getLifeClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=life')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -4081,128 +4384,6 @@ angular.module('app.company').controller('CompanyListController', function(scree
 
 });
 
-"use strict";	
-
-angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
-
-	$scope.activeTab = 'default';
-	$scope.currentActivityItems = [];
-	
-	// Getting different type of activites
-	activityService.get(function(data){
-
-		$scope.activities = data.activities;
-		
-	});
-
-
-	$scope.isActive = function(tab){
-		return $scope.activeTab === tab;
-	};
-
-	$scope.setTab = function(activityType){
-		$scope.activeTab = activityType;
-
-		activityService.getbytype(activityType, function(data) {
-
-			$scope.currentActivityItems = data.data;
-
-		});
-
-	};
-
-});
-"use strict";
-
-angular.module('app').directive('activitiesDropdownToggle', function($log) {
-
-	var link = function($scope,$element, attrs){
-		var ajax_dropdown = null;
-
-		$element.on('click',function(){
-			var badge = $(this).find('.badge');
-
-			if (badge.hasClass('bg-color-red')) {
-
-				badge.removeClass('bg-color-red').text(0);
-
-			}
-
-			ajax_dropdown = $(this).next('.ajax-dropdown');
-
-			if (!ajax_dropdown.is(':visible')) {
-
-				ajax_dropdown.fadeIn(150);
-
-				$(this).addClass('active');
-
-			}
-			 else {
-				
-				ajax_dropdown.fadeOut(150);
-				
-				$(this).removeClass('active');
-
-			}
-
-		})
-
-		$(document).mouseup(function(e) {
-			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
-				ajax_dropdown.fadeOut(150);
-				$element.removeClass('active');
-			}
-		});
-	}
-	
-	return{
-		restrict:'EA',
-		link:link
-	}
-});
-"use strict";
-
-angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
-
-	function getActivities(callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getActivitiesByType(type, callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-	
-	return{
-		get:function(callback){
-			getActivities(callback);
-		},
-		getbytype:function(type,callback){
-			getActivitiesByType(type, callback);
-		}
-	}
-});
 "use strict";
 
 angular.module('app.company').factory('CompanyService',
@@ -4434,6 +4615,128 @@ angular.module('app.company').factory('CompanyService',
 
 
         }]);
+"use strict";	
+
+angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
+
+	$scope.activeTab = 'default';
+	$scope.currentActivityItems = [];
+	
+	// Getting different type of activites
+	activityService.get(function(data){
+
+		$scope.activities = data.activities;
+		
+	});
+
+
+	$scope.isActive = function(tab){
+		return $scope.activeTab === tab;
+	};
+
+	$scope.setTab = function(activityType){
+		$scope.activeTab = activityType;
+
+		activityService.getbytype(activityType, function(data) {
+
+			$scope.currentActivityItems = data.data;
+
+		});
+
+	};
+
+});
+"use strict";
+
+angular.module('app').directive('activitiesDropdownToggle', function($log) {
+
+	var link = function($scope,$element, attrs){
+		var ajax_dropdown = null;
+
+		$element.on('click',function(){
+			var badge = $(this).find('.badge');
+
+			if (badge.hasClass('bg-color-red')) {
+
+				badge.removeClass('bg-color-red').text(0);
+
+			}
+
+			ajax_dropdown = $(this).next('.ajax-dropdown');
+
+			if (!ajax_dropdown.is(':visible')) {
+
+				ajax_dropdown.fadeIn(150);
+
+				$(this).addClass('active');
+
+			}
+			 else {
+				
+				ajax_dropdown.fadeOut(150);
+				
+				$(this).removeClass('active');
+
+			}
+
+		})
+
+		$(document).mouseup(function(e) {
+			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
+				ajax_dropdown.fadeOut(150);
+				$element.removeClass('active');
+			}
+		});
+	}
+	
+	return{
+		restrict:'EA',
+		link:link
+	}
+});
+"use strict";
+
+angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
+
+	function getActivities(callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getActivitiesByType(type, callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+	
+	return{
+		get:function(callback){
+			getActivities(callback);
+		},
+		getbytype:function(type,callback){
+			getActivitiesByType(type, callback);
+		}
+	}
+});
 "use strict";
 
 angular.module('app').factory('Project', function($http, APP_CONFIG){
@@ -5718,7 +6021,11 @@ angular.module('app').directive('toggleShortcut', function($log,$timeout) {
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
     var vm = this;
     vm.policy = {};
+    vm.applicant = {};
     vm.clientInfo = {};
+    vm.zy_clientInfo = {};
+    vm.managerInfo = {};
+    vm.directorInfo = {};
     vm.sellerInfo = $rootScope.user;
     LifePolicyService.getClients()
         .then(function (clients) {
@@ -5728,9 +6035,26 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         .then(function (companies) {
             vm.companies = companies;
         })
+    LifePolicyService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
 
     vm.editable = false;
+
+    vm.addSubPolicy = function () {
+        vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'payment_rate': undefined, 'payment': undefined });
+    };
+
+    vm.addInsurant = function () {
+        vm.policy.insurants.push({ 'name': '', 'address': '', 'phone': '', 'identity': '', 'sex': '', 'birthday': undefined });
+    };
+
     if ($state.is("app.life-policy.new")) {
+        vm.policy.sub_policies = [];
+        vm.policy.insurants = [];
+        vm.addSubPolicy();
+        vm.addInsurant();
         vm.editable = true;
     }
 
@@ -5743,8 +6067,15 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
+                vm.zy_clientInfo = policy.zy_client;
+                vm.managerInfo = policy.manager;
+                vm.directorInfo = policy.director;
+
                 policy.client = policy.client._id;
                 policy.seller = policy.seller._id;
+                policy.zy_client = policy.zy_client._id;
+                policy.manager = policy.manager._id;
+                policy.director = policy.director._id;
             });
     }
 
@@ -5758,8 +6089,13 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     }
 
 
+
+
     vm.submit = function () {
         vm.policy.client = vm.clientInfo._id;
+        vm.policy.zy_client = vm.zy_clientInfo._id;
+        vm.policy.manager = vm.managerInfo._id;
+        vm.policy.director = vm.directorInfo._id;
         LifePolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -5770,74 +6106,68 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                     timeout: 5000
                 });
                 vm.policy = {};
-                vm.policy.plate_province = "苏";
+                vm.applicant = {};
+                vm.clientInfo = {};
+                vm.zy_clientInfo = {};
+                vm.managerInfo = {};
+                vm.directorInfo = {};
+                vm.policy.sub_policies = [];
+                vm.policy.insurants = [];
+                vm.addSubPolicy();
+                vm.addInsurant();
                 if (vm.back) {
                     $state.go("app.life-policy.to-be-paid");
                 }
             }, function (err) { });
     };
 
-    vm.pay = function () {
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认已支付该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "已支付";
-                vm.policy.paid_at = Date.now();
-                LifePolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
+    // vm.pay = function () {
+    //     $.SmartMessageBox({
+    //         title: "修改保单状态",
+    //         content: "确认已支付该保单？",
+    //         buttons: '[取消][确认]'
+    //     }, function (ButtonPressed) {
+    //         if (ButtonPressed === "确认") {
+    //             vm.policy.policy_status = "已支付";
+    //             vm.policy.paid_at = Date.now();
+    //             LifePolicyService.savePolicy(vm.policy)
+    //                 .then(function (data) {
+    //                     $.smallBox({
+    //                         title: "服务器确认信息",
+    //                         content: "保单状态已成功更改为已支付",
+    //                         color: "#739E73",
+    //                         iconSmall: "fa fa-check",
+    //                         timeout: 5000
+    //                     });
+    //                 }, function (err) { });
+    //         }
+    //         if (ButtonPressed === "取消") {
 
-            }
+    //         }
 
-        });
+    //     });
 
-    };
+    // };
 
-    vm.updateFee = function () {
-        vm.policy.income = vm.policy.fee * vm.policy.income_rate / 100;
-        if (vm.policy.income) {
-            vm.policy.income = vm.policy.income.toFixed(2);
+    vm.updateFee = function (subPolicy) {
+        if(subPolicy.fee == undefined) return;
+        subPolicy.payment = subPolicy.fee * subPolicy.payment_rate / 100;
+        vm.policy.payment_total = 0;
+        for (var i = 0; i < vm.policy.sub_policies.length; i++) {
+            vm.policy.payment_total += vm.policy.sub_policies[i].payment;
         }
-        vm.policy.income_addition = vm.policy.fee * vm.policy.income_addition_rate / 100;
-        if (vm.policy.income_addition) {
-            vm.policy.income_addition = vm.policy.income_addition.toFixed(2);
+        vm.policy.taxed_payment_total = vm.policy.payment_total * 0.95;
+        vm.policy.taxed_payment_total = vm.policy.taxed_payment_total.toFixed(2);
+        vm.policy.zy_payment = vm.policy.total_fee * vm.policy.zy_rate * 0.95 / 100;
+        vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
+    }
+
+    vm.updateZYPayment = function () {
+        if (vm.policy.zy_rate) {
+            vm.policy.zy_payment = vm.policy.total_fee * vm.policy.zy_rate * 0.95 / 100;
+            vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
         }
-        
-        if(!isNaN(vm.policy.income) && !isNaN(vm.policy.income_addition)){
-            vm.policy.income_total = parseFloat(vm.policy.income) + parseFloat(vm.policy.income_addition);
-            vm.policy.income_total = vm.policy.income_total.toFixed(2);
-        }
-        
-        vm.policy.payment = vm.policy.fee * vm.policy.payment_rate / 100;
-        if (vm.policy.payment) {
-            vm.policy.payment = vm.policy.payment.toFixed(2);
-        }
-        vm.policy.payment_addition = vm.policy.fee * vm.policy.payment_addition_rate / 100;
-        if (vm.policy.payment_addition) {
-            vm.policy.payment_addition = vm.policy.payment_addition.toFixed(2);
-        }
-        
-        if(!isNaN(vm.policy.payment) && !isNaN(vm.policy.payment_addition)){
-            vm.policy.payment_total = parseFloat(vm.policy.payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.payment_total = vm.policy.payment_total.toFixed(2);
-        }
-                
-        if(!isNaN(vm.policy.income_total) && !isNaN(vm.policy.payment_total)){
-            vm.policy.profit = parseFloat(vm.policy.income_total) - parseFloat(vm.policy.payment_total);
-            vm.policy.profit = vm.policy.profit.toFixed(2);
-        }
+
     }
 });
 
@@ -5892,6 +6222,27 @@ angular.module('app.life-policy').directive('price', function () {
     };
 });
 
+angular.module('app.life-policy').directive('dateFormat', ['$filter',function($filter) {
+    var dateFilter = $filter('date');
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+
+            function formatter(value) {
+                return dateFilter(value, 'yyyy-MM-dd'); //format
+            }
+
+            function parser() {
+                return ctrl.$modelValue;
+            }
+
+            ctrl.$formatters.push(formatter);
+            ctrl.$parsers.unshift(parser);
+
+        }
+    };
+}]);
+
 angular.module('app.life-policy').filter('propsFilter', function () {
     return function (items, props) {
         var out = [];
@@ -5904,21 +6255,21 @@ angular.module('app.life-policy').filter('propsFilter', function () {
                 for (var i = 0; i < keys.length; i++) {
                     var prop = keys[i];
                     if (/^[\u4e00-\u9fa5]+$/.test(text)) {
-                        if(item['name'].indexOf(text) == 0){
+                        if (item['name'].indexOf(text) == 0) {
                             itemMatches = true;
-                                break;
+                            break;
                         }
                     } else {
                         var text = props[prop].toUpperCase();
                         var pylist = item['py'];
-                      
+
                         for (var j = 0; j < pylist.length; j++) {
                             if (pylist[j].indexOf(text) == 0) {
                                 itemMatches = true;
                                 break;
                             }
                         }
-                        if(itemMatches){
+                        if (itemMatches) {
                             break;
                         }
                     }
@@ -5944,9 +6295,9 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     var vm = this;
     vm.policies = [];
     vm.organizations = [];
-    vm.totalIncome = 0;
-    vm.totalPayment = 0;
-    vm.totalProfit = 0;
+    // vm.totalIncome = 0;
+    // vm.totalPayment = 0;
+    // vm.totalProfit = 0;
 
 
     LifePolicyService.getClients()
@@ -5967,13 +6318,10 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     vm.listType = "all";
     if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
-        vm.filterSettings = localStorageService.get("life-filterSettings") ? localStorageService.get("life-filterSettings") : {};
+        vm.filterSettings = localStorageService.get("life-filterSettings1") ? localStorageService.get("life-filterSettings1") : {};
         vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
-        vm.tableHeader = "待支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "applicant.name"];
-        }
+        vm.tableHeader = "保单列表";
     } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("life-paid-filterSettings") ? localStorageService.get("life-paid-filterSettings") : {};
@@ -5997,7 +6345,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
     vm.filterChanged = function () {
         if ($state.is("app.life-policy.to-be-paid")) {
-            localStorageService.set("life-filterSettings", vm.filterSettings);
+            localStorageService.set("life-filterSettings1", vm.filterSettings);
             localStorageService.set('life-fromDate', vm.fromDate);
             localStorageService.set('life-toDate', vm.toDate);
         }
@@ -6008,7 +6356,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         }
         
         vm.refreshPolicies();
-        vm.refreshSummary();
     };
 
     vm.refreshPolicies = function () {
@@ -6016,16 +6363,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             return;
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
-    };
-
-    vm.refreshSummary = function () {
-
-        LifePolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-            .then(function (data) {
-                vm.totalIncome = data.total_income;
-                vm.totalPayment = data.total_payment;
-                vm.totalProfit = data.total_profit;
-            }, function (err) { });
     };
 
 
@@ -6036,7 +6373,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             return;
         }
         vm.refreshPolicies();
-        vm.refreshSummary();
         $timeout(poller, 1000 * 60);
     };
 
@@ -6058,37 +6394,34 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             })
     };
 
-    vm.bulkPay = function () {
-        $.SmartMessageBox({
-            title: "批量修改保单状态",
-            content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已批量更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        vm.refreshPolicies();
-                        vm.refreshSummary();
-                    }, function (err) {
+    // vm.bulkPay = function () {
+    //     $.SmartMessageBox({
+    //         title: "批量修改保单状态",
+    //         content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
+    //         buttons: '[取消][确认]'
+    //     }, function (ButtonPressed) {
+    //         if (ButtonPressed === "确认") {
+    //             LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+    //                 .then(function (data) {
+    //                     $.smallBox({
+    //                         title: "服务器确认信息",
+    //                         content: "保单状态已批量更改为已支付",
+    //                         color: "#739E73",
+    //                         iconSmall: "fa fa-check",
+    //                         timeout: 5000
+    //                     });
+    //                     vm.refreshPolicies();
+    //                     vm.refreshSummary();
+    //                 }, function (err) {
 
-                    });
-            }
-            if (ButtonPressed === "取消") {
+    //                 });
+    //         }
+    //         if (ButtonPressed === "取消") {
 
-            }
+    //         }
 
-        });
-
-
-
-    };
+    //     });
+    // };
 
     vm.isShowPayButton = function (policy) {
         return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
@@ -6145,6 +6478,430 @@ angular.module('app.life-policy')
             return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
         }
     });
+'use strict'
+
+angular.module('app.life-policy').controller('LifeSalaryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
+    var vm = this;
+    vm.salary = {};
+    vm.managerInfo = {};
+    vm.sellerInfo = $rootScope.user;
+    LifePolicyService.getClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+    LifePolicyService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+    vm.editable = false;
+    if ($state.is("app.life-policy.salary.new")) {
+        vm.editable = true;
+        var today = new Date();
+        vm.salary.year = today.getFullYear().toString();
+        vm.salary.month = (today.getMonth()+1).toString();
+    }
+
+
+
+    var salaryId = $stateParams.salaryId;
+    if (salaryId) {
+        LifePolicyService.getSalary(salaryId)
+            .then(function (salary) {
+                vm.salary = salary;
+                vm.managerInfo = salary.manager;
+                vm.sellerInfo = salary.seller;
+                salary.manager = salary.manager._id;
+                salary.seller = salary.seller._id;
+            });
+    }
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+
+    vm.submit = function () {
+        vm.salary.manager = vm.managerInfo._id;
+        LifePolicyService.saveSalary(vm.salary)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "薪酬结算单已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.salary = {};
+                if (vm.back) {
+                    $state.go("app.life-policy.salary.list");
+                }
+            }, function (err) { });
+    };
+
+    vm.updateFee = function () {
+        
+        if(vm.salary.branch_salary && vm.salary.area_salary){
+            vm.salary.salary_total = parseFloat(vm.salary.branch_salary) + parseFloat(vm.salary.area_salary);
+            vm.salary.taxed_salary_total = (vm.salary.salary_total * 0.95).toFixed(2);
+        }
+    }
+});
+
+
+'use strict'
+
+angular.module('app.life-policy').controller('LifeSalaryListController', function (screenSize, $timeout, $rootScope, $state, $scope, LifePolicyService, localStorageService) {
+    var vm = this;
+    vm.salaries = [];
+    vm.organizations = [];
+
+
+    LifePolicyService.getClients()
+        .then(function (managers) {
+            vm.managers = managers;
+        })
+    LifePolicyService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+    LifePolicyService.getSellers()
+        .then(function (sellers) {
+            vm.sellers = sellers;
+        })
+
+
+    vm.filterSettings = localStorageService.get("life－salary-filterSettings") ? localStorageService.get("life-salary-filterSettings") : {};
+    vm.tableHeader = "薪酬结算单列表";
+    if (screenSize.is('xs, sm')) {
+        vm.displayFields = ["manager.name", "taxed_salary_total"];
+    }
+
+
+    vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        vm.currentPage = currentPage;
+        vm.pageItems = pageItems;
+        LifePolicyService.searchSalaries(currentPage, pageItems, vm.listType, vm.filterSettings)
+            .then(function (data) {
+                vm.salaries = data.salaries;
+                vm.salaryTotalCount = data.totalCount;
+            }, function (err) { });
+    };
+
+    vm.filterChanged = function () {
+        localStorageService.set("life-salary-filterSettings", vm.filterSettings);
+        vm.refreshSalaries();
+        // vm.refreshSummary();
+    };
+
+    vm.refreshSalaries = function () {
+        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+            return;
+        }
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+    };
+
+    // vm.refreshSummary = function () {
+
+    //     LifePolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+    //         .then(function (data) {
+    //             vm.totalIncome = data.total_income;
+    //             vm.totalPayment = data.total_payment;
+    //             vm.totalProfit = data.total_profit;
+    //         }, function (err) { });
+    // };
+
+
+
+
+    var poller = function () {
+        if ($rootScope.user.role == "出单员") {
+            return;
+        }
+        vm.refreshSalaries();
+        // vm.refreshSummary();
+        $timeout(poller, 1000 * 60);
+    };
+
+    poller();
+
+    vm.exportFilteredSalaries = function () {
+        LifePolicyService.getFilteredSalaryCSV(vm.listType, vm.filterSettings)
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'salary.csv'
+                })[0].click();
+            })
+    };
+
+    // vm.bulkPay = function () {
+    //     $.SmartMessageBox({
+    //         title: "批量修改保单状态",
+    //         content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
+    //         buttons: '[取消][确认]'
+    //     }, function (ButtonPressed) {
+    //         if (ButtonPressed === "确认") {
+    //             LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+    //                 .then(function (data) {
+    //                     $.smallBox({
+    //                         title: "服务器确认信息",
+    //                         content: "保单状态已批量更改为已支付",
+    //                         color: "#739E73",
+    //                         iconSmall: "fa fa-check",
+    //                         timeout: 5000
+    //                     });
+    //                     vm.refreshPolicies();
+    //                     vm.refreshSummary();
+    //                 }, function (err) {
+
+    //                 });
+    //         }
+    //         if (ButtonPressed === "取消") {
+
+    //         }
+
+    //     });
+
+
+
+    // };
+
+    // vm.isShowPayButton = function (policy) {
+    //     return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
+    // };
+
+    vm.isShowDeleteButton = function (salary) {
+        if ($rootScope.user.role == "管理员") return true;
+        return $rootScope.user.role == "出单员";
+    };
+
+    vm.isShowViewButton = function (salary) {
+        return true;
+    };
+
+    // vm.pay = function (policyId) {
+    //     $state.go("app.life-policy.pay", { policyId: policyId });
+    // };
+
+    vm.view = function (salaryId) {
+        $state.go("app.life-policy.salary.view", { salaryId: salaryId });
+    };
+
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (salaryId) {
+        $.SmartMessageBox({
+            title: "删除薪酬结算单",
+            content: "确认删除该结算单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                LifePolicyService.deleteSalary(salaryId)
+                    .then(function () {
+                        vm.refreshSalaries();
+                        // vm.refreshSummary();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+
+});
+
+
+'use strict'
+
+angular.module('app.life-policy').controller('LifeStatementEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
+    var vm = this;
+    vm.statement = {};
+    vm.sellerInfo = $rootScope.user;
+    LifePolicyService.getCompanies()
+        .then(function (companies) {
+            vm.companies = companies;
+        })
+      
+    vm.editable = false;
+    if ($state.is("app.life-policy.statement.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var statementId = $stateParams.statementId;
+    if (statementId) {
+        LifePolicyService.getStatement(statementId)
+            .then(function (statement) {
+                vm.statement = statement;
+                vm.sellerInfo = statement.seller;
+                statement.seller = statement.seller._id;
+            });
+    }
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+
+    vm.submit = function () {
+        LifePolicyService.saveStatement(vm.statement)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "对账单已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.statement = {};
+                if (vm.back) {
+                    $state.go("app.life-policy.statement.list");
+                }
+            }, function (err) { });
+    };
+});
+
+
+'use strict'
+
+angular.module('app.life-policy').controller('LifeStatementListController', function (screenSize, $timeout, $rootScope, $state, $scope, LifePolicyService, localStorageService) {
+    var vm = this;
+    vm.statements = [];
+    vm.companies = [];
+
+    LifePolicyService.getSellers()
+        .then(function (sellers) {
+            vm.sellers = sellers;
+        })
+    LifePolicyService.getCompanies()
+        .then(function (companies) {
+            vm.companies = companies;
+        })
+
+
+    vm.filterSettings = localStorageService.get("life－statement-filterSettings") ? localStorageService.get("life-statement-filterSettings") : {};
+    vm.fromDate = localStorageService.get("statement-fromDate") ? localStorageService.get("statement-fromDate") : undefined;
+    vm.toDate = localStorageService.get("statement-toDate") ? localStorageService.get("statement-toDate") : undefined;
+    vm.tableHeader = "保险公司对账单列表";
+
+
+    vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        vm.currentPage = currentPage;
+        vm.pageItems = pageItems;
+        LifePolicyService.searchStatements(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (data) {
+                vm.statements = data.statements;
+                vm.statementTotalCount = data.totalCount;
+            }, function (err) { });
+    };
+
+    vm.filterChanged = function () {
+        localStorageService.set("life-statement-filterSettings", vm.filterSettings);
+        localStorageService.set('statement-fromDate', vm.fromDate);
+        localStorageService.set('statement-toDate', vm.toDate);
+        vm.refreshStatements();
+        // vm.refreshSummary();
+    };
+
+    vm.refreshStatements = function () {
+        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+            return;
+        }
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+    };
+
+    var poller = function () {
+        if ($rootScope.user.role == "出单员") {
+            return;
+        }
+        vm.refreshStatements();
+        $timeout(poller, 1000 * 60 * 5);
+    };
+
+    poller();
+
+    vm.exportFilteredStatements = function () {
+        LifePolicyService.getFilteredStatementCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'statement.csv'
+                })[0].click();
+            })
+    };
+
+
+    vm.isShowDeleteButton = function (statement) {
+        if ($rootScope.user.role == "管理员") return true;
+        return $rootScope.user.role == "出单员";
+    };
+
+    vm.isShowViewButton = function (salary) {
+        return true;
+    };
+
+    vm.view = function (statementId) {
+        $state.go("app.life-policy.statement.view", { statementId: statementId });
+    };
+
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (statementId) {
+        $.SmartMessageBox({
+            title: "删除保险公司对账单",
+            content: "确认删除该对账单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                LifePolicyService.deleteStatement(statementId)
+                    .then(function () {
+                        vm.refreshStatements();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+
+});
+
+
 "use strict";
 
 angular.module('app.life-policy').factory('LifePolicyService',
@@ -6162,8 +6919,18 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getOrganizations: getOrganizations,
                 getSellers: getSellers,
                 getFilteredCSV: getFilteredCSV,
-                getSummary: getSummary,
-                bulkPay: bulkPay
+                // getSummary: getSummary,
+                // bulkPay: bulkPay,
+                saveSalary: saveSalary,
+                getSalary: getSalary,
+                searchSalaries: searchSalaries,
+                getFilteredSalaryCSV: getFilteredSalaryCSV,
+                deleteSalary: deleteSalary,
+                saveStatement: saveStatement,
+                getStatement: getStatement,
+                searchStatements: searchStatements,
+                getFilteredStatementCSV: getFilteredStatementCSV,
+                deleteStatement: deleteStatement
             });
 
             function savePolicy(policy) {
@@ -6204,17 +6971,139 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            function saveSalary(salary) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (salary._id) {
+                    salary.updated_at = Date.now();
+                    $http.put('/api/life-salaries/' + salary._id, salary)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    salary.created_at = Date.now();
+                    salary.updated_at = salary.created_at;
+                    $http.post('/api/life-salaries', salary)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveStatement(statement) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (statement._id) {
+                    statement.updated_at = Date.now();
+                    $http.put('/api/life-statements/' + statement._id, statement)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    statement.created_at = Date.now();
+                    statement.updated_at = statement.created_at;
+                    $http.post('/api/life-statements', statement)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getPolicies(type) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 var url = "/api/life-policies"
-                if (type == "to-be-paid") {
-                    url = "/api/life-policies/to-be-paid";
-                } else if (type == "paid") {
-                    url = "/api/life-policies/paid";
-                }
+                // if (type == "to-be-paid") {
+                //     url = "/api/life-policies/to-be-paid";
+                // } else if (type == "paid") {
+                //     url = "/api/life-policies/paid";
+                // }
                 $http.get(url)
                 // handle success
                     .success(function (data, status) {
@@ -6276,6 +7165,50 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            function deleteSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function deleteStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getClients() {
 
@@ -6283,7 +7216,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients')
+                $http.get('/api/clients?type=life')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -6328,15 +7261,8 @@ angular.module('app.life-policy').factory('LifePolicyService',
             function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
+                var orderBy = "submit_date";
+                var orderByReverse = true;
                 
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
@@ -6371,30 +7297,24 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
             
-            function getSummary(type, filterSettings, fromDate, toDate) {
+            function searchSalaries(currentPage, pageSize, type, filterSettings) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
+                var orderByReverse = true;
+                
                 var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
                 };
 
-                $http.post("/api/life-policies/summary", config)
+                
+                $http.post("/api/life-salaries/search", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -6412,21 +7332,18 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
             
-            function bulkPay(type, filterSettings, fromDate, toDate) {
+            function searchStatements(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
+                var orderByReverse = true;
+                
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
                 var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
@@ -6435,7 +7352,8 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     toDate: end
                 };
 
-                $http.post("/api/life-policies/bulk-pay", config)
+                
+                $http.post("/api/life-statements/search", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -6452,19 +7370,101 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            // function getSummary(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/summary", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
+            
+            // function bulkPay(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/bulk-pay", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
             
             function getFilteredCSV(type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
+                var orderBy = "submit_date";
+                var orderByReverse = true;
+                // if (type == "to-be-paid") {
+                //     filterSettings.policy_status = "待支付";
+                //     orderByReverse = false;
+                // } else if (type == "paid") {
+                //     filterSettings.policy_status = "已支付";
+                //     orderByReverse = true;
+                // }
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
                 var config = {
@@ -6476,6 +7476,68 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     toDate: end
                 };
                 $http.post("/api/life-policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredSalaryCSV(type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                };
+                $http.post("/api/life-salaries/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredStatementCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/life-statements/excel", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -7235,7 +8297,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.refreshPolicies();
         vm.refreshSummary();
-        $timeout(poller, 1000 * 60);
+        $timeout(poller, 1000 * 60 * 2);
     };
 
     poller();
@@ -12364,53 +13426,6 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
         }
     }
 });
-'use strict';
-
-angular.module('app.graphs').directive('vectorMap', function () {
-    return {
-        restrict: 'EA',
-        scope: {
-            mapData: '='
-        },
-        link: function (scope, element, attributes) {
-            var data = scope.mapData;
-
-            element.vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: '#fff',
-                regionStyle: {
-                    initial: {
-                        fill: '#c4c4c4'
-                    },
-                    hover: {
-                        "fill-opacity": 1
-                    }
-                },
-                series: {
-                    regions: [
-                        {
-                            values: data,
-                            scale: ['#85a8b6', '#4d7686'],
-                            normalizeFunction: 'polynomial'
-                        }
-                    ]
-                },
-                onRegionLabelShow: function (e, el, code) {
-                    if (typeof data[code] == 'undefined') {
-                        e.preventDefault();
-                    } else {
-                        var countrylbl = data[code];
-                        el.html(el.html() + ': ' + countrylbl + ' visits');
-                    }
-                }
-            });
-
-            element.on('$destroy', function(){
-                element.children('.jvectormap-container').data('mapObject').remove();
-            })
-        }
-    }
-});
 
 "use strict";
 
@@ -13105,122 +14120,48 @@ angular.module('app.graphs').directive('morrisYearGraph', function(){
 });
 'use strict';
 
-angular.module('app.tables').directive('jqGrid', function ($compile) {
-    var jqGridCounter = 0;
-
+angular.module('app.graphs').directive('vectorMap', function () {
     return {
-        replace: true,
-        restrict: 'E',
+        restrict: 'EA',
         scope: {
-            gridData: '='
+            mapData: '='
         },
-        template: '<div>' +
-            '<table></table>' +
-            '<div class="jqgrid-pagination"></div>' +
-            '</div>',
-        controller: function($scope, $element){
-            $scope.editRow  = function(row){
-                $element.find('table').editRow(row);
-            };
-            $scope.saveRow  = function(row){
-                $element.find('table').saveRow(row);
-            };
-            $scope.restoreRow  = function(row){
-                $element.find('table').restoreRow(row);
-            };
-        },
-        link: function (scope, element) {
-            var gridNumber = jqGridCounter++;
-            var wrapperId = 'jqgrid-' + gridNumber;
-            element.attr('id', wrapperId);
+        link: function (scope, element, attributes) {
+            var data = scope.mapData;
 
-            var tableId = 'jqgrid-table-' + gridNumber;
-            var table = element.find('table');
-            table.attr('id', tableId);
-
-            var pagerId = 'jqgrid-pager-' + gridNumber;
-            element.find('.jqgrid-pagination').attr('id', pagerId);
-
-
-            table.jqGrid({
-                data : scope.gridData.data,
-                datatype : "local",
-                height : 'auto',
-                colNames : scope.gridData.colNames || [],
-                colModel : scope.gridData.colModel || [],
-                rowNum : 10,
-                rowList : [10, 20, 30],
-                pager : '#' + pagerId,
-                sortname : 'id',
-                toolbarfilter : true,
-                viewrecords : true,
-                sortorder : "asc",
-                gridComplete : function() {
-                    var ids = table.jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        var be = "<button class='btn btn-xs btn-default' tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
-
-                        var se = "<button class='btn btn-xs btn-default' tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
-
-                        var ca = "<button class='btn btn-xs btn-default' tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
-
-                        table.jqGrid('setRowData', ids[i], {
-                            act : be + se + ca
-                        });
+            element.vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
+                    },
+                    hover: {
+                        "fill-opacity": 1
                     }
                 },
-                editurl : "dummy.html",
-                caption : "SmartAdmin jQgrid Skin",
-                multiselect : true,
-                autowidth : true
-
-            });
-            table.jqGrid('navGrid', '#' + pagerId, {
-                edit : false,
-                add : false,
-                del : true
-            });
-            table.jqGrid('inlineNav', '#' + pagerId);
-
-
-            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
-            element.find(".ui-jqgrid").removeClass("ui-widget-content");
-
-            // add classes
-            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-
-            $(window).on('resize.jqGrid', function() {
-               table.jqGrid('setGridWidth', $("#content").width());
+                series: {
+                    regions: [
+                        {
+                            values: data,
+                            scale: ['#85a8b6', '#4d7686'],
+                            normalizeFunction: 'polynomial'
+                        }
+                    ]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data[code] == 'undefined') {
+                        e.preventDefault();
+                    } else {
+                        var countrylbl = data[code];
+                        el.html(el.html() + ': ' + countrylbl + ' visits');
+                    }
+                }
             });
 
-
-            $compile(element.contents())(scope);
+            element.on('$destroy', function(){
+                element.children('.jvectormap-container').data('mapObject').remove();
+            })
         }
     }
 });
@@ -13512,91 +14453,122 @@ angular.module('app.tables').directive('datatableTableTools', function () {
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+angular.module('app.tables').directive('jqGrid', function ($compile) {
+    var jqGridCounter = 0;
+
     return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
+        replace: true,
+        restrict: 'E',
+        scope: {
+            gridData: '='
+        },
+        template: '<div>' +
+            '<table></table>' +
+            '<div class="jqgrid-pagination"></div>' +
+            '</div>',
+        controller: function($scope, $element){
+            $scope.editRow  = function(row){
+                $element.find('table').editRow(row);
             };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
+            $scope.saveRow  = function(row){
+                $element.find('table').saveRow(row);
             };
+            $scope.restoreRow  = function(row){
+                $element.find('table').restoreRow(row);
+            };
+        },
+        link: function (scope, element) {
+            var gridNumber = jqGridCounter++;
+            var wrapperId = 'jqgrid-' + gridNumber;
+            element.attr('id', wrapperId);
 
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
+            var tableId = 'jqgrid-table-' + gridNumber;
+            var table = element.find('table');
+            table.attr('id', tableId);
 
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
+            var pagerId = 'jqgrid-pager-' + gridNumber;
+            element.find('.jqgrid-pagination').attr('id', pagerId);
+
+
+            table.jqGrid({
+                data : scope.gridData.data,
+                datatype : "local",
+                height : 'auto',
+                colNames : scope.gridData.colNames || [],
+                colModel : scope.gridData.colModel || [],
+                rowNum : 10,
+                rowList : [10, 20, 30],
+                pager : '#' + pagerId,
+                sortname : 'id',
+                toolbarfilter : true,
+                viewrecords : true,
+                sortorder : "asc",
+                gridComplete : function() {
+                    var ids = table.jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "<button class='btn btn-xs btn-default' tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
+
+                        var se = "<button class='btn btn-xs btn-default' tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
+
+                        var ca = "<button class='btn btn-xs btn-default' tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
+
+                        table.jqGrid('setRowData', ids[i], {
+                            act : be + se + ca
+                        });
+                    }
+                },
+                editurl : "dummy.html",
+                caption : "SmartAdmin jQgrid Skin",
+                multiselect : true,
+                autowidth : true
+
             });
+            table.jqGrid('navGrid', '#' + pagerId, {
+                edit : false,
+                add : false,
+                del : true
+            });
+            table.jqGrid('inlineNav', '#' + pagerId);
+
+
+            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
+            element.find(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+            $(window).on('resize.jqGrid', function() {
+               table.jqGrid('setGridWidth', $("#content").width());
+            });
+
+
+            $compile(element.contents())(scope);
         }
     }
 });
@@ -14037,6 +15009,96 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 
 
 
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
+        }
+    }
 });
 'use strict';
 

@@ -98,4 +98,88 @@ angular.module('app.life-policy').config(function ($stateProvider, localStorageS
                 }
             }
         })
+        .state('app.life-policy.salary', {
+            abstract: true,
+            data: {
+                title: '寿险'
+            }
+        })
+        .state('app.life-policy.salary.new', {
+            url: '/life-salaries/new',
+            data: {
+                title: '月度主管薪酬结算单录入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeSalaryEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-salary.html'
+                }
+            }
+        })
+        .state('app.life-policy.salary.list', {
+            url: '/life-salaries/list',
+            data: {
+                title: '月度主管薪酬结算单列表'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeSalaryListController as vm',
+                    templateUrl: 'app/life-policy/views/life-salary-list.html'
+                }
+            }
+        })
+        .state('app.life-policy.salary.view', {
+            url: '/life-salaries/view/:salaryId',
+            data: {
+                title: '薪酬结算单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeSalaryEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-salary.html'
+                }
+            }
+        })
+        .state('app.life-policy.statement', {
+            abstract: true,
+            data: {
+                title: '寿险'
+            }
+        })
+        .state('app.life-policy.statement.new', {
+            url: '/life-statements/new',
+            data: {
+                title: '保险公司对账单录入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeStatementEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-statement.html'
+                }
+            }
+        })
+        .state('app.life-policy.statement.list', {
+            url: '/life-statements/list',
+            data: {
+                title: '保险公司对账单列表'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeStatementListController as vm',
+                    templateUrl: 'app/life-policy/views/life-statement-list.html'
+                }
+            }
+        })
+        .state('app.life-policy.statement.view', {
+            url: '/life-statements/view/:statementId',
+            data: {
+                title: '对账单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeStatementEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-statement.html'
+                }
+            }
+        })
 });

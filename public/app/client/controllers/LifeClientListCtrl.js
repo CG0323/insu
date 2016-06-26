@@ -1,13 +1,13 @@
 'use strict'
 
-angular.module('app.client').controller('IndClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
+angular.module('app.client').controller('LifeClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
     var vm = this;
     vm.clients = [];
 
 
 
     vm.refreshClients = function(){
-       ClientService.getIndClients()
+       ClientService.getLifeClients()
        .then(function(clients){
            vm.clients = clients;
        }, function(err){
@@ -18,7 +18,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
     vm.refreshClients();
 	
     vm.view = function(clientId){
-        $state.go("app.client.individual.view", {clientId: clientId});
+        $state.go("app.client.life.view", {clientId: clientId});
     };
 
     /*

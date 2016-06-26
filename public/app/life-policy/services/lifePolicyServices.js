@@ -15,8 +15,18 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getOrganizations: getOrganizations,
                 getSellers: getSellers,
                 getFilteredCSV: getFilteredCSV,
-                getSummary: getSummary,
-                bulkPay: bulkPay
+                // getSummary: getSummary,
+                // bulkPay: bulkPay,
+                saveSalary: saveSalary,
+                getSalary: getSalary,
+                searchSalaries: searchSalaries,
+                getFilteredSalaryCSV: getFilteredSalaryCSV,
+                deleteSalary: deleteSalary,
+                saveStatement: saveStatement,
+                getStatement: getStatement,
+                searchStatements: searchStatements,
+                getFilteredStatementCSV: getFilteredStatementCSV,
+                deleteStatement: deleteStatement
             });
 
             function savePolicy(policy) {
@@ -57,17 +67,139 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            function saveSalary(salary) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (salary._id) {
+                    salary.updated_at = Date.now();
+                    $http.put('/api/life-salaries/' + salary._id, salary)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    salary.created_at = Date.now();
+                    salary.updated_at = salary.created_at;
+                    $http.post('/api/life-salaries', salary)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveStatement(statement) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (statement._id) {
+                    statement.updated_at = Date.now();
+                    $http.put('/api/life-statements/' + statement._id, statement)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    statement.created_at = Date.now();
+                    statement.updated_at = statement.created_at;
+                    $http.post('/api/life-statements', statement)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getPolicies(type) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 var url = "/api/life-policies"
-                if (type == "to-be-paid") {
-                    url = "/api/life-policies/to-be-paid";
-                } else if (type == "paid") {
-                    url = "/api/life-policies/paid";
-                }
+                // if (type == "to-be-paid") {
+                //     url = "/api/life-policies/to-be-paid";
+                // } else if (type == "paid") {
+                //     url = "/api/life-policies/paid";
+                // }
                 $http.get(url)
                 // handle success
                     .success(function (data, status) {
@@ -129,6 +261,50 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            function deleteSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function deleteStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getClients() {
 
@@ -136,7 +312,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients')
+                $http.get('/api/clients?type=life')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -181,15 +357,8 @@ angular.module('app.life-policy').factory('LifePolicyService',
             function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
+                var orderBy = "submit_date";
+                var orderByReverse = true;
                 
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
@@ -224,30 +393,24 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
             
-            function getSummary(type, filterSettings, fromDate, toDate) {
+            function searchSalaries(currentPage, pageSize, type, filterSettings) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
+                var orderByReverse = true;
+                
                 var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
                 };
 
-                $http.post("/api/life-policies/summary", config)
+                
+                $http.post("/api/life-salaries/search", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -265,21 +428,18 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
             
-            function bulkPay(type, filterSettings, fromDate, toDate) {
+            function searchStatements(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
+                var orderByReverse = true;
+                
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
                 var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
@@ -288,7 +448,8 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     toDate: end
                 };
 
-                $http.post("/api/life-policies/bulk-pay", config)
+                
+                $http.post("/api/life-statements/search", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -305,19 +466,101 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            
+            // function getSummary(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/summary", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
+            
+            // function bulkPay(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/bulk-pay", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
             
             function getFilteredCSV(type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
+                var orderBy = "submit_date";
+                var orderByReverse = true;
+                // if (type == "to-be-paid") {
+                //     filterSettings.policy_status = "待支付";
+                //     orderByReverse = false;
+                // } else if (type == "paid") {
+                //     filterSettings.policy_status = "已支付";
+                //     orderByReverse = true;
+                // }
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
                 var config = {
@@ -329,6 +572,68 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     toDate: end
                 };
                 $http.post("/api/life-policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredSalaryCSV(type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                };
+                $http.post("/api/life-salaries/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredStatementCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/life-statements/excel", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

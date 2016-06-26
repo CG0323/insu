@@ -12,6 +12,43 @@
 
         <ul data-smart-menu>
             <li data-menu-collapse>
+                 <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险</span></a>
+                 <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.policy.new">保单录入</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.policy.to-be-paid">待支付保单</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.policy.paid">已支付保单</a>
+                    </li>
+                </ul>
+            </li>
+            <li data-menu-collapse>
+                 <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">寿险</span></a>
+                 <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.new">保单录入</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.to-be-paid">保单列表</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.salary.new">主管薪酬结算单录入</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.salary.list">主管薪酬结算单列表</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.statement.new">保险公司对账单录入</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.life-policy.statement.list">保险公司对账单列表</a>
+                    </li>
+                </ul>
+            </li>
+            <!--<li data-menu-collapse>
                  <a href="#"><i class="fa fa-lg fa-fw fa-pencil-square-o"></i> <span class="menu-item-parent">保单录入</span></a>
                  <ul>
                     <li data-ui-sref-active="active">
@@ -44,21 +81,27 @@
                         <a data-ui-sref="app.life-policy.paid">寿险</a>
                     </li>
                 </ul>
-            </li>
+            </li>-->
             <li ng-show="user.role=='管理员'" data-menu-collapse>
-                <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">客户账号管理</span></a>
+                <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">业务员信息管理</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.organization">机构客户</a>
+                        <a data-ui-sref="app.client.organization">车险机构客户</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.individual">个人客户</a>
+                        <a data-ui-sref="app.client.individual">车险个人业务员</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.organization.new">添加机构客户</a>
+                        <a data-ui-sref="app.client.life">寿险业务员</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.individual.new">添加个人客户</a>
+                        <a data-ui-sref="app.client.organization.new">添加车险机构客户</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.client.individual.new">添加车险个人业务员</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.client.life.new">添加寿险业务员</a>
                     </li>
                 </ul>
             </li>

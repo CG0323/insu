@@ -13,6 +13,8 @@ router.get('/', function(req, res, next) {
     query = {client_type:'机构'};
   }else if(type == "individual"){
     query = {client_type:'个人'};
+  }else if(type == "life"){
+    query = {client_type:'寿险'};
   }
   Client.find(query).exec()
   .then(function(clients){
@@ -44,7 +46,7 @@ router.post('/', function (req, res) {
   var data = req.body;
   Client.find({ name: data.name }, function (err, clients) {
     if (clients.length > 0) {
-      res.status(400).send('系统中已存在该客户名称');
+      res.status(400).send('系统中已存在该业务员名称');
     } else {
       var client = new Client(data);
       client.save(function (err, savedClient, numAffected) {
@@ -52,8 +54,8 @@ router.post('/', function (req, res) {
           logger.error(err);
           res.status(500).send(err);
         } else {
-          logger.info(req.user.name + " 添加了一个客户账号，客户名称为："+ savedClient.name +"。"+ req.clientIP);
-          res.status(200).json({ message: '客户信息已成功添加' });
+          logger.info(req.user.name + " 添加了一个业务员账号，业务员名称为："+ savedClient.name +"。"+ req.clientIP);
+          res.status(200).json({ message: '业务员信息已成功添加' });
         }
       });
     }
@@ -80,8 +82,8 @@ router.put('/:id', function (req, res) {
               logger.error(err);
               res.send(err);
             }
-            logger.info(req.user.name + " 更新了客户信息，客户名为："+ client.name +"。"+ req.clientIP);
-            res.json({message: '客户信息已成功更新'});
+            logger.info(req.user.name + " 更新业务员信息，业务员名为："+ client.name +"。"+ req.clientIP);
+            res.json({message: '业务员信息已成功更新'});
         });
 
     });
@@ -93,8 +95,8 @@ router.delete('/:id', function (req, res) {
       logger.error(err);
       res.send(err);
     }
-    logger.info(req.user.name + " 删除了一个客户。"+ req.clientIP);
-    res.json({ message: '客户已成功删除' });
+    logger.info(req.user.name + " 删除了一个业务员。"+ req.clientIP);
+    res.json({ message: '业务员已成功删除' });
   });
 });
 

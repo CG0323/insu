@@ -1493,6 +1493,7 @@ f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).provider("$cookies
         email: /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
         number: /^\d+$/,
         plate: /^[\u4E00-\u9FA5][\da-zA-Z]{6}$/,
+        date: /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/,
         minlength: function (value, scope, element, attrs, param) {
           return value.length >= param;
         },
@@ -1580,6 +1581,9 @@ f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).provider("$cookies
         },
         plate: {
           error: '车牌号码格式不正确',
+        },
+        date: {
+          error: '日期格式应为YYYY-MM-DD,如1981-03-26'   
         }
       };
       $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
