@@ -9,6 +9,10 @@ angular.module('app.company').factory('CompanyService',
                 getCompanies: getCompanies,
                 getCompany: getCompany,
                 deleteCompany: deleteCompany,
+                savePolicyName: savePolicyName,
+                getPolicyNames: getPolicyNames,
+                getPolicyName: getPolicyName,
+                deletePolicyName: deletePolicyName,
                 saveCompanyCatogory: saveCompanyCatogory,
                 getCompanyCatogories: getCompanyCatogories,
                 getCompanyCatogory: getCompanyCatogory,
@@ -104,6 +108,112 @@ angular.module('app.company').factory('CompanyService',
 
                 // send a post request to the server
                 $http.get('api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicyName(policyName) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (policyName._id) {
+                    policyName.updated_at = Date.now();
+                    $http.put('api/policy-names/' + policyName._id, policyName)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policyName.created_at = Date.now();
+                    policyName.updated_at = policyName.created_at;
+                    $http.post('api/policy-names', policyName)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/policy-names')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

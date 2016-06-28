@@ -8,6 +8,7 @@ var lifeStatements = require('./lifeStatements.js');
 var organizations = require('./organizations.js');
 var companies = require('./companies.js');
 var companyCatogories = require('./companyCatogories.js');
+var policyNames = require('./policyNames.js');
 var router = express.Router();
 
 /* GET home page. */
@@ -21,6 +22,7 @@ router.use('/companycatogories', companyCatogories);
 router.use('/life-policies', lifePolicies);
 router.use('/life-salaries', lifeSalaries);
 router.use('/life-statements', lifeStatements);
+router.use('/policy-names', policyNames);
 function ensureAuthenticated(req, res, next) {
     // console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {

@@ -46,7 +46,7 @@
                                     <section class="col col-2">
                                         <label class="label">总单保费</label>
                                         <label class="input">
-                                            <input type="text" class="input-lg" name="total_fee" price ng-model="vm.policy.total_fee" ng-change="vm.updateZYPayment()" validator="required">
+                                            <input type="text" class="input-lg" name="total_fee" price ng-model="vm.policy.total_fee" validator="required">
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -117,8 +117,11 @@
                                     </section>
                                     <section class="col col-3">
                                         <label class="label">险种名称</label>
-                                        <label class="input">
-                                            <input class="input-lg" name="policy_name" ng-model="subPolicy.policy_name" validator="required">
+                                        <label class="select">
+                                            <select name='policy_name' class="input-lg" ng-model="subPolicy.policy_name" ng-options="c._id as c.name for c in vm.policyNames | orderBy:['name']"
+                                            validator="required">
+                                                <option value="">请选择险种名称</option>
+                                            </select> <i></i>
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -178,13 +181,13 @@
                                         <section class="col col-4 no-padding">
                                             <label class="label">投保人</label>
                                             <label class="input">
-                                                <input class="input-lg" name="applicant" ng-model="vm.policy.applicant.name" validater="required">
+                                                <input class="input-lg" name="applicant" ng-model="vm.policy.applicant.name">
                                             </label>
                                         </section>
                                         <section class="col col-8">
                                             <label class="label">身份证号</label>
                                             <label class="input">
-                                                <input class="input-lg" name="identity" ng-model="vm.policy.applicant.identity" validator="required,identity">
+                                                <input class="input-lg" name="identity" ng-model="vm.policy.applicant.identity">
                                             </label>
                                         </section>
                                     </section>
@@ -192,7 +195,7 @@
                                     <section class="col col-2">
                                         <label class="label">电话</label>
                                         <label class="input">
-                                            <input class="input-lg" name="phone" ng-model="vm.policy.applicant.phone" validator="required,phone">
+                                            <input class="input-lg" name="phone" ng-model="vm.policy.applicant.phone" validator="phone">
                                         </label>
                                     </section>
                                     <section class="col col-3">
@@ -204,7 +207,7 @@
                                     <section class="col col-1">
                                         <label class="label">性别</label>
                                         <label class="select">
-                                            <select name="sex" class="input-lg" ng-model="vm.policy.applicant.sex" validator="required">
+                                            <select name="sex" class="input-lg" ng-model="vm.policy.applicant.sex">
                                                 <option value=""></option>
                                                 <option value="男">男</option>
                                                 <option value="女">女</option>
@@ -214,7 +217,7 @@
                                     <section class="col col-2">
                                         <label class="label">出生日期</label>
                                         <label class="input">
-                                            <input class="input-lg" name="applicant_birthday" placeholder="yyyy-mm-dd"  ng-model="vm.policy.applicant.birthday" validator="required,date">
+                                            <input class="input-lg" name="applicant_birthday" placeholder="yyyy-mm-dd"  ng-model="vm.policy.applicant.birthday" validator="date">
                                         </label>
                                     </section>
                                 </div>
@@ -224,13 +227,13 @@
                                         <section class="col col-4 no-padding">
                                             <label class="label">被保险人</label>
                                             <label class="input">
-                                                <input class="input-lg" name="insurant_name" ng-model="insurant.name" validater="required">
+                                                <input class="input-lg" name="insurant_name" ng-model="insurant.name">
                                             </label>
                                         </section>
                                         <section class="col col-8">
                                             <label class="label">身份证号</label>
                                             <label class="input">
-                                                <input class="input-lg" name="identity" ng-model="insurant.identity" validator="required,identity">
+                                                <input class="input-lg" name="identity" ng-model="insurant.identity">
                                             </label>
                                         </section>
                                     </section>
@@ -238,7 +241,7 @@
                                     <section class="col col-2">
                                         <label class="label">电话</label>
                                         <label class="input">
-                                            <input class="input-lg" name="phone" ng-model="insurant.phone" validator="required,phone">
+                                            <input class="input-lg" name="phone" ng-model="insurant.phone" validator="phone">
                                         </label>
                                     </section>
                                     <section class="col col-3">
@@ -250,7 +253,7 @@
                                     <section class="col col-1">
                                         <label class="label">性别</label>
                                         <label class="select">
-                                            <select name="sex" class="input-lg" ng-model="insurant.sex" validator="required">
+                                            <select name="sex" class="input-lg" ng-model="insurant.sex">
                                                 <option value=""></option>
                                                 <option value="男">男</option>
                                                 <option value="女">女</option>
@@ -260,7 +263,7 @@
                                     <section class="col col-2">
                                         <label class="label">出生日期</label>
                                         <label class="input">
-                                            <input class="input-lg" name="insurant_birthday" placeholder="yyyy-mm-dd" ng-model="insurant.birthday" validator="required,date">
+                                            <input class="input-lg" name="insurant_birthday" placeholder="yyyy-mm-dd" ng-model="insurant.birthday" validator="date">
                                         </label>
                                     </section>
                                     
@@ -325,8 +328,8 @@
                                         <label class="input">
                                             <ui-select style="min-width: 164px;" ng-model="vm.managerInfo" theme="select2" ng-disabled="!vm.editable">
                                                 <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                <ui-select-choices repeat="manager in vm.managers| filter: $select.search">
+                                                    <div ng-bind-html="manager.name | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
@@ -336,8 +339,8 @@
                                         <label class="input">
                                             <ui-select style="min-width: 164px;" ng-model="vm.directorInfo" theme="select2" ng-disabled="!vm.editable">
                                                 <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                <ui-select-choices repeat="manager in vm.managers| filter: $select.search">
+                                                    <div ng-bind-html="manager.name | highlight: $select.search"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>

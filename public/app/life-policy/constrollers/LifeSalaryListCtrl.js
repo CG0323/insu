@@ -4,9 +4,8 @@ angular.module('app.life-policy').controller('LifeSalaryListController', functio
     var vm = this;
     vm.salaries = [];
     vm.organizations = [];
-
-
-    LifePolicyService.getClients()
+    
+    LifePolicyService.getManagers()
         .then(function (managers) {
             vm.managers = managers;
         })
@@ -41,7 +40,6 @@ angular.module('app.life-policy').controller('LifeSalaryListController', functio
     vm.filterChanged = function () {
         localStorageService.set("life-salary-filterSettings", vm.filterSettings);
         vm.refreshSalaries();
-        // vm.refreshSummary();
     };
 
     vm.refreshSalaries = function () {

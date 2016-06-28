@@ -15,7 +15,7 @@ var schema = new mongoose.Schema({
   invoice_no: String,
   invoice_date: { type: Date },
   
-  sub_policies: [{ insurant: String, policy_name: String, year: String, fee: Number, payment_rate: Number, payment: Number}],
+  sub_policies: [{ insurant: String, policy_name: {type: mongoose.Schema.Types.ObjectId, ref: 'PolicyName' }, year: String, fee: Number, payment_rate: Number, payment: Number}],
   payment_total: Number,
   taxed_payment_total: Number,
   

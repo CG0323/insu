@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.client').controller('LifeClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
+angular.module('app.client').controller('ManagerClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
     var vm = this;
     vm.client = {};
     vm.wechats = [];
@@ -8,7 +8,7 @@ angular.module('app.client').controller('LifeClientEditorController', function (
     vm.editable = false;
     vm.client.other_accounts = [];
 
-    if ($state.is("app.client.life.new")) {
+    if ($state.is("app.client.manager.new")) {
         vm.editable = true;
     }
 
@@ -81,7 +81,7 @@ angular.module('app.client').controller('LifeClientEditorController', function (
 
 
     vm.submit = function () {
-        vm.client.client_type = "寿险";
+        vm.client.client_type = "主管";
         vm.client.wechats = vm.bindedWechats.map(function(wechat){
             return wechat.openid;
         })
@@ -97,7 +97,7 @@ angular.module('app.client').controller('LifeClientEditorController', function (
                 vm.client = {};
                 vm.client.other_accounts = [];
                 if (vm.back) {
-                    $state.go("app.client.life");
+                    $state.go("app.client.manager");
                 }
             }, function (err) { });
     };

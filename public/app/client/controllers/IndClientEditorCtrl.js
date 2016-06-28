@@ -89,7 +89,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
             .then(function (data) {
                 $.smallBox({
                     title: "服务器确认信息",
-                    content: "客户已成功保存",
+                    content: "业务员已成功保存",
                     color: "#739E73",
                     iconSmall: "fa fa-check",
                     timeout: 5000

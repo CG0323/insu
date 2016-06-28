@@ -13,9 +13,10 @@ router.get('/', function(req, res, next) {
     query = {client_type:'机构'};
   }else if(type == "individual"){
     query = {client_type:'个人'};
-  }else if(type == "life"){
-    query = {client_type:'寿险'};
+  }else if(type == "manager"){
+    query = {client_type:'主管'};
   }
+  console.log(query);
   Client.find(query).exec()
   .then(function(clients){
     for(var i = 0; i<clients.length; i++){

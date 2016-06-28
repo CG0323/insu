@@ -28,7 +28,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.individual', {
             url: '/clients/individual',
             data: {
-                title: '车险个人业务员'
+                title: '个人业务员'
             },
             views: {
                 "content@app": {
@@ -37,15 +37,15 @@ angular.module('app.client').config(function ($stateProvider) {
                 }
             }
         })
-        .state('app.client.life', {
-            url: '/clients/life',
+        .state('app.client.manager', {
+            url: '/clients/manager',
             data: {
-                title: '寿险业务员'
+                title: '主管'
             },
             views: {
                 "content@app": {
-                    controller: 'LifeClientListController as vm',
-                    templateUrl: 'app/client/views/life-client-list.html'
+                    controller: 'ManagerClientListController as vm',
+                    templateUrl: 'app/client/views/manager-client-list.html'
                 }
             }
         })
@@ -64,7 +64,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.organization.new', {
             url: '/new',
             data: {
-                title: '添加车险机构客户'
+                title: '添加机构客户'
             },
             views: {
                 "content@app": {
@@ -76,7 +76,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.individual.view', {
             url: '/view/:clientId',
             data: {
-                title: '车险业务员信息查看'
+                title: '业务员信息查看'
             },
             views: {
                 "content@app": {
@@ -88,7 +88,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.individual.new', {
             url: '/new',
             data: {
-                title: '添加车险业务员'
+                title: '添加业务员'
             },
             views: {
                 "content@app": {
@@ -97,27 +97,27 @@ angular.module('app.client').config(function ($stateProvider) {
                 }
             }
         })
-        .state('app.client.life.view', {
+        .state('app.client.manager.view', {
             url: '/view/:clientId',
             data: {
-                title: '寿险业务员信息查看'
+                title: '主管信息查看'
             },
             views: {
                 "content@app": {
-                    controller: 'LifeClientEditorController as vm',
-                    templateUrl: 'app/client/views/life-client.html'
+                    controller: 'ManagerClientEditorController as vm',
+                    templateUrl: 'app/client/views/manager-client.html'
                 }
             }
         })
-        .state('app.client.life.new', {
+        .state('app.client.manager.new', {
             url: '/new',
             data: {
-                title: '添加寿险业务员'
+                title: '添加主管'
             },
             views: {
                 "content@app": {
-                    controller: 'LifeClientEditorController as vm',
-                    templateUrl: 'app/client/views/life-client.html'
+                    controller: 'ManagerClientEditorController as vm',
+                    templateUrl: 'app/client/views/manager-client.html'
                 }
             }
         })

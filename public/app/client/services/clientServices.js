@@ -8,7 +8,7 @@ angular.module('app.client').factory('ClientService',
                 saveClient: saveClient,
                 getOrgClients: getOrgClients,
                 getIndClients: getIndClients,
-                getLifeClients: getLifeClients,
+                getManagerClients: getManagerClients,
                 getClient: getClient,
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
@@ -146,13 +146,13 @@ angular.module('app.client').factory('ClientService',
                 return deferred.promise;
             }
             
-            function getLifeClients() {
+            function getManagerClients() {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients?type=life')
+                $http.get('/api/clients?type=manager')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

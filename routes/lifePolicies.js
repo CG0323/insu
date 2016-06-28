@@ -197,11 +197,11 @@ router.post('/excel', function (req, res) {
                 row.effective_date = (dateFormat(policy.effective_date, "mm/dd/yyyy"));
                 row.receipt_date = (dateFormat(policy.receipt_date, "mm/dd/yyyy"));
                 row.invoice_no = policy.invoice_no;
-                row.invoice_date = policy.invoice_date;
+                row.invoice_date = (dateFormat(policy.invoice_date, "mm/dd/yyyy"));;
                 
                 row.applicant.name = policy.applicant.name;
-                row.applicant.identity = "'" + policy.applicant.identity;
-                row.applicant.phone = "'" + policy.applicant.phone;
+                row.applicant.identity = row.applicant.identity? "'" + policy.applicant.identity : '';
+                row.applicant.phone = row.applicant.phone? "'" + policy.applicant.phone : '';
                 row.applicant.adress = policy.applicant.adress;
                 row.applicant.sex = policy.applicant.sex;
                 row.applicant.birthday = policy.applicant.birthday;

@@ -5,9 +5,9 @@ angular.module('app.life-policy').controller('LifeSalaryEditorController', funct
     vm.salary = {};
     vm.managerInfo = {};
     vm.sellerInfo = $rootScope.user;
-    LifePolicyService.getClients()
-        .then(function (clients) {
-            vm.clients = clients;
+    LifePolicyService.getManagers()
+        .then(function (managers) {
+            vm.managers = managers;
         })
     LifePolicyService.getOrganizations()
         .then(function (organizations) {

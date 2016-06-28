@@ -1,13 +1,13 @@
 'use strict'
 
-angular.module('app.client').controller('LifeClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
+angular.module('app.client').controller('ManagerClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
     var vm = this;
     vm.clients = [];
 
 
 
     vm.refreshClients = function(){
-       ClientService.getLifeClients()
+       ClientService.getManagerClients()
        .then(function(clients){
            vm.clients = clients;
        }, function(err){
@@ -18,7 +18,7 @@ angular.module('app.client').controller('LifeClientListController', function(scr
     vm.refreshClients();
 	
     vm.view = function(clientId){
-        $state.go("app.client.life.view", {clientId: clientId});
+        $state.go("app.client.manager.view", {clientId: clientId});
     };
 
     /*
@@ -27,8 +27,8 @@ angular.module('app.client').controller('LifeClientListController', function(scr
     // With Callback
     vm.delete =  function (clientId) {
         $.SmartMessageBox({
-            title: "删除业务员",
-            content: "确认删除该业务员？",
+            title: "删除主管",
+            content: "确认删除该主管？",
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {

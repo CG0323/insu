@@ -91,4 +91,46 @@ angular.module('app.company').config(function ($stateProvider) {
                 }
             }
         })
+        .state('app.company.policyname', {
+            abstract: true,
+            data: {
+                title: '险种名称管理'
+            }
+        })
+        .state('app.company.policyname.all', {
+            url: '/companies/policynames',
+            data: {
+                title: '险种名称'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyNameListController as vm',
+                    templateUrl: 'app/company/views/policy-name-list.html'
+                }
+            }
+        })
+        .state('app.company.policyname.view', {
+            url: '/companies/policynames/view/:policyNameId',
+            data: {
+                title: '险种名称查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyNameEditorController as vm',
+                    templateUrl: 'app/company/views/policy-name.html'
+                }
+            }
+        })
+        .state('app.company.policyname.new', {
+            url: '/companies/policynames/new',
+            data: {
+                title: '添加险种名称'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyNameEditorController as vm',
+                    templateUrl: 'app/company/views/policy-name.html'
+                }
+            }
+        })
 });
