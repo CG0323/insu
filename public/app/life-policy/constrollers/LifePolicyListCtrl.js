@@ -4,6 +4,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     var vm = this;
     vm.policies = [];
     vm.organizations = [];
+    vm.clientInfo = {};
+
     // vm.totalIncome = 0;
     // vm.totalPayment = 0;
     // vm.totalProfit = 0;
@@ -11,6 +13,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
     LifePolicyService.getClients()
         .then(function (clients) {
+            clients.unshift({_id:undefined, name:"所有业务员"});
+            console.log(clients);
             vm.clients = clients;
         })
     LifePolicyService.getOrganizations()
@@ -28,6 +32,12 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("life-filterSettings1") ? localStorageService.get("life-filterSettings1") : {};
+        if(vm.filterSettings.client){
+            LifePolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
         vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
         vm.tableHeader = "保单列表";
@@ -67,12 +77,20 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.refreshPolicies();
     };
 
+    vm.clientFilterChanged = function (){
+        vm.filterSettings.client = vm.clientInfo._id;
+        localStorageService.set("life-filterSettings1", vm.filterSettings);
+        vm.refreshPolicies();
+    }
+
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
+
+
 
 
 
