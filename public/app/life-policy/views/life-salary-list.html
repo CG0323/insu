@@ -57,7 +57,7 @@
                                             <div class="tr-ng-column-filter">
                                                 <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
 
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.manager" ng-options="m._id as m.name for m in vm.managers | orderBy:['name']"
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.manager" ng-options="m._id as m.name for m in vm.managers | orderBy:['py']"
                                                 ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
