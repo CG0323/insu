@@ -35,6 +35,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 .then(function (clientInfo) {
                     vm.clientInfo = clientInfo;
                 })
+        }
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         vm.tableHeader = "待支付保单";
@@ -49,6 +50,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 .then(function (clientInfo) {
                     vm.clientInfo = clientInfo;
                 })
+        }
         vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
         vm.tableHeader = "已支付保单";
