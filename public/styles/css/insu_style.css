@@ -41,6 +41,7 @@ h1, h2, h3, h4, h5, h6{
 
 .policies-table{
 	padding-top: 3px;
+    min-height: 300px;
 }
 
 .payment-info-panel{
