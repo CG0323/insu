@@ -51,16 +51,16 @@
                                             <div class="tr-ng-column-filter">
                                                 <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
 
-                                                <!--<select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"
                                                 ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
-                                                </select>-->
-                                                <ui-select style="min-width: 164px;" ng-model="vm.clientInfo" theme="select2" ng-change = "vm.clientFilterChanged()">
+                                                </select>
+                                                <!--<ui-select style="min-width: 164px;" ng-model="vm.clientInfo" theme="select2" ng-change = "vm.clientFilterChanged()">
                                                     <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
                                                     <ui-select-choices repeat="client in vm.clients| filter: $select.search">
                                                         <div ng-bind-html="client.name | highlight: $select.search"></div>
                                                     </ui-select-choices>
-                                                </ui-select>
+                                                </ui-select>-->
                                             </div>
                                         </div>
                                     </th>
