@@ -94,6 +94,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set("paid-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
+        vm.refreshSummary();
     }
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
