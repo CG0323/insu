@@ -14,7 +14,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     LifePolicyService.getClients()
         .then(function (clients) {
             clients.unshift({_id:undefined, name:"所有业务员"});
-            console.log(clients);
             vm.clients = clients;
         })
     LifePolicyService.getOrganizations()
