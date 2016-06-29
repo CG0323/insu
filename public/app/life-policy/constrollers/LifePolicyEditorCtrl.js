@@ -148,7 +148,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         }
         vm.policy.taxed_payment_total = vm.policy.payment_total * 0.95;
         if (vm.policy.zy_rate && vm.policy.taxed_payment_total) {
-            vm.policy.zy_payment = vm.policy.taxed_payment_total * vm.policy.zy_rate * 0.95 / 100;
+            vm.policy.zy_payment = vm.policy.taxed_payment_total * vm.policy.zy_rate / 100;
             vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
         }    
         vm.policy.taxed_payment_total = vm.policy.taxed_payment_total.toFixed(2);      
@@ -156,7 +156,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     vm.updateZYPayment = function () {
         if (vm.policy.zy_rate && vm.policy.taxed_payment_total) {
-            vm.policy.zy_payment = parseFloat(vm.policy.taxed_payment_total) * vm.policy.zy_rate * 0.95 / 100;
+            vm.policy.zy_payment = parseFloat(vm.policy.taxed_payment_total) * vm.policy.zy_rate / 100;
             vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
         }
     }
