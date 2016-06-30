@@ -7,12 +7,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.totalIncome = 0;
     vm.totalPayment = 0;
     vm.totalProfit = 0;
-    vm.clientInfo = {};
+    vm.clientName = "";
+    vm.clientDictionary = {};
 
 
     PolicyService.getClients()
         .then(function (clients) {
-            // clients.unshift({_id:undefined, name:"所有业务员"});
+            for (var i = 0; i < clients.length; i++) {
+                vm.clientDictionary[clients[i].name] = clients[i]._id;
+            }
             vm.clients = clients;
         })
     PolicyService.getOrganizations()
@@ -30,12 +33,12 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     if ($state.is("app.policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        // if(vm.filterSettings.client){
-        //     PolicyService.getClient(vm.filterSettings.client)
-        //         .then(function (clientInfo) {
-        //             vm.clientInfo = clientInfo;
-        //         })
-        // }
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientName = clientInfo.name;
+                })
+        }
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         vm.tableHeader = "待支付保单";
@@ -45,12 +48,12 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     } else if ($state.is("app.policy.paid")) {
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("paid-filterSettings") ? localStorageService.get("paid-filterSettings") : {};
-        // if(vm.filterSettings.client){
-        //     PolicyService.getClient(vm.filterSettings.client)
-        //         .then(function (clientInfo) {
-        //             vm.clientInfo = clientInfo;
-        //         })
-        // }
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientName = clientInfo.name;
+                })
+        }
         vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
         vm.tableHeader = "已支付保单";
@@ -80,22 +83,27 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set('paid-fromDate', vm.fromDate);
             localStorageService.set('paid-toDate', vm.toDate);
         }
-        
+
         vm.refreshPolicies();
         vm.refreshSummary();
     };
-    
-    // vm.clientFilterChanged = function (){ 
-    //     vm.filterSettings.client = vm.clientInfo._id;
-    //     if ($state.is("app.policy.to-be-paid")) {
-    //         localStorageService.set("filterSettings", vm.filterSettings);
-    //     }
-    //     else if ($state.is("app.policy.paid")) {
-    //         localStorageService.set("paid-filterSettings", vm.filterSettings);
-    //     }
-    //     vm.refreshPolicies();
-    //     vm.refreshSummary();
-    // }
+
+    vm.clientFilterChanged = function () {
+        if (vm.clientDictionary[vm.clientName]) {
+            vm.filterSettings.client = vm.clientDictionary[vm.clientName];
+        }
+        else {
+            vm.filterSettings.client = undefined;
+        }
+        if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-filterSettings", vm.filterSettings);
+        }
+        vm.refreshPolicies();
+        vm.refreshSummary();
+    }
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
