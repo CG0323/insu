@@ -89,8 +89,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.clientFilterChanged = function () {
+        console.log(vm.clientName);
         if (vm.clientDictionary[vm.clientName]) {
             vm.filterSettings.client = vm.clientDictionary[vm.clientName];
+            console.log("filter updated");
         }
         else {
             vm.filterSettings.client = undefined;
