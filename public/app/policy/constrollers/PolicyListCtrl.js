@@ -89,7 +89,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.clientFilterChanged = function () {
-        console.log(vm.clientName);
         if (vm.clientDictionary[vm.clientName]) {
             vm.filterSettings.client = vm.clientDictionary[vm.clientName];
             console.log("filter updated");
@@ -192,6 +191,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.isShowDeleteButton = function (policy) {
         if ($rootScope.user.role == "管理员") return true;
         return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
+    };
+    
+    vm.isShowBulkPayButton = function () {
+        if ($rootScope.user.role == "出单员") {      
+            return false
+            };
+       return true;
     };
 
     vm.isShowViewButton = function (policy) {

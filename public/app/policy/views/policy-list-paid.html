@@ -32,11 +32,11 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
-                                    display-format="date:'yyyy-MM-dd'">
+                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -52,10 +52,11 @@
                                         </div>
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
-                                               <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"
+                                                <input type="text" class="form-control input-sm" ng-model="vm.clientName" ng-change="vm.clientFilterChanged()">
+                                                <!--<select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"
                                                 ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
-                                                </select>
+                                                </select>-->
                                             </div>
                                         </div>
                                     </th>
@@ -67,7 +68,8 @@
                                         </div>
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
@@ -90,7 +92,7 @@
                                         <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
                                         <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
                                         <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
-                                    
+
                                     </td>
                                 </tr>
                             </tbody>
