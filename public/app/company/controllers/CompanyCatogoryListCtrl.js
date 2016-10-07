@@ -21,6 +21,10 @@ angular.module('app.company').controller('CompanyCatogoryListController', functi
         $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
     };
 
+    vm.addLevel1 = function(){
+        $state.go("app.company.companycatogory.new");
+    }
+
     /*
      * SmartAlerts
      */
