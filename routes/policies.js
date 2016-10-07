@@ -134,6 +134,12 @@ router.post('/excel', function (req, res) {
                 'tax_fee_payment_rate',
                 'tax_fee_payment',
                 'tax_fee_profit',
+                'other_fee',
+                'other_fee_income_rate',
+                'other_fee_income',
+                'other_fee_payment_rate',
+                'other_fee_payment',
+                'other_fee_profit',
                 'payment_addition',
                 'payment_substraction',
                 'total_income',
@@ -171,6 +177,12 @@ router.post('/excel', function (req, res) {
                 '车船税结算费',
                 '车船税结算费',
                 '车船税毛利润',
+                '其他险',
+                '其他险跟单费',
+                '其他险跟单费比例',
+                '其他险结算费',
+                '其他险结算费',
+                '其他险毛利润',
                 '结算费加项',
                 '结算费减项',
                 '跟单费总额',
@@ -223,6 +235,13 @@ router.post('/excel', function (req, res) {
                 row.tax_fee_payment=policy.tax_fee_payment;
                 row.tax_fee_profit = policy.tax_fee_income - policy.tax_fee_payment;
                 row.tax_fee_profit = row.tax_fee_profit.toFixed(2);
+                row.other_fee=policy.other_fee;
+                row.other_fee_income_rate=policy.other_fee_income_rate+"%";
+                row.other_fee_income=policy.other_fee_income;
+                row.other_fee_payment_rate=policy.other_fee_payment_rate+"%";
+                row.other_fee_payment=policy.other_fee_payment;
+                row.other_fee_profit = policy.other_fee_income - policy.other_fee_payment;
+                row.other_fee_profit = row.other_fee_profit.toFixed(2);
                 row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
                 row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
                 row.total_income=policy.total_income;
@@ -319,6 +338,11 @@ router.put('/:id', function (req, res) {
         policy.tax_fee_income = req.body.tax_fee_income;
         policy.tax_fee_payment_rate = req.body.tax_fee_payment_rate;
         policy.tax_fee_payment = req.body.tax_fee_payment;
+        policy.other_fee = req.body.other_fee;
+        policy.other_fee_income_rate = req.body.other_fee_income_rate;
+        policy.other_fee_income = req.body.other_fee_income;
+        policy.other_fee_payment_rate = req.body.other_fee_payment_rate;
+        policy.other_fee_payment = req.body.other_fee_payment;
         policy.client = req.body.client;
         policy.seller = req.body.seller;
         policy.policy_status = req.body.policy_status;

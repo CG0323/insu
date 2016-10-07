@@ -104,8 +104,12 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
         if (vm.policy.tax_fee_income) {
             vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
         }
-        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income)) {
-            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income);
+        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
+        if (vm.policy.other_fee_income) {
+            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income)&& !isNaN(vm.policy.other_fee_income)) {
+            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
             vm.policy.total_income = vm.policy.total_income.toFixed(2);
         }
 
@@ -122,8 +126,12 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
         if (vm.policy.tax_fee_payment) {
             vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
         }
-        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment)) {
-            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment);
+        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
+        if (vm.policy.other_fee_payment) {
+            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment)&& !isNaN(vm.policy.other_fee_payment)) {
+            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
         }
         if (vm.policy.payment_addition) {
