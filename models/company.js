@@ -8,7 +8,10 @@ var schema = new mongoose.Schema({
     updated_at: { type: Date },
     contact: String,
     phone: String,
-    catogory: { type: mongoose.Schema.Types.ObjectId, ref: 'CompanyCatogory' },
+    catogory: { type: mongoose.Schema.Types.ObjectId, ref: 'CompanyCatogory' }, //legacy, keep it for compatiblity
+    level: String,
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
+    rates: [{set_at:{type: Date}, mandatory_income:Number, mandatory_payment:Number, commercial_income:Number,commercial_payment:Number,tax_income:Number,tax_payment:Number,other_income:Number,other_payment:Number}]
 });
 
 mongoose.model('Company', schema);

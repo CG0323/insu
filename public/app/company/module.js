@@ -4,7 +4,8 @@
 angular.module('app.company', ['ui.router','validation'])
 
 
-angular.module('app.company').config(function ($stateProvider) {
+angular.module('app.company').config(function ($stateProvider, localStorageServiceProvider) {
+    localStorageServiceProvider.setPrefix('insu');
 
     $stateProvider
        .state('app.company', {
@@ -88,6 +89,132 @@ angular.module('app.company').config(function ($stateProvider) {
                 "content@app": {
                     controller: 'CompanyCatogoryEditorController as vm',
                     templateUrl: 'app/company/views/company-catogory.html'
+                }
+            }
+        })
+        .state('app.company.company2', {
+            abstract: true,
+            data: {
+                title: '二级保险公司管理'
+            }
+        })
+        .state('app.company.company2.all', {
+            url: '/companies/company2',
+            data: {
+                title: '二级保险公司'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyListController as vm',
+                    templateUrl: 'app/company/views/company-list.html'
+                }
+            }
+        })
+        .state('app.company.company2.view', {
+            url: '/companies/company2/view/:companyId',
+            data: {
+                title: '二级保险公司查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyEditorController as vm',
+                    templateUrl: 'app/company/views/company.html'
+                }
+            }
+        })
+        .state('app.company.company2.new', {
+            url: '/companies/company2/new/:parentId',
+            data: {
+                title: '添加二级保险公司'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyEditorController as vm',
+                    templateUrl: 'app/company/views/company.html'
+                }
+            }
+        })
+        .state('app.company.company3', {
+            abstract: true,
+            data: {
+                title: '三级保险公司管理'
+            }
+        })
+        .state('app.company.company3.all', {
+            url: '/companies/company3',
+            data: {
+                title: '三级保险公司'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyListController as vm',
+                    templateUrl: 'app/company/views/company-list.html'
+                }
+            }
+        })
+        .state('app.company.company3.view', {
+            url: '/companies/company3/view/:companyId',
+            data: {
+                title: '三级保险公司查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyEditorController as vm',
+                    templateUrl: 'app/company/views/company.html'
+                }
+            }
+        })
+        .state('app.company.company3.new', {
+            url: '/companies/company3/new/:parentId',
+            data: {
+                title: '添加三级保险公司'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyEditorController as vm',
+                    templateUrl: 'app/company/views/company.html'
+                }
+            }
+        })
+        .state('app.company.company4', {
+            abstract: true,
+            data: {
+                title: '四级保险公司管理'
+            }
+        })
+        .state('app.company.company4.all', {
+            url: '/companies/company4',
+            data: {
+                title: '四级保险公司'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyListController as vm',
+                    templateUrl: 'app/company/views/company-list.html'
+                }
+            }
+        })
+        .state('app.company.company4.view', {
+            url: '/companies/company4/view/:companyId',
+            data: {
+                title: '四级保险公司查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyEditorController as vm',
+                    templateUrl: 'app/company/views/company.html'
+                }
+            }
+        })
+        .state('app.company.company4.new', {
+            url: '/companies/company4/new/:parentId',
+            data: {
+                title: '添加四级保险公司'
+            },
+            views: {
+                "content@app": {
+                    controller: 'CompanyEditorController as vm',
+                    templateUrl: 'app/company/views/company.html'
                 }
             }
         })
