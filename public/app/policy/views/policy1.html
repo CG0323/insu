@@ -33,7 +33,7 @@
                                         <dt>账号</dt>
                                         <dd>{{other_account.account}}</dd>
                                     </div>
-                                    
+
                                     <dt>投保人</dt>
                                     <dd>{{vm.policy.applicant.name}}</dd>
                                     <dt>车牌号</dt>
@@ -272,7 +272,7 @@
                                         </section>
                                         <section class="col col-3">
                                             <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付'" validation-submit="payForm" ng-click="vm.pay()"
-                                            class="btn btn-primary btn-lg">修改保单状态为已支付</button>
+                                                class="btn btn-primary btn-lg">修改保单状态为已支付</button>
                                         </section>
                                     </div>
                                 </fieldset>
@@ -288,7 +288,8 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="(user.role=='出单员' && !vm.editable && vm.policy.policy_status=='待支付') || user.role=='管理员'" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-show="(user.role=='出单员' && !vm.editable && vm.policy.policy_status=='待支付') || user.role=='管理员'" ng-click="vm.toggleEdit()"
+                    class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
@@ -307,14 +308,25 @@
                                     基本信息
                                 </header>
                                 <div class="row">
-                                    <section class="col col-4">
+                                    <section class="col col-8">
                                         <label class="label">保险公司</label>
-                                        <label class="select">
-                                            <select name='insu_company' class="input-lg" ng-model="vm.policy.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies | orderBy:['catogory.name','name']"
-                                            validator="required">
-                                                <option value="">请选择保险公司</option>
-                                            </select> <i></i>
-                                        </label>
+                                        <section class="col col-4">
+                                        <select style="min-width: 240px;" name='cat' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.policy.level2_company" ng-options="c._id as c.name for c in vm.level2Companies">
+                                            <option value="">选择二级保险公司</option>
+                                        </select>
+                                        </section>
+                                        <section class="col col-4">
+                                        <select style="min-width: 240px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level2_company" data-ng-change="vm.level3Changed()"
+                                            ng-model="vm.policy.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                                            <option value="">选择三级保险公司</option>
+                                        </select>
+                                        </section>
+                                        <section class="col col-4">
+                                        <select style="min-width: 240px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level3_company" data-ng-change="vm.level4Changed()"
+                                            ng-model="vm.policy.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                                            <option value="">选择四级保险公司(如有)</option>
+                                        </select>
+                                        </section>
                                     </section>
                                     <section class="col col-4">
                                         <label class="label">保单号</label>
@@ -323,12 +335,18 @@
                                             <input type="text" class="input-lg" name="policy_no" ng-model="vm.policy.policy_no" validator="required">
                                         </label>
                                     </section>
+                                </div>
+                                <div class="row">
+                                
+                                    
+                                </div>
+                                <div class="row">
                                     <section class="col col-4">
                                         <label class="label">业务来源(可输入拼音首字母快速选择)</label>
                                         <label class="input">
                                             <ui-select style="min-width: 364px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
                                                 <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
-                                                    <ui-select-choices repeat="client in vm.clients| propsFilter: {name: $select.search}">
+                                                <ui-select-choices repeat="client in vm.clients| propsFilter: {name: $select.search}">
                                                     <!--<ui-select-choices repeat="client in vm.clients| filter: $select.search">-->
                                                     <div ng-bind-html="client.name | highlight: $select.search"></div>
                                                 </ui-select-choices>
@@ -340,8 +358,6 @@
                                             </select> <i></i>
                                         </label>-->
                                     </section>
-                                </div>
-                                <div class="row">
                                     <section class="col col-2">
                                         <label class="label">车牌号</label>
                                         <!--<label class="input">-->
@@ -506,44 +522,44 @@
                                     </section>
 
                                     <section class="col col-3">
-                                            <label class="label">其他险</label>
-                                            <label class="input">
+                                        <label class="label">其他险</label>
+                                        <label class="input">
                                                 <i class="icon-append fa fa-cny"></i>
                                                 <input type="text" class="input-lg" name="other_fee" price ng-model="vm.policy.other_fee" ng-change="vm.updateFee()" validator="required">
                                             </label>
-                                            <label class="label">跟单费</label>
-                                            <section class="col col-3 no-padding">
-                                                <label class="input">
+                                        <label class="label">跟单费</label>
+                                        <section class="col col-3 no-padding">
+                                            <label class="input">
                                                     <input type="text" class="input-lg" name="other_fee_income_rate" price ng-model="vm.policy.other_fee_income_rate" ng-change="vm.updateFee()"
                                                     validator="required">
                                                 </label>
-                                            </section>
-                                            <section class="col col-1 no-padding">
-                                                <label class="percent">%</label>
-                                            </section>
-                                            <section class="col col-8 no-padding">
-                                                <label class="input" ng-disabled=true>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-8 no-padding">
+                                            <label class="input" ng-disabled=true>
                                                     <i class="icon-append fa fa-cny"></i>
                                                     <input type="text" class="input-lg" name="other_fee_income" price ng-model="vm.policy.other_fee_income" ng-disabled=true>
                                                 </label>
-                                            </section>
-                                            <label class="label">结算费</label>
-                                            <section class="col col-3 no-padding">
-                                                <label class="input">
+                                        </section>
+                                        <label class="label">结算费</label>
+                                        <section class="col col-3 no-padding">
+                                            <label class="input">
                                                     <input type="text" class="input-lg" name="other_fee_payment_rate" price ng-model="vm.policy.other_fee_payment_rate" ng-change="vm.updateFee()"
                                                     validator="required">
                                                 </label>
-                                            </section>
-                                            <section class="col col-1 no-padding">
-                                                <label class="percent">%</label>
-                                            </section>
-                                            <section class="col col-8 no-padding">
-                                                <label class="input" ng-disabled=true>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-8 no-padding">
+                                            <label class="input" ng-disabled=true>
                                                     <i class="icon-append fa fa-cny"></i>
                                                     <input type="text" class="input-lg" name="other_fee_payment" price ng-model="vm.policy.other_fee_payment" ng-disabled=true>
                                                 </label>
-                                            </section>
                                         </section>
+                                    </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-3">

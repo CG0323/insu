@@ -4,8 +4,12 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   policy_no: { type: String, index: true, unique: true },
-  insu_company: String,
+  // insu_company: String,
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
+  level1_company: { type: mongoose.Schema.Types.ObjectId, ref: 'CompanyCatogory' },
+  level2_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
+  level3_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
+  level4_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   plate_province: String,
   plate_no: String,
   effective_date: {type: Date},
@@ -49,6 +53,7 @@ var schema = new mongoose.Schema({
   payment_addition_comment: String,
   payment_substraction_comment: String,
   total_payment: Number,
+  rule_rates: [{ set_at: { type: Date }, mandatory_income: Number, mandatory_payment: Number, commercial_income: Number, commercial_payment: Number, tax_income: Number, tax_payment: Number, other_income: Number, other_payment: Number }]
 });
 
 schema.pre('save', function(next){

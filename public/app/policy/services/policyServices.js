@@ -17,7 +17,9 @@ angular.module('app.policy').factory('PolicyService',
                 getFilteredCSV: getFilteredCSV,
                 getSummary: getSummary,
                 bulkPay: bulkPay,
-                getClient: getClient
+                getClient: getClient,
+                getSubCompanies: getSubCompanies,
+                getLevel2Companies: getLevel2Companies
             });
             
             function getClient(clientId) {
@@ -416,4 +418,53 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getLevel2Companies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/level2')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
         }]);

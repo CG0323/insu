@@ -26,6 +26,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.new1', {
+            url: '/policies/new1',
+            data: {
+                title: '保单录入(新版测试)'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
         .state('app.policy.pay', {
             url: '/policies/pay/:policyId',
             data: {
@@ -38,6 +50,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.pay1', {
+            url: '/policies/pay1/:policyId',
+            data: {
+                title: '保单支付'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
         .state('app.policy.view', {
             url: '/policies/view/:policyId',
             data: {
@@ -47,6 +71,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 "content@app": {
                     controller: 'PolicyEditorController as vm',
                     templateUrl: 'app/policy/views/policy.html'
+                }
+            }
+        })
+        .state('app.policy.view1', {
+            url: '/policies/view1/:policyId',
+            data: {
+                title: '保单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
                 }
             }
         })

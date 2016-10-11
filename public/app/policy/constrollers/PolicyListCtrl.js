@@ -91,7 +91,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.clientFilterChanged = function () {
         if (vm.clientDictionary[vm.clientName]) {
             vm.filterSettings.client = vm.clientDictionary[vm.clientName];
-            console.log("filter updated");
+            
         }
         else {
             vm.filterSettings.client = undefined;
@@ -204,12 +204,21 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
     };
 
-    vm.pay = function (policyId) {
-        $state.go("app.policy.pay", { policyId: policyId });
+    vm.pay = function (policy) {
+        if(!policy.level2_company){
+            $state.go("app.policy.pay", { policyId: policy._id}); //this is from old version
+        }else{
+            $state.go("app.policy.pay1", { policyId: policy._id});
+        }
     };
 
-    vm.view = function (policyId) {
-        $state.go("app.policy.view", { policyId: policyId });
+    vm.view = function (policy) { 
+        if(!policy.level2_company){      
+            $state.go("app.policy.view", { policyId: policy._id}); //this is from old version
+        }else{
+            $state.go("app.policy.view1", { policyId: policy._id});
+        }
+        
     };
 
 

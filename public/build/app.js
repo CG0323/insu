@@ -2075,6 +2075,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.new1', {
+            url: '/policies/new1',
+            data: {
+                title: '保单录入(新版测试)'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
         .state('app.policy.pay', {
             url: '/policies/pay/:policyId',
             data: {
@@ -2087,6 +2099,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.pay1', {
+            url: '/policies/pay1/:policyId',
+            data: {
+                title: '保单支付'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
         .state('app.policy.view', {
             url: '/policies/view/:policyId',
             data: {
@@ -2096,6 +2120,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 "content@app": {
                     controller: 'PolicyEditorController as vm',
                     templateUrl: 'app/policy/views/policy.html'
+                }
+            }
+        })
+        .state('app.policy.view1', {
+            url: '/policies/view1/:policyId',
+            data: {
+                title: '保单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
                 }
             }
         })
@@ -2449,7 +2485,7 @@ $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-wid
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-6\">\r\n            <span class=\"txt-color-white txt-big\">红叶保险代理@结算系统</span>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\r\n<div id=\"logo-group\">\r\n\r\n    <!-- PLACE YOUR LOGO HERE -->\r\n    <span id=\"logo\"> <img src=\"styles/img/hy-text-logo.png\" alt=\"SmartAdmin\"> </span>\r\n    <!-- END LOGO PLACEHOLDER -->\r\n\r\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\r\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\r\n    <!--<span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \r\n        <i class=\"fa fa-user\"></i> \r\n        <b class=\"badge bg-color-red\">21</b> \r\n    </span>\r\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>-->\r\n</div>\r\n\r\n\r\n<!--<recent-projects></recent-projects>-->\r\n\r\n\r\n\r\n<!-- pulled right: nav area -->\r\n<div class=\"pull-right\">\r\n\r\n    <!-- collapse menu button -->\r\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\r\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\r\n                class=\"fa fa-reorder\"></i></a> </span>\r\n    </div>\r\n    <!-- end collapse menu -->\r\n\r\n    <!-- #MOBILE -->\r\n    <!-- Top menu profile link : this shows only when top menu is active -->\r\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\r\n        <li class=\"\">\r\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\r\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\r\n            </a>\r\n            <ul class=\"dropdown-menu pull-right\">\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\r\n                            class=\"fa fa-cog\"></i> Setting</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\r\n                        <u>P</u>rofile</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\r\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n\r\n    <!-- logout button -->\r\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\r\n        <span> <a ng-click=\"logout()\" title=\"Sign Out\" data-action=\"userLogout\"\r\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\r\n                class=\"fa fa-sign-out\"></i></a> </span>\r\n    </div>\r\n    <!-- end logout button -->\r\n\r\n    <!-- input: search field -->\r\n    <!--<form action=\"#/search\" class=\"header-search pull-right\">\r\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\r\n					\"ActionScript\",\r\n					\"AppleScript\",\r\n					\"Asp\",\r\n					\"BASIC\",\r\n					\"C\",\r\n					\"C++\",\r\n					\"Clojure\",\r\n					\"COBOL\",\r\n					\"ColdFusion\",\r\n					\"Erlang\",\r\n					\"Fortran\",\r\n					\"Groovy\",\r\n					\"Haskell\",\r\n					\"Java\",\r\n					\"JavaScript\",\r\n					\"Lisp\",\r\n					\"Perl\",\r\n					\"PHP\",\r\n					\"Python\",\r\n					\"Ruby\",\r\n					\"Scala\",\r\n					\"Scheme\"]\'>\r\n        <button type=\"submit\">\r\n            <i class=\"fa fa-search\"></i>\r\n        </button>\r\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\r\n    </form>-->\r\n    <!-- end input: search field -->\r\n\r\n    <!-- fullscreen button -->\r\n    <!--<div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\r\n        <span> <a full-screen title=\"Full Screen\"><i\r\n                class=\"fa fa-arrows-alt\"></i></a> </span>\r\n    </div>-->\r\n    <!-- end fullscreen button -->\r\n\r\n    <!-- #Voice Command: Start Speech -->\r\n    <!--<div id=\"speech-btn\" class=\"btn-header transparent pull-right hidden-sm hidden-xs\">\r\n        <div>\r\n            <a title=\"Voice Command\" id=\"voice-command-btn\" speech-recognition><i class=\"fa fa-microphone\"></i></a>\r\n\r\n            <div class=\"popover bottom\">\r\n                <div class=\"arrow\"></div>\r\n                <div class=\"popover-content\">\r\n                    <h4 class=\"vc-title\">Voice command activated <br>\r\n                        <small>Please speak clearly into the mic</small>\r\n                    </h4>\r\n                    <h4 class=\"vc-title-error text-center\">\r\n                        <i class=\"fa fa-microphone-slash\"></i> Voice command failed\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must <strong>\"Allow\"</strong> Microphone</small>\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must have <strong>Internet Connection</strong></small>\r\n                    </h4>\r\n                    <a href-void class=\"btn btn-success\" id=\"speech-help-btn\">See Commands</a>\r\n                    <a href-void class=\"btn bg-color-purple txt-color-white\"\r\n                       onclick=\"$(\'#speech-btn .popover\').fadeOut(50);\">Close Popup</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>-->\r\n    <!-- end voice command -->\r\n\r\n\r\n\r\n    <!-- multiple lang dropdown : find all flags in the flags page -->\r\n    <language-selector ng-show=\"false\"></language-selector>\r\n    <!-- end multiple lang -->\r\n\r\n</div>\r\n<!-- end pulled right: nav area -->\r\n\r\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入(新版测试)</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\r\n    <ul id=\"sparks\" class=\"\">\r\n        <li class=\"sparks-info\">\r\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\r\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\r\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\r\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\r\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</div>\r\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\r\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\r\n\r\n<!-- MODAL PLACE HOLDER\r\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\r\n<div class=\"modal-dialog\">\r\n<div class=\"modal-content\"></div>\r\n</div>\r\n</div>   -->\r\n<!--////////////////////////////////////-->\r\n\r\n<!--<div class=\"modal-header\">\r\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\r\n&times;\r\n</button>\r\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\r\n</div>-->\r\n<div class=\"modal-body\">\r\n\r\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\r\n	<hr class=\"simple\">\r\n	<h5>Instruction</h5>\r\n\r\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\r\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\r\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\r\n	<br>\r\n	<br>\r\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\r\n	<br>\r\n	<br>\r\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\r\n	<br>\r\n	<br>\r\n	<h5>Commands</h5>\r\n	<ul>\r\n		<li>\r\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\r\n		</li>\r\n		<li>\r\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\r\n		</li>\r\n		<li>\r\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\r\n		</li>\r\n		<li>\r\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\r\n		</li>\r\n		<li>\r\n			<strong>\'logout\'</strong> - logs you out\r\n		</li>\r\n	</ul>\r\n	<br>\r\n	<h5>Adding your own commands</h5>\r\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \r\n\r\n	<hr class=\"simple\">\r\n	<div class=\"text-right\">\r\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\r\n			Got it!\r\n		</button>\r\n	</div>\r\n\r\n</div>\r\n<!--<div class=\"modal-footer\">\r\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\r\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\r\n	<ul>\r\n		<li>\r\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\r\n		</li>\r\n	</ul>\r\n</div>");
@@ -4339,522 +4375,6 @@ angular.module('app.client').factory('ClientService',
             
            
         }]);
-'use strict'
-
-angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.companyCatogory = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.companycatogory.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyCatogoryId = $stateParams.companyCatogoryId;
-    if (companyCatogoryId) {
-        CompanyService.getCompanyCatogory(companyCatogoryId)
-            .then(function (companyCatogory) {
-                console.log(companyCatogory);
-                vm.companyCatogory = companyCatogory;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.saveCompanyCatogory(vm.companyCatogory)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "一级保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.companyCatogory = {};
-                if (vm.back) {
-                    $state.go("app.company.companycatogory.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyCatogoryListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.companyCatogories = [];
-
-
-
-    vm.refreshCompanyCatogories = function(){
-       CompanyService.getCompanyCatogories()
-       .then(function(companyCatogories){
-           vm.companyCatogories = companyCatogories;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshCompanyCatogories();
-	
-    vm.view = function(companyCatogoryId){
-        $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
-    };
-
-    vm.addLevel1 = function(){
-        $state.go("app.company.companycatogory.new");
-    }
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (companyCatogoryId) {
-        $.SmartMessageBox({
-            title: "删除一级保险公司",
-            content: "确认删除该一级保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompanyCatogory(companyCatogoryId)
-                    .then(function(){
-                        vm.refreshCompanyCatogories();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-'use strict'
-
-angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.company = {};
-    vm.companyCatogories = [];
-    vm.editable = false;
-    vm.currentLevel = "";
-    vm.parentName = "";
-    vm.showRateEditor = false;
-
-    if ($state.is('app.company.company2.new')) {
-        vm.company.level = "二级";
-        vm.editable = true;
-        vm.company.catogory = $stateParams.parentId;
-    } else if ($state.is('app.company.company3.new')) {
-        vm.company.level = "三级";
-        vm.editable = true;
-        vm.company.parent = $stateParams.parentId;
-    } else if ($state.is('app.company.company4.new')) {
-        vm.company.level = "四级";
-        vm.editable = true;
-        vm.company.parent = $stateParams.parentId;
-    }
-
-    vm.setParentName = function () {
-        if (vm.company.catogory) {
-            CompanyService.getCompanyCatogory(vm.company.catogory)
-                .then(function (companyCatogory) {
-                    vm.parentName = companyCatogory.name;
-                })
-        } else if (vm.company.parent) {
-            CompanyService.getCompany(vm.company.parent)
-                .then(function (parentCompany) {
-                    vm.parentName = parentCompany.name;
-                })
-        }
-    }
-
-    vm.setParentName();
-
-
-
-    // CompanyService.getCompanyCatogories()
-    //     .then(function (companyCatogories) {
-    //         vm.companyCatogories = companyCatogories;
-    //     })
-
-
-
-    if ($state.is("app.company.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyId = $stateParams.companyId;
-    if (companyId) {
-        CompanyService.getCompany(companyId)
-            .then(function (company) {
-                vm.company = company;
-                vm.setParentName();
-            });
-    }
-
-
-    vm.toggleSetRate = function(){
-        vm.showRateEditor = !vm.showRateEditor;
-        if(vm.showRateEditor){
-            vm.current_rate = {};
-            vm.current_rate.set_at = Date.now();
-        }else{
-            vm.current_rate = undefined;
-        }
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        if(vm.current_rate){
-            if(!vm.company.rates){
-                vm.company.rates = [];
-            }
-            vm.company.rates.unshift(vm.current_rate);
-        }
-        CompanyService.saveCompany(vm.company)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.currentLevel = vm.company.level;
-                var temp = vm.company;
-                vm.company = {};
-                vm.company.level = temp.level;
-                vm.company.parent = temp.parent;
-                vm.company.catogory = temp.catogory;
-
-
-                if (vm.back) {
-                    if (vm.currentLevel == "二级") {
-                        $state.go("app.company.company2.all");
-                    } else if (vm.currentLevel == "三级") {
-                        $state.go("app.company.company3.all");
-                    } else if (vm.currentLevel == "四级") {
-                        $state.go("app.company.company4.all");
-                    } else {
-                        $state.go("app.company.all");
-                    }
-                }
-            }, function (err) { });
-    };
-
-
-
-});
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
-    var vm = this;
-    vm.companies = [];
-    vm.level1Companies = [];
-    vm.level2Companies = [];
-    vm.setting = {};
-    vm.settingString = "";
-
-
-
-    if ($state.is("app.company.company2.all")) {
-        vm.level = "二级";
-        vm.settingString = "level2Settings";
-    }
-    else if ($state.is("app.company.company3.all")) {
-        vm.level = "三级";
-        vm.settingString = "level3Settings";
-    } else if ($state.is("app.company.company4.all")) {
-        vm.level = "四级";
-        vm.settingString = "level4Settings";
-    }
-    vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
-
-    CompanyService.getCompanyCatogories()
-        .then(function (companyCatogories) {
-            vm.level1Companies = companyCatogories;
-        })
-
-
-    vm.loadLevel2Companies = function () {
-        if (!vm.setting.level1Company) {
-            vm.level2Companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.level1Company)
-                .then(function (level2Companies) {
-                    vm.level2Companies = level2Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.loadLevel3Companies = function () {
-        if (!vm.setting.level2Company) {
-            vm.level3Companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.level2Company)
-                .then(function (level3Companies) {
-                    vm.level3Companies = level3Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.refreshCompanies = function () {
-
-        if (!vm.setting.parentId) {
-            vm.companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.parentId)
-                .then(function (companies) {
-                    vm.companies = companies;
-                }, function (err) {
-
-                });
-        }
-    };
-
-    vm.loadLevel2Companies();
-    vm.loadLevel3Companies();
-    vm.refreshCompanies();
-
-    vm.view = function (companyId) {
-        $state.go("app.company.view", { companyId: companyId });
-    };
-
-    vm.level1Changed = function () {
-        if (vm.level == "二级") {
-            vm.setting.parentId = vm.setting.level1Company;
-        } else if (vm.level == "三级") {
-            vm.setting.parentId = null;
-            vm.setting.level2Company = null;
-            vm.loadLevel2Companies();
-        } else if (vm.level == "四级") {
-            vm.setting.parentId = null;
-            vm.setting.level2Company = null;
-            vm.setting.level3Company = null;
-            vm.loadLevel2Companies();
-        }
-
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.level2Changed = function () {
-        if (vm.level == "三级") {
-            vm.setting.parentId = vm.setting.level2Company;
-        } else if (vm.level == "四级") {
-            vm.setting.parentId = null;
-            vm.setting.level3Company = null;
-            vm.loadLevel3Companies();
-        }
-
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.level3Changed = function () {
-
-        vm.setting.parentId = vm.setting.level3Company;
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.addSubCompany = function () {
-        if (vm.level == "二级") {
-            $state.go("app.company.company2.new", { parentId: vm.setting.level1Company });
-        } else if (vm.level == "三级") {
-            $state.go("app.company.company3.new", { parentId: vm.setting.level2Company });
-        } else if (vm.level == "四级") {
-            $state.go("app.company.company4.new", { parentId: vm.setting.level3Company });
-        }
-    }
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete = function (companyId) {
-        $.SmartMessageBox({
-            title: "删除保险公司",
-            content: "确认删除该保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompany(companyId)
-                    .then(function () {
-                        vm.refreshCompanies();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-
-});
-
-angular.module('app.company')
-.filter("getIncomeRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
-                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
-        return str;  
-    };
-})
-.filter("getPaymentRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
-                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
-        return str;  
-    };
-});
-'use strict'
-
-angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.policyName = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.policyname.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var policyNameId = $stateParams.policyNameId;
-    if (policyNameId) {
-        CompanyService.getPolicyName(policyNameId)
-            .then(function (policyName) {
-                vm.policyName = policyName;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.savePolicyName(vm.policyName)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "险种名称已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.companyCatogory = {};
-                if (vm.back) {
-                    $state.go("app.company.policyname.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('PolicyNameListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.policyNames = [];
-
-
-
-    vm.refreshPolicyNames = function(){
-       CompanyService.getPolicyNames()
-       .then(function(policyNames){
-           vm.policyNames = policyNames;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshPolicyNames();
-	
-    vm.view = function(policyNameId){
-        $state.go("app.company.policyname.view", {policyNameId: policyNameId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (policyNameId) {
-        $.SmartMessageBox({
-            title: "删除险种名称",
-            content: "确认删除该险种名称？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deletePolicyName(policyNameId)
-                    .then(function(){
-                        vm.refreshpolicyNames();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
 "use strict";
 
 angular.module('app.company').factory('CompanyService',
@@ -5408,6 +4928,522 @@ angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
     };
 
 });
+'use strict'
+
+angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.companyCatogory = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.companycatogory.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var companyCatogoryId = $stateParams.companyCatogoryId;
+    if (companyCatogoryId) {
+        CompanyService.getCompanyCatogory(companyCatogoryId)
+            .then(function (companyCatogory) {
+                console.log(companyCatogory);
+                vm.companyCatogory = companyCatogory;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.saveCompanyCatogory(vm.companyCatogory)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "一级保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.companyCatogory = {};
+                if (vm.back) {
+                    $state.go("app.company.companycatogory.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyCatogoryListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.companyCatogories = [];
+
+
+
+    vm.refreshCompanyCatogories = function(){
+       CompanyService.getCompanyCatogories()
+       .then(function(companyCatogories){
+           vm.companyCatogories = companyCatogories;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshCompanyCatogories();
+	
+    vm.view = function(companyCatogoryId){
+        $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
+    };
+
+    vm.addLevel1 = function(){
+        $state.go("app.company.companycatogory.new");
+    }
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (companyCatogoryId) {
+        $.SmartMessageBox({
+            title: "删除一级保险公司",
+            content: "确认删除该一级保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompanyCatogory(companyCatogoryId)
+                    .then(function(){
+                        vm.refreshCompanyCatogories();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.company = {};
+    vm.companyCatogories = [];
+    vm.editable = false;
+    vm.currentLevel = "";
+    vm.parentName = "";
+    vm.showRateEditor = false;
+
+    if ($state.is('app.company.company2.new')) {
+        vm.company.level = "二级";
+        vm.editable = true;
+        vm.company.catogory = $stateParams.parentId;
+    } else if ($state.is('app.company.company3.new')) {
+        vm.company.level = "三级";
+        vm.editable = true;
+        vm.company.parent = $stateParams.parentId;
+    } else if ($state.is('app.company.company4.new')) {
+        vm.company.level = "四级";
+        vm.editable = true;
+        vm.company.parent = $stateParams.parentId;
+    }
+
+    vm.setParentName = function () {
+        if (vm.company.catogory) {
+            CompanyService.getCompanyCatogory(vm.company.catogory)
+                .then(function (companyCatogory) {
+                    vm.parentName = companyCatogory.name;
+                })
+        } else if (vm.company.parent) {
+            CompanyService.getCompany(vm.company.parent)
+                .then(function (parentCompany) {
+                    vm.parentName = parentCompany.name;
+                })
+        }
+    }
+
+    vm.setParentName();
+
+
+
+    // CompanyService.getCompanyCatogories()
+    //     .then(function (companyCatogories) {
+    //         vm.companyCatogories = companyCatogories;
+    //     })
+
+
+
+    if ($state.is("app.company.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(companyId)
+            .then(function (company) {
+                vm.company = company;
+                vm.setParentName();
+            });
+    }
+
+
+    vm.toggleSetRate = function(){
+        vm.showRateEditor = !vm.showRateEditor;
+        if(vm.showRateEditor){
+            vm.current_rate = {};
+            vm.current_rate.set_at = Date.now();
+        }else{
+            vm.current_rate = undefined;
+        }
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        if(vm.current_rate){
+            if(!vm.company.rates){
+                vm.company.rates = [];
+            }
+            vm.company.rates.unshift(vm.current_rate);
+        }
+        CompanyService.saveCompany(vm.company)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.currentLevel = vm.company.level;
+                var temp = vm.company;
+                vm.company = {};
+                vm.company.level = temp.level;
+                vm.company.parent = temp.parent;
+                vm.company.catogory = temp.catogory;
+
+
+                if (vm.back) {
+                    if (vm.currentLevel == "二级") {
+                        $state.go("app.company.company2.all");
+                    } else if (vm.currentLevel == "三级") {
+                        $state.go("app.company.company3.all");
+                    } else if (vm.currentLevel == "四级") {
+                        $state.go("app.company.company4.all");
+                    } else {
+                        $state.go("app.company.all");
+                    }
+                }
+            }, function (err) { });
+    };
+
+
+
+});
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
+    var vm = this;
+    vm.companies = [];
+    vm.level1Companies = [];
+    vm.level2Companies = [];
+    vm.setting = {};
+    vm.settingString = "";
+
+
+
+    if ($state.is("app.company.company2.all")) {
+        vm.level = "二级";
+        vm.settingString = "level2Settings";
+    }
+    else if ($state.is("app.company.company3.all")) {
+        vm.level = "三级";
+        vm.settingString = "level3Settings";
+    } else if ($state.is("app.company.company4.all")) {
+        vm.level = "四级";
+        vm.settingString = "level4Settings";
+    }
+    vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
+
+    CompanyService.getCompanyCatogories()
+        .then(function (companyCatogories) {
+            vm.level1Companies = companyCatogories;
+        })
+
+
+    vm.loadLevel2Companies = function () {
+        if (!vm.setting.level1Company) {
+            vm.level2Companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.level1Company)
+                .then(function (level2Companies) {
+                    vm.level2Companies = level2Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.setting.level2Company) {
+            vm.level3Companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.level2Company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.refreshCompanies = function () {
+
+        if (!vm.setting.parentId) {
+            vm.companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.parentId)
+                .then(function (companies) {
+                    vm.companies = companies;
+                }, function (err) {
+
+                });
+        }
+    };
+
+    vm.loadLevel2Companies();
+    vm.loadLevel3Companies();
+    vm.refreshCompanies();
+
+    vm.view = function (companyId) {
+        $state.go("app.company.view", { companyId: companyId });
+    };
+
+    vm.level1Changed = function () {
+        if (vm.level == "二级") {
+            vm.setting.parentId = vm.setting.level1Company;
+        } else if (vm.level == "三级") {
+            vm.setting.parentId = null;
+            vm.setting.level2Company = null;
+            vm.loadLevel2Companies();
+        } else if (vm.level == "四级") {
+            vm.setting.parentId = null;
+            vm.setting.level2Company = null;
+            vm.setting.level3Company = null;
+            vm.loadLevel2Companies();
+        }
+
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.level2Changed = function () {
+        if (vm.level == "三级") {
+            vm.setting.parentId = vm.setting.level2Company;
+        } else if (vm.level == "四级") {
+            vm.setting.parentId = null;
+            vm.setting.level3Company = null;
+            vm.loadLevel3Companies();
+        }
+
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.level3Changed = function () {
+
+        vm.setting.parentId = vm.setting.level3Company;
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.addSubCompany = function () {
+        if (vm.level == "二级") {
+            $state.go("app.company.company2.new", { parentId: vm.setting.level1Company });
+        } else if (vm.level == "三级") {
+            $state.go("app.company.company3.new", { parentId: vm.setting.level2Company });
+        } else if (vm.level == "四级") {
+            $state.go("app.company.company4.new", { parentId: vm.setting.level3Company });
+        }
+    }
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (companyId) {
+        $.SmartMessageBox({
+            title: "删除保险公司",
+            content: "确认删除该保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompany(companyId)
+                    .then(function () {
+                        vm.refreshCompanies();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+
+});
+
+angular.module('app.company')
+.filter("getIncomeRatesString", function () {
+    return function (fieldValueUnused, item) {
+        if(!item.rates){
+            return "";
+        }
+        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
+                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
+        return str;  
+    };
+})
+.filter("getPaymentRatesString", function () {
+    return function (fieldValueUnused, item) {
+        if(!item.rates){
+            return "";
+        }
+        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
+                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
+        return str;  
+    };
+});
+'use strict'
+
+angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.policyName = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.policyname.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var policyNameId = $stateParams.policyNameId;
+    if (policyNameId) {
+        CompanyService.getPolicyName(policyNameId)
+            .then(function (policyName) {
+                vm.policyName = policyName;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.savePolicyName(vm.policyName)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "险种名称已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.companyCatogory = {};
+                if (vm.back) {
+                    $state.go("app.company.policyname.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.company').controller('PolicyNameListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.policyNames = [];
+
+
+
+    vm.refreshPolicyNames = function(){
+       CompanyService.getPolicyNames()
+       .then(function(policyNames){
+           vm.policyNames = policyNames;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshPolicyNames();
+	
+    vm.view = function(policyNameId){
+        $state.go("app.company.policyname.view", {policyNameId: policyNameId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (policyNameId) {
+        $.SmartMessageBox({
+            title: "删除险种名称",
+            content: "确认删除该险种名称？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deletePolicyName(policyNameId)
+                    .then(function(){
+                        vm.refreshpolicyNames();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
 'use strict'
 
 angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
@@ -6623,6 +6659,780 @@ angular.module('app').directive('toggleShortcut', function($log,$timeout) {
 		link:link
 	}
 })
+"use strict";
+
+angular.module('app.life-policy').factory('LifePolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                savePolicy: savePolicy,
+                getPolicies: getPolicies,
+                getClients: getClients,
+                getCompanies: getCompanies,
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies,
+                getOrganizations: getOrganizations,
+                getSellers: getSellers,
+                getFilteredCSV: getFilteredCSV,
+                // getSummary: getSummary,
+                // bulkPay: bulkPay,
+                saveSalary: saveSalary,
+                getSalary: getSalary,
+                searchSalaries: searchSalaries,
+                getFilteredSalaryCSV: getFilteredSalaryCSV,
+                deleteSalary: deleteSalary,
+                saveStatement: saveStatement,
+                getStatement: getStatement,
+                searchStatements: searchStatements,
+                getFilteredStatementCSV: getFilteredStatementCSV,
+                deleteStatement: deleteStatement,
+                getManagers: getManagers,
+                getPolicyNames: getPolicyNames,
+                getClient: getClient
+            });
+
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function savePolicy(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (policy._id) {
+                    policy.updated_at = Date.now();
+                    $http.put('/api/life-policies/' + policy._id, policy)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/life-policies', policy)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveSalary(salary) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (salary._id) {
+                    salary.updated_at = Date.now();
+                    $http.put('/api/life-salaries/' + salary._id, salary)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    salary.created_at = Date.now();
+                    salary.updated_at = salary.created_at;
+                    $http.post('/api/life-salaries', salary)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveStatement(statement) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (statement._id) {
+                    statement.updated_at = Date.now();
+                    $http.put('/api/life-statements/' + statement._id, statement)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    statement.created_at = Date.now();
+                    statement.updated_at = statement.created_at;
+                    $http.post('/api/life-statements', statement)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicies(type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                var url = "/api/life-policies"
+                // if (type == "to-be-paid") {
+                //     url = "/api/life-policies/to-be-paid";
+                // } else if (type == "paid") {
+                //     url = "/api/life-policies/paid";
+                // }
+                $http.get(url)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function deleteSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function deleteStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getManagers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=manager')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "submit_date";
+                var orderByReverse = true;
+                
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                
+                $http.post("/api/life-policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function searchSalaries(currentPage, pageSize, type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = true;
+                
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                };
+
+                
+                $http.post("/api/life-salaries/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function searchStatements(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = true;
+                
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                
+                $http.post("/api/life-statements/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            // function getSummary(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/summary", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
+            
+            // function bulkPay(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/bulk-pay", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
+            
+            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "submit_date";
+                var orderByReverse = true;
+                // if (type == "to-be-paid") {
+                //     filterSettings.policy_status = "待支付";
+                //     orderByReverse = false;
+                // } else if (type == "paid") {
+                //     filterSettings.policy_status = "已支付";
+                //     orderByReverse = true;
+                // }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/life-policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredSalaryCSV(type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                };
+                $http.post("/api/life-salaries/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredStatementCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/life-statements/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSellers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 'use strict'
 
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
@@ -7533,780 +8343,6 @@ angular.module('app.life-policy').controller('LifeStatementListController', func
 });
 
 
-"use strict";
-
-angular.module('app.life-policy').factory('LifePolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                savePolicy: savePolicy,
-                getPolicies: getPolicies,
-                getClients: getClients,
-                getCompanies: getCompanies,
-                getPolicy: getPolicy,
-                deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies,
-                getOrganizations: getOrganizations,
-                getSellers: getSellers,
-                getFilteredCSV: getFilteredCSV,
-                // getSummary: getSummary,
-                // bulkPay: bulkPay,
-                saveSalary: saveSalary,
-                getSalary: getSalary,
-                searchSalaries: searchSalaries,
-                getFilteredSalaryCSV: getFilteredSalaryCSV,
-                deleteSalary: deleteSalary,
-                saveStatement: saveStatement,
-                getStatement: getStatement,
-                searchStatements: searchStatements,
-                getFilteredStatementCSV: getFilteredStatementCSV,
-                deleteStatement: deleteStatement,
-                getManagers: getManagers,
-                getPolicyNames: getPolicyNames,
-                getClient: getClient
-            });
-
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/clients/' + clientId)
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                    // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function savePolicy(policy) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (policy._id) {
-                    policy.updated_at = Date.now();
-                    $http.put('/api/life-policies/' + policy._id, policy)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policy.created_at = Date.now();
-                    policy.updated_at = policy.created_at;
-                    $http.post('/api/life-policies', policy)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveSalary(salary) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (salary._id) {
-                    salary.updated_at = Date.now();
-                    $http.put('/api/life-salaries/' + salary._id, salary)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    salary.created_at = Date.now();
-                    salary.updated_at = salary.created_at;
-                    $http.post('/api/life-salaries', salary)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveStatement(statement) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (statement._id) {
-                    statement.updated_at = Date.now();
-                    $http.put('/api/life-statements/' + statement._id, statement)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    statement.created_at = Date.now();
-                    statement.updated_at = statement.created_at;
-                    $http.post('/api/life-statements', statement)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSalary(salaryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/life-salaries/' + salaryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getStatement(statementId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/life-statements/' + statementId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicies(type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                var url = "/api/life-policies"
-                // if (type == "to-be-paid") {
-                //     url = "/api/life-policies/to-be-paid";
-                // } else if (type == "paid") {
-                //     url = "/api/life-policies/paid";
-                // }
-                $http.get(url)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/life-policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/life-policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function deleteSalary(salaryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/life-salaries/' + salaryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function deleteStatement(statementId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/life-statements/' + statementId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getManagers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=manager')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "submit_date";
-                var orderByReverse = true;
-                
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                
-                $http.post("/api/life-policies/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function searchSalaries(currentPage, pageSize, type, filterSettings) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = true;
-                
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                };
-
-                
-                $http.post("/api/life-salaries/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function searchStatements(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = true;
-                
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                
-                $http.post("/api/life-statements/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            // function getSummary(type, filterSettings, fromDate, toDate) {
-            //     // create a new instance of deferred
-            //     var deferred = $q.defer();
-            //     var orderBy = "created_at";
-            //     var orderByReverse = false;
-            //     if (type == "to-be-paid") {
-            //         filterSettings.policy_status = "待支付";
-            //         orderByReverse = false;
-            //     } else if (type == "paid") {
-            //         filterSettings.policy_status = "已支付";
-            //         orderByReverse = true;
-            //     }
-            //     var end = new Date(toDate);
-            //     end.setDate(end.getDate()+1);
-            //     var config = {
-            //         filterByFields:filterSettings,
-            //         orderBy: orderBy,
-            //         orderByReverse: orderByReverse,
-            //         requestTrapped: true,
-            //         fromDate: fromDate,
-            //         toDate: end
-            //     };
-
-            //     $http.post("/api/life-policies/summary", config)
-            //     // handle success
-            //         .success(function (data, status) {
-            //             if (status === 200) {
-            //                 deferred.resolve(data);
-            //             } else {
-            //                 deferred.reject(status);
-            //             }
-            //         })
-            //     // handle error
-            //         .error(function (err) {
-            //             deferred.reject(status);
-            //         });
-
-            //     // return promise object
-            //     return deferred.promise;
-            // }
-            
-            // function bulkPay(type, filterSettings, fromDate, toDate) {
-            //     // create a new instance of deferred
-            //     var deferred = $q.defer();
-            //     var orderBy = "created_at";
-            //     var orderByReverse = false;
-            //     if (type == "to-be-paid") {
-            //         filterSettings.policy_status = "待支付";
-            //         orderByReverse = false;
-            //     } else if (type == "paid") {
-            //         filterSettings.policy_status = "已支付";
-            //         orderByReverse = true;
-            //     }
-            //     var end = new Date(toDate);
-            //     end.setDate(end.getDate()+1);
-            //     var config = {
-            //         filterByFields:filterSettings,
-            //         orderBy: orderBy,
-            //         orderByReverse: orderByReverse,
-            //         requestTrapped: true,
-            //         fromDate: fromDate,
-            //         toDate: end
-            //     };
-
-            //     $http.post("/api/life-policies/bulk-pay", config)
-            //     // handle success
-            //         .success(function (data, status) {
-            //             if (status === 200) {
-            //                 deferred.resolve(data);
-            //             } else {
-            //                 deferred.reject(status);
-            //             }
-            //         })
-            //     // handle error
-            //         .error(function (err) {
-            //             deferred.reject(status);
-            //         });
-
-            //     // return promise object
-            //     return deferred.promise;
-            // }
-            
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "submit_date";
-                var orderByReverse = true;
-                // if (type == "to-be-paid") {
-                //     filterSettings.policy_status = "待支付";
-                //     orderByReverse = false;
-                // } else if (type == "paid") {
-                //     filterSettings.policy_status = "已支付";
-                //     orderByReverse = true;
-                // }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-                $http.post("/api/life-policies/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFilteredSalaryCSV(type, filterSettings) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                };
-                $http.post("/api/life-salaries/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFilteredStatementCSV(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-                $http.post("/api/life-statements/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 'use strict';
 
 angular.module('app.maps').controller('MapsDemoCtrl', 
@@ -8912,6 +8948,347 @@ angular.module('app.policy').filter('propsFilter', function () {
 });
 'use strict'
 
+angular.module('app.policy').controller('PolicyEditorController1', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
+    var vm = this;
+    vm.policy = {};
+    vm.policy.plate_province = "苏";
+    vm.clientInfo = {};
+    vm.sellerInfo = $rootScope.user;
+    vm.level2Companies = [];
+    vm.level3Companies = [];
+    vm.level4Companies = [];
+
+    PolicyService.getLevel2Companies()
+        .then(function (level2Companies) {
+            vm.level2Companies = level2Companies;
+        })
+
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.policy.level2_company) {
+            vm.level3Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.policy.level2_company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Companies = function () {
+        if (!vm.policy.level3_company) {
+            vm.level4Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.policy.level3_company)
+                .then(function (level4Companies) {
+                    vm.level4Companies = level4Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.applyCompanyRate = function (company) {
+        if (!company || !company.rates || company.rates.length == 0) {
+            vm.policy.mandatory_fee_income_rate = null;
+            vm.policy.mandatory_fee_payment_rate = null;
+            vm.policy.commercial_fee_income_rate = null;
+            vm.policy.commercial_fee_payment_rate = null;
+            vm.policy.tax_fee_income_rate = null;
+            vm.policy.tax_fee_payment_rate = null;
+            vm.policy.other_fee_income_rate = null;
+            vm.policy.other_fee_payment_rate = null;
+        } else {
+            var rate = company.rates[0];
+            vm.policy.mandatory_fee_income_rate = rate.mandatory_income;
+            vm.policy.mandatory_fee_payment_rate = rate.mandatory_payment;
+            vm.policy.commercial_fee_income_rate = rate.commercial_income;
+            vm.policy.commercial_fee_payment_rate = rate.commercial_payment;
+            vm.policy.tax_fee_income_rate = rate.tax_income;
+            vm.policy.tax_fee_payment_rate = rate.tax_payment;
+            vm.policy.other_fee_income_rate = rate.other_income;
+            vm.policy.other_fee_payment_rate = rate.other_payment;
+        }
+    }
+
+    vm.level2Changed = function () {
+        if (!vm.policy.level2_company) {
+            vm.policy.level1_company = undefined;
+            vm.applyCompanyRate(null);
+        } else {
+            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
+            vm.policy.level1_company = company.catogory._id;
+            vm.applyCompanyRate(company);
+        }
+        vm.loadLevel3Companies();
+    }
+
+    vm.level3Changed = function () {
+        if (!vm.policy.level3_company) {
+            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
+            vm.applyCompanyRate(company);
+        } else {
+            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
+            vm.applyCompanyRate(company);
+        }
+        vm.loadLevel4Companies();
+    }
+
+    vm.level4Changed = function () {
+        if (!vm.policy.level4_company) {
+            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
+            vm.applyCompanyRate(company);
+        } else {
+            var company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
+            vm.applyCompanyRate(company);
+        }
+    }
+
+    PolicyService.getClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+
+
+    vm.editable = false;
+    if ($state.is("app.policy.new1")) {
+        vm.editable = true;
+    }
+
+
+
+
+
+    var policyId = $stateParams.policyId;
+    if (policyId) {
+        PolicyService.getPolicy(policyId)
+            .then(function (policy) {
+                vm.policy = policy;
+                vm.clientInfo = policy.client;
+                vm.sellerInfo = policy.seller;
+                policy.client = policy.client._id;
+                policy.seller = policy.seller._id;
+                vm.loadLevel3Companies();
+                vm.loadLevel4Companies();
+            });
+    }
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+
+    vm.submit = function () {
+
+        vm.policy.client = vm.clientInfo._id;
+        PolicyService.savePolicy(vm.policy)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保单已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.policy = {};
+                vm.policy.plate_province = "苏";
+                if (vm.back) {
+                    $state.go("app.policy.to-be-paid");
+                }
+            }, function (err) { });
+    };
+
+    vm.pay = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认已支付该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "已支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.updateFee = function () {
+        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
+        if (vm.policy.mandatory_fee_income) {
+            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+        }
+        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
+        if (vm.policy.commercial_fee_income) {
+            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+        }
+        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
+        if (vm.policy.tax_fee_income) {
+            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+        }
+        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
+        if (vm.policy.other_fee_income) {
+            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income) && !isNaN(vm.policy.other_fee_income)) {
+            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+        }
+
+        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
+
+        if (vm.policy.mandatory_fee_payment) {
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+        }
+        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
+        if (vm.policy.commercial_fee_payment) {
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+        }
+        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
+        if (vm.policy.tax_fee_payment) {
+            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+        }
+        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
+        if (vm.policy.other_fee_payment) {
+            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment) && !isNaN(vm.policy.other_fee_payment)) {
+            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_addition) {
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_substraction_rate) {
+            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
+            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
+        }
+
+    }
+});
+
+angular.module('app.policy').directive('upper', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var capitalize = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                var capitalized = inputValue.toUpperCase();
+                var re = /[^/u4e00-/u9fa5]/;
+                if (re.test(inputValue) && capitalized !== inputValue) {
+                    modelCtrl.$setViewValue(capitalized);
+                    modelCtrl.$render();
+                }
+                return capitalized;
+            }
+            modelCtrl.$parsers.push(capitalize);
+            capitalize(scope[attrs.ngModel]);  // capitalize initial value
+        }
+    };
+});
+
+angular.module('app.policy').directive('price', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var removeIllegalInput = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+
+                //先把非数字的都替换掉，除了数字和.
+                var output = inputValue.replace(/[^\d.]/g, "");
+                //必须保证第一个为数字而不是.
+                output = output.replace(/^\./g, "");
+                //保证只有出现一个.而没有多个.
+                output = output.replace(/\.{2,}/g, ".");
+                //保证.只出现一次，而不能出现两次以上
+                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                //只允许输入两位小数
+                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+
+                if (output !== inputValue) {
+                    modelCtrl.$setViewValue(output);
+                    modelCtrl.$render();
+                }
+                return output;
+            }
+            modelCtrl.$parsers.push(removeIllegalInput);
+            removeIllegalInput(scope[attrs.ngModel]);
+        }
+    };
+});
+
+angular.module('app.policy').filter('propsFilter', function () {
+    return function (items, props) {
+        var out = [];
+
+        if (angular.isArray(items)) {
+            items.forEach(function (item) {
+                var itemMatches = false;
+
+                var keys = Object.keys(props);
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    if (/^[\u4e00-\u9fa5]+$/.test(text)) {
+                        if (item['name'].indexOf(text) == 0) {
+                            itemMatches = true;
+                            break;
+                        }
+                    } else {
+                        var text = props[prop].toUpperCase();
+                        var pylist = item['py'];
+
+                        for (var j = 0; j < pylist.length; j++) {
+                            if (pylist[j].indexOf(text) == 0) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+                        if (itemMatches) {
+                            break;
+                        }
+                    }
+
+
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    }
+});
+'use strict'
+
 angular.module('app.policy').controller('PolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, PolicyService, localStorageService) {
     var vm = this;
     vm.policies = [];
@@ -9003,7 +9380,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.clientFilterChanged = function () {
         if (vm.clientDictionary[vm.clientName]) {
             vm.filterSettings.client = vm.clientDictionary[vm.clientName];
-            console.log("filter updated");
+            
         }
         else {
             vm.filterSettings.client = undefined;
@@ -9116,12 +9493,21 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
     };
 
-    vm.pay = function (policyId) {
-        $state.go("app.policy.pay", { policyId: policyId });
+    vm.pay = function (policy) {
+        if(!policy.level2_company){
+            $state.go("app.policy.pay", { policyId: policy._id}); //this is from old version
+        }else{
+            $state.go("app.policy.pay1", { policyId: policy._id});
+        }
     };
 
-    vm.view = function (policyId) {
-        $state.go("app.policy.view", { policyId: policyId });
+    vm.view = function (policy) { 
+        if(!policy.level2_company){      
+            $state.go("app.policy.view", { policyId: policy._id}); //this is from old version
+        }else{
+            $state.go("app.policy.view1", { policyId: policy._id});
+        }
+        
     };
 
 
@@ -9182,7 +9568,9 @@ angular.module('app.policy').factory('PolicyService',
                 getFilteredCSV: getFilteredCSV,
                 getSummary: getSummary,
                 bulkPay: bulkPay,
-                getClient: getClient
+                getClient: getClient,
+                getSubCompanies: getSubCompanies,
+                getLevel2Companies: getLevel2Companies
             });
             
             function getClient(clientId) {
@@ -9581,6 +9969,55 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getLevel2Companies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/level2')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
         }]);
 'use strict';
 
@@ -15787,91 +16224,191 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
     return {
         restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+        scope: {
+            coords: '=',
+            options: '=',
+            selection: '='
+        },
+        link: function (scope, element, attributes) {
+            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
 
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
+            var listeners = {
+                onSelectHandlers: [],
+                onChangeHandlers: [],
+                onSelect: function (c) {
+                    angular.forEach(listeners.onSelectHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                },
+                onChange: function (c) {
+                    angular.forEach(listeners.onChangeHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
                 }
             };
 
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
+            if (attributes.coords) {
+                var coordsUpdate = function (c) {
+                    scope.$apply(function () {
+                        scope.coords = c;
+                    });
+                };
+                listeners.onSelectHandlers.push(coordsUpdate);
+                listeners.onChangeHandlers.push(coordsUpdate);
             }
 
-            element.markdown(options);
-        }
-    }
-});
+            var $previewPane = $(attributes.smartJcropPreview),
+                $previewContainer = $previewPane.find('.preview-container'),
+                $previewImg = $previewPane.find('img');
 
-'use strict';
+            if ($previewPane.length && $previewImg.length) {
+                var previewUpdate = function (coords) {
+                    if (parseInt(coords.w) > 0) {
+                        var rx = $previewContainer.width() / coords.w;
+                        var ry = $previewContainer.height() / coords.h;
 
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+                        $previewImg.css({
+                            width: Math.round(rx * imageWidth) + 'px',
+                            height: Math.round(ry * imageHeight) + 'px',
+                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                        });
+                    }
+                };
+                listeners.onSelectHandlers.push(previewUpdate);
+                listeners.onChangeHandlers.push(previewUpdate);
+            }
+
 
             var options = {
-                focus : true,
-                tabsize : 2
+                onSelect: listeners.onSelect,
+                onChange: listeners.onChange
             };
 
-            if(tAttributes.height){
-                options.height = tAttributes.height;
+            if ($previewContainer.length) {
+                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
             }
 
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
-            });
+            if (attributes.selection) {
+                scope.$watch('selection', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
+
+                        var callback = newVal == 'release' ? function () {
+                            jcropApi.release();
+                        } : angular.noop;
+
+                        imageLoaded.promise.then(function () {
+                            if (scope.options && scope.options.animate) {
+                                jcropApi.animateTo(rectangle, callback);
+                            } else {
+                                jcropApi.setSelect(rectangle);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (attributes.options) {
+
+                var optionNames = [
+                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
+                    'allowSelect', 'allowMove', 'allowResize',
+                    'aspectRatio'
+                ];
+
+                angular.forEach(optionNames, function (name) {
+                    if (scope.options[name])
+                        options[name] = scope.options[name]
+
+                    scope.$watch('options.' + name, function (newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            imageLoaded.promise.then(function () {
+                                var update = {};
+                                update[name] = newVal;
+                                jcropApi.setOptions(update);
+                            });
+                        }
+                    });
+
+                });
+
+
+                scope.$watch('options.disabled', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.disable();
+                        } else {
+                            jcropApi.enable();
+                        }
+                    }
+                });
+
+                scope.$watch('options.destroyed', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.destroy();
+                        } else {
+                            _init();
+                        }
+                    }
+                });
+
+                scope.$watch('options.src', function (newVal, oldVal) {
+                    imageLoaded = $q.defer();
+                    if (newVal != oldVal) {
+                        jcropApi.setImage(scope.options.src, function () {
+                            imageLoaded.resolve();
+                        });
+                    }
+                });
+
+                var updateSize = function(){
+                    jcropApi.setOptions({
+                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
+                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
+                    });
+                };
+
+                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+            }
+
+            var _init = function () {
+                element.Jcrop(options, function () {
+                    jcropApi = this;
+                    // Use the API to get the real image size
+                    var bounds = this.getBounds();
+                    imageWidth = bounds[0];
+                    imageHeight = bounds[1];
+
+                    if (attributes.selection && angular.isArray(scope.selection)) {
+                        if (scope.options && scope.options.animate) {
+                            jcropApi.animateTo(scope.selection);
+                        } else {
+                            jcropApi.setSelect(scope.selection);
+                        }
+                    }
+                    imageLoaded.resolve();
+                });
+            };
+
+            _init()
+
+
         }
     }
 });
@@ -16288,191 +16825,109 @@ angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsC
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
+angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
     return {
         restrict: 'A',
-        scope: {
-            coords: '=',
-            options: '=',
-            selection: '='
-        },
-        link: function (scope, element, attributes) {
-            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-dropzone data-smart-dropzone');
 
-            var listeners = {
-                onSelectHandlers: [],
-                onChangeHandlers: [],
-                onSelect: function (c) {
-                    angular.forEach(listeners.onSelectHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                },
-                onChange: function (c) {
-                    angular.forEach(listeners.onChangeHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
+            tElement.dropzone({
+                addRemoveLinks : true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
                 }
             };
 
-            if (attributes.coords) {
-                var coordsUpdate = function (c) {
-                    scope.$apply(function () {
-                        scope.coords = c;
-                    });
-                };
-                listeners.onSelectHandlers.push(coordsUpdate);
-                listeners.onChangeHandlers.push(coordsUpdate);
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
             }
 
-            var $previewPane = $(attributes.smartJcropPreview),
-                $previewContainer = $previewPane.find('.preview-container'),
-                $previewImg = $previewPane.find('img');
+            element.markdown(options);
+        }
+    }
+});
 
-            if ($previewPane.length && $previewImg.length) {
-                var previewUpdate = function (coords) {
-                    if (parseInt(coords.w) > 0) {
-                        var rx = $previewContainer.width() / coords.w;
-                        var ry = $previewContainer.height() / coords.h;
+'use strict';
 
-                        $previewImg.css({
-                            width: Math.round(rx * imageWidth) + 'px',
-                            height: Math.round(ry * imageHeight) + 'px',
-                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
-                        });
-                    }
-                };
-                listeners.onSelectHandlers.push(previewUpdate);
-                listeners.onChangeHandlers.push(previewUpdate);
-            }
-
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
 
             var options = {
-                onSelect: listeners.onSelect,
-                onChange: listeners.onChange
+                focus : true,
+                tabsize : 2
             };
 
-            if ($previewContainer.length) {
-                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
+            if(tAttributes.height){
+                options.height = tAttributes.height;
             }
 
-            if (attributes.selection) {
-                scope.$watch('selection', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
-
-                        var callback = newVal == 'release' ? function () {
-                            jcropApi.release();
-                        } : angular.noop;
-
-                        imageLoaded.promise.then(function () {
-                            if (scope.options && scope.options.animate) {
-                                jcropApi.animateTo(rectangle, callback);
-                            } else {
-                                jcropApi.setSelect(rectangle);
-                            }
-                        });
-                    }
-                });
-            }
-
-            if (attributes.options) {
-
-                var optionNames = [
-                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
-                    'allowSelect', 'allowMove', 'allowResize',
-                    'aspectRatio'
-                ];
-
-                angular.forEach(optionNames, function (name) {
-                    if (scope.options[name])
-                        options[name] = scope.options[name]
-
-                    scope.$watch('options.' + name, function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            imageLoaded.promise.then(function () {
-                                var update = {};
-                                update[name] = newVal;
-                                jcropApi.setOptions(update);
-                            });
-                        }
-                    });
-
-                });
-
-
-                scope.$watch('options.disabled', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.disable();
-                        } else {
-                            jcropApi.enable();
-                        }
-                    }
-                });
-
-                scope.$watch('options.destroyed', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.destroy();
-                        } else {
-                            _init();
-                        }
-                    }
-                });
-
-                scope.$watch('options.src', function (newVal, oldVal) {
-                    imageLoaded = $q.defer();
-                    if (newVal != oldVal) {
-                        jcropApi.setImage(scope.options.src, function () {
-                            imageLoaded.resolve();
-                        });
-                    }
-                });
-
-                var updateSize = function(){
-                    jcropApi.setOptions({
-                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
-                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
-                    });
-                };
-
-                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-            }
-
-            var _init = function () {
-                element.Jcrop(options, function () {
-                    jcropApi = this;
-                    // Use the API to get the real image size
-                    var bounds = this.getBounds();
-                    imageWidth = bounds[0];
-                    imageHeight = bounds[1];
-
-                    if (attributes.selection && angular.isArray(scope.selection)) {
-                        if (scope.options && scope.options.animate) {
-                            jcropApi.animateTo(scope.selection);
-                        } else {
-                            jcropApi.setSelect(scope.selection);
-                        }
-                    }
-                    imageLoaded.resolve();
-                });
-            };
-
-            _init()
-
-
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
         }
     }
 });
@@ -16803,24 +17258,6 @@ angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout
 
     }
 });
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-dropzone data-smart-dropzone');
-
-            tElement.dropzone({
-                addRemoveLinks : true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-        }
-    }
-});
-
 'use strict';
 
 angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {

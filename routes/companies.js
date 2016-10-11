@@ -18,6 +18,19 @@ router.get('/', function (req, res, next) {
     )
 });
 
+router.get('/level2', function (req, res) {
+  Company.find({level:"二级"})
+    .populate('catogory')
+    .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
 router.get('/:id', function (req, res) {
   Company.findOne({ _id: req.params.id })
     .exec()
@@ -102,5 +115,7 @@ router.get('/sub/:parentId', function (req, res) {
       res.status(500).send(err);
     });
 });
+
+
 
 module.exports = router;

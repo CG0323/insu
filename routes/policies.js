@@ -13,19 +13,26 @@ router.post('/', function (req, res) {
     if (policies.length > 0) {
       res.status(400).send('系统中已存在相同保单号的保单');
     } else {
-      var policy = new Policy(data);
-      policy.seller = req.user._id;
-      policy.organization = req.user.org;
-      policy.policy_status = '待支付';
-      policy.save(function (err, policy, numAffected) {
-        if (err) {
-          logger.error(err);
-          res.status(500).send(err);
-        } else {
-          logger.info(req.user.name + " 提交了一份保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
-          res.status(200).json({ message: '保单已成功添加' });
-        }
-      });
+      if (!data.company && !data.level3_company) {
+        res.status(400).send('前三级保险公司必须填写');
+
+      } else {
+        var policy = new Policy(data);
+        policy.seller = req.user._id;
+        policy.organization = req.user.org;
+        policy.policy_status = '待支付';
+        policy.save(function (err, policy, numAffected) {
+          if (err) {
+            logger.error(err);
+            res.status(500).send(err);
+          } else {
+            logger.info(req.user.name + " 提交了一份保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
+            res.status(200).json({ message: '保单已成功添加' });
+          }
+        });
+      }
+
+
     }
 
   })
@@ -34,496 +41,506 @@ router.post('/', function (req, res) {
 router.get('/', function (req, res) {
   var user = req.user;
   var query = {};
-  if(user.role == '出单员'){
-    query = {seller: user._id};
-  }else if(user.role=='客户'){
+  if (user.role == '出单员') {
+    query = { seller: user._id };
+  } else if (user.role == '客户') {
     var d = new Date();
     var end = new Date();
-    d.setDate(d.getDate()-7);
-    query = {client: user.client_id, created_at:{$gt: d, $lt: end}};  //暂时只获取近七天保单信息
+    d.setDate(d.getDate() - 7);
+    query = { client: user.client_id, created_at: { $gt: d, $lt: end } };  //暂时只获取近七天保单信息
   }
   Policy.find(query)
-     .populate('client seller organization')
-     .exec()
-     .then(function(policies){
-       res.status(200).json(policies);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
+    .populate('client seller organization')
+    .exec()
+    .then(function (policies) {
+      res.status(200).json(policies);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
 });
 
 
 router.get('/upgrade', function (req, res) {
-    console.log("upgrading in progress");
-    var query = Policy.find({policy_status:'已支付'});
-    query
-        .populate('seller')
-        .exec()
-        .then(function(policies){
-          // console.log(policies);
-          for(var i =0; i < policies.length; i++)
-          {
-            var policy = policies[i];
-            console.log(policy);
-            policy.organization = policy.seller.org;
-            // console.log(policy.organization);
-            policy.save();
-          }
-          
-        });
-});
-
-router.post('/excel', function (req, res) {
-    var conditions = {};
-    for (var key in req.body.filterByFields) {
-        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
-            conditions[key] = req.body.filterByFields[key];
-        }
-    }
-    
-    if(req.user.role == '出单员'){
-       conditions['seller'] = req.user._id;
-    }
-
-    var sortParam ="";
-    if(req.body.orderByReverse){
-      sortParam = "-"+req.body.orderBy.toString();
-    }else{
-      sortParam = req.body.orderBy.toString();
-    }
-    if(req.body.fromDate != undefined && req.body.toDate != undefined){
-        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != undefined ){
-        conditions['created_at']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != undefined ){
-        conditions['created_at']={$lte:req.body.toDate};
-    }
-    var query = Policy.find(conditions);
-    query
-        .sort(sortParam)
-        .populate('client seller organization company')
-        .exec()
-        .then(function(policies){
-            var json2csv = require('json2csv');
-            var fields = [
-                'created_at',
-                'policy_no',
-                'company.name',
-                'applicant.name',
-                'plate_no',
-                'applicant.phone',
-                'organization.name',
-                'seller.name',
-                'client.name',
-                'mandatory_fee',
-                'mandatory_fee_income_rate',
-                'mandatory_fee_income',
-                'mandatory_fee_payment_rate',
-                'mandatory_fee_payment',
-                'mandatory_fee_profit',
-                'commercial_fee',
-                'commercial_fee_income_rate',
-                'commercial_fee_income',
-                'commercial_fee_payment_rate',
-                'commercial_fee_payment',
-                'commercial_fee_profit',
-                'tax_fee',
-                'tax_fee_income_rate',
-                'tax_fee_income',
-                'tax_fee_payment_rate',
-                'tax_fee_payment',
-                'tax_fee_profit',
-                'other_fee',
-                'other_fee_income_rate',
-                'other_fee_income',
-                'other_fee_payment_rate',
-                'other_fee_payment',
-                'other_fee_profit',
-                'payment_addition',
-                'payment_substraction',
-                'total_income',
-                'total_payment',
-                'total_profit',
-                'policy_status',
-                'paid_at',
-                'payment_bank'
-            ];
-            var fieldNames = [
-                '提交日期',
-                '保单号',
-                '保险公司',
-                '投保人',
-                '车牌号',
-                '投保人电话',
-                '营业部',
-                '出单员',
-                '业务渠道',
-                '交强险',
-                '交强险跟单费比例',
-                '交强险跟单费',
-                '交强险结算费比例',
-                '交强险结算费',
-                '交强险毛利润',
-                '商业险',
-                '商业险跟单费比例',
-                '商业险跟单费',
-                '商业险结算费比例',
-                '商业险结算费',
-                '商业险毛利润',
-                '车船税',
-                '车船税跟单费',
-                '车船税跟单费比例',
-                '车船税结算费',
-                '车船税结算费',
-                '车船税毛利润',
-                '其他险',
-                '其他险跟单费',
-                '其他险跟单费比例',
-                '其他险结算费',
-                '其他险结算费',
-                '其他险毛利润',
-                '结算费加项',
-                '结算费减项',
-                '跟单费总额',
-                '结算费总额',
-                '总毛利润',
-                '保单状态',
-                '支付日期',
-                '支付银行'
-            ];
-
-            var dateFormat = require('dateformat');
-            var arr = [];
-
-            for (var i = 0; i < policies.length; i++) {
-                var policy = policies[i];
-                var row = {};
-                row.company = {};
-                row.applicant = {};
-                row.organization = {};
-                row.seller = {};
-                row.client = {};
-                row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
-                row.policy_no = 　"'" + policy.policy_no;
-                row.company.name = policy.company.name;
-                row.applicant.name = policy.applicant.name;
-                row.plate_no = policy.plate_no;
-                row.applicant.phone = "'" + policy.applicant.phone;
-                row.organization.name = policy.organization.name;
-                row.seller.name = policy.seller.name;
-
-                row.client.name = policy.client? policy.client.name : '';
-                row.mandatory_fee=policy.mandatory_fee;
-                row.mandatory_fee_income_rate=policy.mandatory_fee_income_rate+"%";
-                row.mandatory_fee_income=policy.mandatory_fee_income;
-                row.mandatory_fee_payment_rate=policy.mandatory_fee_payment_rate+"%";
-                row.mandatory_fee_payment=policy.mandatory_fee_payment;
-                row.mandatory_fee_profit=policy.mandatory_fee_income - policy.mandatory_fee_payment;
-                row.mandatory_fee_profit=row.mandatory_fee_profit.toFixed(2);
-                row.commercial_fee=policy.commercial_fee;
-                row.commercial_fee_income_rate=policy.commercial_fee_income_rate+"%";
-                row.commercial_fee_income=policy.commercial_fee_income;
-                row.commercial_fee_payment_rate=policy.commercial_fee_payment_rate+"%";
-                row.commercial_fee_payment=policy.commercial_fee_payment;
-                row.commercial_fee_profit=policy.commercial_fee_income - policy.commercial_fee_payment;
-                row.commercial_fee_profit = row.commercial_fee_profit.toFixed(2);
-                row.tax_fee=policy.tax_fee;
-                row.tax_fee_income_rate=policy.tax_fee_income_rate+"%";
-                row.tax_fee_income=policy.tax_fee_income;
-                row.tax_fee_payment_rate=policy.tax_fee_payment_rate+"%";
-                row.tax_fee_payment=policy.tax_fee_payment;
-                row.tax_fee_profit = policy.tax_fee_income - policy.tax_fee_payment;
-                row.tax_fee_profit = row.tax_fee_profit.toFixed(2);
-                row.other_fee=policy.other_fee;
-                row.other_fee_income_rate=policy.other_fee_income_rate+"%";
-                row.other_fee_income=policy.other_fee_income;
-                row.other_fee_payment_rate=policy.other_fee_payment_rate+"%";
-                row.other_fee_payment=policy.other_fee_payment;
-                row.other_fee_profit = policy.other_fee_income - policy.other_fee_payment;
-                row.other_fee_profit = row.other_fee_profit.toFixed(2);
-                row.payment_addition = policy.payment_addition? policy.payment_addition : 0;
-                row.payment_substraction = policy.payment_substraction? policy.payment_substraction : 0;
-                row.total_income=policy.total_income;
-                row.total_payment=policy.total_payment;
-                row.total_profit= policy.total_income - policy.total_payment;
-                row.total_profit = row.total_profit.toFixed(2);
-                row.policy_status = policy.policy_status;
-                row.paid_at= policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
-                row.payment_bank =policy.payment_bank ? policy.payment_bank : '';
-                arr.push(row);
-            }
-            json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
-                if (err) console.log(err);
-
-                var dataBuffer = Buffer.concat([new Buffer('\xEF\xBB\xBF', 'binary'), new Buffer(csv)]);
-                res.setHeader('Content-Type', 'text/csv;charset=utf-8');
-                res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
-                res.send(dataBuffer);
-            });
-        },function(err){
-            logger.error(err);
-        })
-});
-
-router.get('/to-be-paid', function (req, res) {
-  var user = req.user;
-  var query = {policy_status:'待支付'};
-  if(user.role == '出单员'){
-    query = {seller: user._id, policy_status:'待支付'};
-  }
-  Policy.find(query)
-     .populate('client seller organization')
-     .exec()
-     .then(function(policies){
-       res.status(200).json(policies);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
-});
-
-router.get('/paid', function (req, res) {
-  var user = req.user;
-  var query = {policy_status:'已支付'};
-  if(user.role == '出单员'){
-    query = {seller: user._id, policy_status:'已支付'};
-  }
-  Policy.find(query)
-     .populate('client seller organization')
-     .exec()
-     .then(function(policies){
-       res.status(200).json(policies);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
-});
-
-router.get('/:id', function (req, res) {
-  Policy.findOne({_id: req.params.id})
-    .populate('client organization')
-    .populate({path:'seller',model:'User', populate:{path:'org', model:'Organization'}})
+  console.log("upgrading in progress");
+  var query = Policy.find({ policy_status: '已支付' });
+  query
+    .populate('seller')
     .exec()
-    .then(function(policy){
-       res.status(200).json(policy);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
-});
-
-router.put('/:id', function (req, res) {
-    Policy.findById(req.params.id, function (err, policy) {
-        if (err)
-            res.send(err);
-        policy.policy_no = req.body.policy_no;
-        // policy.insu_company = req.body.insu_company;
-        policy.plate_no = req.body.plate_no;
-        policy.applicant = req.body.applicant;
-        policy.frame_no = req.body.frame_no;
-        policy.engine_no = req.body.engine_no;
-        policy.mandatory_fee = req.body.mandatory_fee;
-        policy.mandatory_fee_income_rate = req.body.mandatory_fee_income_rate;
-        policy.mandatory_fee_income = req.body.mandatory_fee_income;
-        policy.mandatory_fee_payment_rate = req.body.mandatory_fee_payment_rate;
-        policy.mandatory_fee_payment = req.body.mandatory_fee_payment;
-        policy.commercial_fee = req.body.commercial_fee;
-        policy.commercial_fee_income_rate = req.body.commercial_fee_income_rate;
-        policy.commercial_fee_income = req.body.commercial_fee_income;
-        policy.commercial_fee_payment_rate = req.body.commercial_fee_payment_rate;
-        policy.commercial_fee_payment = req.body.commercial_fee_payment;
-        policy.tax_fee = req.body.tax_fee;
-        policy.tax_fee_income_rate = req.body.tax_fee_income_rate;
-        policy.tax_fee_income = req.body.tax_fee_income;
-        policy.tax_fee_payment_rate = req.body.tax_fee_payment_rate;
-        policy.tax_fee_payment = req.body.tax_fee_payment;
-        policy.other_fee = req.body.other_fee;
-        policy.other_fee_income_rate = req.body.other_fee_income_rate;
-        policy.other_fee_income = req.body.other_fee_income;
-        policy.other_fee_payment_rate = req.body.other_fee_payment_rate;
-        policy.other_fee_payment = req.body.other_fee_payment;
-        policy.client = req.body.client;
-        policy.seller = req.body.seller;
-        policy.policy_status = req.body.policy_status;
-        policy.paid_at = req.body.paid_at;
-        policy.total_income = req.body.total_income;
-        policy.payment_addition = req.body.payment_addition;
-        policy.payment_addition_comment = req.body.payment_addition_comment;
-        policy.payment_substraction_rate = req.body.payment_substraction_rate;
-        policy.payment_substraction = req.body.payment_substraction;
-        policy.payment_substraction_comment = req.body.payment_substraction_comment;
-        policy.total_payment = req.body.total_payment;
-        policy.effective_date = req.body.effective_date;
-        policy.catogary = req.body.catogary;
-        policy.payment_bank = req.body.payment_bank;
-        policy.payment_proof = req.body.payment_proof;
-        policy.company = req.body.company;
-        policy.organization = req.body.organization;
-        policy.save(function (err) {
-            if (err){
-              logger.error(err);
-              res.send(err);
-            }
-            logger.info(req.user.name + " 更新了一份保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
-            res.json({message: '保单已成功更新'});
-        });
+    .then(function (policies) {
+      // console.log(policies);
+      for (var i = 0; i < policies.length; i++) {
+        var policy = policies[i];
+        console.log(policy);
+        policy.organization = policy.seller.org;
+        // console.log(policy.organization);
+        policy.save();
+      }
 
     });
 });
 
+router.post('/excel', function (req, res) {
+  var conditions = {};
+  for (var key in req.body.filterByFields) {
+    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+      conditions[key] = req.body.filterByFields[key];
+    }
+  }
+
+  if (req.user.role == '出单员') {
+    conditions['seller'] = req.user._id;
+  }
+
+  var sortParam = "";
+  if (req.body.orderByReverse) {
+    sortParam = "-" + req.body.orderBy.toString();
+  } else {
+    sortParam = req.body.orderBy.toString();
+  }
+  if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+  } else if (req.body.fromDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate };
+  } else if (req.body.toDate != undefined) {
+    conditions['created_at'] = { $lte: req.body.toDate };
+  }
+  var query = Policy.find(conditions);
+  query
+    .sort(sortParam)
+    .populate('client seller organization company level1_company level2_company level3_company level4_company')
+    .exec()
+    .then(function (policies) {
+      var json2csv = require('json2csv');
+      var fields = [
+        'created_at',
+        'policy_no',
+        'company.name',
+        'applicant.name',
+        'plate_no',
+        'applicant.phone',
+        'organization.name',
+        'seller.name',
+        'client.name',
+        'mandatory_fee',
+        'mandatory_fee_income_rate',
+        'mandatory_fee_income',
+        'mandatory_fee_payment_rate',
+        'mandatory_fee_payment',
+        'mandatory_fee_profit',
+        'commercial_fee',
+        'commercial_fee_income_rate',
+        'commercial_fee_income',
+        'commercial_fee_payment_rate',
+        'commercial_fee_payment',
+        'commercial_fee_profit',
+        'tax_fee',
+        'tax_fee_income_rate',
+        'tax_fee_income',
+        'tax_fee_payment_rate',
+        'tax_fee_payment',
+        'tax_fee_profit',
+        'other_fee',
+        'other_fee_income_rate',
+        'other_fee_income',
+        'other_fee_payment_rate',
+        'other_fee_payment',
+        'other_fee_profit',
+        'payment_addition',
+        'payment_substraction',
+        'total_income',
+        'total_payment',
+        'total_profit',
+        'policy_status',
+        'paid_at',
+        'payment_bank'
+      ];
+      var fieldNames = [
+        '提交日期',
+        '保单号',
+        '保险公司',
+        '投保人',
+        '车牌号',
+        '投保人电话',
+        '营业部',
+        '出单员',
+        '业务渠道',
+        '交强险',
+        '交强险跟单费比例',
+        '交强险跟单费',
+        '交强险结算费比例',
+        '交强险结算费',
+        '交强险毛利润',
+        '商业险',
+        '商业险跟单费比例',
+        '商业险跟单费',
+        '商业险结算费比例',
+        '商业险结算费',
+        '商业险毛利润',
+        '车船税',
+        '车船税跟单费',
+        '车船税跟单费比例',
+        '车船税结算费',
+        '车船税结算费',
+        '车船税毛利润',
+        '其他险',
+        '其他险跟单费',
+        '其他险跟单费比例',
+        '其他险结算费',
+        '其他险结算费',
+        '其他险毛利润',
+        '结算费加项',
+        '结算费减项',
+        '跟单费总额',
+        '结算费总额',
+        '总毛利润',
+        '保单状态',
+        '支付日期',
+        '支付银行'
+      ];
+
+      var dateFormat = require('dateformat');
+      var arr = [];
+
+      for (var i = 0; i < policies.length; i++) {
+        var policy = policies[i];
+        var row = {};
+        row.company = {};
+        row.applicant = {};
+        row.organization = {};
+        row.seller = {};
+        row.client = {};
+        row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
+        row.policy_no = "'" + policy.policy_no;
+
+        row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name : policy.level3_company.name;
+
+        row.applicant.name = policy.applicant.name;
+        row.plate_no = policy.plate_no;
+        row.applicant.phone = "'" + policy.applicant.phone;
+
+        row.organization.name = policy.organization ? policy.organization.name : "";
+        row.seller.name = policy.seller.name;
+        row.client.name = policy.client ? policy.client.name : '';
+        row.mandatory_fee = policy.mandatory_fee;
+        row.mandatory_fee_income_rate = policy.mandatory_fee_income_rate + "%";
+        row.mandatory_fee_income = policy.mandatory_fee_income;
+        row.mandatory_fee_payment_rate = policy.mandatory_fee_payment_rate + "%";
+        row.mandatory_fee_payment = policy.mandatory_fee_payment;
+        row.mandatory_fee_profit = policy.mandatory_fee_income - policy.mandatory_fee_payment;
+        row.mandatory_fee_profit = row.mandatory_fee_profit.toFixed(2);
+        row.commercial_fee = policy.commercial_fee;
+        row.commercial_fee_income_rate = policy.commercial_fee_income_rate + "%";
+        row.commercial_fee_income = policy.commercial_fee_income;
+        row.commercial_fee_payment_rate = policy.commercial_fee_payment_rate + "%";
+        row.commercial_fee_payment = policy.commercial_fee_payment;
+        row.commercial_fee_profit = policy.commercial_fee_income - policy.commercial_fee_payment;
+        row.commercial_fee_profit = row.commercial_fee_profit.toFixed(2);
+        row.tax_fee = policy.tax_fee;
+        row.tax_fee_income_rate = policy.tax_fee_income_rate + "%";
+        row.tax_fee_income = policy.tax_fee_income;
+        row.tax_fee_payment_rate = policy.tax_fee_payment_rate + "%";
+        row.tax_fee_payment = policy.tax_fee_payment;
+        row.tax_fee_profit = policy.tax_fee_income - policy.tax_fee_payment;
+        row.tax_fee_profit = row.tax_fee_profit.toFixed(2);
+        row.other_fee = policy.other_fee;
+        row.other_fee_income_rate = policy.other_fee_income_rate + "%";
+        row.other_fee_income = policy.other_fee_income;
+        row.other_fee_payment_rate = policy.other_fee_payment_rate + "%";
+        row.other_fee_payment = policy.other_fee_payment;
+        row.other_fee_profit = policy.other_fee_income - policy.other_fee_payment;
+        row.other_fee_profit = row.other_fee_profit.toFixed(2);
+        row.payment_addition = policy.payment_addition ? policy.payment_addition : 0;
+        row.payment_substraction = policy.payment_substraction ? policy.payment_substraction : 0;
+        row.total_income = policy.total_income;
+        row.total_payment = policy.total_payment;
+        row.total_profit = policy.total_income - policy.total_payment;
+        row.total_profit = row.total_profit.toFixed(2);
+        row.policy_status = policy.policy_status;
+        row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
+        row.payment_bank = policy.payment_bank ? policy.payment_bank : '';
+        arr.push(row);
+      }
+      json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
+        if (err) console.log(err);
+
+        var dataBuffer = Buffer.concat([new Buffer('\xEF\xBB\xBF', 'binary'), new Buffer(csv)]);
+        res.setHeader('Content-Type', 'text/csv;charset=utf-8');
+        res.setHeader("Content-Disposition", "attachment;filename=" + "statistics.csv");
+        res.send(dataBuffer);
+      });
+    }, function (err) {
+      logger.error(err);
+    })
+});
+
+router.get('/to-be-paid', function (req, res) {
+  var user = req.user;
+  var query = { policy_status: '待支付' };
+  if (user.role == '出单员') {
+    query = { seller: user._id, policy_status: '待支付' };
+  }
+  Policy.find(query)
+    .populate('client seller organization')
+    .exec()
+    .then(function (policies) {
+      res.status(200).json(policies);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/paid', function (req, res) {
+  var user = req.user;
+  var query = { policy_status: '已支付' };
+  if (user.role == '出单员') {
+    query = { seller: user._id, policy_status: '已支付' };
+  }
+  Policy.find(query)
+    .populate('client seller organization')
+    .exec()
+    .then(function (policies) {
+      res.status(200).json(policies);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/:id', function (req, res) {
+  Policy.findOne({ _id: req.params.id })
+    .populate('client organization')
+    .populate({ path: 'seller', model: 'User', populate: { path: 'org', model: 'Organization' } })
+    .exec()
+    .then(function (policy) {
+      res.status(200).json(policy);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.put('/:id', function (req, res) {
+  if (!req.body.company && !req.body.level3_company) {
+    res.status(400).send('前三级保险公司必须填写');
+  }
+  Policy.findById(req.params.id, function (err, policy) {
+    if (err)
+      res.send(err);
+    policy.policy_no = req.body.policy_no;
+    // policy.insu_company = req.body.insu_company;
+    policy.plate_no = req.body.plate_no;
+    policy.applicant = req.body.applicant;
+    policy.frame_no = req.body.frame_no;
+    policy.engine_no = req.body.engine_no;
+    policy.mandatory_fee = req.body.mandatory_fee;
+    policy.mandatory_fee_income_rate = req.body.mandatory_fee_income_rate;
+    policy.mandatory_fee_income = req.body.mandatory_fee_income;
+    policy.mandatory_fee_payment_rate = req.body.mandatory_fee_payment_rate;
+    policy.mandatory_fee_payment = req.body.mandatory_fee_payment;
+    policy.commercial_fee = req.body.commercial_fee;
+    policy.commercial_fee_income_rate = req.body.commercial_fee_income_rate;
+    policy.commercial_fee_income = req.body.commercial_fee_income;
+    policy.commercial_fee_payment_rate = req.body.commercial_fee_payment_rate;
+    policy.commercial_fee_payment = req.body.commercial_fee_payment;
+    policy.tax_fee = req.body.tax_fee;
+    policy.tax_fee_income_rate = req.body.tax_fee_income_rate;
+    policy.tax_fee_income = req.body.tax_fee_income;
+    policy.tax_fee_payment_rate = req.body.tax_fee_payment_rate;
+    policy.tax_fee_payment = req.body.tax_fee_payment;
+    policy.other_fee = req.body.other_fee;
+    policy.other_fee_income_rate = req.body.other_fee_income_rate;
+    policy.other_fee_income = req.body.other_fee_income;
+    policy.other_fee_payment_rate = req.body.other_fee_payment_rate;
+    policy.other_fee_payment = req.body.other_fee_payment;
+    policy.client = req.body.client;
+    policy.seller = req.body.seller;
+    policy.policy_status = req.body.policy_status;
+    policy.paid_at = req.body.paid_at;
+    policy.total_income = req.body.total_income;
+    policy.payment_addition = req.body.payment_addition;
+    policy.payment_addition_comment = req.body.payment_addition_comment;
+    policy.payment_substraction_rate = req.body.payment_substraction_rate;
+    policy.payment_substraction = req.body.payment_substraction;
+    policy.payment_substraction_comment = req.body.payment_substraction_comment;
+    policy.total_payment = req.body.total_payment;
+    policy.effective_date = req.body.effective_date;
+    policy.catogary = req.body.catogary;
+    policy.payment_bank = req.body.payment_bank;
+    policy.payment_proof = req.body.payment_proof;
+    policy.company = req.body.company;
+
+    policy.level1_company = req.body.level1_company;
+    policy.level2_company = req.body.level2_company;
+    policy.level3_company = req.body.level3_company;
+    policy.level4_company = req.body.level4_company;
+    policy.organization = req.body.organization;
+    policy.save(function (err) {
+      if (err) {
+        logger.error(err);
+        res.send(err);
+      }
+      logger.info(req.user.name + " 更新了一份保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
+      res.json({ message: '保单已成功更新' });
+    });
+
+  });
+});
+
 router.delete('/:id', function (req, res) {
-  Policy.remove({_id: req.params.id}, function(err, policy){
-    if (err){
+  Policy.remove({ _id: req.params.id }, function (err, policy) {
+    if (err) {
       logger.error(err);
       res.send(err);
     }
-    logger.info(req.user.name + " 删除了一份保单。"+ req.clientIP);
+    logger.info(req.user.name + " 删除了一份保单。" + req.clientIP);
     res.json({ message: '保单已成功删除' });
   });
 });
 
 router.post('/search', function (req, res) {
-    var conditions = {};
+  var conditions = {};
 
-    for (var key in req.body.filterByFields) {
-        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
-            conditions[key] = req.body.filterByFields[key];
+  for (var key in req.body.filterByFields) {
+    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+      conditions[key] = req.body.filterByFields[key];
+    }
+  }
+
+  if (req.user.role == '出单员') {
+    conditions['seller'] = req.user._id;
+  }
+
+  var sortParam = "";
+  if (req.body.orderByReverse) {
+    sortParam = "-" + req.body.orderBy.toString();
+  } else {
+    sortParam = req.body.orderBy.toString();
+  }
+
+  if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+  } else if (req.body.fromDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate };
+  } else if (req.body.toDate != undefined) {
+    conditions['created_at'] = { $lte: req.body.toDate };
+  }
+
+  var query = Policy.find(conditions);
+  query
+    .sort(sortParam)
+    .skip(req.body.currentPage * req.body.pageSize)
+    .limit(req.body.pageSize)
+    .populate('client seller organization')
+    .exec()
+    .then(function (policies) {
+      Policy.count(conditions, function (err, c) {
+        if (err) {
+          logger.error(err);
+          res.status(500).send("获取保单总数失败");
         }
-    }
-    
-    if(req.user.role == '出单员'){
-       conditions['seller'] = req.user._id;
-    }
-
-    var sortParam ="";
-    if(req.body.orderByReverse){
-      sortParam = "-"+req.body.orderBy.toString();
-    }else{
-      sortParam = req.body.orderBy.toString();
-    }
-    
-    if(req.body.fromDate != undefined && req.body.toDate != undefined){
-        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != undefined ){
-        conditions['created_at']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != undefined ){
-        conditions['created_at']={$lte:req.body.toDate};
-    }
-    
-    var query = Policy.find(conditions);
-    query
-        .sort(sortParam)
-        .skip(req.body.currentPage*req.body.pageSize)
-        .limit(req.body.pageSize)
-        .populate('client seller organization')
-        .exec()
-        .then(function(policies){
-          Policy.count(conditions,function(err,c){
-            if(err){
-              logger.error(err);
-              res.status(500).send("获取保单总数失败");
-            }
-          res.status(200).json({
-            totalCount: c,
-            policies:policies
-        })});
-        },function(err){
-            logger.error(err);
+        res.status(200).json({
+          totalCount: c,
+          policies: policies
         })
+      });
+    }, function (err) {
+      logger.error(err);
+    })
 });
 
 router.post('/summary', function (req, res) {
-    var conditions = {};
+  var conditions = {};
 
-    for (var key in req.body.filterByFields) {
-        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
-            conditions[key] = req.body.filterByFields[key];
-        }
+  for (var key in req.body.filterByFields) {
+    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+      conditions[key] = req.body.filterByFields[key];
     }
-    
-    if(req.user.role == '出单员'){
-       conditions['seller'] = req.user._id;
-    }
+  }
 
-    var sortParam ="";
-    if(req.body.orderByReverse){
-      sortParam = "-"+req.body.orderBy.toString();
-    }else{
-      sortParam = req.body.orderBy.toString();
-    }
-    
-    if(req.body.fromDate != undefined && req.body.toDate != undefined){
-        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != undefined ){
-        conditions['created_at']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != undefined ){
-        conditions['created_at']={$lte:req.body.toDate};
-    }
-    
-    var query = Policy.find(conditions);
-    query
-        .exec()
-        .then(function(policies){
-            var totalIncome = 0;
-            var totalPayment = 0;
-            for(var i = 0; i < policies.length; i++){
-              totalIncome += policies[i].total_income;  
-              totalPayment += policies[i].total_payment;
-            };
-          res.status(200).json({
-            total_income: totalIncome,
-            total_payment: totalPayment,
-            total_profit: totalIncome - totalPayment
-        });
-        },function(err){
-            logger.error(err);
-        })
+  if (req.user.role == '出单员') {
+    conditions['seller'] = req.user._id;
+  }
+
+  var sortParam = "";
+  if (req.body.orderByReverse) {
+    sortParam = "-" + req.body.orderBy.toString();
+  } else {
+    sortParam = req.body.orderBy.toString();
+  }
+
+  if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+  } else if (req.body.fromDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate };
+  } else if (req.body.toDate != undefined) {
+    conditions['created_at'] = { $lte: req.body.toDate };
+  }
+
+  var query = Policy.find(conditions);
+  query
+    .exec()
+    .then(function (policies) {
+      var totalIncome = 0;
+      var totalPayment = 0;
+      for (var i = 0; i < policies.length; i++) {
+        totalIncome += policies[i].total_income;
+        totalPayment += policies[i].total_payment;
+      };
+      res.status(200).json({
+        total_income: totalIncome,
+        total_payment: totalPayment,
+        total_profit: totalIncome - totalPayment
+      });
+    }, function (err) {
+      logger.error(err);
+    })
 });
 
 router.post('/bulk-pay', function (req, res) {
-    var conditions = {};
+  var conditions = {};
 
-    for (var key in req.body.filterByFields) {
-        if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
-            conditions[key] = req.body.filterByFields[key];
-        }
+  for (var key in req.body.filterByFields) {
+    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+      conditions[key] = req.body.filterByFields[key];
     }
-    
-    if(req.user.role == '出单员'){
-       conditions['seller'] = req.user._id;
-    }
+  }
 
-    var sortParam ="";
-    if(req.body.orderByReverse){
-      sortParam = "-"+req.body.orderBy.toString();
-    }else{
-      sortParam = req.body.orderBy.toString();
-    }
-    
-    if(req.body.fromDate != undefined && req.body.toDate != undefined){
-        conditions['created_at']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != undefined ){
-        conditions['created_at']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != undefined ){
-        conditions['created_at']={$lte:req.body.toDate};
-    }
+  if (req.user.role == '出单员') {
+    conditions['seller'] = req.user._id;
+  }
 
-    var query = Policy.find(conditions);
-    query
-        .exec()
-        .then(function(policies){
-            for(var i = 0; i < policies.length; i++){
-              policies[i].policy_status = '已支付';  
-              policies[i].paid_at = Date.now();  
-              policies[i].save();
-              logger.info(req.user.name + " 更新了一份保单，保单号为："+ policies[i].policy_no +"。"+ req.clientIP);
-            };
-        logger.info(req.user.name + " 批量支付了保单。"+ req.clientIP);     
-        res.json({message: '保单已成功批量支付'});       
-        },function(err){
-            logger.error(err);
-        })
+  var sortParam = "";
+  if (req.body.orderByReverse) {
+    sortParam = "-" + req.body.orderBy.toString();
+  } else {
+    sortParam = req.body.orderBy.toString();
+  }
+
+  if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+  } else if (req.body.fromDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate };
+  } else if (req.body.toDate != undefined) {
+    conditions['created_at'] = { $lte: req.body.toDate };
+  }
+
+  var query = Policy.find(conditions);
+  query
+    .exec()
+    .then(function (policies) {
+      for (var i = 0; i < policies.length; i++) {
+        policies[i].policy_status = '已支付';
+        policies[i].paid_at = Date.now();
+        policies[i].save();
+        logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
+      };
+      logger.info(req.user.name + " 批量支付了保单。" + req.clientIP);
+      res.json({ message: '保单已成功批量支付' });
+    }, function (err) {
+      logger.error(err);
+    })
 });
 
 module.exports = router;
