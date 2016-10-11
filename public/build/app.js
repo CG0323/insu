@@ -4375,6 +4375,522 @@ angular.module('app.client').factory('ClientService',
             
            
         }]);
+'use strict'
+
+angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.companyCatogory = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.companycatogory.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var companyCatogoryId = $stateParams.companyCatogoryId;
+    if (companyCatogoryId) {
+        CompanyService.getCompanyCatogory(companyCatogoryId)
+            .then(function (companyCatogory) {
+                console.log(companyCatogory);
+                vm.companyCatogory = companyCatogory;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.saveCompanyCatogory(vm.companyCatogory)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "一级保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.companyCatogory = {};
+                if (vm.back) {
+                    $state.go("app.company.companycatogory.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyCatogoryListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.companyCatogories = [];
+
+
+
+    vm.refreshCompanyCatogories = function(){
+       CompanyService.getCompanyCatogories()
+       .then(function(companyCatogories){
+           vm.companyCatogories = companyCatogories;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshCompanyCatogories();
+	
+    vm.view = function(companyCatogoryId){
+        $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
+    };
+
+    vm.addLevel1 = function(){
+        $state.go("app.company.companycatogory.new");
+    }
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (companyCatogoryId) {
+        $.SmartMessageBox({
+            title: "删除一级保险公司",
+            content: "确认删除该一级保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompanyCatogory(companyCatogoryId)
+                    .then(function(){
+                        vm.refreshCompanyCatogories();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.company = {};
+    vm.companyCatogories = [];
+    vm.editable = false;
+    vm.currentLevel = "";
+    vm.parentName = "";
+    vm.showRateEditor = false;
+
+    if ($state.is('app.company.company2.new')) {
+        vm.company.level = "二级";
+        vm.editable = true;
+        vm.company.catogory = $stateParams.parentId;
+    } else if ($state.is('app.company.company3.new')) {
+        vm.company.level = "三级";
+        vm.editable = true;
+        vm.company.parent = $stateParams.parentId;
+    } else if ($state.is('app.company.company4.new')) {
+        vm.company.level = "四级";
+        vm.editable = true;
+        vm.company.parent = $stateParams.parentId;
+    }
+
+    vm.setParentName = function () {
+        if (vm.company.catogory) {
+            CompanyService.getCompanyCatogory(vm.company.catogory)
+                .then(function (companyCatogory) {
+                    vm.parentName = companyCatogory.name;
+                })
+        } else if (vm.company.parent) {
+            CompanyService.getCompany(vm.company.parent)
+                .then(function (parentCompany) {
+                    vm.parentName = parentCompany.name;
+                })
+        }
+    }
+
+    vm.setParentName();
+
+
+
+    // CompanyService.getCompanyCatogories()
+    //     .then(function (companyCatogories) {
+    //         vm.companyCatogories = companyCatogories;
+    //     })
+
+
+
+    if ($state.is("app.company.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(companyId)
+            .then(function (company) {
+                vm.company = company;
+                vm.setParentName();
+            });
+    }
+
+
+    vm.toggleSetRate = function(){
+        vm.showRateEditor = !vm.showRateEditor;
+        if(vm.showRateEditor){
+            vm.current_rate = {};
+            vm.current_rate.set_at = Date.now();
+        }else{
+            vm.current_rate = undefined;
+        }
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        if(vm.current_rate){
+            if(!vm.company.rates){
+                vm.company.rates = [];
+            }
+            vm.company.rates.unshift(vm.current_rate);
+        }
+        CompanyService.saveCompany(vm.company)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.currentLevel = vm.company.level;
+                var temp = vm.company;
+                vm.company = {};
+                vm.company.level = temp.level;
+                vm.company.parent = temp.parent;
+                vm.company.catogory = temp.catogory;
+
+
+                if (vm.back) {
+                    if (vm.currentLevel == "二级") {
+                        $state.go("app.company.company2.all");
+                    } else if (vm.currentLevel == "三级") {
+                        $state.go("app.company.company3.all");
+                    } else if (vm.currentLevel == "四级") {
+                        $state.go("app.company.company4.all");
+                    } else {
+                        $state.go("app.company.all");
+                    }
+                }
+            }, function (err) { });
+    };
+
+
+
+});
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
+    var vm = this;
+    vm.companies = [];
+    vm.level1Companies = [];
+    vm.level2Companies = [];
+    vm.setting = {};
+    vm.settingString = "";
+
+
+
+    if ($state.is("app.company.company2.all")) {
+        vm.level = "二级";
+        vm.settingString = "level2Settings";
+    }
+    else if ($state.is("app.company.company3.all")) {
+        vm.level = "三级";
+        vm.settingString = "level3Settings";
+    } else if ($state.is("app.company.company4.all")) {
+        vm.level = "四级";
+        vm.settingString = "level4Settings";
+    }
+    vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
+
+    CompanyService.getCompanyCatogories()
+        .then(function (companyCatogories) {
+            vm.level1Companies = companyCatogories;
+        })
+
+
+    vm.loadLevel2Companies = function () {
+        if (!vm.setting.level1Company) {
+            vm.level2Companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.level1Company)
+                .then(function (level2Companies) {
+                    vm.level2Companies = level2Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.setting.level2Company) {
+            vm.level3Companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.level2Company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.refreshCompanies = function () {
+
+        if (!vm.setting.parentId) {
+            vm.companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.parentId)
+                .then(function (companies) {
+                    vm.companies = companies;
+                }, function (err) {
+
+                });
+        }
+    };
+
+    vm.loadLevel2Companies();
+    vm.loadLevel3Companies();
+    vm.refreshCompanies();
+
+    vm.view = function (companyId) {
+        $state.go("app.company.view", { companyId: companyId });
+    };
+
+    vm.level1Changed = function () {
+        if (vm.level == "二级") {
+            vm.setting.parentId = vm.setting.level1Company;
+        } else if (vm.level == "三级") {
+            vm.setting.parentId = null;
+            vm.setting.level2Company = null;
+            vm.loadLevel2Companies();
+        } else if (vm.level == "四级") {
+            vm.setting.parentId = null;
+            vm.setting.level2Company = null;
+            vm.setting.level3Company = null;
+            vm.loadLevel2Companies();
+        }
+
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.level2Changed = function () {
+        if (vm.level == "三级") {
+            vm.setting.parentId = vm.setting.level2Company;
+        } else if (vm.level == "四级") {
+            vm.setting.parentId = null;
+            vm.setting.level3Company = null;
+            vm.loadLevel3Companies();
+        }
+
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.level3Changed = function () {
+
+        vm.setting.parentId = vm.setting.level3Company;
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.addSubCompany = function () {
+        if (vm.level == "二级") {
+            $state.go("app.company.company2.new", { parentId: vm.setting.level1Company });
+        } else if (vm.level == "三级") {
+            $state.go("app.company.company3.new", { parentId: vm.setting.level2Company });
+        } else if (vm.level == "四级") {
+            $state.go("app.company.company4.new", { parentId: vm.setting.level3Company });
+        }
+    }
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (companyId) {
+        $.SmartMessageBox({
+            title: "删除保险公司",
+            content: "确认删除该保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompany(companyId)
+                    .then(function () {
+                        vm.refreshCompanies();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+
+});
+
+angular.module('app.company')
+.filter("getIncomeRatesString", function () {
+    return function (fieldValueUnused, item) {
+        if(!item.rates){
+            return "";
+        }
+        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
+                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
+        return str;  
+    };
+})
+.filter("getPaymentRatesString", function () {
+    return function (fieldValueUnused, item) {
+        if(!item.rates){
+            return "";
+        }
+        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
+                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
+        return str;  
+    };
+});
+'use strict'
+
+angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.policyName = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.policyname.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var policyNameId = $stateParams.policyNameId;
+    if (policyNameId) {
+        CompanyService.getPolicyName(policyNameId)
+            .then(function (policyName) {
+                vm.policyName = policyName;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.savePolicyName(vm.policyName)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "险种名称已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.companyCatogory = {};
+                if (vm.back) {
+                    $state.go("app.company.policyname.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.company').controller('PolicyNameListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.policyNames = [];
+
+
+
+    vm.refreshPolicyNames = function(){
+       CompanyService.getPolicyNames()
+       .then(function(policyNames){
+           vm.policyNames = policyNames;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshPolicyNames();
+	
+    vm.view = function(policyNameId){
+        $state.go("app.company.policyname.view", {policyNameId: policyNameId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (policyNameId) {
+        $.SmartMessageBox({
+            title: "删除险种名称",
+            content: "确认删除该险种名称？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deletePolicyName(policyNameId)
+                    .then(function(){
+                        vm.refreshpolicyNames();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
 "use strict";
 
 angular.module('app.company').factory('CompanyService',
@@ -4928,522 +5444,6 @@ angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
     };
 
 });
-'use strict'
-
-angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.companyCatogory = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.companycatogory.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyCatogoryId = $stateParams.companyCatogoryId;
-    if (companyCatogoryId) {
-        CompanyService.getCompanyCatogory(companyCatogoryId)
-            .then(function (companyCatogory) {
-                console.log(companyCatogory);
-                vm.companyCatogory = companyCatogory;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.saveCompanyCatogory(vm.companyCatogory)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "一级保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.companyCatogory = {};
-                if (vm.back) {
-                    $state.go("app.company.companycatogory.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyCatogoryListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.companyCatogories = [];
-
-
-
-    vm.refreshCompanyCatogories = function(){
-       CompanyService.getCompanyCatogories()
-       .then(function(companyCatogories){
-           vm.companyCatogories = companyCatogories;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshCompanyCatogories();
-	
-    vm.view = function(companyCatogoryId){
-        $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
-    };
-
-    vm.addLevel1 = function(){
-        $state.go("app.company.companycatogory.new");
-    }
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (companyCatogoryId) {
-        $.SmartMessageBox({
-            title: "删除一级保险公司",
-            content: "确认删除该一级保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompanyCatogory(companyCatogoryId)
-                    .then(function(){
-                        vm.refreshCompanyCatogories();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-'use strict'
-
-angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.company = {};
-    vm.companyCatogories = [];
-    vm.editable = false;
-    vm.currentLevel = "";
-    vm.parentName = "";
-    vm.showRateEditor = false;
-
-    if ($state.is('app.company.company2.new')) {
-        vm.company.level = "二级";
-        vm.editable = true;
-        vm.company.catogory = $stateParams.parentId;
-    } else if ($state.is('app.company.company3.new')) {
-        vm.company.level = "三级";
-        vm.editable = true;
-        vm.company.parent = $stateParams.parentId;
-    } else if ($state.is('app.company.company4.new')) {
-        vm.company.level = "四级";
-        vm.editable = true;
-        vm.company.parent = $stateParams.parentId;
-    }
-
-    vm.setParentName = function () {
-        if (vm.company.catogory) {
-            CompanyService.getCompanyCatogory(vm.company.catogory)
-                .then(function (companyCatogory) {
-                    vm.parentName = companyCatogory.name;
-                })
-        } else if (vm.company.parent) {
-            CompanyService.getCompany(vm.company.parent)
-                .then(function (parentCompany) {
-                    vm.parentName = parentCompany.name;
-                })
-        }
-    }
-
-    vm.setParentName();
-
-
-
-    // CompanyService.getCompanyCatogories()
-    //     .then(function (companyCatogories) {
-    //         vm.companyCatogories = companyCatogories;
-    //     })
-
-
-
-    if ($state.is("app.company.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyId = $stateParams.companyId;
-    if (companyId) {
-        CompanyService.getCompany(companyId)
-            .then(function (company) {
-                vm.company = company;
-                vm.setParentName();
-            });
-    }
-
-
-    vm.toggleSetRate = function(){
-        vm.showRateEditor = !vm.showRateEditor;
-        if(vm.showRateEditor){
-            vm.current_rate = {};
-            vm.current_rate.set_at = Date.now();
-        }else{
-            vm.current_rate = undefined;
-        }
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        if(vm.current_rate){
-            if(!vm.company.rates){
-                vm.company.rates = [];
-            }
-            vm.company.rates.unshift(vm.current_rate);
-        }
-        CompanyService.saveCompany(vm.company)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.currentLevel = vm.company.level;
-                var temp = vm.company;
-                vm.company = {};
-                vm.company.level = temp.level;
-                vm.company.parent = temp.parent;
-                vm.company.catogory = temp.catogory;
-
-
-                if (vm.back) {
-                    if (vm.currentLevel == "二级") {
-                        $state.go("app.company.company2.all");
-                    } else if (vm.currentLevel == "三级") {
-                        $state.go("app.company.company3.all");
-                    } else if (vm.currentLevel == "四级") {
-                        $state.go("app.company.company4.all");
-                    } else {
-                        $state.go("app.company.all");
-                    }
-                }
-            }, function (err) { });
-    };
-
-
-
-});
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
-    var vm = this;
-    vm.companies = [];
-    vm.level1Companies = [];
-    vm.level2Companies = [];
-    vm.setting = {};
-    vm.settingString = "";
-
-
-
-    if ($state.is("app.company.company2.all")) {
-        vm.level = "二级";
-        vm.settingString = "level2Settings";
-    }
-    else if ($state.is("app.company.company3.all")) {
-        vm.level = "三级";
-        vm.settingString = "level3Settings";
-    } else if ($state.is("app.company.company4.all")) {
-        vm.level = "四级";
-        vm.settingString = "level4Settings";
-    }
-    vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
-
-    CompanyService.getCompanyCatogories()
-        .then(function (companyCatogories) {
-            vm.level1Companies = companyCatogories;
-        })
-
-
-    vm.loadLevel2Companies = function () {
-        if (!vm.setting.level1Company) {
-            vm.level2Companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.level1Company)
-                .then(function (level2Companies) {
-                    vm.level2Companies = level2Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.loadLevel3Companies = function () {
-        if (!vm.setting.level2Company) {
-            vm.level3Companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.level2Company)
-                .then(function (level3Companies) {
-                    vm.level3Companies = level3Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.refreshCompanies = function () {
-
-        if (!vm.setting.parentId) {
-            vm.companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.parentId)
-                .then(function (companies) {
-                    vm.companies = companies;
-                }, function (err) {
-
-                });
-        }
-    };
-
-    vm.loadLevel2Companies();
-    vm.loadLevel3Companies();
-    vm.refreshCompanies();
-
-    vm.view = function (companyId) {
-        $state.go("app.company.view", { companyId: companyId });
-    };
-
-    vm.level1Changed = function () {
-        if (vm.level == "二级") {
-            vm.setting.parentId = vm.setting.level1Company;
-        } else if (vm.level == "三级") {
-            vm.setting.parentId = null;
-            vm.setting.level2Company = null;
-            vm.loadLevel2Companies();
-        } else if (vm.level == "四级") {
-            vm.setting.parentId = null;
-            vm.setting.level2Company = null;
-            vm.setting.level3Company = null;
-            vm.loadLevel2Companies();
-        }
-
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.level2Changed = function () {
-        if (vm.level == "三级") {
-            vm.setting.parentId = vm.setting.level2Company;
-        } else if (vm.level == "四级") {
-            vm.setting.parentId = null;
-            vm.setting.level3Company = null;
-            vm.loadLevel3Companies();
-        }
-
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.level3Changed = function () {
-
-        vm.setting.parentId = vm.setting.level3Company;
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.addSubCompany = function () {
-        if (vm.level == "二级") {
-            $state.go("app.company.company2.new", { parentId: vm.setting.level1Company });
-        } else if (vm.level == "三级") {
-            $state.go("app.company.company3.new", { parentId: vm.setting.level2Company });
-        } else if (vm.level == "四级") {
-            $state.go("app.company.company4.new", { parentId: vm.setting.level3Company });
-        }
-    }
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete = function (companyId) {
-        $.SmartMessageBox({
-            title: "删除保险公司",
-            content: "确认删除该保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompany(companyId)
-                    .then(function () {
-                        vm.refreshCompanies();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-
-});
-
-angular.module('app.company')
-.filter("getIncomeRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
-                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
-        return str;  
-    };
-})
-.filter("getPaymentRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
-                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
-        return str;  
-    };
-});
-'use strict'
-
-angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.policyName = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.policyname.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var policyNameId = $stateParams.policyNameId;
-    if (policyNameId) {
-        CompanyService.getPolicyName(policyNameId)
-            .then(function (policyName) {
-                vm.policyName = policyName;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.savePolicyName(vm.policyName)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "险种名称已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.companyCatogory = {};
-                if (vm.back) {
-                    $state.go("app.company.policyname.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('PolicyNameListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.policyNames = [];
-
-
-
-    vm.refreshPolicyNames = function(){
-       CompanyService.getPolicyNames()
-       .then(function(policyNames){
-           vm.policyNames = policyNames;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshPolicyNames();
-	
-    vm.view = function(policyNameId){
-        $state.go("app.company.policyname.view", {policyNameId: policyNameId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (policyNameId) {
-        $.SmartMessageBox({
-            title: "删除险种名称",
-            content: "确认删除该险种名称？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deletePolicyName(policyNameId)
-                    .then(function(){
-                        vm.refreshpolicyNames();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
 'use strict'
 
 angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
@@ -6659,780 +6659,6 @@ angular.module('app').directive('toggleShortcut', function($log,$timeout) {
 		link:link
 	}
 })
-"use strict";
-
-angular.module('app.life-policy').factory('LifePolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                savePolicy: savePolicy,
-                getPolicies: getPolicies,
-                getClients: getClients,
-                getCompanies: getCompanies,
-                getPolicy: getPolicy,
-                deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies,
-                getOrganizations: getOrganizations,
-                getSellers: getSellers,
-                getFilteredCSV: getFilteredCSV,
-                // getSummary: getSummary,
-                // bulkPay: bulkPay,
-                saveSalary: saveSalary,
-                getSalary: getSalary,
-                searchSalaries: searchSalaries,
-                getFilteredSalaryCSV: getFilteredSalaryCSV,
-                deleteSalary: deleteSalary,
-                saveStatement: saveStatement,
-                getStatement: getStatement,
-                searchStatements: searchStatements,
-                getFilteredStatementCSV: getFilteredStatementCSV,
-                deleteStatement: deleteStatement,
-                getManagers: getManagers,
-                getPolicyNames: getPolicyNames,
-                getClient: getClient
-            });
-
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/clients/' + clientId)
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                    // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function savePolicy(policy) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (policy._id) {
-                    policy.updated_at = Date.now();
-                    $http.put('/api/life-policies/' + policy._id, policy)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policy.created_at = Date.now();
-                    policy.updated_at = policy.created_at;
-                    $http.post('/api/life-policies', policy)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveSalary(salary) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (salary._id) {
-                    salary.updated_at = Date.now();
-                    $http.put('/api/life-salaries/' + salary._id, salary)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    salary.created_at = Date.now();
-                    salary.updated_at = salary.created_at;
-                    $http.post('/api/life-salaries', salary)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveStatement(statement) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (statement._id) {
-                    statement.updated_at = Date.now();
-                    $http.put('/api/life-statements/' + statement._id, statement)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    statement.created_at = Date.now();
-                    statement.updated_at = statement.created_at;
-                    $http.post('/api/life-statements', statement)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSalary(salaryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/life-salaries/' + salaryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getStatement(statementId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/life-statements/' + statementId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicies(type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                var url = "/api/life-policies"
-                // if (type == "to-be-paid") {
-                //     url = "/api/life-policies/to-be-paid";
-                // } else if (type == "paid") {
-                //     url = "/api/life-policies/paid";
-                // }
-                $http.get(url)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/life-policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/life-policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function deleteSalary(salaryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/life-salaries/' + salaryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function deleteStatement(statementId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/life-statements/' + statementId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getManagers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=manager')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "submit_date";
-                var orderByReverse = true;
-                
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                
-                $http.post("/api/life-policies/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function searchSalaries(currentPage, pageSize, type, filterSettings) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = true;
-                
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                };
-
-                
-                $http.post("/api/life-salaries/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function searchStatements(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = true;
-                
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                
-                $http.post("/api/life-statements/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            // function getSummary(type, filterSettings, fromDate, toDate) {
-            //     // create a new instance of deferred
-            //     var deferred = $q.defer();
-            //     var orderBy = "created_at";
-            //     var orderByReverse = false;
-            //     if (type == "to-be-paid") {
-            //         filterSettings.policy_status = "待支付";
-            //         orderByReverse = false;
-            //     } else if (type == "paid") {
-            //         filterSettings.policy_status = "已支付";
-            //         orderByReverse = true;
-            //     }
-            //     var end = new Date(toDate);
-            //     end.setDate(end.getDate()+1);
-            //     var config = {
-            //         filterByFields:filterSettings,
-            //         orderBy: orderBy,
-            //         orderByReverse: orderByReverse,
-            //         requestTrapped: true,
-            //         fromDate: fromDate,
-            //         toDate: end
-            //     };
-
-            //     $http.post("/api/life-policies/summary", config)
-            //     // handle success
-            //         .success(function (data, status) {
-            //             if (status === 200) {
-            //                 deferred.resolve(data);
-            //             } else {
-            //                 deferred.reject(status);
-            //             }
-            //         })
-            //     // handle error
-            //         .error(function (err) {
-            //             deferred.reject(status);
-            //         });
-
-            //     // return promise object
-            //     return deferred.promise;
-            // }
-            
-            // function bulkPay(type, filterSettings, fromDate, toDate) {
-            //     // create a new instance of deferred
-            //     var deferred = $q.defer();
-            //     var orderBy = "created_at";
-            //     var orderByReverse = false;
-            //     if (type == "to-be-paid") {
-            //         filterSettings.policy_status = "待支付";
-            //         orderByReverse = false;
-            //     } else if (type == "paid") {
-            //         filterSettings.policy_status = "已支付";
-            //         orderByReverse = true;
-            //     }
-            //     var end = new Date(toDate);
-            //     end.setDate(end.getDate()+1);
-            //     var config = {
-            //         filterByFields:filterSettings,
-            //         orderBy: orderBy,
-            //         orderByReverse: orderByReverse,
-            //         requestTrapped: true,
-            //         fromDate: fromDate,
-            //         toDate: end
-            //     };
-
-            //     $http.post("/api/life-policies/bulk-pay", config)
-            //     // handle success
-            //         .success(function (data, status) {
-            //             if (status === 200) {
-            //                 deferred.resolve(data);
-            //             } else {
-            //                 deferred.reject(status);
-            //             }
-            //         })
-            //     // handle error
-            //         .error(function (err) {
-            //             deferred.reject(status);
-            //         });
-
-            //     // return promise object
-            //     return deferred.promise;
-            // }
-            
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "submit_date";
-                var orderByReverse = true;
-                // if (type == "to-be-paid") {
-                //     filterSettings.policy_status = "待支付";
-                //     orderByReverse = false;
-                // } else if (type == "paid") {
-                //     filterSettings.policy_status = "已支付";
-                //     orderByReverse = true;
-                // }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-                $http.post("/api/life-policies/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFilteredSalaryCSV(type, filterSettings) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                };
-                $http.post("/api/life-salaries/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFilteredStatementCSV(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-                $http.post("/api/life-statements/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 'use strict'
 
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
@@ -8343,6 +7569,780 @@ angular.module('app.life-policy').controller('LifeStatementListController', func
 });
 
 
+"use strict";
+
+angular.module('app.life-policy').factory('LifePolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                savePolicy: savePolicy,
+                getPolicies: getPolicies,
+                getClients: getClients,
+                getCompanies: getCompanies,
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies,
+                getOrganizations: getOrganizations,
+                getSellers: getSellers,
+                getFilteredCSV: getFilteredCSV,
+                // getSummary: getSummary,
+                // bulkPay: bulkPay,
+                saveSalary: saveSalary,
+                getSalary: getSalary,
+                searchSalaries: searchSalaries,
+                getFilteredSalaryCSV: getFilteredSalaryCSV,
+                deleteSalary: deleteSalary,
+                saveStatement: saveStatement,
+                getStatement: getStatement,
+                searchStatements: searchStatements,
+                getFilteredStatementCSV: getFilteredStatementCSV,
+                deleteStatement: deleteStatement,
+                getManagers: getManagers,
+                getPolicyNames: getPolicyNames,
+                getClient: getClient
+            });
+
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function savePolicy(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (policy._id) {
+                    policy.updated_at = Date.now();
+                    $http.put('/api/life-policies/' + policy._id, policy)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/life-policies', policy)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveSalary(salary) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (salary._id) {
+                    salary.updated_at = Date.now();
+                    $http.put('/api/life-salaries/' + salary._id, salary)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    salary.created_at = Date.now();
+                    salary.updated_at = salary.created_at;
+                    $http.post('/api/life-salaries', salary)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveStatement(statement) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (statement._id) {
+                    statement.updated_at = Date.now();
+                    $http.put('/api/life-statements/' + statement._id, statement)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    statement.created_at = Date.now();
+                    statement.updated_at = statement.created_at;
+                    $http.post('/api/life-statements', statement)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicies(type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                var url = "/api/life-policies"
+                // if (type == "to-be-paid") {
+                //     url = "/api/life-policies/to-be-paid";
+                // } else if (type == "paid") {
+                //     url = "/api/life-policies/paid";
+                // }
+                $http.get(url)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/life-policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function deleteSalary(salaryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-salaries/' + salaryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function deleteStatement(statementId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/life-statements/' + statementId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getManagers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=manager')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "submit_date";
+                var orderByReverse = true;
+                
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                
+                $http.post("/api/life-policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function searchSalaries(currentPage, pageSize, type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = true;
+                
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                };
+
+                
+                $http.post("/api/life-salaries/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function searchStatements(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = true;
+                
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                
+                $http.post("/api/life-statements/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            // function getSummary(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/summary", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
+            
+            // function bulkPay(type, filterSettings, fromDate, toDate) {
+            //     // create a new instance of deferred
+            //     var deferred = $q.defer();
+            //     var orderBy = "created_at";
+            //     var orderByReverse = false;
+            //     if (type == "to-be-paid") {
+            //         filterSettings.policy_status = "待支付";
+            //         orderByReverse = false;
+            //     } else if (type == "paid") {
+            //         filterSettings.policy_status = "已支付";
+            //         orderByReverse = true;
+            //     }
+            //     var end = new Date(toDate);
+            //     end.setDate(end.getDate()+1);
+            //     var config = {
+            //         filterByFields:filterSettings,
+            //         orderBy: orderBy,
+            //         orderByReverse: orderByReverse,
+            //         requestTrapped: true,
+            //         fromDate: fromDate,
+            //         toDate: end
+            //     };
+
+            //     $http.post("/api/life-policies/bulk-pay", config)
+            //     // handle success
+            //         .success(function (data, status) {
+            //             if (status === 200) {
+            //                 deferred.resolve(data);
+            //             } else {
+            //                 deferred.reject(status);
+            //             }
+            //         })
+            //     // handle error
+            //         .error(function (err) {
+            //             deferred.reject(status);
+            //         });
+
+            //     // return promise object
+            //     return deferred.promise;
+            // }
+            
+            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "submit_date";
+                var orderByReverse = true;
+                // if (type == "to-be-paid") {
+                //     filterSettings.policy_status = "待支付";
+                //     orderByReverse = false;
+                // } else if (type == "paid") {
+                //     filterSettings.policy_status = "已支付";
+                //     orderByReverse = true;
+                // }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/life-policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredSalaryCSV(type, filterSettings) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                };
+                $http.post("/api/life-salaries/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredStatementCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/life-statements/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSellers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 'use strict';
 
 angular.module('app.maps').controller('MapsDemoCtrl', 
@@ -16224,6 +16224,96 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 });
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
+        }
+    }
+});
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
     return {
         restrict: 'A',
@@ -16825,114 +16915,6 @@ angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsC
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-dropzone data-smart-dropzone');
-
-            tElement.dropzone({
-                addRemoveLinks : true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
-            });
-        }
-    }
-});
-'use strict';
-
 angular.module('SmartAdmin.Forms').directive('smartClockpicker', function () {
     return {
         restrict: 'A',
@@ -17258,6 +17240,24 @@ angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout
 
     }
 });
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-dropzone data-smart-dropzone');
+
+            tElement.dropzone({
+                addRemoveLinks : true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+        }
+    }
+});
+
 'use strict';
 
 angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
