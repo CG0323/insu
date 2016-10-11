@@ -255,7 +255,7 @@
 
                                         </section>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" ng-show="vm.policy.policy_status=='待支付'">
                                         <section class="col col-3">
                                             <label class="label">银行</label>
                                             <label class="input">
@@ -275,6 +275,12 @@
                                                 class="btn btn-primary btn-lg">修改保单状态为已支付</button>
                                         </section>
                                     </div>
+                                    <div class="row" ng-show="vm.policy.policy_status=='待审核'">
+                                        <section class="col col-3">
+                                            <button style="margin-top:1.5em" ng-click="vm.approve()"
+                                                class="btn btn-primary btn-lg">审核通过，修改保单状态为待支付</button>
+                                        </section>
+                                    </div>
                                 </fieldset>
                             </div>
                         </div>
@@ -288,7 +294,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="(user.role=='出单员' && !vm.editable && vm.policy.policy_status=='待支付') || user.role=='管理员'" ng-click="vm.toggleEdit()"
+                <button ng-show="(user.role=='出单员' && !vm.editable && vm.policy.policy_status=='待审核') || user.role=='管理员'" ng-click="vm.toggleEdit()"
                     class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
@@ -311,19 +317,20 @@
                                     <section class="col col-8">
                                         <label class="label">保险公司</label>
                                         <section class="col col-4">
-                                        <select style="min-width: 240px;" name='cat' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.policy.level2_company" ng-options="c._id as c.name for c in vm.level2Companies">
+                                            <select style="min-width: 240px;" name='cat' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.policy.level2_company"
+                                                ng-options="c._id as c.name for c in vm.level2Companies">
                                             <option value="">选择二级保险公司</option>
                                         </select>
                                         </section>
                                         <section class="col col-4">
-                                        <select style="min-width: 240px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level2_company" data-ng-change="vm.level3Changed()"
-                                            ng-model="vm.policy.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                                            <select style="min-width: 240px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level2_company" data-ng-change="vm.level3Changed()"
+                                                ng-model="vm.policy.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
                                             <option value="">选择三级保险公司</option>
                                         </select>
                                         </section>
                                         <section class="col col-4">
-                                        <select style="min-width: 240px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level3_company" data-ng-change="vm.level4Changed()"
-                                            ng-model="vm.policy.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                                            <select style="min-width: 240px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level3_company" data-ng-change="vm.level4Changed()"
+                                                ng-model="vm.policy.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
                                             <option value="">选择四级保险公司(如有)</option>
                                         </select>
                                         </section>
@@ -337,8 +344,8 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                
-                                    
+
+
                                 </div>
                                 <div class="row">
                                     <section class="col col-4">
@@ -348,7 +355,8 @@
                                                 <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="client in vm.clients| propsFilter: {name: $select.search}">
                                                     <!--<ui-select-choices repeat="client in vm.clients| filter: $select.search">-->
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                    <!--<div ng-bind-html="client.name | highlight: $select.search"></div>-->
+                                                    <div ng-bind-html="client.name"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>

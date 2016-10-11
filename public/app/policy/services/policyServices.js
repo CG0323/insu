@@ -208,7 +208,10 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
-                if (type == "to-be-paid") {
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
                     filterSettings.policy_status = "待支付";
                     orderByReverse = false;
                 } else if (type == "paid") {
@@ -254,7 +257,10 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
-                if (type == "to-be-paid") {
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
                     filterSettings.policy_status = "待支付";
                     orderByReverse = false;
                 } else if (type == "paid") {
@@ -295,7 +301,10 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
-                if (type == "to-be-paid") {
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
                     filterSettings.policy_status = "待支付";
                     orderByReverse = false;
                 } else if (type == "paid") {
@@ -336,7 +345,10 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
-                if (type == "to-be-paid") {
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
                     filterSettings.policy_status = "待支付";
                     orderByReverse = false;
                 } else if (type == "paid") {

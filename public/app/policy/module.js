@@ -53,6 +53,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         .state('app.policy.pay1', {
             url: '/policies/pay1/:policyId',
             data: {
+                title: '保单审核'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
+        .state('app.policy.approve', {
+            url: '/policies/approve/:policyId',
+            data: {
+                title: '保单审核'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController as vm',
+                    templateUrl: 'app/policy/views/policy.html'
+                }
+            }
+        })
+        .state('app.policy.approve1', {
+            url: '/policies/approve1/:policyId',
+            data: {
                 title: '保单支付'
             },
             views: {
@@ -83,6 +107,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 "content@app": {
                     controller: 'PolicyEditorController1 as vm',
                     templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
+        .state('app.policy.to-be-reviewed', {
+            url: '/policies/to-be-reviewed',
+            data: {
+                title: '待审核保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-review-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
                 }
             }
         })

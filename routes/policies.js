@@ -20,7 +20,7 @@ router.post('/', function (req, res) {
         var policy = new Policy(data);
         policy.seller = req.user._id;
         policy.organization = req.user.org;
-        policy.policy_status = '待支付';
+        policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
             logger.error(err);

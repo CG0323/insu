@@ -56,9 +56,8 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                     timeout: 5000
                 });
                 vm.policy = {};
-                vm.policy.plate_province = "苏";
                 if (vm.back) {
-                    $state.go("app.policy.to-be-paid");
+                    $state.go("app.policy.to-be-reviewed");
                 }
             }, function (err) { });
     };
@@ -81,6 +80,35 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.approve = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认要批准该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "待支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        $state.go("app.policy.to-be-reviewed");
                     }, function (err) { });
             }
             if (ButtonPressed === "取消") {

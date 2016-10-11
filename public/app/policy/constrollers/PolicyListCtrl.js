@@ -30,7 +30,23 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     vm.listType = "all";
-    if ($state.is("app.policy.to-be-paid")) {
+    if($state.is("app.policy.to-be-reviewed")){
+        vm.listType = "to-be-reviewed";
+        vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientName = clientInfo.name;
+                })
+        }
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.tableHeader = "待审核保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields = ["client.name", "plate"];
+        }
+    }
+    else if ($state.is("app.policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
         if (vm.filterSettings.client) {
@@ -73,7 +89,12 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.filterChanged = function () {
-        if ($state.is("app.policy.to-be-paid")) {
+         if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-filterSettings", vm.filterSettings);
+            localStorageService.set('fromDate', vm.fromDate);
+            localStorageService.set('toDate', vm.toDate);
+        }       
+        else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
             localStorageService.set('toDate', vm.toDate);
@@ -96,7 +117,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         else {
             vm.filterSettings.client = undefined;
         }
-        if ($state.is("app.policy.to-be-paid")) {
+
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-filterSettings", vm.filterSettings);
+        }       
+        else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.policy.paid")) {
@@ -184,16 +209,27 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     };
 
+    vm.isShowReviewButton = function (policy) {
+        return $rootScope.user.role == "财务" && policy.policy_status == "待审核";
+    };
+
     vm.isShowPayButton = function (policy) {
         return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
     };
 
     vm.isShowDeleteButton = function (policy) {
         if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
+        return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";
     };
     
     vm.isShowBulkPayButton = function () {
+        if ($rootScope.user.role == "出单员") {      
+            return false
+            };
+       return true;
+    };
+
+    vm.isShowBulkReivewButton = function () {
         if ($rootScope.user.role == "出单员") {      
             return false
             };
@@ -209,6 +245,14 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             $state.go("app.policy.pay", { policyId: policy._id}); //this is from old version
         }else{
             $state.go("app.policy.pay1", { policyId: policy._id});
+        }
+    };
+
+    vm.approve = function (policy) {
+        if(!policy.level2_company){
+            $state.go("app.policy.approve", { policyId: policy._id}); //this is from old version
+        }else{
+            $state.go("app.policy.approve1", { policyId: policy._id});
         }
     };
 
