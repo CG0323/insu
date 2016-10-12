@@ -19,7 +19,8 @@ angular.module('app.policy').factory('PolicyService',
                 bulkPay: bulkPay,
                 getClient: getClient,
                 getSubCompanies: getSubCompanies,
-                getLevel2Companies: getLevel2Companies
+                getLevel2Companies: getLevel2Companies,
+                bulkApprove: bulkApprove
             });
             
             function getClient(clientId) {
@@ -323,6 +324,27 @@ angular.module('app.policy').factory('PolicyService',
                 };
 
                 $http.post("/api/policies/bulk-pay", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkApprove(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/policies/bulk-approve", policyIds)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

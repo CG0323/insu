@@ -9,6 +9,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.totalProfit = 0;
     vm.clientName = "";
     vm.clientDictionary = {};
+    vm.areAllSelected = false;
 
 
     PolicyService.getClients()
@@ -30,7 +31,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     vm.listType = "all";
-    if($state.is("app.policy.to-be-reviewed")){
+    if ($state.is("app.policy.to-be-reviewed")) {
         vm.listType = "to-be-reviewed";
         vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
         if (vm.filterSettings.client) {
@@ -79,6 +80,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        vm.areAllSelected = false;
         vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
@@ -89,11 +91,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.filterChanged = function () {
-         if ($state.is("app.policy.to-be-reviewed")) {
+        if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
             localStorageService.set('toDate', vm.toDate);
-        }       
+        }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
@@ -112,7 +114,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.clientFilterChanged = function () {
         if (vm.clientDictionary[vm.clientName]) {
             vm.filterSettings.client = vm.clientDictionary[vm.clientName];
-            
+
         }
         else {
             vm.filterSettings.client = undefined;
@@ -120,7 +122,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-filterSettings", vm.filterSettings);
-        }       
+        }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
         }
@@ -138,7 +140,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.refreshSummary = function () {
-
         PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
@@ -204,9 +205,48 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }
 
         });
+    };
 
+    vm.getSelectedPolicyIds = function(){
+        var ids = [];
+        if(vm.policies){
+            for(var i = 0; i < vm.policies.length; i ++){
+                if(vm.policies[i].isSelected){
+                    ids.push(vm.policies[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
 
+    vm.bulkApprove = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认批准选中的" + policyIds.length + "条保单?",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.bulkApprove(policyIds)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                        vm.refreshSummary();
+                    }, function (err) {
 
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
     };
 
     vm.isShowReviewButton = function (policy) {
@@ -221,19 +261,26 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if ($rootScope.user.role == "管理员") return true;
         return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";
     };
-    
+
     vm.isShowBulkPayButton = function () {
-        if ($rootScope.user.role == "出单员") {      
+        if ($rootScope.user.role == "出单员") {
             return false
-            };
-       return true;
+        };
+        return true;
     };
 
-    vm.isShowBulkReivewButton = function () {
-        if ($rootScope.user.role == "出单员") {      
+    vm.isShowBulkApproveButton = function () {
+        if ($rootScope.user.role == "出单员") {
             return false
-            };
-       return true;
+        };
+        if(vm.policies){
+            for(var i = 0; i < vm.policies.length; i ++){
+                if(vm.policies[i].isSelected){
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 
     vm.isShowViewButton = function (policy) {
@@ -241,29 +288,45 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.pay = function (policy) {
-        if(!policy.level2_company){
-            $state.go("app.policy.pay", { policyId: policy._id}); //this is from old version
-        }else{
-            $state.go("app.policy.pay1", { policyId: policy._id});
+        if (!policy.level2_company) {
+            $state.go("app.policy.pay", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.pay1", { policyId: policy._id });
         }
     };
 
     vm.approve = function (policy) {
-        if(!policy.level2_company){
-            $state.go("app.policy.approve", { policyId: policy._id}); //this is from old version
-        }else{
-            $state.go("app.policy.approve1", { policyId: policy._id});
+        if (!policy.level2_company) {
+            $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.approve1", { policyId: policy._id });
         }
     };
 
-    vm.view = function (policy) { 
-        if(!policy.level2_company){      
-            $state.go("app.policy.view", { policyId: policy._id}); //this is from old version
-        }else{
-            $state.go("app.policy.view1", { policyId: policy._id});
+    vm.view = function (policy) {
+        if (!policy.level2_company) {
+            $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.view1", { policyId: policy._id });
         }
-        
+
     };
+
+    vm.selectAll = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = true;
+            }
+        }
+    }
+
+    vm.clearSelection = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = false;
+            }
+        }
+    }
 
 
     /*

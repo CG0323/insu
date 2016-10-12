@@ -9,7 +9,7 @@
 
 
     <div class="row">
-       <article class="col-sm-12">
+        <article class="col-sm-12">
             <span>
                <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.fromDate" ng-change="vm.filterChanged()">
@@ -17,8 +17,8 @@
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                <label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>
-                <button ng-show="vm.isShowBulkApproveButton()" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核</button>
+                <!--<label ng-show="user.role!='出单员'"> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>-->
+                <button ng-show="vm.isShowBulkApproveButton()" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核通过选中的保单</button>
                                         
             </span>
 
@@ -31,10 +31,14 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="20" enable-filtering="false"
-                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
+                                    <th ng-show="user.role!='出单员'" display-align="center" cell-width="2em">
+                                        <div class="tr-ng-title">&nbsp;</div>
+                                        <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
+                                    </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
@@ -72,7 +76,7 @@
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
-                                                ng-change="vm.filterChanged()">
+                                                    ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
@@ -85,7 +89,7 @@
                                         <div ng-show="user.role!='出单员'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']"
-                                                ng-change="vm.filterChanged()">
+                                                    ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
@@ -99,6 +103,11 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td ng-show="user.role!='出单员'">
+                                        <div>
+                                            <input type="checkbox" ng-model="gridItem.isSelected">
+                                        </div>
+                                    </td>
                                     <td field-name="client.name"></td>
                                     <td field-name="organization.name"></td>
                                     <td field-name="seller.name"></td>

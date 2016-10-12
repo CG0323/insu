@@ -3204,10 +3204,10 @@ angular.module('app.auth').controller('AuthCtrl',
                     .then(function(user) {
                         $rootScope.user = user;
                         if(user.role == "出单员"){
-                            $state.go('app.policy.new');
+                            $state.go('app.policy.new1');
                         }else
                         {
-                            $state.go('app.policy.to-be-paid');
+                            $state.go('app.policy.to-be-reviewed');
                         }
                         
                         $scope.disabled = false;
@@ -8857,6 +8857,7 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
+                        $state.go("app.policy.to-be-reviewed");
                     }, function (err) { });
             }
             if (ButtonPressed === "取消") {
@@ -9402,6 +9403,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.totalProfit = 0;
     vm.clientName = "";
     vm.clientDictionary = {};
+    vm.areAllSelected = false;
 
 
     PolicyService.getClients()
@@ -9423,7 +9425,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     vm.listType = "all";
-    if($state.is("app.policy.to-be-reviewed")){
+    if ($state.is("app.policy.to-be-reviewed")) {
         vm.listType = "to-be-reviewed";
         vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
         if (vm.filterSettings.client) {
@@ -9472,6 +9474,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        vm.areAllSelected = false;
         vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
@@ -9482,11 +9485,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.filterChanged = function () {
-         if ($state.is("app.policy.to-be-reviewed")) {
+        if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
             localStorageService.set('toDate', vm.toDate);
-        }       
+        }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
@@ -9505,7 +9508,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.clientFilterChanged = function () {
         if (vm.clientDictionary[vm.clientName]) {
             vm.filterSettings.client = vm.clientDictionary[vm.clientName];
-            
+
         }
         else {
             vm.filterSettings.client = undefined;
@@ -9513,7 +9516,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-filterSettings", vm.filterSettings);
-        }       
+        }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
         }
@@ -9531,7 +9534,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.refreshSummary = function () {
-
         PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
@@ -9597,9 +9599,48 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }
 
         });
+    };
 
+    vm.getSelectedPolicyIds = function(){
+        var ids = [];
+        if(vm.policies){
+            for(var i = 0; i < vm.policies.length; i ++){
+                if(vm.policies[i].isSelected){
+                    ids.push(vm.policies[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
 
+    vm.bulkApprove = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认批准选中的" + policyIds.length + "条保单?",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.bulkApprove(policyIds)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                        vm.refreshSummary();
+                    }, function (err) {
 
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
     };
 
     vm.isShowReviewButton = function (policy) {
@@ -9614,19 +9655,26 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if ($rootScope.user.role == "管理员") return true;
         return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";
     };
-    
+
     vm.isShowBulkPayButton = function () {
-        if ($rootScope.user.role == "出单员") {      
+        if ($rootScope.user.role == "出单员") {
             return false
-            };
-       return true;
+        };
+        return true;
     };
 
-    vm.isShowBulkReivewButton = function () {
-        if ($rootScope.user.role == "出单员") {      
+    vm.isShowBulkApproveButton = function () {
+        if ($rootScope.user.role == "出单员") {
             return false
-            };
-       return true;
+        };
+        if(vm.policies){
+            for(var i = 0; i < vm.policies.length; i ++){
+                if(vm.policies[i].isSelected){
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 
     vm.isShowViewButton = function (policy) {
@@ -9634,29 +9682,45 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.pay = function (policy) {
-        if(!policy.level2_company){
-            $state.go("app.policy.pay", { policyId: policy._id}); //this is from old version
-        }else{
-            $state.go("app.policy.pay1", { policyId: policy._id});
+        if (!policy.level2_company) {
+            $state.go("app.policy.pay", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.pay1", { policyId: policy._id });
         }
     };
 
     vm.approve = function (policy) {
-        if(!policy.level2_company){
-            $state.go("app.policy.approve", { policyId: policy._id}); //this is from old version
-        }else{
-            $state.go("app.policy.approve1", { policyId: policy._id});
+        if (!policy.level2_company) {
+            $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.approve1", { policyId: policy._id });
         }
     };
 
-    vm.view = function (policy) { 
-        if(!policy.level2_company){      
-            $state.go("app.policy.view", { policyId: policy._id}); //this is from old version
-        }else{
-            $state.go("app.policy.view1", { policyId: policy._id});
+    vm.view = function (policy) {
+        if (!policy.level2_company) {
+            $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.view1", { policyId: policy._id });
         }
-        
+
     };
+
+    vm.selectAll = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = true;
+            }
+        }
+    }
+
+    vm.clearSelection = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = false;
+            }
+        }
+    }
 
 
     /*
@@ -9718,7 +9782,8 @@ angular.module('app.policy').factory('PolicyService',
                 bulkPay: bulkPay,
                 getClient: getClient,
                 getSubCompanies: getSubCompanies,
-                getLevel2Companies: getLevel2Companies
+                getLevel2Companies: getLevel2Companies,
+                bulkApprove: bulkApprove
             });
             
             function getClient(clientId) {
@@ -10022,6 +10087,27 @@ angular.module('app.policy').factory('PolicyService',
                 };
 
                 $http.post("/api/policies/bulk-pay", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkApprove(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/policies/bulk-approve", policyIds)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -12638,6 +12724,67 @@ angular.module('app.auth').directive('googleSignin', function ($rootScope, Googl
     };
 });
 
+'use strict';
+
+angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
+    var dfd = $q.defer();
+    var _user;
+    var ChatSrv = {
+        initialized: dfd.promise,
+        users: [],
+        messages: [],
+        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
+        status: 'Online',
+        setUser: function (user) {
+            if (ChatSrv.users.indexOf(_user) != -1)
+                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
+            _user = user;
+            ChatSrv.users.push(_user);
+        },
+        sendMessage: function (text) {
+            var message = {
+                user: _user,
+                body: text,
+                date: new Date()
+            };
+            this.messages.push(message);
+        }
+    };
+
+
+    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
+        ChatSrv.messages = res.data.messages;
+        ChatSrv.users = res.data.users;
+        dfd.resolve();
+    });
+
+    ChatSrv.initialized.then(function () {
+
+        User.initialized.then(function () {
+            ChatSrv.setUser({
+                username: User.username,
+                picture: User.picture,
+                status: ChatSrv.status
+            });
+        });
+
+        $rootScope.$watch(function () {
+            return User.username
+        }, function (name, oldName) {
+            if (name != oldName) {
+                ChatSrv.setUser({
+                    username: User.username,
+                    picture: User.picture,
+                    status: ChatSrv.status
+                });
+            }
+        });
+    });
+
+
+    return ChatSrv;
+
+});
 (function() {
         
    'use strict';
@@ -13244,67 +13391,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
             })
         }
     }
-});
-'use strict';
-
-angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
-    var dfd = $q.defer();
-    var _user;
-    var ChatSrv = {
-        initialized: dfd.promise,
-        users: [],
-        messages: [],
-        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
-        status: 'Online',
-        setUser: function (user) {
-            if (ChatSrv.users.indexOf(_user) != -1)
-                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
-            _user = user;
-            ChatSrv.users.push(_user);
-        },
-        sendMessage: function (text) {
-            var message = {
-                user: _user,
-                body: text,
-                date: new Date()
-            };
-            this.messages.push(message);
-        }
-    };
-
-
-    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
-        ChatSrv.messages = res.data.messages;
-        ChatSrv.users = res.data.users;
-        dfd.resolve();
-    });
-
-    ChatSrv.initialized.then(function () {
-
-        User.initialized.then(function () {
-            ChatSrv.setUser({
-                username: User.username,
-                picture: User.picture,
-                status: ChatSrv.status
-            });
-        });
-
-        $rootScope.$watch(function () {
-            return User.username
-        }, function (name, oldName) {
-            if (name != oldName) {
-                ChatSrv.setUser({
-                    username: User.username,
-                    picture: User.picture,
-                    status: ChatSrv.status
-                });
-            }
-        });
-    });
-
-
-    return ChatSrv;
-
 });
 "use strict";
 
