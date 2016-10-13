@@ -52,16 +52,18 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             vm.policy.tax_fee_payment_rate = null;
             vm.policy.other_fee_income_rate = null;
             vm.policy.other_fee_payment_rate = null;
+            vm.policy.rule_rates = null;
         } else {
-            var rate = company.rates[0];
-            vm.policy.mandatory_fee_income_rate = rate.mandatory_income;
-            vm.policy.mandatory_fee_payment_rate = rate.mandatory_payment;
-            vm.policy.commercial_fee_income_rate = rate.commercial_income;
-            vm.policy.commercial_fee_payment_rate = rate.commercial_payment;
-            vm.policy.tax_fee_income_rate = rate.tax_income;
-            vm.policy.tax_fee_payment_rate = rate.tax_payment;
-            vm.policy.other_fee_income_rate = rate.other_income;
-            vm.policy.other_fee_payment_rate = rate.other_payment;
+            var rates = company.rates[0];
+            vm.policy.mandatory_fee_income_rate = rates.mandatory_income;
+            vm.policy.mandatory_fee_payment_rate = rates.mandatory_payment;
+            vm.policy.commercial_fee_income_rate = rates.commercial_income;
+            vm.policy.commercial_fee_payment_rate = rates.commercial_payment;
+            vm.policy.tax_fee_income_rate = rates.tax_income;
+            vm.policy.tax_fee_payment_rate = rates.tax_payment;
+            vm.policy.other_fee_income_rate = rates.other_income;
+            vm.policy.other_fee_payment_rate = rates.other_payment;
+            vm.policy.rule_rates = rates;
         }
     }
 
@@ -136,9 +138,51 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.submit();
     }
 
+    vm.checkRuleRates = function(){
+        if(!vm.policy.rule_rates){
+            return;
+        }
+        var rates = vm.policy.rule_rates;
+        var policy = vm.policy;
+        policy.has_warning = false;
+        if(rates.mandatory_income != policy.mandatory_fee_income_rate){
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.mandatory_payment != policy.mandatory_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.commercial_income != policy.commercial_fee_income_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.commercial_payment != policy.commercial_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.tax_income != policy.tax_fee_income_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.tax_payment != policy.tax_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.other_income != policy.other_fee_income_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.other_payment != policy.other_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        
+    }
 
     vm.submit = function () {
-
+        vm.checkRuleRates();
+        console.log(vm.policy.has_warning);
         vm.policy.client = vm.clientInfo._id;
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
@@ -158,6 +202,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     };
 
     vm.pay = function () {
+        vm.checkRuleRates();
         $.SmartMessageBox({
             title: "修改保单状态",
             content: "确认已支付该保单？",

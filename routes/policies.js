@@ -375,6 +375,8 @@ router.put('/:id', function (req, res) {
     policy.level2_company = req.body.level2_company;
     policy.level3_company = req.body.level3_company;
     policy.level4_company = req.body.level4_company;
+    policy.rule_rates = req.body.rule_rates;
+    policy.has_warning = req.body.has_warning;
     policy.organization = req.body.organization;
     policy.save(function (err) {
       if (err) {

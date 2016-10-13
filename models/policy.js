@@ -53,7 +53,8 @@ var schema = new mongoose.Schema({
   payment_addition_comment: String,
   payment_substraction_comment: String,
   total_payment: Number,
-  rule_rates: [{ set_at: { type: Date }, mandatory_income: Number, mandatory_payment: Number, commercial_income: Number, commercial_payment: Number, tax_income: Number, tax_payment: Number, other_income: Number, other_payment: Number }]
+  rule_rates: { set_at: { type: Date }, mandatory_income: Number, mandatory_payment: Number, commercial_income: Number, commercial_payment: Number, tax_income: Number, tax_payment: Number, other_income: Number, other_payment: Number },
+  has_warning: Boolean
 });
 
 schema.pre('save', function(next){

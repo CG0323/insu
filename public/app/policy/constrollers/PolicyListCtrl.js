@@ -40,8 +40,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     vm.clientName = clientInfo.name;
                 })
         }
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.fromDate = localStorageService.get("review-fromDate") ? localStorageService.get("review-fromDate") : undefined;
+        vm.toDate = localStorageService.get("review-toDate") ? localStorageService.get("review-toDate") : undefined;
         vm.tableHeader = "待审核保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -93,8 +93,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.filterChanged = function () {
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-filterSettings", vm.filterSettings);
-            localStorageService.set('fromDate', vm.fromDate);
-            localStorageService.set('toDate', vm.toDate);
+            localStorageService.set('review-fromDate', vm.fromDate);
+            localStorageService.set('review-toDate', vm.toDate);
         }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
