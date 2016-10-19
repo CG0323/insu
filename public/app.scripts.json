@@ -24,7 +24,8 @@
     "angular-validation-rule",
     "angular-media-queries",
     "ui-select",
-    "angular-local-storage"
+    "angular-local-storage",
+    "js-xlsx"
   ],
   "paths": {
 
@@ -147,7 +148,8 @@
     "angular-validation-rule": "plugin/angular-validation/dist/angular-validation-rule.js",
     "angular-media-queries":"plugin/angular-media-queries/match-media.js",
     "ui-select":"plugin/angular-ui-select/dist/select.min.js",
-    "angular-local-storage":"plugin/angular-local-storage/dist/angular-local-storage.min.js"
+    "angular-local-storage":"plugin/angular-local-storage/dist/angular-local-storage.min.js",
+    "js-xlsx":"plugin/js-xlsx/dist/xlsx.core.min.js"
   },
   "shim": {
     "to-markdown": {"deps": ["he"]},

@@ -2087,6 +2087,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.import', {
+            url: '/policies/import',
+            data: {
+                title: '保单批量导入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyImportController as vm',
+                    templateUrl: 'app/policy/views/policy-importer.html'
+                }
+            }
+        })
         .state('app.policy.pay', {
             url: '/policies/pay/:policyId',
             data: {
@@ -2547,15 +2559,15 @@ angular.module('app.chat', ['ngSanitize'])
 }]);
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\r\n<!-- widget options:\r\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\r\n\r\ndata-widget-colorbutton=\"false\"\r\ndata-widget-editbutton=\"false\"\r\ndata-widget-togglebutton=\"false\"\r\ndata-widget-deletebutton=\"false\"\r\ndata-widget-fullscreenbutton=\"false\"\r\ndata-widget-custombutton=\"false\"\r\ndata-widget-collapsed=\"true\"\r\ndata-widget-sortable=\"false\"\r\n\r\n-->\r\n<header>\r\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\r\n\r\n    <h2>Live Feeds </h2>\r\n\r\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\r\n        <li class=\"active\">\r\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\r\n        </li>\r\n    </ul>\r\n\r\n</header>\r\n\r\n<!-- widget div-->\r\n<div class=\"no-padding\">\r\n\r\n    <div class=\"widget-body\">\r\n        <!-- content -->\r\n        <div id=\"myTabContent\" class=\"tab-content\">\r\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\r\n                <div class=\"row no-space\">\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\r\n														<span class=\"demo-liveupdate-1\"> <span\r\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\r\n                                                                class=\"onoffswitch\">\r\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\r\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\r\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\r\n                                                                    <span class=\"onoffswitch-inner\"\r\n                                                                          data-swchon-text=\"ON\"\r\n                                                                          data-swchoff-text=\"OFF\"></span>\r\n                                                                    <span class=\"onoffswitch-switch\"></span>\r\n                                                                </label> </span> </span>\r\n\r\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\r\n\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\r\n\r\n                        <div class=\"row\">\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\r\n                                    class=\"pull-right\">130/200</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\r\n                                    class=\"pull-right\">440 GB</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\r\n                                    class=\"pull-right\">77%</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\r\n                                    class=\"pull-right\">7 Days</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\r\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\r\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\r\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\r\n                                a bug</a> </span> </span>\r\n\r\n                        </div>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n\r\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">35</span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">78.9 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">23 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-darken\">10GB</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\r\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Temperature <i\r\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s1 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s2\">\r\n                <div class=\"widget-body-toolbar bg-color-white\">\r\n\r\n                    <form class=\"form-inline\" role=\"form\">\r\n\r\n                        <div class=\"form-group\">\r\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\r\n                        </div>\r\n\r\n                        <div class=\"btn-group hidden-phone pull-right\">\r\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                            <ul class=\"dropdown-menu pull-right\">\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                                </li>\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                                </li>\r\n                            </ul>\r\n                        </div>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n                <div class=\"padding-10\">\r\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s2 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s3\">\r\n\r\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\r\n\r\n                    <div class=\"inline-group\">\r\n\r\n                        <label for=\"gra-0\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\r\n                            <i></i> Target </label>\r\n                        <label for=\"gra-1\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\r\n                            <i></i> Actual </label>\r\n                        <label for=\"gra-2\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\r\n                            <i></i> Signups </label>\r\n                    </div>\r\n\r\n                    <div class=\"btn-group hidden-phone pull-right\">\r\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                        <ul class=\"dropdown-menu pull-right\">\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                            </li>\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"padding-10\">\r\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\r\n                </div>\r\n            </div>\r\n            <!-- end s3 tab pane -->\r\n        </div>\r\n\r\n        <!-- end content -->\r\n    </div>\r\n\r\n</div>\r\n<!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\r\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\r\n<!-- END HEADER -->\r\n\r\n\r\n<!-- Left panel : Navigation area -->\r\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\r\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\r\n\r\n<!-- END NAVIGATION -->\r\n\r\n<!-- MAIN PANEL -->\r\n<div id=\"main\" role=\"main\">\r\n    <!--<demo-states></demo-states>-->\r\n\r\n    <!-- RIBBON -->\r\n    <div id=\"ribbon\">\r\n\r\n				<!--<span class=\"ribbon-button-alignment\">\r\n					<span id=\"refresh\" class=\"btn btn-ribbon\" reset-widgets\r\n                          tooltip-placement=\"bottom\"\r\n                          tooltip-html=\"<i class=\'text-warning fa fa-warning\'></i> Warning! This will reset all your widget settings.\">\r\n						<i class=\"fa fa-refresh\"></i>\r\n					</span>\r\n				</span>-->\r\n\r\n        <!-- breadcrumb -->\r\n        <state-breadcrumbs></state-breadcrumbs>\r\n        <!-- end breadcrumb -->\r\n\r\n\r\n    </div>\r\n    <!-- END RIBBON -->\r\n\r\n\r\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\r\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\r\n    </div>\r\n\r\n</div>\r\n<!-- END MAIN PANEL -->\r\n\r\n<!-- PAGE FOOTER -->\r\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\r\n\r\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\r\n\r\n<!-- END PAGE FOOTER -->\r\n\r\n\r\n");
+$templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
 $templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis-widget data-widget-color=\"blueDark\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-calendar\"></i> </span>\r\n\r\n        <h2> My Events </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <div class=\"btn-group dropdown\" dropdown >\r\n                <button class=\"btn dropdown-toggle btn-xs btn-default\" dropdown-toggle>\r\n                    Showing <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu js-status-update pull-right\">\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'month\')\">Month</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaWeek\')\">Agenda</a>\r\n                    </li>\r\n                    <li>\r\n                        <a ng-click=\"changeView(\'agendaDay\')\">Today</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding\">\r\n            <!-- content goes here -->\r\n            <div class=\"widget-body-toolbar\">\r\n\r\n                <div id=\"calendar-buttons\">\r\n\r\n                    <div class=\"btn-group\">\r\n                        <a ng-click=\"prev()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-left\"></i></a>\r\n                        <a ng-click=\"next()\" class=\"btn btn-default btn-xs\"><i\r\n                                class=\"fa fa-chevron-right\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div id=\"calendar\"></div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
-$templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
 $templateCache.put("app/dashboard/projects/recent-projects.tpl.html","<div class=\"project-context hidden-xs dropdown\" dropdown>\r\n\r\n    <span class=\"label\">{{getWord(\'Projects\')}}:</span>\r\n    <span class=\"project-selector dropdown-toggle\" dropdown-toggle>{{getWord(\'Recent projects\')}} <i ng-if=\"projects.length\"\r\n            class=\"fa fa-angle-down\"></i></span>\r\n\r\n    <ul class=\"dropdown-menu\" ng-if=\"projects.length\">\r\n        <li ng-repeat=\"project in projects\">\r\n            <a href=\"{{project.href}}\">{{project.title}}</a>\r\n        </li>\r\n        <li class=\"divider\"></li>\r\n        <li>\r\n            <a ng-click=\"clearProjects()\"><i class=\"fa fa-power-off\"></i> Clear</a>\r\n        </li>\r\n    </ul>\r\n\r\n</div>");
 $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-widget\" jarvis-widget data-widget-editbutton=\"false\" data-widget-color=\"blue\"\r\n     ng-controller=\"TodoCtrl\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\r\n\r\n        <h2> ToDo\'s </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <button class=\"btn btn-xs btn-default\" ng-class=\"{active: newTodo}\" ng-click=\"toggleAdd()\"><i ng-class=\"{ \'fa fa-plus\': !newTodo, \'fa fa-times\': newTodo}\"></i> Add</button>\r\n\r\n        </div>\r\n    </header>\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding smart-form\">\r\n            <!-- content goes here -->\r\n            <div ng-show=\"newTodo\">\r\n                <h5 class=\"todo-group-title\"><i class=\"fa fa-plus-circle\"></i> New Todo</h5>\r\n\r\n                <form name=\"newTodoForm\" class=\"smart-form\">\r\n                    <fieldset>\r\n                        <section>\r\n                            <label class=\"input\">\r\n                                <input type=\"text\" required class=\"input-lg\" ng-model=\"newTodo.title\"\r\n                                       placeholder=\"What needs to be done?\">\r\n                            </label>\r\n                        </section>\r\n                        <section>\r\n                            <div class=\"col-xs-6\">\r\n                                <label class=\"select\">\r\n                                    <select class=\"input-sm\" ng-model=\"newTodo.state\"\r\n                                            ng-options=\"state as state for state in states\"></select> <i></i> </label>\r\n                            </div>\r\n                        </section>\r\n                    </fieldset>\r\n                    <footer>\r\n                        <button ng-disabled=\"newTodoForm.$invalid\" type=\"button\" class=\"btn btn-primary\"\r\n                                ng-click=\"createTodo()\">\r\n                            Add\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-default\" ng-click=\"toggleAdd()\">\r\n                            Cancel\r\n                        </button>\r\n                    </footer>\r\n                </form>\r\n            </div>\r\n\r\n            <todo-list state=\"Critical\"  title=\"Critical Tasks\" icon=\"warning\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Important\" title=\"Important Tasks\" icon=\"exclamation\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Completed\" title=\"Completed Tasks\" icon=\"check\" todos=\"todos\"></todo-list>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-6\">\r\n            <span class=\"txt-color-white txt-big\">红叶保险代理@结算系统</span>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\r\n<div id=\"logo-group\">\r\n\r\n    <!-- PLACE YOUR LOGO HERE -->\r\n    <span id=\"logo\"> <img src=\"styles/img/hy-text-logo.png\" alt=\"SmartAdmin\"> </span>\r\n    <!-- END LOGO PLACEHOLDER -->\r\n\r\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\r\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\r\n    <!--<span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \r\n        <i class=\"fa fa-user\"></i> \r\n        <b class=\"badge bg-color-red\">21</b> \r\n    </span>\r\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>-->\r\n</div>\r\n\r\n\r\n<!--<recent-projects></recent-projects>-->\r\n\r\n\r\n\r\n<!-- pulled right: nav area -->\r\n<div class=\"pull-right\">\r\n\r\n    <!-- collapse menu button -->\r\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\r\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\r\n                class=\"fa fa-reorder\"></i></a> </span>\r\n    </div>\r\n    <!-- end collapse menu -->\r\n\r\n    <!-- #MOBILE -->\r\n    <!-- Top menu profile link : this shows only when top menu is active -->\r\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\r\n        <li class=\"\">\r\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\r\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\r\n            </a>\r\n            <ul class=\"dropdown-menu pull-right\">\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\r\n                            class=\"fa fa-cog\"></i> Setting</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\r\n                        <u>P</u>rofile</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\r\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n\r\n    <!-- logout button -->\r\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\r\n        <span> <a ng-click=\"logout()\" title=\"Sign Out\" data-action=\"userLogout\"\r\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\r\n                class=\"fa fa-sign-out\"></i></a> </span>\r\n    </div>\r\n    <!-- end logout button -->\r\n\r\n    <!-- input: search field -->\r\n    <!--<form action=\"#/search\" class=\"header-search pull-right\">\r\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\r\n					\"ActionScript\",\r\n					\"AppleScript\",\r\n					\"Asp\",\r\n					\"BASIC\",\r\n					\"C\",\r\n					\"C++\",\r\n					\"Clojure\",\r\n					\"COBOL\",\r\n					\"ColdFusion\",\r\n					\"Erlang\",\r\n					\"Fortran\",\r\n					\"Groovy\",\r\n					\"Haskell\",\r\n					\"Java\",\r\n					\"JavaScript\",\r\n					\"Lisp\",\r\n					\"Perl\",\r\n					\"PHP\",\r\n					\"Python\",\r\n					\"Ruby\",\r\n					\"Scala\",\r\n					\"Scheme\"]\'>\r\n        <button type=\"submit\">\r\n            <i class=\"fa fa-search\"></i>\r\n        </button>\r\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\r\n    </form>-->\r\n    <!-- end input: search field -->\r\n\r\n    <!-- fullscreen button -->\r\n    <!--<div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\r\n        <span> <a full-screen title=\"Full Screen\"><i\r\n                class=\"fa fa-arrows-alt\"></i></a> </span>\r\n    </div>-->\r\n    <!-- end fullscreen button -->\r\n\r\n    <!-- #Voice Command: Start Speech -->\r\n    <!--<div id=\"speech-btn\" class=\"btn-header transparent pull-right hidden-sm hidden-xs\">\r\n        <div>\r\n            <a title=\"Voice Command\" id=\"voice-command-btn\" speech-recognition><i class=\"fa fa-microphone\"></i></a>\r\n\r\n            <div class=\"popover bottom\">\r\n                <div class=\"arrow\"></div>\r\n                <div class=\"popover-content\">\r\n                    <h4 class=\"vc-title\">Voice command activated <br>\r\n                        <small>Please speak clearly into the mic</small>\r\n                    </h4>\r\n                    <h4 class=\"vc-title-error text-center\">\r\n                        <i class=\"fa fa-microphone-slash\"></i> Voice command failed\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must <strong>\"Allow\"</strong> Microphone</small>\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must have <strong>Internet Connection</strong></small>\r\n                    </h4>\r\n                    <a href-void class=\"btn btn-success\" id=\"speech-help-btn\">See Commands</a>\r\n                    <a href-void class=\"btn bg-color-purple txt-color-white\"\r\n                       onclick=\"$(\'#speech-btn .popover\').fadeOut(50);\">Close Popup</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>-->\r\n    <!-- end voice command -->\r\n\r\n\r\n\r\n    <!-- multiple lang dropdown : find all flags in the flags page -->\r\n    <language-selector ng-show=\"false\"></language-selector>\r\n    <!-- end multiple lang -->\r\n\r\n</div>\r\n<!-- end pulled right: nav area -->\r\n\r\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-reviewed\">待审核保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入(新版测试)</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-reviewed\">待审核保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.import\">保单批量导入(测试)</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\r\n    <ul id=\"sparks\" class=\"\">\r\n        <li class=\"sparks-info\">\r\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\r\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\r\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\r\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\r\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</div>\r\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\r\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\r\n\r\n<!-- MODAL PLACE HOLDER\r\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\r\n<div class=\"modal-dialog\">\r\n<div class=\"modal-content\"></div>\r\n</div>\r\n</div>   -->\r\n<!--////////////////////////////////////-->\r\n\r\n<!--<div class=\"modal-header\">\r\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\r\n&times;\r\n</button>\r\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\r\n</div>-->\r\n<div class=\"modal-body\">\r\n\r\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\r\n	<hr class=\"simple\">\r\n	<h5>Instruction</h5>\r\n\r\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\r\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\r\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\r\n	<br>\r\n	<br>\r\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\r\n	<br>\r\n	<br>\r\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\r\n	<br>\r\n	<br>\r\n	<h5>Commands</h5>\r\n	<ul>\r\n		<li>\r\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\r\n		</li>\r\n		<li>\r\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\r\n		</li>\r\n		<li>\r\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\r\n		</li>\r\n		<li>\r\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\r\n		</li>\r\n		<li>\r\n			<strong>\'logout\'</strong> - logs you out\r\n		</li>\r\n	</ul>\r\n	<br>\r\n	<h5>Adding your own commands</h5>\r\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \r\n\r\n	<hr class=\"simple\">\r\n	<div class=\"text-right\">\r\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\r\n			Got it!\r\n		</button>\r\n	</div>\r\n\r\n</div>\r\n<!--<div class=\"modal-footer\">\r\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\r\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\r\n	<ul>\r\n		<li>\r\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\r\n		</li>\r\n	</ul>\r\n</div>");
@@ -3179,228 +3191,554 @@ angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, 
         "order": [[1, 'asc']]
     }
 });
+'use strict';
+/**
+ * @ngdoc function
+ * @name myApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the myApp
+ */
+angular.module('app.auth').controller('AuthCtrl',
+    ['$rootScope','$scope', '$state', 'AuthService',
+        function ($rootScope,$scope, $state, AuthService) {
+
+            var vm = this;
+            vm.username= "";
+            vm.password= "";
+            vm.login = function () {
+                // initial values
+                $scope.error = false;
+                $scope.disabled = true;
+                // call login from service
+                AuthService.login(vm.username, vm.password)
+                    // handle success
+                    .then(function(user) {
+                        $rootScope.user = user;
+                        if(user.role == "出单员"){
+                            $state.go('app.policy.new1');
+                        }else
+                        {
+                            $state.go('app.policy.to-be-reviewed');
+                        }
+                        
+                        $scope.disabled = false;
+                        vm.username= "";
+                        vm.password= "";
+                    },
+                    function(err){
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                    }
+                    )
+                    // handle error
+                    .catch(function () {
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                        $scope.disabled = false;
+                        //vm.username= "";
+                        // vm.password= "";
+                    });
+
+            };
+        }]);
+
+/**
+ * Created by CWang11 on 3/29/2016.
+ */
+'use strict';
+/**
+ * @ngdoc function
+ * @name myApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the myApp
+ */
+angular.module('app.auth').controller('ChangePasswordCtrl',
+    ['$rootScope','$scope', '$state', 'AuthService',
+        function ($rootScope,$scope, $state, AuthService) {
+
+            var vm = this;
+            vm.password= "";
+            vm.newPassword="";
+            vm.confirmPassword="";
+            vm.submit = function () {
+                // initial values
+                $scope.error = false;
+
+                if(vm.newPassword != vm.confirmPassword){
+                    $.bigBox({
+                        title: "修改密码",
+                        content: "两次密码输入不一致",
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        timeout: 6000
+                    });
+                    return;
+                }
+                // call login from service
+                AuthService.changePassword(vm.password, vm.newPassword)
+                    // handle success
+                    .then(function(data) {
+                        if(data.status == "success"){
+                            $.smallBox({
+                                title: "服务器确认信息",
+                                content: "密码已成功修改",
+                                color: "#739E73",
+                                iconSmall: "fa fa-check",
+                                timeout: 5000
+                            });
+                            vm.password= "";
+                            vm.newPassword="";
+                            vm.confirmPassword="";
+                            $state.go('app.policy.to-be-paid');
+                        }
+                    },
+                    function(err){
+                        $scope.error = true;
+                        $scope.errorMessage = err;
+                    }
+                )
+                    // handle error
+                    .catch(function () {
+                        $scope.error = true;
+                        $scope.errorMessage = "更新密码失败";
+                        $scope.disabled = false;
+                        //vm.username= "";
+                        // vm.password= "";
+                    });
+
+            };
+        }]);
+
 "use strict";
 
-angular.module('app.client').factory('ClientService',
-    ['$q', '$http',
-        function ($q, $http) {
+angular.module('app.auth').directive('loginInfo', function(AuthService){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            AuthService.getUser()
+            .then(function(user){
+                scope.user = user;
+            },
+            function(err){
+            }
+            );
+        }
+    }
+})
+
+"use strict";
+
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
+
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
+        }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
+})
+
+"use strict";
+
+angular.module('app.auth').factory('AuthService',
+    ['$q', '$timeout', '$http', '$cookies',
+        function ($q, $timeout, $http, $cookies) {
             // return available functions for use in controllers
             return ({
-                saveClient: saveClient,
-                getOrgClients: getOrgClients,
-                getIndClients: getIndClients,
-                getManagerClients: getManagerClients,
-                getClient: getClient,
-                deleteClient: deleteClient,
-                getFollowers: getFollowers,
-                getWechatsByIds: getWechatsByIds
+                isLoggedIn: isLoggedIn,
+                getUserStatus: getUserStatus,
+                login: login,
+                logout: logout,
+                register: register,
+                getUser: getUser,
+                changePassword: changePassword
             });
 
-            function saveClient(client) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (client._id) {
-                    client.updated_at = Date.now();
-                    $http.put('/api/clients/' + client._id, client)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
+            function isLoggedIn() {
+                if ($cookies.get('loggedIn') == "true") {
+                    return true;
                 } else {
-                    client.created_at = Date.now();
-                    client.updated_at = client.created_at;
-                    $http.post('/api/clients', client)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
+                    return false;
                 }
-                
-                // return promise object
-                return deferred.promise;
             }
 
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/clients/' + clientId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrgClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=organization')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getIndClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
+            function getUserStatus() {
+                return $cookies.get('loggedIn');
             }
             
-            function getManagerClients() {
-
+            function getUser() {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients?type=manager')
+                $http.get('/users/me')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
                         } else {
-                            deferred.reject(status);
+                            deferred.reject();
                         }
                     })
                 // handle error
                     .error(function (data) {
-                        deferred.reject(status);
+ 
+                        deferred.reject();
                     });
 
                 // return promise object
                 return deferred.promise;
             }
-            
-            function getFollowers() {
+
+            function login(username, password) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/wechat/followers')
+                $http.post('/users/login', { username: username, password: password })
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
-                            deferred.resolve(data);
+                            $cookies.put('loggedIn', 'true');
+                            $http.get('/users/me')
+                            .success(function (data, status) {
+                                 deferred.resolve(data);
+                            })
+                            
+                           
                         } else {
-                            deferred.reject(status);
+                            $cookies.put('loggedIn', 'false');
+                            deferred.reject();
                         }
                     })
                 // handle error
                     .error(function (data) {
-                        deferred.reject(status);
+                        $cookies.put('loggedIn', 'false');
+                        deferred.reject();
                     });
 
                 // return promise object
                 return deferred.promise;
+
             }
-            
-            function getWechatsByIds(openIds) {
+
+            function logout() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a get request to the server
+                $http.post('/users/logout')
+                // handle success
+                    .success(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.resolve();
+                    })
+                // handle error
+                    .error(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+
+            }
+
+            function register(username, password) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.post('/wechat/byids', openIds)
+                // send a post request to the server
+                $http.post('/users/register', { username: username, password: password })
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200 && data.status) {
+                            deferred.resolve();
+                        } else {
+                            deferred.reject();
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+
+            }
+
+            function changePassword(password, newPassword) {
+                console.log("in service");
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.post('/users/changepsw', {password:password, newPassword:newPassword})
                     // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
+                    .success(function (data, status) {
+                        if (status === 200 && data.status) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject();
+                        }
+                    })
                     // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
+                    .error(function (data) {
+                        deferred.reject();
+                    });
 
                 // return promise object
                 return deferred.promise;
             }
-            
-            
-           
+
         }]);
+'use strict';
+
+angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
+
+
+    // Events scope
+    $scope.events = [];
+
+    // Unassigned events scope
+    $scope.eventsExternal = [
+        {
+            title: "Office Meeting",
+            description: "Currently busy",
+            className: "bg-color-darken txt-color-white",
+            icon: "fa-time"
+        },
+        {
+            title: "Lunch Break",
+            description: "No Description",
+            className: "bg-color-blue txt-color-white",
+            icon: "fa-pie"
+        },
+        {
+            title: "URGENT",
+            description: "urgent tasks",
+            className: "bg-color-red txt-color-white",
+            icon: "fa-alert"
+        }
+    ];
+
+
+    // Queriing our events from CalendarEvent resource...
+    // Scope update will automatically update the calendar
+    CalendarEvent.query().$promise.then(function (events) {
+        $scope.events = events;
+    });
+
+
+    $scope.newEvent = {};
+
+    $scope.addEvent = function() {
+
+        $log.log("Adding new event:", $scope.newEvent);
+
+        var newEventDefaults = {
+            title: "Untitled Event",
+            description: "no description",
+            className: "bg-color-darken txt-color-white",
+            icon: "fa-info"
+        };
+
+
+        $scope.newEvent = angular.extend(newEventDefaults, $scope.newEvent);
+
+        $scope.eventsExternal.unshift($scope.newEvent);
+
+        $scope.newEvent = {};
+
+        // $log.log("New events now:", $scope.eventsExternal);
+
+    };
+
+
+});
+
+"use strict";
+
+angular.module('app.calendar').directive('dragableEvent', function ($log) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+
+            // $log.log(element.scope());
+
+            var eventObject = element.scope().event;
+
+            element.data('eventObject', eventObject);
+
+
+            element.draggable({
+                zIndex: 999,
+                revert: true, // will cause the event to go back to its
+                revertDuration: 0 //  original position after the drag
+            });
+
+
+        }
+    }
+})
+"use strict";
+
+angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
+        scope: {
+            events: "=events"
+        },
+        link: function (scope, element) {
+
+
+            var $calendar = $("#calendar");
+
+            var calendar = null;
+
+
+            function initCalendar() {
+
+                // $log.log(events);
+
+
+                calendar = $calendar.fullCalendar({
+                    lang: 'en',
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
+                    droppable: true,
+
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
+                    },
+
+                    drop: function (date, allDay) { // this function is called when something is dropped
+
+                        // retrieve the dropped element's stored Event Object
+                        var originalEventObject = $(this).data('eventObject');
+            
+                        // we need to copy it, so that multiple events don't have a reference to the same object
+                        var copiedEventObject = $.extend({}, originalEventObject);
+            
+                        // assign it the date that was reported
+                        copiedEventObject.start = date;
+                        copiedEventObject.allDay = allDay;
+
+                        // $log.log(scope);
+            
+                        // render the event on the calendar
+                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+            
+                        // is the "remove after drop" checkbox checked?
+                        if ($('#drop-remove').is(':checked')) {
+
+                            // if so, remove the element from the "Draggable Events" list
+                            // $(this).remove();
+                            // $log.log($(this).scope());
+                            var index = $(this).scope().$index;
+
+                            $("#external-events").scope().eventsExternal.splice(index, 1);
+                            $(this).remove();
+
+                        }
+            
+                    },
+
+                    select: function (start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    allDay: allDay
+                                }, true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },
+
+                    // events: scope.events,
+
+                    events: function(start, end, timezone, callback) {
+
+                        callback(scope.events);
+
+                    },
+
+                    eventRender: function (event, element, icon) {
+                        if (!event.description == "") {
+                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
+                        }
+                        if (!event.icon == "") {
+                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
+                        }
+                    }
+                });
+
+                $('.fc-header-right, .fc-header-center', $calendar).hide();
+            }
+
+
+            initCalendar();
+
+
+            // Now events will be refetched every time events scope is updated in controller!!!
+            scope.$watch("events", function(newValue, oldValue) {
+
+                $calendar.fullCalendar( 'refetchEvents' );
+
+            }, true);
+
+
+            scope.next = function () {
+                $('.fc-button-next', $calendar).click();
+            };
+            scope.prev = function () {
+                $('.fc-button-prev', $calendar).click();
+            };
+            scope.today = function () {
+                $('.fc-button-today', $calendar).click();
+            };
+            scope.changeView = function (period) {
+                $calendar.fullCalendar('changeView', period);
+            };
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
+    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
+});
 'use strict'
 
 angular.module('app.client').controller('IndClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
@@ -3875,554 +4213,745 @@ angular.module('app.client').controller('OrgClientListController', function(scre
 
 });
 
-'use strict';
+"use strict";
 
-angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
+angular.module('app.client').factory('ClientService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveClient: saveClient,
+                getOrgClients: getOrgClients,
+                getIndClients: getIndClients,
+                getManagerClients: getManagerClients,
+                getClient: getClient,
+                deleteClient: deleteClient,
+                getFollowers: getFollowers,
+                getWechatsByIds: getWechatsByIds
+            });
+
+            function saveClient(client) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (client._id) {
+                    client.updated_at = Date.now();
+                    $http.put('/api/clients/' + client._id, client)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    client.created_at = Date.now();
+                    client.updated_at = client.created_at;
+                    $http.post('/api/clients', client)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/clients/' + clientId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getIndClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getManagerClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=manager')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFollowers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/wechat/followers')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getWechatsByIds(openIds) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.post('/wechat/byids', openIds)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            
+           
+        }]);
+'use strict'
+
+angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.companyCatogory = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.companycatogory.new")) {
+        vm.editable = true;
+    }
 
 
-    // Events scope
-    $scope.events = [];
 
-    // Unassigned events scope
-    $scope.eventsExternal = [
-        {
-            title: "Office Meeting",
-            description: "Currently busy",
-            className: "bg-color-darken txt-color-white",
-            icon: "fa-time"
-        },
-        {
-            title: "Lunch Break",
-            description: "No Description",
-            className: "bg-color-blue txt-color-white",
-            icon: "fa-pie"
-        },
-        {
-            title: "URGENT",
-            description: "urgent tasks",
-            className: "bg-color-red txt-color-white",
-            icon: "fa-alert"
+    var companyCatogoryId = $stateParams.companyCatogoryId;
+    if (companyCatogoryId) {
+        CompanyService.getCompanyCatogory(companyCatogoryId)
+            .then(function (companyCatogory) {
+                console.log(companyCatogory);
+                vm.companyCatogory = companyCatogory;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.saveCompanyCatogory(vm.companyCatogory)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "一级保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.companyCatogory = {};
+                if (vm.back) {
+                    $state.go("app.company.companycatogory.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyCatogoryListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.companyCatogories = [];
+
+
+
+    vm.refreshCompanyCatogories = function(){
+       CompanyService.getCompanyCatogories()
+       .then(function(companyCatogories){
+           vm.companyCatogories = companyCatogories;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshCompanyCatogories();
+	
+    vm.view = function(companyCatogoryId){
+        $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
+    };
+
+    vm.addLevel1 = function(){
+        $state.go("app.company.companycatogory.new");
+    }
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (companyCatogoryId) {
+        $.SmartMessageBox({
+            title: "删除一级保险公司",
+            content: "确认删除该一级保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompanyCatogory(companyCatogoryId)
+                    .then(function(){
+                        vm.refreshCompanyCatogories();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.company = {};
+    vm.companyCatogories = [];
+    vm.editable = false;
+    vm.currentLevel = "";
+    vm.parentName = "";
+    vm.showRateEditor = false;
+
+    if ($state.is('app.company.company2.new')) {
+        vm.company.level = "二级";
+        vm.editable = true;
+        vm.company.catogory = $stateParams.parentId;
+    } else if ($state.is('app.company.company3.new')) {
+        vm.company.level = "三级";
+        vm.editable = true;
+        vm.company.parent = $stateParams.parentId;
+    } else if ($state.is('app.company.company4.new')) {
+        vm.company.level = "四级";
+        vm.editable = true;
+        vm.company.parent = $stateParams.parentId;
+    }
+
+    vm.setParentName = function () {
+        if (vm.company.catogory) {
+            CompanyService.getCompanyCatogory(vm.company.catogory)
+                .then(function (companyCatogory) {
+                    vm.parentName = companyCatogory.name;
+                })
+        } else if (vm.company.parent) {
+            CompanyService.getCompany(vm.company.parent)
+                .then(function (parentCompany) {
+                    vm.parentName = parentCompany.name;
+                })
         }
-    ];
+    }
+
+    vm.setParentName();
 
 
-    // Queriing our events from CalendarEvent resource...
-    // Scope update will automatically update the calendar
-    CalendarEvent.query().$promise.then(function (events) {
-        $scope.events = events;
-    });
+
+    // CompanyService.getCompanyCatogories()
+    //     .then(function (companyCatogories) {
+    //         vm.companyCatogories = companyCatogories;
+    //     })
 
 
-    $scope.newEvent = {};
 
-    $scope.addEvent = function() {
-
-        $log.log("Adding new event:", $scope.newEvent);
-
-        var newEventDefaults = {
-            title: "Untitled Event",
-            description: "no description",
-            className: "bg-color-darken txt-color-white",
-            icon: "fa-info"
-        };
+    if ($state.is("app.company.new")) {
+        vm.editable = true;
+    }
 
 
-        $scope.newEvent = angular.extend(newEventDefaults, $scope.newEvent);
 
-        $scope.eventsExternal.unshift($scope.newEvent);
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(companyId)
+            .then(function (company) {
+                vm.company = company;
+                vm.setParentName();
+            });
+    }
 
-        $scope.newEvent = {};
 
-        // $log.log("New events now:", $scope.eventsExternal);
+    vm.toggleSetRate = function(){
+        vm.showRateEditor = !vm.showRateEditor;
+        if(vm.showRateEditor){
+            vm.current_rate = {};
+            vm.current_rate.set_at = Date.now();
+        }else{
+            vm.current_rate = undefined;
+        }
+    }
 
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        if(vm.current_rate){
+            if(!vm.company.rates){
+                vm.company.rates = [];
+            }
+            vm.company.rates.unshift(vm.current_rate);
+        }
+        CompanyService.saveCompany(vm.company)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.currentLevel = vm.company.level;
+                var temp = vm.company;
+                vm.company = {};
+                vm.company.level = temp.level;
+                vm.company.parent = temp.parent;
+                vm.company.catogory = temp.catogory;
+
+
+                if (vm.back) {
+                    if (vm.currentLevel == "二级") {
+                        $state.go("app.company.company2.all");
+                    } else if (vm.currentLevel == "三级") {
+                        $state.go("app.company.company3.all");
+                    } else if (vm.currentLevel == "四级") {
+                        $state.go("app.company.company4.all");
+                    } else {
+                        $state.go("app.company.all");
+                    }
+                }
+            }, function (err) { });
+    };
+
+
+
+});
+
+
+'use strict'
+
+angular.module('app.company').controller('CompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
+    var vm = this;
+    vm.companies = [];
+    vm.level1Companies = [];
+    vm.level2Companies = [];
+    vm.setting = {};
+    vm.settingString = "";
+
+
+
+    if ($state.is("app.company.company2.all")) {
+        vm.level = "二级";
+        vm.settingString = "level2Settings";
+    }
+    else if ($state.is("app.company.company3.all")) {
+        vm.level = "三级";
+        vm.settingString = "level3Settings";
+    } else if ($state.is("app.company.company4.all")) {
+        vm.level = "四级";
+        vm.settingString = "level4Settings";
+    }
+    vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
+
+    CompanyService.getCompanyCatogories()
+        .then(function (companyCatogories) {
+            vm.level1Companies = companyCatogories;
+        })
+
+
+    vm.loadLevel2Companies = function () {
+        if (!vm.setting.level1Company) {
+            vm.level2Companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.level1Company)
+                .then(function (level2Companies) {
+                    vm.level2Companies = level2Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.setting.level2Company) {
+            vm.level3Companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.level2Company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.refreshCompanies = function () {
+
+        if (!vm.setting.parentId) {
+            vm.companies = [];
+        } else {
+            CompanyService.getSubCompanies(vm.setting.parentId)
+                .then(function (companies) {
+                    vm.companies = companies;
+                }, function (err) {
+
+                });
+        }
+    };
+
+    vm.loadLevel2Companies();
+    vm.loadLevel3Companies();
+    vm.refreshCompanies();
+
+    vm.view = function (companyId) {
+        $state.go("app.company.view", { companyId: companyId });
+    };
+
+    vm.level1Changed = function () {
+        if (vm.level == "二级") {
+            vm.setting.parentId = vm.setting.level1Company;
+        } else if (vm.level == "三级") {
+            vm.setting.parentId = null;
+            vm.setting.level2Company = null;
+            vm.loadLevel2Companies();
+        } else if (vm.level == "四级") {
+            vm.setting.parentId = null;
+            vm.setting.level2Company = null;
+            vm.setting.level3Company = null;
+            vm.loadLevel2Companies();
+        }
+
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.level2Changed = function () {
+        if (vm.level == "三级") {
+            vm.setting.parentId = vm.setting.level2Company;
+        } else if (vm.level == "四级") {
+            vm.setting.parentId = null;
+            vm.setting.level3Company = null;
+            vm.loadLevel3Companies();
+        }
+
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.level3Changed = function () {
+
+        vm.setting.parentId = vm.setting.level3Company;
+        localStorageService.set(vm.settingString, vm.setting);
+        vm.refreshCompanies();
+    }
+
+    vm.addSubCompany = function () {
+        if (vm.level == "二级") {
+            $state.go("app.company.company2.new", { parentId: vm.setting.level1Company });
+        } else if (vm.level == "三级") {
+            $state.go("app.company.company3.new", { parentId: vm.setting.level2Company });
+        } else if (vm.level == "四级") {
+            $state.go("app.company.company4.new", { parentId: vm.setting.level3Company });
+        }
+    }
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (companyId) {
+        $.SmartMessageBox({
+            title: "删除保险公司",
+            content: "确认删除该保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompany(companyId)
+                    .then(function () {
+                        vm.refreshCompanies();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
     };
 
 
 });
 
-"use strict";
-
-angular.module('app.calendar').directive('dragableEvent', function ($log) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-
-            // $log.log(element.scope());
-
-            var eventObject = element.scope().event;
-
-            element.data('eventObject', eventObject);
-
-
-            element.draggable({
-                zIndex: 999,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0 //  original position after the drag
-            });
-
-
+angular.module('app.company')
+.filter("getIncomeRatesString", function () {
+    return function (fieldValueUnused, item) {
+        if(!item.rates){
+            return "";
         }
-    }
+        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
+                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
+        return str;  
+    };
 })
-"use strict";
+.filter("getPaymentRatesString", function () {
+    return function (fieldValueUnused, item) {
+        if(!item.rates){
+            return "";
+        }
+        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
+                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
+        return str;  
+    };
+});
+'use strict'
 
-angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
-        scope: {
-            events: "=events"
-        },
-        link: function (scope, element) {
+angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.policyName = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.company.policyname.new")) {
+        vm.editable = true;
+    }
 
 
-            var $calendar = $("#calendar");
 
-            var calendar = null;
+    var policyNameId = $stateParams.policyNameId;
+    if (policyNameId) {
+        CompanyService.getPolicyName(policyNameId)
+            .then(function (policyName) {
+                vm.policyName = policyName;
+            });
+    }
 
 
-            function initCalendar() {
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
 
-                // $log.log(events);
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
 
-
-                calendar = $calendar.fullCalendar({
-                    lang: 'en',
-                    editable: true,
-                    draggable: true,
-                    selectable: false,
-                    selectHelper: true,
-                    unselectAuto: false,
-                    disableResizing: false,
-                    droppable: true,
-
-                    header: {
-                        left: 'title', //,today
-                        center: 'prev, next, today',
-                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
-                    },
-
-                    drop: function (date, allDay) { // this function is called when something is dropped
-
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-            
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-            
-                        // assign it the date that was reported
-                        copiedEventObject.start = date;
-                        copiedEventObject.allDay = allDay;
-
-                        // $log.log(scope);
-            
-                        // render the event on the calendar
-                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-            
-                        // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
-
-                            // if so, remove the element from the "Draggable Events" list
-                            // $(this).remove();
-                            // $log.log($(this).scope());
-                            var index = $(this).scope().$index;
-
-                            $("#external-events").scope().eventsExternal.splice(index, 1);
-                            $(this).remove();
-
-                        }
-            
-                    },
-
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.fullCalendar('renderEvent', {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                }, true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
-
-                    // events: scope.events,
-
-                    events: function(start, end, timezone, callback) {
-
-                        callback(scope.events);
-
-                    },
-
-                    eventRender: function (event, element, icon) {
-                        if (!event.description == "") {
-                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-                        }
-                        if (!event.icon == "") {
-                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-                        }
-                    }
+    vm.submit = function () {
+        CompanyService.savePolicyName(vm.policyName)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "险种名称已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
                 });
-
-                $('.fc-header-right, .fc-header-center', $calendar).hide();
-            }
-
-
-            initCalendar();
-
-
-            // Now events will be refetched every time events scope is updated in controller!!!
-            scope.$watch("events", function(newValue, oldValue) {
-
-                $calendar.fullCalendar( 'refetchEvents' );
-
-            }, true);
-
-
-            scope.next = function () {
-                $('.fc-button-next', $calendar).click();
-            };
-            scope.prev = function () {
-                $('.fc-button-prev', $calendar).click();
-            };
-            scope.today = function () {
-                $('.fc-button-today', $calendar).click();
-            };
-            scope.changeView = function (period) {
-                $calendar.fullCalendar('changeView', period);
-            };
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
-    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
-});
-'use strict';
-/**
- * @ngdoc function
- * @name myApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the myApp
- */
-angular.module('app.auth').controller('AuthCtrl',
-    ['$rootScope','$scope', '$state', 'AuthService',
-        function ($rootScope,$scope, $state, AuthService) {
-
-            var vm = this;
-            vm.username= "";
-            vm.password= "";
-            vm.login = function () {
-                // initial values
-                $scope.error = false;
-                $scope.disabled = true;
-                // call login from service
-                AuthService.login(vm.username, vm.password)
-                    // handle success
-                    .then(function(user) {
-                        $rootScope.user = user;
-                        if(user.role == "出单员"){
-                            $state.go('app.policy.new1');
-                        }else
-                        {
-                            $state.go('app.policy.to-be-reviewed');
-                        }
-                        
-                        $scope.disabled = false;
-                        vm.username= "";
-                        vm.password= "";
-                    },
-                    function(err){
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                    }
-                    )
-                    // handle error
-                    .catch(function () {
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                        $scope.disabled = false;
-                        //vm.username= "";
-                        // vm.password= "";
-                    });
-
-            };
-        }]);
-
-/**
- * Created by CWang11 on 3/29/2016.
- */
-'use strict';
-/**
- * @ngdoc function
- * @name myApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the myApp
- */
-angular.module('app.auth').controller('ChangePasswordCtrl',
-    ['$rootScope','$scope', '$state', 'AuthService',
-        function ($rootScope,$scope, $state, AuthService) {
-
-            var vm = this;
-            vm.password= "";
-            vm.newPassword="";
-            vm.confirmPassword="";
-            vm.submit = function () {
-                // initial values
-                $scope.error = false;
-
-                if(vm.newPassword != vm.confirmPassword){
-                    $.bigBox({
-                        title: "修改密码",
-                        content: "两次密码输入不一致",
-                        color: "#C46A69",
-                        icon: "fa fa-warning shake animated",
-                        timeout: 6000
-                    });
-                    return;
+                vm.companyCatogory = {};
+                if (vm.back) {
+                    $state.go("app.company.policyname.all");
                 }
-                // call login from service
-                AuthService.changePassword(vm.password, vm.newPassword)
-                    // handle success
-                    .then(function(data) {
-                        if(data.status == "success"){
-                            $.smallBox({
-                                title: "服务器确认信息",
-                                content: "密码已成功修改",
-                                color: "#739E73",
-                                iconSmall: "fa fa-check",
-                                timeout: 5000
-                            });
-                            vm.password= "";
-                            vm.newPassword="";
-                            vm.confirmPassword="";
-                            $state.go('app.policy.to-be-paid');
-                        }
-                    },
-                    function(err){
-                        $scope.error = true;
-                        $scope.errorMessage = err;
-                    }
-                )
-                    // handle error
-                    .catch(function () {
-                        $scope.error = true;
-                        $scope.errorMessage = "更新密码失败";
-                        $scope.disabled = false;
-                        //vm.username= "";
-                        // vm.password= "";
-                    });
+            }, function (err) { });
+    };
 
-            };
-        }]);
 
-"use strict";
 
-angular.module('app.auth').directive('loginInfo', function(AuthService){
+}); 
 
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            AuthService.getUser()
-            .then(function(user){
-                scope.user = user;
-            },
-            function(err){
+
+'use strict'
+
+angular.module('app.company').controller('PolicyNameListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
+    var vm = this;
+    vm.policyNames = [];
+
+
+
+    vm.refreshPolicyNames = function(){
+       CompanyService.getPolicyNames()
+       .then(function(policyNames){
+           vm.policyNames = policyNames;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshPolicyNames();
+	
+    vm.view = function(policyNameId){
+        $state.go("app.company.policyname.view", {policyNameId: policyNameId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (policyNameId) {
+        $.SmartMessageBox({
+            title: "删除险种名称",
+            content: "确认删除该险种名称？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deletePolicyName(policyNameId)
+                    .then(function(){
+                        vm.refreshpolicyNames();
+                    })
             }
-            );
-        }
-    }
-})
+            if (ButtonPressed === "取消") {
 
-"use strict";
+            }
 
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
         });
-    });
-})
+    };
+    
 
-"use strict";
+});
 
-angular.module('app.auth').factory('AuthService',
-    ['$q', '$timeout', '$http', '$cookies',
-        function ($q, $timeout, $http, $cookies) {
-            // return available functions for use in controllers
-            return ({
-                isLoggedIn: isLoggedIn,
-                getUserStatus: getUserStatus,
-                login: login,
-                logout: logout,
-                register: register,
-                getUser: getUser,
-                changePassword: changePassword
-            });
-
-            function isLoggedIn() {
-                if ($cookies.get('loggedIn') == "true") {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            function getUserStatus() {
-                return $cookies.get('loggedIn');
-            }
-            
-            function getUser() {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users/me')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
- 
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function login(username, password) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/login', { username: username, password: password })
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            $cookies.put('loggedIn', 'true');
-                            $http.get('/users/me')
-                            .success(function (data, status) {
-                                 deferred.resolve(data);
-                            })
-                            
-                           
-                        } else {
-                            $cookies.put('loggedIn', 'false');
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function logout() {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a get request to the server
-                $http.post('/users/logout')
-                // handle success
-                    .success(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.resolve();
-                    })
-                // handle error
-                    .error(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function register(username, password) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/register', { username: username, password: password })
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200 && data.status) {
-                            deferred.resolve();
-                        } else {
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function changePassword(password, newPassword) {
-                console.log("in service");
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/changepsw', {password:password, newPassword:newPassword})
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200 && data.status) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject();
-                        }
-                    })
-                    // handle error
-                    .error(function (data) {
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-        }]);
 "use strict";	
 
 angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
@@ -4571,307 +5100,6 @@ angular.module('app').directive('recentProjects', function(Project){
         }
     }
 });
-
-"use strict";
-
-angular.module('app.forms').controller('FormLayoutsCtrl', function($scope, $modal, $log){
-
-    $scope.openModal = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'app/forms/views/form-layout-modal.html',
-            controller: 'ModalDemoCtrl' 
-        });
-
-        modalInstance.result.then(function () {
-            $log.info('Modal closed at: ' + new Date());
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-
-
-    };
-
-    $scope.registration = {};
-
-    $scope.$watch('registration.date', function(changed){
-        console.log('registration model changed', $scope.registration)
-    })
-
-
-});
-
-"use strict";
-
-angular.module('app.forms').controller('FormPluginsCtrl', function($scope, $log){
-
-	$scope.editableOptions =  {
-		mode: 'popup',
-		disabled: false
-	};
-
-	$scope.toggleInline = function() {
-		if($scope.editableOptions.mode == 'popup') {
-			$scope.editableOptions.mode = 'inline';
-		}
-		else {
-			$scope.editableOptions.mode = 'popup'
-		}
-	};
-
-	$scope.toggleDisabled = function() {
-		$scope.editableOptions.disabled = !$scope.editableOptions.disabled;
-	};
-
-});
-"use strict";
-
-
-angular.module('app.forms').controller('FormWizardCtrl', function($scope){
-
-    $scope.wizard1CompleteCallback = function(wizardData){
-        console.log('wizard1CompleteCallback', wizardData);
-        $.smallBox({
-            title: "Congratulations! Smart wizard finished",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            iconSmall: "fa fa-check bounce animated",
-            timeout: 4000
-        });
-    };
-
-    $scope.wizard2CompleteCallback = function(wizardData){
-        console.log('wizard2CompleteCallback', wizardData);
-        $.smallBox({
-            title: "Congratulations! Smart fuekux wizard finished",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            iconSmall: "fa fa-check bounce animated",
-            timeout: 4000
-        });
-
-    };
-
-});
-"use strict";
-
-angular.module('app.forms').controller('FormXeditableCtrl', function($scope, $log){
-
-    $scope.username = 'superuser';
-    $scope.firstname = null;
-    $scope.sex = 'not selected';
-    $scope.group = "Admin";
-    $scope.vacation = "25.02.2013";
-    $scope.combodate = "15/05/1984";
-    $scope.event = null;
-    $scope.comments = 'awesome user!';
-    $scope.state2 = 'California';
-    $scope.fruits = 'peach<br/>apple';
-    
-
-    $scope.fruits_data = [
-        {value: 'banana', text: 'banana'},
-        {value: 'peach', text: 'peach'},
-        {value: 'apple', text: 'apple'},
-        {value: 'watermelon', text: 'watermelon'},
-        {value: 'orange', text: 'orange'}]
-    ;
-
-
-    $scope.genders =  [
-        {value: 'not selected', text: 'not selected'},
-        {value: 'Male', text: 'Male'},
-        {value: 'Female', text: 'Female'}
-    ];
-
-    $scope.groups =  [
-        {value: 'Guest', text: 'Guest'},
-        {value: 'Service', text: 'Service'},
-        {value: 'Customer', text: 'Customer'},
-        {value: 'Operator', text: 'Operator'},
-        {value: 'Support', text: 'Support'},
-        {value: 'Admin', text: 'Admin'}
-    ]; 
-
-});
-"use strict";
-
-
-angular.module('app.forms').controller('ImageEditorCtrl', function ($scope) {
-
-    // api tab
-    $scope.apiDemoSelection = [100, 100, 400, 300];
-
-    $scope.apiDemoOptions = {
-        allowSelect: true,
-        allowResize: true,
-        allowMove: true,
-        animate: false
-    };
-
-    $scope.apiRandomSelection = function () {
-        $scope.apiDemoOptions.animate = false;
-        $scope.apiDemoSelection = [
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400),
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400)
-        ]
-    };
-
-    $scope.apiRandomAnimation = function () {
-        $scope.apiDemoOptions.animate = true;
-        $scope.apiDemoSelection = [
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400),
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400)
-        ]
-    };
-
-    $scope.apiReleaseSelection = function () {
-        $scope.apiDemoOptions.animate = true;
-        $scope.apiDemoSelection = 'release';
-    };
-
-
-    $scope.apiToggleDisable = function () {
-        $scope.apiDemoOptions.disabled = !$scope.apiDemoOptions.disabled;
-    };
-
-    $scope.apiToggleDestroy = function () {
-        $scope.apiDemoOptions.destroyed = !$scope.apiDemoOptions.destroyed;
-    };
-
-    $scope.apiDemoShowAspect = false;
-    $scope.apiDemoToggleAspect = function () {
-        $scope.apiDemoShowAspect = !$scope.apiDemoShowAspect;
-        if ($scope.apiDemoShowAspect)
-            $scope.apiDemoOptions.aspectRatio = 4 / 3;
-        else
-            $scope.apiDemoOptions.aspectRatio = 0;
-    };
-
-    $scope.apiDemoShowSizeRestrict = false;
-    $scope.apiDemoToggleSizeRestrict = function () {
-        $scope.apiDemoShowSizeRestrict = !$scope.apiDemoShowSizeRestrict;
-        if ($scope.apiDemoShowSizeRestrict) {
-            $scope.apiDemoOptions.minSizeWidth = 80;
-            $scope.apiDemoOptions.minSizeHeight = 80;
-            $scope.apiDemoOptions.maxSizeWidth = 350;
-            $scope.apiDemoOptions.maxSizeHeight = 350;
-        } else {
-            $scope.apiDemoOptions.minSizeWidth = 0;
-            $scope.apiDemoOptions.minSizeHeight = 0;
-            $scope.apiDemoOptions.maxSizeWidth = 0;
-            $scope.apiDemoOptions.maxSizeHeight = 0;
-        }
-
-    };
-
-
-    $scope.setApiDemoImage = function (image) {
-        $scope.apiDemoImage = image;
-        $scope.apiDemoOptions.src = image.src;
-        $scope.apiDemoOptions.bgOpacity = image.bgOpacity;
-        $scope.apiDemoOptions.outerImage = image.outerImage;
-        $scope.apiRandomAnimation();
-    };
-
-    $scope.apiDemoImages = [
-        {
-            name: 'Lego',
-            src: 'styles/img/superbox/superbox-full-24.jpg',
-            bgOpacity: .6
-        },
-        {
-            name: 'Breakdance',
-            src: 'styles/img/superbox/superbox-full-7.jpg',
-            bgOpacity: .6
-        },
-        {
-            name: 'Dragon Fly',
-            src: 'styles/img/superbox/superbox-full-20.jpg',
-            bgOpacity: 1,
-            outerImage: 'styles/img/superbox/superbox-full-20-bw.jpg'
-        }
-    ];
-
-    $scope.apiDemoImage = $scope.apiDemoImages[1];
-
-    // animations tab
-    $scope.animationsDemoOptions = {
-        bgOpacity: undefined,
-        bgColor: undefined,
-        bgFade: true,
-        shade: false,
-        animate: true
-    };
-    $scope.animationsDemoSelection = undefined;
-    $scope.selections = {
-        1: [217, 122, 382, 284],
-        2: [20, 20, 580, 380],
-        3: [24, 24, 176, 376],
-        4: [347, 165, 550, 355],
-        5: [136, 55, 472, 183],
-        Release: 'release'
-    };
-
-    $scope.opacities = {
-        Low: .2,
-        Mid: .5,
-        High: .8,
-        Full: 1
-    };
-
-    $scope.colors = {
-        R: '#900',
-        B: '#4BB6F0',
-        Y: '#F0B207',
-        G: '#46B81C',
-        W: 'white',
-        K: 'black'
-    };
-
-
-    // styling tab
-
-    $scope.styles = [
-        {
-            name: 'jcrop-light',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'white',
-            bgOpacity: 0.5
-        },
-        {
-            name: 'jcrop-dark',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'black',
-            bgOpacity: 0.4
-        },
-        {
-            name: 'jcrop-normal',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'black',
-            bgOpacity: 0.6
-        }
-    ];
-
-    $scope.demoStyle = $scope.styles[0]
-});
-'use strict'
-
-angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalInstance){
-    $scope.closeModal = function(){
-        $modalInstance.dismiss('cancel');
-    }
-});
 "use strict";
 
 angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
@@ -4910,373 +5138,6 @@ angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
     };
 
 });
-"use strict";
-
-angular.module('app.company').factory('CompanyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveCompany: saveCompany,
-                getCompanies: getCompanies,
-                getSubCompanies: getSubCompanies,
-                getCompany: getCompany,
-                deleteCompany: deleteCompany,
-                savePolicyName: savePolicyName,
-                getPolicyNames: getPolicyNames,
-                getPolicyName: getPolicyName,
-                deletePolicyName: deletePolicyName,
-                saveCompanyCatogory: saveCompanyCatogory,
-                getCompanyCatogories: getCompanyCatogories,
-                getCompanyCatogory: getCompanyCatogory,
-                deleteCompanyCatogory: deleteCompanyCatogory,
-                
-            });
-
-            function saveCompany(company) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (company._id) {
-                    company.updated_at = Date.now();
-                    $http.put('api/companies/' + company._id, company)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    company.created_at = Date.now();
-                    company.updated_at = company.created_at;
-                    $http.post('api/companies', company)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicyName(policyName) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (policyName._id) {
-                    policyName.updated_at = Date.now();
-                    $http.put('api/policy-names/' + policyName._id, policyName)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policyName.created_at = Date.now();
-                    policyName.updated_at = policyName.created_at;
-                    $http.post('api/policy-names', policyName)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogories() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companycatogories')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveCompanyCatogory(companyCatogory) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (companyCatogory._id) {
-                    companyCatogory.updated_at = Date.now();
-                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    companyCatogory.created_at = Date.now();
-                    companyCatogory.updated_at = companyCatogory.created_at;
-                    $http.post('api/companycatogories', companyCatogory)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-
-        }]);
 'use strict'
 
 angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
@@ -5662,6 +5523,307 @@ angular.module('app.employee').factory('EmployeeService',
                 return deferred.promise;
             }
         }]);
+
+"use strict";
+
+angular.module('app.forms').controller('FormLayoutsCtrl', function($scope, $modal, $log){
+
+    $scope.openModal = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/forms/views/form-layout-modal.html',
+            controller: 'ModalDemoCtrl' 
+        });
+
+        modalInstance.result.then(function () {
+            $log.info('Modal closed at: ' + new Date());
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+
+
+    };
+
+    $scope.registration = {};
+
+    $scope.$watch('registration.date', function(changed){
+        console.log('registration model changed', $scope.registration)
+    })
+
+
+});
+
+"use strict";
+
+angular.module('app.forms').controller('FormPluginsCtrl', function($scope, $log){
+
+	$scope.editableOptions =  {
+		mode: 'popup',
+		disabled: false
+	};
+
+	$scope.toggleInline = function() {
+		if($scope.editableOptions.mode == 'popup') {
+			$scope.editableOptions.mode = 'inline';
+		}
+		else {
+			$scope.editableOptions.mode = 'popup'
+		}
+	};
+
+	$scope.toggleDisabled = function() {
+		$scope.editableOptions.disabled = !$scope.editableOptions.disabled;
+	};
+
+});
+"use strict";
+
+
+angular.module('app.forms').controller('FormWizardCtrl', function($scope){
+
+    $scope.wizard1CompleteCallback = function(wizardData){
+        console.log('wizard1CompleteCallback', wizardData);
+        $.smallBox({
+            title: "Congratulations! Smart wizard finished",
+            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+            color: "#5F895F",
+            iconSmall: "fa fa-check bounce animated",
+            timeout: 4000
+        });
+    };
+
+    $scope.wizard2CompleteCallback = function(wizardData){
+        console.log('wizard2CompleteCallback', wizardData);
+        $.smallBox({
+            title: "Congratulations! Smart fuekux wizard finished",
+            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+            color: "#5F895F",
+            iconSmall: "fa fa-check bounce animated",
+            timeout: 4000
+        });
+
+    };
+
+});
+"use strict";
+
+angular.module('app.forms').controller('FormXeditableCtrl', function($scope, $log){
+
+    $scope.username = 'superuser';
+    $scope.firstname = null;
+    $scope.sex = 'not selected';
+    $scope.group = "Admin";
+    $scope.vacation = "25.02.2013";
+    $scope.combodate = "15/05/1984";
+    $scope.event = null;
+    $scope.comments = 'awesome user!';
+    $scope.state2 = 'California';
+    $scope.fruits = 'peach<br/>apple';
+    
+
+    $scope.fruits_data = [
+        {value: 'banana', text: 'banana'},
+        {value: 'peach', text: 'peach'},
+        {value: 'apple', text: 'apple'},
+        {value: 'watermelon', text: 'watermelon'},
+        {value: 'orange', text: 'orange'}]
+    ;
+
+
+    $scope.genders =  [
+        {value: 'not selected', text: 'not selected'},
+        {value: 'Male', text: 'Male'},
+        {value: 'Female', text: 'Female'}
+    ];
+
+    $scope.groups =  [
+        {value: 'Guest', text: 'Guest'},
+        {value: 'Service', text: 'Service'},
+        {value: 'Customer', text: 'Customer'},
+        {value: 'Operator', text: 'Operator'},
+        {value: 'Support', text: 'Support'},
+        {value: 'Admin', text: 'Admin'}
+    ]; 
+
+});
+"use strict";
+
+
+angular.module('app.forms').controller('ImageEditorCtrl', function ($scope) {
+
+    // api tab
+    $scope.apiDemoSelection = [100, 100, 400, 300];
+
+    $scope.apiDemoOptions = {
+        allowSelect: true,
+        allowResize: true,
+        allowMove: true,
+        animate: false
+    };
+
+    $scope.apiRandomSelection = function () {
+        $scope.apiDemoOptions.animate = false;
+        $scope.apiDemoSelection = [
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400),
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400)
+        ]
+    };
+
+    $scope.apiRandomAnimation = function () {
+        $scope.apiDemoOptions.animate = true;
+        $scope.apiDemoSelection = [
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400),
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400)
+        ]
+    };
+
+    $scope.apiReleaseSelection = function () {
+        $scope.apiDemoOptions.animate = true;
+        $scope.apiDemoSelection = 'release';
+    };
+
+
+    $scope.apiToggleDisable = function () {
+        $scope.apiDemoOptions.disabled = !$scope.apiDemoOptions.disabled;
+    };
+
+    $scope.apiToggleDestroy = function () {
+        $scope.apiDemoOptions.destroyed = !$scope.apiDemoOptions.destroyed;
+    };
+
+    $scope.apiDemoShowAspect = false;
+    $scope.apiDemoToggleAspect = function () {
+        $scope.apiDemoShowAspect = !$scope.apiDemoShowAspect;
+        if ($scope.apiDemoShowAspect)
+            $scope.apiDemoOptions.aspectRatio = 4 / 3;
+        else
+            $scope.apiDemoOptions.aspectRatio = 0;
+    };
+
+    $scope.apiDemoShowSizeRestrict = false;
+    $scope.apiDemoToggleSizeRestrict = function () {
+        $scope.apiDemoShowSizeRestrict = !$scope.apiDemoShowSizeRestrict;
+        if ($scope.apiDemoShowSizeRestrict) {
+            $scope.apiDemoOptions.minSizeWidth = 80;
+            $scope.apiDemoOptions.minSizeHeight = 80;
+            $scope.apiDemoOptions.maxSizeWidth = 350;
+            $scope.apiDemoOptions.maxSizeHeight = 350;
+        } else {
+            $scope.apiDemoOptions.minSizeWidth = 0;
+            $scope.apiDemoOptions.minSizeHeight = 0;
+            $scope.apiDemoOptions.maxSizeWidth = 0;
+            $scope.apiDemoOptions.maxSizeHeight = 0;
+        }
+
+    };
+
+
+    $scope.setApiDemoImage = function (image) {
+        $scope.apiDemoImage = image;
+        $scope.apiDemoOptions.src = image.src;
+        $scope.apiDemoOptions.bgOpacity = image.bgOpacity;
+        $scope.apiDemoOptions.outerImage = image.outerImage;
+        $scope.apiRandomAnimation();
+    };
+
+    $scope.apiDemoImages = [
+        {
+            name: 'Lego',
+            src: 'styles/img/superbox/superbox-full-24.jpg',
+            bgOpacity: .6
+        },
+        {
+            name: 'Breakdance',
+            src: 'styles/img/superbox/superbox-full-7.jpg',
+            bgOpacity: .6
+        },
+        {
+            name: 'Dragon Fly',
+            src: 'styles/img/superbox/superbox-full-20.jpg',
+            bgOpacity: 1,
+            outerImage: 'styles/img/superbox/superbox-full-20-bw.jpg'
+        }
+    ];
+
+    $scope.apiDemoImage = $scope.apiDemoImages[1];
+
+    // animations tab
+    $scope.animationsDemoOptions = {
+        bgOpacity: undefined,
+        bgColor: undefined,
+        bgFade: true,
+        shade: false,
+        animate: true
+    };
+    $scope.animationsDemoSelection = undefined;
+    $scope.selections = {
+        1: [217, 122, 382, 284],
+        2: [20, 20, 580, 380],
+        3: [24, 24, 176, 376],
+        4: [347, 165, 550, 355],
+        5: [136, 55, 472, 183],
+        Release: 'release'
+    };
+
+    $scope.opacities = {
+        Low: .2,
+        Mid: .5,
+        High: .8,
+        Full: 1
+    };
+
+    $scope.colors = {
+        R: '#900',
+        B: '#4BB6F0',
+        Y: '#F0B207',
+        G: '#46B81C',
+        W: 'white',
+        K: 'black'
+    };
+
+
+    // styling tab
+
+    $scope.styles = [
+        {
+            name: 'jcrop-light',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'white',
+            bgOpacity: 0.5
+        },
+        {
+            name: 'jcrop-dark',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'black',
+            bgOpacity: 0.4
+        },
+        {
+            name: 'jcrop-normal',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'black',
+            bgOpacity: 0.6
+        }
+    ];
+
+    $scope.demoStyle = $scope.styles[0]
+});
+'use strict'
+
+angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalInstance){
+    $scope.closeModal = function(){
+        $modalInstance.dismiss('cancel');
+    }
+});
 "use strict";
 
 angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
@@ -7875,6 +8037,729 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
         }]);
+'use strict';
+
+angular.module('app.maps').controller('MapsDemoCtrl', 
+  function ($scope, $http, $q, SmartMapStyle, Initializer) {
+
+    $scope.map = null;
+
+    $scope.styles = SmartMapStyle.styles;
+
+    $scope.setType = function (key) {
+        SmartMapStyle.getMapType(key).then(function(type){
+            $scope.map.mapTypes.set(key, type);
+            $scope.map.setMapTypeId(key);
+        });
+        $scope.currentType = key;
+    };
+
+
+    
+
+    Initializer.mapsInitialized
+    .then(function(){
+      return SmartMapStyle.getMapType('colorful')
+    })
+    .then(function() {
+    
+      $scope.map = new google.maps.Map(document.getElementById('map-canvas'), {
+          center: new google.maps.LatLng(23.89, -80.650),
+          zoom: 5,
+          scrollwheel: false,
+          disableDefaultUI: true
+      });
+      $scope.setType('colorful')
+    })
+
+
+});
+'use strict';
+
+angular.module('app.maps').directive('smartMap', function (Initializer) {
+    var _mapsCounter = 0;
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            _mapsCounter++;
+            Initializer.mapsInitialized.then(function(){
+                scope.$on('$smartContentResize', function () {
+                    var center = scope.map.getCenter();
+                    google.maps.event.trigger(scope.map, "resize");
+                    scope.map.setCenter(center); 
+                });
+            })
+            
+        }
+
+    }
+});
+// Google async initializer needs global function, so we use $window
+angular.module('app.maps')
+.factory('Initializer', function($window, $q){
+
+    //Google's url for async maps initialization accepting callback function
+    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
+        mapsDefer = $q.defer();
+
+    //Callback function - resolving promise after maps successfully loaded
+    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
+
+    //Async loader
+    var asyncLoad = function(asyncUrl, callbackName) {
+      var script = document.createElement('script');
+      //script.type = 'text/javascript';
+      script.src = asyncUrl + callbackName;
+      document.body.appendChild(script);
+    };
+    //Start loading google maps
+    asyncLoad(asyncUrl, 'googleMapsInitialized');
+
+    //Usage: Initializer.mapsInitialized.then(callback)
+    return {
+        mapsInitialized : mapsDefer.promise
+    };
+})
+"use strict";
+
+
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
+
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
+    };
+
+
+    function getMapType(key){
+        var keyData = styles[key];
+
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
+
+        return keyData.cache;
+    }
+
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
+        });
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
+
+});
+"use strict";
+
+angular.module('app.company').factory('CompanyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveCompany: saveCompany,
+                getCompanies: getCompanies,
+                getSubCompanies: getSubCompanies,
+                getCompany: getCompany,
+                deleteCompany: deleteCompany,
+                savePolicyName: savePolicyName,
+                getPolicyNames: getPolicyNames,
+                getPolicyName: getPolicyName,
+                deletePolicyName: deletePolicyName,
+                saveCompanyCatogory: saveCompanyCatogory,
+                getCompanyCatogories: getCompanyCatogories,
+                getCompanyCatogory: getCompanyCatogory,
+                deleteCompanyCatogory: deleteCompanyCatogory,
+                
+            });
+
+            function saveCompany(company) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (company._id) {
+                    company.updated_at = Date.now();
+                    $http.put('api/companies/' + company._id, company)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    company.created_at = Date.now();
+                    company.updated_at = company.created_at;
+                    $http.post('api/companies', company)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicyName(policyName) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (policyName._id) {
+                    policyName.updated_at = Date.now();
+                    $http.put('api/policy-names/' + policyName._id, policyName)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policyName.created_at = Date.now();
+                    policyName.updated_at = policyName.created_at;
+                    $http.post('api/policy-names', policyName)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogories() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companycatogories')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveCompanyCatogory(companyCatogory) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (companyCatogory._id) {
+                    companyCatogory.updated_at = Date.now();
+                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    companyCatogory.created_at = Date.now();
+                    companyCatogory.updated_at = companyCatogory.created_at;
+                    $http.post('api/companycatogories', companyCatogory)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+
+        }]);
+'use strict'
+
+angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
+    var vm = this;
+    vm.organization = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.organization.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var organizationId = $stateParams.organizationId;
+    if (organizationId) {
+        OrganizationService.getOrganization(organizationId)
+            .then(function (organization) {
+                vm.organization = organization;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        OrganizationService.saveOrganization(vm.organization)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "分支机构已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.organization = {};
+                if (vm.back) {
+                    $state.go("app.organization.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
+    var vm = this;
+    vm.organizations = [];
+
+
+
+    vm.refreshOrganizations = function(){
+       OrganizationService.getOrganizations()
+       .then(function(organizations){
+           vm.organizations = organizations;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshOrganizations();
+	
+    vm.view = function(organizationId){
+        $state.go("app.organization.view", {organizationId: organizationId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (organizationId) {
+        $.SmartMessageBox({
+            title: "删除分支机构",
+            content: "确认删除该分支机构？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrganizationService.deleteOrganization(organizationId)
+                    .then(function(){
+                        vm.refreshOrganizations();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.organization').factory('OrganizationService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveOrganization: saveOrganization,
+                getOrganizations: getOrganizations,
+                getOrganization: getOrganization,
+                deleteOrganization: deleteOrganization,
+            });
+
+            function saveOrganization(organization) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (organization._id) {
+                    organization.updated_at = Date.now();
+                    $http.put('api/organizations/' + organization._id, organization)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    organization.created_at = Date.now();
+                    organization.updated_at = organization.created_at;
+                    $http.post('api/organizations', organization)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 'use strict'
 
 angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
@@ -8567,6 +9452,95 @@ angular.module('app.policy').filter('propsFilter', function () {
 });
 'use strict'
 
+angular.module('app.policy').controller('PolicyImportController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService, PolicyImportService) {
+    var vm = this;
+    vm.clientInfo = {};
+    vm.sellerInfo = $rootScope.user;
+    vm.level2Companies = [];
+    vm.level3Companies = [];
+    vm.level4Companies = [];
+
+    PolicyService.getLevel2Companies()
+        .then(function (level2Companies) {
+            vm.level2Companies = level2Companies;
+        })
+
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.level2_company) {
+            vm.level3Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.level2_company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Companies = function () {
+        if (!vm.level3_company) {
+            vm.level4Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.level3_company)
+                .then(function (level4Companies) {
+                    vm.level4Companies = level4Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    
+
+    vm.level2Changed = function () {
+        if (!vm.level2_company) {
+            vm.level1_company = undefined;
+        } else {
+            var company = vm.level2Companies.find(c => c._id === vm.level2_company);
+            vm.level1_company = company.catogory._id;
+        }
+        vm.loadLevel3Companies();
+    }
+
+    vm.level3Changed = function () {
+        if (!vm.level3_company) {
+            var company = vm.level2Companies.find(c => c._id === vm.level2_company);
+        } else {
+            var company = vm.level3Companies.find(c => c._id === vm.level3_company);
+        }
+        vm.loadLevel4Companies();
+    }
+
+    vm.level4Changed = function () {
+
+    }
+
+    PolicyService.getOrgClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+
+    vm.fileChanged = function(files) {
+        vm.file = files[0];
+    };
+
+    vm.isDisableParseButton = function(){
+        return (!vm.level2_company || !vm.clientInfo || !vm.file );
+    }
+
+    vm.parseFile = function(){
+        PolicyImportService.readExcel(vm.file, vm.level1_company, vm.level2_company, vm.level3_company, vm.level4_company, vm.clientInfo)
+            .then(function(policies){
+                vm.policies = policies;
+        })
+    }
+
+});
+
+'use strict'
+
 angular.module('app.policy').controller('PolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, PolicyService, localStorageService) {
     var vm = this;
     vm.policies = [];
@@ -8934,262 +9908,129 @@ angular.module('app.policy')
             return (item.plate_no);
         }
     });
-'use strict';
-
-angular.module('app.maps').controller('MapsDemoCtrl', 
-  function ($scope, $http, $q, SmartMapStyle, Initializer) {
-
-    $scope.map = null;
-
-    $scope.styles = SmartMapStyle.styles;
-
-    $scope.setType = function (key) {
-        SmartMapStyle.getMapType(key).then(function(type){
-            $scope.map.mapTypes.set(key, type);
-            $scope.map.setMapTypeId(key);
-        });
-        $scope.currentType = key;
-    };
-
-
-    
-
-    Initializer.mapsInitialized
-    .then(function(){
-      return SmartMapStyle.getMapType('colorful')
-    })
-    .then(function() {
-    
-      $scope.map = new google.maps.Map(document.getElementById('map-canvas'), {
-          center: new google.maps.LatLng(23.89, -80.650),
-          zoom: 5,
-          scrollwheel: false,
-          disableDefaultUI: true
-      });
-      $scope.setType('colorful')
-    })
-
-
-});
-'use strict';
-
-angular.module('app.maps').directive('smartMap', function (Initializer) {
-    var _mapsCounter = 0;
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            _mapsCounter++;
-            Initializer.mapsInitialized.then(function(){
-                scope.$on('$smartContentResize', function () {
-                    var center = scope.map.getCenter();
-                    google.maps.event.trigger(scope.map, "resize");
-                    scope.map.setCenter(center); 
-                });
-            })
-            
-        }
-
-    }
-});
-// Google async initializer needs global function, so we use $window
-angular.module('app.maps')
-.factory('Initializer', function($window, $q){
-
-    //Google's url for async maps initialization accepting callback function
-    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
-        mapsDefer = $q.defer();
-
-    //Callback function - resolving promise after maps successfully loaded
-    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
-
-    //Async loader
-    var asyncLoad = function(asyncUrl, callbackName) {
-      var script = document.createElement('script');
-      //script.type = 'text/javascript';
-      script.src = asyncUrl + callbackName;
-      document.body.appendChild(script);
-    };
-    //Start loading google maps
-    asyncLoad(asyncUrl, 'googleMapsInitialized');
-
-    //Usage: Initializer.mapsInitialized.then(callback)
-    return {
-        mapsInitialized : mapsDefer.promise
-    };
-})
 "use strict";
 
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
-});
-'use strict'
-
-angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
-    var vm = this;
-    vm.organization = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.organization.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
-            .then(function (organization) {
-                vm.organization = organization;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        OrganizationService.saveOrganization(vm.organization)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "分支机构已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.organization = {};
-                if (vm.back) {
-                    $state.go("app.organization.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
-    var vm = this;
-    vm.organizations = [];
-
-
-
-    vm.refreshOrganizations = function(){
-       OrganizationService.getOrganizations()
-       .then(function(organizations){
-           vm.organizations = organizations;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshOrganizations();
-	
-    vm.view = function(organizationId){
-        $state.go("app.organization.view", {organizationId: organizationId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (organizationId) {
-        $.SmartMessageBox({
-            title: "删除分支机构",
-            content: "确认删除该分支机构？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                OrganizationService.deleteOrganization(organizationId)
-                    .then(function(){
-                        vm.refreshOrganizations();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-"use strict";
-
-angular.module('app.organization').factory('OrganizationService',
+angular.module('app.policy').factory('PolicyImportService',
     ['$q', '$http',
         function ($q, $http) {
             // return available functions for use in controllers
             return ({
-                saveOrganization: saveOrganization,
-                getOrganizations: getOrganizations,
-                getOrganization: getOrganization,
-                deleteOrganization: deleteOrganization,
+                readExcel: readExcel,
             });
 
-            function saveOrganization(organization) {
+
+            function readExcel(file,level1_company,level2_company,level3_company,level4_company,clientInfo) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                if (organization._id) {
-                    organization.updated_at = Date.now();
-                    $http.put('api/organizations/' + organization._id, organization)
+                var reader = new FileReader();
+                var name = file.name;
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, { type: 'binary' });
+
+                    var first_sheet_name = workbook.SheetNames[1];
+                    var sheet = workbook.Sheets[first_sheet_name];
+                    //
+                    var range = XLSX.utils.decode_range(sheet['!ref']);
+                    var sheetData = [];
+
+                    _.forEachRight(_.range(range.s.r, range.e.r + 1), function (row) {
+                        var rowData = [];
+                        _.forEachRight(_.range(range.s.c, range.e.c + 1), function (column) {
+                            var cellIndex = XLSX.utils.encode_cell({
+                                'c': column,
+                                'r': row
+                            });
+                            var cell = sheet[cellIndex];
+                            rowData[column] = cell ? cell.v : undefined;
+                        });
+                        sheetData[row] = rowData;
+                    });
+                    var policies = [];
+                    for(var i = 1; i < sheetData.length; i++){
+                        var row = sheetData[i];
+                        var policy = {};
+                        policy.policy_no = row[0];
+                        policy.plate = row[1];
+                        policy.applicant = row[2];
+                        policy.policy_name = row[3];
+                        policy.fee = row[4];
+                        policy.income_rate = row[5];
+                        policy.income = row[6];
+                        policy.created_at = row[7];
+                        policy.level1_company = level1_company;
+                        policy.level2_company = level2_company;
+                        policy.level3_company = level3_company;
+                        policy.level4_company = level4_company;
+                        policy.payment_substract_rate = clientInfo.payment_substract_rate;
+                        policy.payment = policy.income * (1-policy.payment_substract_rate / 100);
+                        policies.push(policy);
+                    }
+                    deferred.resolve(policies);
+                }
+
+                reader.readAsBinaryString(file);
+
+                return deferred.promise;
+
+            }
+
+        }]);
+"use strict";
+
+angular.module('app.policy').factory('PolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                savePolicy: savePolicy,
+                getPolicies: getPolicies,
+                getClients: getClients,
+                getOrgClients: getOrgClients,
+                getCompanies: getCompanies,
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies,
+                getOrganizations: getOrganizations,
+                getSellers: getSellers,
+                getFilteredCSV: getFilteredCSV,
+                getSummary: getSummary,
+                bulkPay: bulkPay,
+                getClient: getClient,
+                getSubCompanies: getSubCompanies,
+                getLevel2Companies: getLevel2Companies,
+                bulkApprove: bulkApprove
+            });
+            
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicy(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (policy._id) {
+                    policy.updated_at = Date.now();
+                    $http.put('/api/policies/' + policy._id, policy)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -9201,9 +10042,9 @@ angular.module('app.organization').factory('OrganizationService',
                             deferred.reject(status);
                         });
                 } else {
-                    organization.created_at = Date.now();
-                    organization.updated_at = organization.created_at;
-                    $http.post('api/organizations', organization)
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/policies', policy)
                     // handle success
                         .success(function (data, status) {
                             if (status === 200) {
@@ -9222,11 +10063,17 @@ angular.module('app.organization').factory('OrganizationService',
                 return deferred.promise;
             }
 
-            function getOrganization(organizationId) {
+            function getPolicies(type) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('api/organizations/' + organizationId)
+                var url = "/api/policies"
+                if (type == "to-be-paid") {
+                    url = "/api/policies/to-be-paid";
+                } else if (type == "paid") {
+                    url = "/api/policies/paid";
+                }
+                $http.get(url)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -9244,11 +10091,11 @@ angular.module('app.organization').factory('OrganizationService',
                 return deferred.promise;
             }
 
-            function deleteOrganization(organizationId) {
+            function getPolicy(policyId) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.delete('api/organizations/' + organizationId)
+                $http.get('/api/policies/' + policyId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -9266,13 +10113,35 @@ angular.module('app.organization').factory('OrganizationService',
                 return deferred.promise;
             }
 
-            function getOrganizations() {
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClients() {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('api/organizations')
+                $http.get('/api/clients')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -9289,6 +10158,352 @@ angular.module('app.organization').factory('OrganizationService',
                 // return promise object
                 return deferred.promise;
             }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    // filterBy: filterBy,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                
+                $http.post("/api/policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSummary(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                $http.post("/api/policies/summary", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function bulkPay(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                $http.post("/api/policies/bulk-pay", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkApprove(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/policies/bulk-approve", policyIds)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSellers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getLevel2Companies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/level2')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
         }]);
 'use strict';
 
@@ -9516,522 +10731,6 @@ angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
 
     }
 });
-'use strict'
-
-angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.companyCatogory = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.companycatogory.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyCatogoryId = $stateParams.companyCatogoryId;
-    if (companyCatogoryId) {
-        CompanyService.getCompanyCatogory(companyCatogoryId)
-            .then(function (companyCatogory) {
-                console.log(companyCatogory);
-                vm.companyCatogory = companyCatogory;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.saveCompanyCatogory(vm.companyCatogory)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "一级保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.companyCatogory = {};
-                if (vm.back) {
-                    $state.go("app.company.companycatogory.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyCatogoryListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.companyCatogories = [];
-
-
-
-    vm.refreshCompanyCatogories = function(){
-       CompanyService.getCompanyCatogories()
-       .then(function(companyCatogories){
-           vm.companyCatogories = companyCatogories;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshCompanyCatogories();
-	
-    vm.view = function(companyCatogoryId){
-        $state.go("app.company.companycatogory.view", {companyCatogoryId: companyCatogoryId});
-    };
-
-    vm.addLevel1 = function(){
-        $state.go("app.company.companycatogory.new");
-    }
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (companyCatogoryId) {
-        $.SmartMessageBox({
-            title: "删除一级保险公司",
-            content: "确认删除该一级保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompanyCatogory(companyCatogoryId)
-                    .then(function(){
-                        vm.refreshCompanyCatogories();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-'use strict'
-
-angular.module('app.company').controller('CompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.company = {};
-    vm.companyCatogories = [];
-    vm.editable = false;
-    vm.currentLevel = "";
-    vm.parentName = "";
-    vm.showRateEditor = false;
-
-    if ($state.is('app.company.company2.new')) {
-        vm.company.level = "二级";
-        vm.editable = true;
-        vm.company.catogory = $stateParams.parentId;
-    } else if ($state.is('app.company.company3.new')) {
-        vm.company.level = "三级";
-        vm.editable = true;
-        vm.company.parent = $stateParams.parentId;
-    } else if ($state.is('app.company.company4.new')) {
-        vm.company.level = "四级";
-        vm.editable = true;
-        vm.company.parent = $stateParams.parentId;
-    }
-
-    vm.setParentName = function () {
-        if (vm.company.catogory) {
-            CompanyService.getCompanyCatogory(vm.company.catogory)
-                .then(function (companyCatogory) {
-                    vm.parentName = companyCatogory.name;
-                })
-        } else if (vm.company.parent) {
-            CompanyService.getCompany(vm.company.parent)
-                .then(function (parentCompany) {
-                    vm.parentName = parentCompany.name;
-                })
-        }
-    }
-
-    vm.setParentName();
-
-
-
-    // CompanyService.getCompanyCatogories()
-    //     .then(function (companyCatogories) {
-    //         vm.companyCatogories = companyCatogories;
-    //     })
-
-
-
-    if ($state.is("app.company.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var companyId = $stateParams.companyId;
-    if (companyId) {
-        CompanyService.getCompany(companyId)
-            .then(function (company) {
-                vm.company = company;
-                vm.setParentName();
-            });
-    }
-
-
-    vm.toggleSetRate = function(){
-        vm.showRateEditor = !vm.showRateEditor;
-        if(vm.showRateEditor){
-            vm.current_rate = {};
-            vm.current_rate.set_at = Date.now();
-        }else{
-            vm.current_rate = undefined;
-        }
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        if(vm.current_rate){
-            if(!vm.company.rates){
-                vm.company.rates = [];
-            }
-            vm.company.rates.unshift(vm.current_rate);
-        }
-        CompanyService.saveCompany(vm.company)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保险公司已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.currentLevel = vm.company.level;
-                var temp = vm.company;
-                vm.company = {};
-                vm.company.level = temp.level;
-                vm.company.parent = temp.parent;
-                vm.company.catogory = temp.catogory;
-
-
-                if (vm.back) {
-                    if (vm.currentLevel == "二级") {
-                        $state.go("app.company.company2.all");
-                    } else if (vm.currentLevel == "三级") {
-                        $state.go("app.company.company3.all");
-                    } else if (vm.currentLevel == "四级") {
-                        $state.go("app.company.company4.all");
-                    } else {
-                        $state.go("app.company.all");
-                    }
-                }
-            }, function (err) { });
-    };
-
-
-
-});
-
-
-'use strict'
-
-angular.module('app.company').controller('CompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
-    var vm = this;
-    vm.companies = [];
-    vm.level1Companies = [];
-    vm.level2Companies = [];
-    vm.setting = {};
-    vm.settingString = "";
-
-
-
-    if ($state.is("app.company.company2.all")) {
-        vm.level = "二级";
-        vm.settingString = "level2Settings";
-    }
-    else if ($state.is("app.company.company3.all")) {
-        vm.level = "三级";
-        vm.settingString = "level3Settings";
-    } else if ($state.is("app.company.company4.all")) {
-        vm.level = "四级";
-        vm.settingString = "level4Settings";
-    }
-    vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
-
-    CompanyService.getCompanyCatogories()
-        .then(function (companyCatogories) {
-            vm.level1Companies = companyCatogories;
-        })
-
-
-    vm.loadLevel2Companies = function () {
-        if (!vm.setting.level1Company) {
-            vm.level2Companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.level1Company)
-                .then(function (level2Companies) {
-                    vm.level2Companies = level2Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.loadLevel3Companies = function () {
-        if (!vm.setting.level2Company) {
-            vm.level3Companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.level2Company)
-                .then(function (level3Companies) {
-                    vm.level3Companies = level3Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.refreshCompanies = function () {
-
-        if (!vm.setting.parentId) {
-            vm.companies = [];
-        } else {
-            CompanyService.getSubCompanies(vm.setting.parentId)
-                .then(function (companies) {
-                    vm.companies = companies;
-                }, function (err) {
-
-                });
-        }
-    };
-
-    vm.loadLevel2Companies();
-    vm.loadLevel3Companies();
-    vm.refreshCompanies();
-
-    vm.view = function (companyId) {
-        $state.go("app.company.view", { companyId: companyId });
-    };
-
-    vm.level1Changed = function () {
-        if (vm.level == "二级") {
-            vm.setting.parentId = vm.setting.level1Company;
-        } else if (vm.level == "三级") {
-            vm.setting.parentId = null;
-            vm.setting.level2Company = null;
-            vm.loadLevel2Companies();
-        } else if (vm.level == "四级") {
-            vm.setting.parentId = null;
-            vm.setting.level2Company = null;
-            vm.setting.level3Company = null;
-            vm.loadLevel2Companies();
-        }
-
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.level2Changed = function () {
-        if (vm.level == "三级") {
-            vm.setting.parentId = vm.setting.level2Company;
-        } else if (vm.level == "四级") {
-            vm.setting.parentId = null;
-            vm.setting.level3Company = null;
-            vm.loadLevel3Companies();
-        }
-
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.level3Changed = function () {
-
-        vm.setting.parentId = vm.setting.level3Company;
-        localStorageService.set(vm.settingString, vm.setting);
-        vm.refreshCompanies();
-    }
-
-    vm.addSubCompany = function () {
-        if (vm.level == "二级") {
-            $state.go("app.company.company2.new", { parentId: vm.setting.level1Company });
-        } else if (vm.level == "三级") {
-            $state.go("app.company.company3.new", { parentId: vm.setting.level2Company });
-        } else if (vm.level == "四级") {
-            $state.go("app.company.company4.new", { parentId: vm.setting.level3Company });
-        }
-    }
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete = function (companyId) {
-        $.SmartMessageBox({
-            title: "删除保险公司",
-            content: "确认删除该保险公司？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deleteCompany(companyId)
-                    .then(function () {
-                        vm.refreshCompanies();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-
-});
-
-angular.module('app.company')
-.filter("getIncomeRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
-                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
-        return str;  
-    };
-})
-.filter("getPaymentRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
-                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
-        return str;  
-    };
-});
-'use strict'
-
-angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
-    var vm = this;
-    vm.policyName = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.company.policyname.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var policyNameId = $stateParams.policyNameId;
-    if (policyNameId) {
-        CompanyService.getPolicyName(policyNameId)
-            .then(function (policyName) {
-                vm.policyName = policyName;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        CompanyService.savePolicyName(vm.policyName)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "险种名称已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.companyCatogory = {};
-                if (vm.back) {
-                    $state.go("app.company.policyname.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.company').controller('PolicyNameListController', function(screenSize, $rootScope, $state, $scope, CompanyService){
-    var vm = this;
-    vm.policyNames = [];
-
-
-
-    vm.refreshPolicyNames = function(){
-       CompanyService.getPolicyNames()
-       .then(function(policyNames){
-           vm.policyNames = policyNames;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshPolicyNames();
-	
-    vm.view = function(policyNameId){
-        $state.go("app.company.policyname.view", {policyNameId: policyNameId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (policyNameId) {
-        $.SmartMessageBox({
-            title: "删除险种名称",
-            content: "确认删除该险种名称？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                CompanyService.deletePolicyName(policyNameId)
-                    .then(function(){
-                        vm.refreshpolicyNames();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
 "use strict";
 
 angular.module('app.ui').controller('GeneralElementsCtrl', function ($scope) {
@@ -10853,1218 +11552,6 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
 });
 "use strict";
 
-angular.module('app.policy').factory('PolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                savePolicy: savePolicy,
-                getPolicies: getPolicies,
-                getClients: getClients,
-                getCompanies: getCompanies,
-                getPolicy: getPolicy,
-                deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies,
-                getOrganizations: getOrganizations,
-                getSellers: getSellers,
-                getFilteredCSV: getFilteredCSV,
-                getSummary: getSummary,
-                bulkPay: bulkPay,
-                getClient: getClient,
-                getSubCompanies: getSubCompanies,
-                getLevel2Companies: getLevel2Companies,
-                bulkApprove: bulkApprove
-            });
-            
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/clients/' + clientId)
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                    // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicy(policy) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (policy._id) {
-                    policy.updated_at = Date.now();
-                    $http.put('/api/policies/' + policy._id, policy)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policy.created_at = Date.now();
-                    policy.updated_at = policy.created_at;
-                    $http.post('/api/policies', policy)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicies(type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                var url = "/api/policies"
-                if (type == "to-be-paid") {
-                    url = "/api/policies/to-be-paid";
-                } else if (type == "paid") {
-                    url = "/api/policies/paid";
-                }
-                $http.get(url)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                
-                $http.post("/api/policies/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSummary(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                $http.post("/api/policies/summary", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function bulkPay(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                $http.post("/api/policies/bulk-pay", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function bulkApprove(policyIds) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                $http.post("/api/policies/bulk-approve", policyIds)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-                $http.post("/api/policies/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getLevel2Companies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/level2')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-        }]);
-"use strict";
-
-angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
-    return {
-        replace: true,
-        restrict: 'E',
-        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
-        link: function(scope, element){
-            element.on('click', function(){
-                ezfb.login(function (res) {
-                    if (res.authResponse) {
-                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
-                    }
-                }, {scope: 'public_profile'});
-            })
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
-    return {
-        restrict: 'E',
-        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
-        replace: true,
-        link: function (scope, element) {
-            element.on('click', function(){
-                GooglePlus.login().then(function (authResult) {
-                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
-
-                }, function (err) {
-                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
-
-                });
-            })
-        }
-    };
-});
-
-'use strict';
-
-angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
-    var dfd = $q.defer();
-    var _user;
-    var ChatSrv = {
-        initialized: dfd.promise,
-        users: [],
-        messages: [],
-        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
-        status: 'Online',
-        setUser: function (user) {
-            if (ChatSrv.users.indexOf(_user) != -1)
-                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
-            _user = user;
-            ChatSrv.users.push(_user);
-        },
-        sendMessage: function (text) {
-            var message = {
-                user: _user,
-                body: text,
-                date: new Date()
-            };
-            this.messages.push(message);
-        }
-    };
-
-
-    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
-        ChatSrv.messages = res.data.messages;
-        ChatSrv.users = res.data.users;
-        dfd.resolve();
-    });
-
-    ChatSrv.initialized.then(function () {
-
-        User.initialized.then(function () {
-            ChatSrv.setUser({
-                username: User.username,
-                picture: User.picture,
-                status: ChatSrv.status
-            });
-        });
-
-        $rootScope.$watch(function () {
-            return User.username
-        }, function (name, oldName) {
-            if (name != oldName) {
-                ChatSrv.setUser({
-                    username: User.username,
-                    picture: User.picture,
-                    status: ChatSrv.status
-                });
-            }
-        });
-    });
-
-
-    return ChatSrv;
-
-});
-(function() {
-        
-   'use strict';
-
-    /*
-    * SMARTCHAT PLUGIN ARRAYS & CONFIG
-    * Dependency: js/plugin/moment/moment.min.js 
-    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
-    *             js/smart-chat-ui/smart.chat.ui.js
-    * (DO NOT CHANGE) 
-    */ 
-        var boxList = [],
-        showList = [],
-        nameList = [],
-        idList = [];
-    /*
-    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
-    */ 
-        var chatbox_config = {
-            width: 200,
-            gap: 35,
-            offset: 0
-        };
-
-
-
-    /*
-    * SMART CHAT ENGINE
-    * Copyright (c) 2013 Wen Pu
-    * Modified by MyOrange
-    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
-    */
-
-    // TODO: implement destroy()
-    (function($) {
-    $.widget("ui.chatbox", {
-        options: {
-            id: null, //id for the DOM element
-            title: null, // title of the chatbox
-            user: null, // can be anything associated with this chatbox
-            hidden: false,
-            offset: 0, // relative to right edge of the browser window
-            width: 300, // width of the chatbox
-            status: 'online', //
-            alertmsg: null,
-            alertshow: null,
-            messageSent: function(id, user, msg) {
-                // override this
-                this.boxManager.addMsg(user.first_name, msg);
-            },
-            boxClosed: function(id) {
-            }, // called when the close icon is clicked
-            boxManager: {
-                // thanks to the widget factory facility
-                // similar to http://alexsexton.com/?p=51
-                init: function(elem) {
-                    this.elem = elem;
-                },
-                addMsg: function(peer, msg) {
-                    var self = this;
-                    var box = self.elem.uiChatboxLog;
-                    var e = document.createElement('div');
-                    box.append(e);
-                    $(e).hide();
-
-                    var systemMessage = false;
-
-                    if (peer) {
-                        var peerName = document.createElement("b");
-                        $(peerName).text(peer + ": ");
-                        e.appendChild(peerName);
-                    } else {
-                        systemMessage = true;
-                    }
-
-                    var msgElement = document.createElement(
-                        systemMessage ? "i" : "span");
-                    $(msgElement).text(msg);
-                    e.appendChild(msgElement);
-                    $(e).addClass("ui-chatbox-msg");
-                    $(e).css("maxWidth", $(box).width());
-                    $(e).fadeIn();
-                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
-                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
-                    self._scrollToBottom();
-
-                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
-                        && !self.highlightLock) {
-                        self.highlightLock = true;
-                        self.highlightBox();
-                    }
-                },
-                highlightBox: function() {
-                    var self = this;
-                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
-                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
-                        self.highlightLock = false;
-                        self._scrollToBottom();
-                    });
-                },
-                toggleBox: function() {
-                    this.elem.uiChatbox.toggle();
-                },
-                _scrollToBottom: function() {
-                    var box = this.elem.uiChatboxLog;
-                    box.scrollTop(box.get(0).scrollHeight);
-                }
-            }
-        },
-        toggleContent: function(event) {
-            this.uiChatboxContent.toggle();
-            if (this.uiChatboxContent.is(":visible")) {
-                this.uiChatboxInputBox.focus();
-            }
-        },
-        widget: function() {
-            return this.uiChatbox
-        },
-        _create: function() {
-            var self = this,
-            options = self.options,
-            title = options.title || "No Title",
-            // chatbox
-            uiChatbox = (self.uiChatbox = $('<div></div>'))
-                .appendTo(document.body)
-                .addClass('ui-widget ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox'
-                         )
-                .attr('outline', 0)
-                .focusin(function() {
-                    // ui-state-highlight is not really helpful here
-                    //self.uiChatbox.removeClass('ui-state-highlight');
-                    self.uiChatboxTitlebar.addClass('ui-state-focus');
-                })
-                .focusout(function() {
-                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                }),
-            // titlebar
-            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
-                .addClass('ui-widget-header ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox-titlebar ' +
-                          self.options.status +
-                          ' ui-dialog-header' // take advantage of dialog header style
-                         )
-                .click(function(event) {
-                    self.toggleContent(event);
-                })
-                .appendTo(uiChatbox),
-            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
-                .html(title)
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon '
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    uiChatbox.hide();
-                    self.options.boxClosed(self.options.id);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarCloseText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-times')
-                .appendTo(uiChatboxTitlebarClose),
-            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon'
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    self.toggleContent(event);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarMinimizeText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-minus')
-                .appendTo(uiChatboxTitlebarMinimize),
-            // content
-            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-content '
-                         )
-                .appendTo(uiChatbox),
-            uiChatboxLog = (self.uiChatboxLog = self.element)
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-log ' +
-                          'custom-scroll'
-                         )
-                .appendTo(uiChatboxContent),
-            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input'
-                         )
-                .click(function(event) {
-                    // anything?
-                })
-                .appendTo(uiChatboxContent),
-            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input-box '
-                         )
-                .appendTo(uiChatboxInput)
-                .keydown(function(event) {
-                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
-                        var msg = $.trim($(this).val());
-                        if (msg.length > 0) {
-                            self.options.messageSent(self.options.id, self.options.user, msg);
-                        }
-                        $(this).val('');
-                        return false;
-                    }
-                })
-                .focusin(function() {
-                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
-                    var box = $(this).parent().prev();
-                    box.scrollTop(box.get(0).scrollHeight);
-                })
-                .focusout(function() {
-                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
-                });
-
-            // disable selection
-            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
-
-            // switch focus to input box when whatever clicked
-            uiChatboxContent.children().click(function() {
-                // click on any children, set focus on input box
-                self.uiChatboxInputBox.focus();
-            });
-
-            self._setWidth(self.options.width);
-            self._position(self.options.offset);
-
-            self.options.boxManager.init(self);
-
-            if (!self.options.hidden) {
-                uiChatbox.show();
-            }
-            
-            $(".ui-chatbox [rel=tooltip]").tooltip();
-            //console.log("tooltip created");
-        },
-        _setOption: function(option, value) {
-            if (value != null) {
-                switch (option) {
-                case "hidden":
-                    if (value)
-                        this.uiChatbox.hide();
-                    else
-                        this.uiChatbox.show();
-                    break;
-                case "offset":
-                    this._position(value);
-                    break;
-                case "width":
-                    this._setWidth(value);
-                    break;
-                }
-            }
-            $.Widget.prototype._setOption.apply(this, arguments);
-        },
-        _setWidth: function(width) {
-            this.uiChatbox.width((width + 28) + "px");
-            //this.uiChatboxTitlebar.width((width + 28) + "px");
-            //this.uiChatboxLog.width(width + "px");
-           // this.uiChatboxInput.css("maxWidth", width + "px");
-            // padding:2, boarder:2, margin:5
-            this.uiChatboxInputBox.css("width", (width + 18) + "px");
-        },
-        _position: function(offset) {
-            this.uiChatbox.css("right", offset);
-        }
-    });
-    }(jQuery));
-
-
-    /*
-    * jQuery CSSEmoticons plugin 0.2.9
-    *
-    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
-    *
-    * Dual licensed under the MIT and GPL licenses:
-    *   http://www.opensource.org/licenses/mit-license.php
-    *   http://www.gnu.org/licenses/gpl.html
-    *
-    * Date: Sun Oct 22 1:00:00 2010 -0500
-    */
-    (function($) {
-    $.fn.emoticonize = function(options) {
-
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-
-    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
-
-    var threeCharacterEmoticons = [
-        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
-        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
-        //  it'll work again if you set preMatch equal to '()'
-        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
-      // ":{)",
-      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
-      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
-      // and the twoCharacterEmoticons from below, but with a space inserted
-      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
-    ];
-
-    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
-      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
-    ];
-
-    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
-      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
-      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
-      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
-      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
-      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
-      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
-      "O_O":    { cssClass: "no-rotate" },
-      "o_o":    { cssClass: "no-rotate" },
-      "0_o":    { cssClass: "no-rotate" },
-      "O_o":    { cssClass: "no-rotate" },
-      "T_T":    { cssClass: "no-rotate" },
-      "^_^":    { cssClass: "no-rotate" },
-      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
-      "O: )":   { cssClass: "small-emoticon" },
-      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
-      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
-      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
-      //"O-O":  { cssClass: "no-rotate" },
-      //"O=)":    { cssClass: "small-emoticon" } 
-    }
-
-    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
-    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
-    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
-    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
-    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
-    var preMatch = '(^|[\\s\\0])';
-
-    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
-      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
-      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var emoticon in specialEmoticons ){
-      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
-      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
-    }
-
-    var exclude = 'span.css-emoticon';
-    if(opts.exclude){ exclude += ','+opts.exclude; }
-    var excludeArray = exclude.split(',')
-
-    return this.not(exclude).each(function() {
-      var container = $(this);
-      var cssClass = 'css-emoticon'
-      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
-      
-      for( var emoticon in specialEmoticons ){
-        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
-        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
-      }
-      $(threeCharacterEmoticons).each(function(){
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
-      });                                                          
-      $(twoCharacterEmoticons).each(function(){                    
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
-      });
-      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
-      $.each(excludeArray,function(index,item){
-        container.find($.trim(item)+" span.css-emoticon").each(function(){
-          $(this).replaceWith($(this).text());
-        });
-      });
-      if(opts.animate){
-        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
-      }
-    });
-    }
-
-    $.fn.unemoticonize = function(options) {
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-    return this.each(function() {
-      var container = $(this);
-      container.find('span.css-emoticon').each(function(){
-        // add delay equal to animate speed if animate is not false
-        var span = $(this);
-        if(opts.animate){
-          span.addClass('un-transformed-emoticon');
-          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
-        }else{
-          span.replaceWith(span.text());
-        }
-      });
-    });
-    }
-
-    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
-    })(jQuery);
-
-    var chatboxManager = function () {
-        
-    var init = function (options) {
-        $.extend(chatbox_config, options)
-    };
-
-
-    var delBox = function (id) {
-        // TODO
-    };
-
-    var getNextOffset = function () {
-        return (chatbox_config.width + chatbox_config.gap) * showList.length;
-    };
-
-    var boxClosedCallback = function (id) {
-        // close button in the titlebar is clicked
-        var idx = showList.indexOf(id);
-        if (idx != -1) {
-            showList.splice(idx, 1);
-            var diff = chatbox_config.width + chatbox_config.gap;
-            for (var i = idx; i < showList.length; i++) {
-                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
-                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
-            }
-        } else {
-            alert("NOTE: Id missing from array: " + id);
-        }
-    };
-
-    // caller should guarantee the uniqueness of id
-    var addBox = function (id, user, name) {
-        var idx1 = showList.indexOf(id);
-        var idx2 = boxList.indexOf(id);
-        if (idx1 != -1) {
-            // found one in show box, do nothing
-        } else if (idx2 != -1) {
-            // exists, but hidden
-            // show it and put it back to showList
-            $("#" + id).chatbox("option", "offset", getNextOffset());
-            var manager = $("#" + id).chatbox("option", "boxManager");
-            manager.toggleBox();
-            showList.push(id);
-        } else {
-            var el = document.createElement('div');
-            el.setAttribute('id', id);
-            $(el).chatbox({
-                id: id,
-                user: user,
-                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
-                hidden: false,
-                offset: getNextOffset(),
-                width: chatbox_config.width,
-                status: user.status,
-                alertmsg: user.alertmsg,
-                alertshow: user.alertshow,
-                messageSent: dispatch,
-                boxClosed: boxClosedCallback
-            });
-            boxList.push(id);
-            showList.push(id);
-            nameList.push(user.first_name);
-        }
-    };
-
-    var messageSentCallback = function (id, user, msg) {
-        var idx = boxList.indexOf(id);
-        chatbox_config.messageSent(nameList[idx], msg);
-    };
-
-    // not used in demo
-    var dispatch = function (id, user, msg) {
-        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
-        if ($('#chatlog').length){
-            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
-        }
-        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
-    }
-
-    return {
-        init: init,
-        addBox: addBox,
-        delBox: delBox,
-        dispatch: dispatch
-    };
-    }();
-
-    var link = function (scope, element, attributes) {
-
-        $('a[data-chat-id]').click(function (event, ui) {
-            if(!$(this).hasClass('offline')){
-
-                var $this = $(this),
-                    temp_chat_id = $this.attr("data-chat-id"),
-                    fname = $this.attr("data-chat-fname"),
-                    lname = $this.attr("data-chat-lname"),
-                    status = $this.attr("data-chat-status") || "online",
-                    alertmsg = $this.attr("data-chat-alertmsg"),
-                    alertshow =  $this.attr("data-chat-alertshow") || false;
-
-
-                chatboxManager.addBox(temp_chat_id, {
-                    // dest:"dest" + counter, 
-                    // not used in demo
-                    title: "username" + temp_chat_id,
-                    first_name: fname,
-                    last_name: lname,
-                    status: status,
-                    alertmsg: alertmsg,
-                    alertshow: alertshow
-                    //you can add your own options too
-                });
-            }
-
-            event.preventDefault();
-
-        });
-
-    }
-
-    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
-        return {
-            restrict: 'A',
-            replace: true,
-            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
-            link: link
-        }
-    });
-
-})(); 
-"use strict";
-
-angular.module('app.chat').directive('chatUsers', function(ChatApi){
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
-        scope: true,
-        link: function(scope, element){
-            scope.open = false;
-            scope.openToggle = function(){
-                scope.open = !scope.open;
-            };
-
-            scope.chatUserFilter = '';
-
-            ChatApi.initialized.then(function () {
-                scope.chatUsers = ChatApi.users;
-            });
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.chat').directive('chatWidget', function (ChatApi) {
-    return {
-        replace: true,
-        restrict: 'E',
-        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
-        scope: {},
-        link: function (scope, element) {
-            scope.newMessage = '';
-
-            scope.sendMessage = function () {
-                ChatApi.sendMessage(scope.newMessage);
-                scope.newMessage = '';
-            };
-
-            scope.messageTo = function(user){
-                scope.newMessage += (user.username + ', ');
-            };
-
-            ChatApi.initialized.then(function () {
-                scope.chatMessages = ChatApi.messages;
-            });
-            scope.$watch(function () {
-                return ChatApi.messages.length
-            }, function (count) {
-                if (count){
-                    var $body = $('.chat-body', element);
-                    $body.animate({scrollTop: $body[0].scrollHeight});
-                }
-            })
-        }
-    }
-});
-"use strict";
-
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){
     return {
         restrict: 'A',
@@ -12209,190 +11696,6 @@ angular.module('SmartAdmin.Layout').directive('toggleMenu', function(){
             });
         }
     }
-});
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
-
-    var sheet = (function () {
-        // Create the <style> tag
-        var style = document.createElement("style");
-
-        // Add a media (and/or media query) here if you'd like!
-        // style.setAttribute("media", "screen")
-        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
-
-        // WebKit hack :(
-        style.appendChild(document.createTextNode(""));
-
-        // Add the <style> element to the page
-        document.head.appendChild(style);
-
-        return style.sheet;
-    })();
-
-    var _styles = {};
-
-
-    var SmartCss = {
-        writeRule: function(selector){
-            SmartCss.deleteRuleFor(selector);
-            if(_.has(_styles, selector)){
-                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
-                    return  k + ':' +  v + ';'
-                }).join(' ') +'}';
-                sheet.insertRule(css, _.size(_styles) - 1);
-            }
-        },
-        add: function (selector, property, value, delay) {
-            if(!_.has(_styles, selector))
-                _styles[selector] = {};
-
-            if(value == undefined || value == null || value == '')
-                delete _styles[selector][property];
-            else
-                _styles[selector][property] = value;
-
-
-            if(_.keys(_styles[selector]).length == 0)
-                delete _styles[selector];
-
-            if(!delay)
-                delay = 0;
-            $timeout(function(){
-                SmartCss.writeRule(selector);
-            }, delay);
-
-        },
-        remove: function(selector, property, delay){
-            SmartCss.add(selector, property, null, delay);
-        },
-        deleteRuleFor: function (selector) {
-            _(sheet.rules).forEach(function (rule, idx) {
-                if (rule.selectorText == selector) {
-                    sheet.deleteRule(idx);
-                }
-            });
-        },
-        appViewSize: null
-    };
-
-    $rootScope.$on('$smartContentResize', function (event, data) {
-        SmartCss.appViewSize = data;
-    });
-
-    return SmartCss;
-
-});
-
-
-
-
-'use strict';
-
-angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
-    var scripts = null;
-    var initialized = false;
-    var initializingPromise = null;
-
-    function init(){        
-        if(!initialized){
-            if(!initializingPromise){
-                initializingPromise = $http.get('app.scripts.json').then(function(res){
-                    scripts = res.data
-                    initialized = true;
-                });     
-            }
-            return initializingPromise;
-               
-        } else {
-            return $q.resolve();
-        }
-    }
-
-    var cache = {};
-
-    function isPending(scriptName){
-        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
-    }
-
-    function isRegistered(scriptName){
-        if(cache.hasOwnProperty(scriptName)){
-            return true;
-        } else {
-            return (scripts.prebuild.indexOf(scriptName) > -1);
-        }
-    }
-    function loadScript(scriptName){
-        if(!cache[scriptName]){
-            cache[scriptName] = $q.defer();
-            var el = document.createElement( 'script' );
-            el.onload = function(script){
-                console.log('script is lazy loaded:', scriptName)
-                cache[scriptName].resolve(scriptName);
-            };
-            el.src = scripts.paths[scriptName];
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(el, x);
-            
-        }
-        return cache[scriptName].promise;
-
-    }
-
-    function register(scriptName){
-        if(isPending(scriptName)){
-            return cache[scriptName].promise
-        }
-        if(isRegistered(scriptName)){
-            return $q.resolve(scriptName);
-        } else {
-            var dfd = $q.defer();
-            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
-                var depsPromises = [];
-                angular.forEach(scripts.shim[scriptName].deps, function(dep){
-
-                    depsPromises.push(register(dep))
-                    
-                })
-                $q.all(depsPromises).then(function(){
-                    loadScript(scriptName).then(function(){
-                        dfd.resolve(scriptName);
-                    })
-                })
-
-            } else {
-                
-                loadScript(scriptName).then(function(){
-                    dfd.resolve(scriptName);
-                })
-                 
-            }
-            return dfd.promise; 
-
-        }
-    }
-    return {
-        register: function (scripts) {
-            
-            var dfd = $q.defer();
-            init().then(function(){
-                var promises = [];
-                if (angular.isString(scripts)) 
-                    scripts = [scripts];    
-
-                angular.forEach(scripts, function(script){
-                    promises.push(register(script));
-                })
-
-                $q.all(promises).then(function(resolves){
-                    dfd.resolve(resolves);
-                })
-            })
-            return dfd.promise;
-
-        }
-    };
 });
 'use strict';
 
@@ -13437,6 +12740,930 @@ angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($roo
         }
     }
 });
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
+
+    var sheet = (function () {
+        // Create the <style> tag
+        var style = document.createElement("style");
+
+        // Add a media (and/or media query) here if you'd like!
+        // style.setAttribute("media", "screen")
+        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
+
+        // WebKit hack :(
+        style.appendChild(document.createTextNode(""));
+
+        // Add the <style> element to the page
+        document.head.appendChild(style);
+
+        return style.sheet;
+    })();
+
+    var _styles = {};
+
+
+    var SmartCss = {
+        writeRule: function(selector){
+            SmartCss.deleteRuleFor(selector);
+            if(_.has(_styles, selector)){
+                var css = selector + '{ ' + _.map(_styles[selector], function(v, k){
+                    return  k + ':' +  v + ';'
+                }).join(' ') +'}';
+                sheet.insertRule(css, _.size(_styles) - 1);
+            }
+        },
+        add: function (selector, property, value, delay) {
+            if(!_.has(_styles, selector))
+                _styles[selector] = {};
+
+            if(value == undefined || value == null || value == '')
+                delete _styles[selector][property];
+            else
+                _styles[selector][property] = value;
+
+
+            if(_.keys(_styles[selector]).length == 0)
+                delete _styles[selector];
+
+            if(!delay)
+                delay = 0;
+            $timeout(function(){
+                SmartCss.writeRule(selector);
+            }, delay);
+
+        },
+        remove: function(selector, property, delay){
+            SmartCss.add(selector, property, null, delay);
+        },
+        deleteRuleFor: function (selector) {
+            _(sheet.rules).forEach(function (rule, idx) {
+                if (rule.selectorText == selector) {
+                    sheet.deleteRule(idx);
+                }
+            });
+        },
+        appViewSize: null
+    };
+
+    $rootScope.$on('$smartContentResize', function (event, data) {
+        SmartCss.appViewSize = data;
+    });
+
+    return SmartCss;
+
+});
+
+
+
+
+'use strict';
+
+angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
+    var scripts = null;
+    var initialized = false;
+    var initializingPromise = null;
+
+    function init(){        
+        if(!initialized){
+            if(!initializingPromise){
+                initializingPromise = $http.get('app.scripts.json').then(function(res){
+                    scripts = res.data
+                    initialized = true;
+                });     
+            }
+            return initializingPromise;
+               
+        } else {
+            return $q.resolve();
+        }
+    }
+
+    var cache = {};
+
+    function isPending(scriptName){
+        return (cache.hasOwnProperty(scriptName) && cache[scriptName].promise && cache[scriptName].promise.$$state.pending)
+    }
+
+    function isRegistered(scriptName){
+        if(cache.hasOwnProperty(scriptName)){
+            return true;
+        } else {
+            return (scripts.prebuild.indexOf(scriptName) > -1);
+        }
+    }
+    function loadScript(scriptName){
+        if(!cache[scriptName]){
+            cache[scriptName] = $q.defer();
+            var el = document.createElement( 'script' );
+            el.onload = function(script){
+                console.log('script is lazy loaded:', scriptName)
+                cache[scriptName].resolve(scriptName);
+            };
+            el.src = scripts.paths[scriptName];
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(el, x);
+            
+        }
+        return cache[scriptName].promise;
+
+    }
+
+    function register(scriptName){
+        if(isPending(scriptName)){
+            return cache[scriptName].promise
+        }
+        if(isRegistered(scriptName)){
+            return $q.resolve(scriptName);
+        } else {
+            var dfd = $q.defer();
+            if(scripts.shim.hasOwnProperty(scriptName) && scripts.shim[scriptName].deps){
+                var depsPromises = [];
+                angular.forEach(scripts.shim[scriptName].deps, function(dep){
+
+                    depsPromises.push(register(dep))
+                    
+                })
+                $q.all(depsPromises).then(function(){
+                    loadScript(scriptName).then(function(){
+                        dfd.resolve(scriptName);
+                    })
+                })
+
+            } else {
+                
+                loadScript(scriptName).then(function(){
+                    dfd.resolve(scriptName);
+                })
+                 
+            }
+            return dfd.promise; 
+
+        }
+    }
+    return {
+        register: function (scripts) {
+            
+            var dfd = $q.defer();
+            init().then(function(){
+                var promises = [];
+                if (angular.isString(scripts)) 
+                    scripts = [scripts];    
+
+                angular.forEach(scripts, function(script){
+                    promises.push(register(script));
+                })
+
+                $q.all(promises).then(function(resolves){
+                    dfd.resolve(resolves);
+                })
+            })
+            return dfd.promise;
+
+        }
+    };
+});
+"use strict";
+
+angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
+    return {
+        replace: true,
+        restrict: 'E',
+        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
+        link: function(scope, element){
+            element.on('click', function(){
+                ezfb.login(function (res) {
+                    if (res.authResponse) {
+                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
+                    }
+                }, {scope: 'public_profile'});
+            })
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
+    return {
+        restrict: 'E',
+        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
+        replace: true,
+        link: function (scope, element) {
+            element.on('click', function(){
+                GooglePlus.login().then(function (authResult) {
+                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
+
+                }, function (err) {
+                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
+
+                });
+            })
+        }
+    };
+});
+
+'use strict';
+
+angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
+    var dfd = $q.defer();
+    var _user;
+    var ChatSrv = {
+        initialized: dfd.promise,
+        users: [],
+        messages: [],
+        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
+        status: 'Online',
+        setUser: function (user) {
+            if (ChatSrv.users.indexOf(_user) != -1)
+                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
+            _user = user;
+            ChatSrv.users.push(_user);
+        },
+        sendMessage: function (text) {
+            var message = {
+                user: _user,
+                body: text,
+                date: new Date()
+            };
+            this.messages.push(message);
+        }
+    };
+
+
+    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
+        ChatSrv.messages = res.data.messages;
+        ChatSrv.users = res.data.users;
+        dfd.resolve();
+    });
+
+    ChatSrv.initialized.then(function () {
+
+        User.initialized.then(function () {
+            ChatSrv.setUser({
+                username: User.username,
+                picture: User.picture,
+                status: ChatSrv.status
+            });
+        });
+
+        $rootScope.$watch(function () {
+            return User.username
+        }, function (name, oldName) {
+            if (name != oldName) {
+                ChatSrv.setUser({
+                    username: User.username,
+                    picture: User.picture,
+                    status: ChatSrv.status
+                });
+            }
+        });
+    });
+
+
+    return ChatSrv;
+
+});
+(function() {
+        
+   'use strict';
+
+    /*
+    * SMARTCHAT PLUGIN ARRAYS & CONFIG
+    * Dependency: js/plugin/moment/moment.min.js 
+    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
+    *             js/smart-chat-ui/smart.chat.ui.js
+    * (DO NOT CHANGE) 
+    */ 
+        var boxList = [],
+        showList = [],
+        nameList = [],
+        idList = [];
+    /*
+    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
+    */ 
+        var chatbox_config = {
+            width: 200,
+            gap: 35,
+            offset: 0
+        };
+
+
+
+    /*
+    * SMART CHAT ENGINE
+    * Copyright (c) 2013 Wen Pu
+    * Modified by MyOrange
+    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
+    */
+
+    // TODO: implement destroy()
+    (function($) {
+    $.widget("ui.chatbox", {
+        options: {
+            id: null, //id for the DOM element
+            title: null, // title of the chatbox
+            user: null, // can be anything associated with this chatbox
+            hidden: false,
+            offset: 0, // relative to right edge of the browser window
+            width: 300, // width of the chatbox
+            status: 'online', //
+            alertmsg: null,
+            alertshow: null,
+            messageSent: function(id, user, msg) {
+                // override this
+                this.boxManager.addMsg(user.first_name, msg);
+            },
+            boxClosed: function(id) {
+            }, // called when the close icon is clicked
+            boxManager: {
+                // thanks to the widget factory facility
+                // similar to http://alexsexton.com/?p=51
+                init: function(elem) {
+                    this.elem = elem;
+                },
+                addMsg: function(peer, msg) {
+                    var self = this;
+                    var box = self.elem.uiChatboxLog;
+                    var e = document.createElement('div');
+                    box.append(e);
+                    $(e).hide();
+
+                    var systemMessage = false;
+
+                    if (peer) {
+                        var peerName = document.createElement("b");
+                        $(peerName).text(peer + ": ");
+                        e.appendChild(peerName);
+                    } else {
+                        systemMessage = true;
+                    }
+
+                    var msgElement = document.createElement(
+                        systemMessage ? "i" : "span");
+                    $(msgElement).text(msg);
+                    e.appendChild(msgElement);
+                    $(e).addClass("ui-chatbox-msg");
+                    $(e).css("maxWidth", $(box).width());
+                    $(e).fadeIn();
+                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
+                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
+                    self._scrollToBottom();
+
+                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
+                        && !self.highlightLock) {
+                        self.highlightLock = true;
+                        self.highlightBox();
+                    }
+                },
+                highlightBox: function() {
+                    var self = this;
+                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
+                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
+                        self.highlightLock = false;
+                        self._scrollToBottom();
+                    });
+                },
+                toggleBox: function() {
+                    this.elem.uiChatbox.toggle();
+                },
+                _scrollToBottom: function() {
+                    var box = this.elem.uiChatboxLog;
+                    box.scrollTop(box.get(0).scrollHeight);
+                }
+            }
+        },
+        toggleContent: function(event) {
+            this.uiChatboxContent.toggle();
+            if (this.uiChatboxContent.is(":visible")) {
+                this.uiChatboxInputBox.focus();
+            }
+        },
+        widget: function() {
+            return this.uiChatbox
+        },
+        _create: function() {
+            var self = this,
+            options = self.options,
+            title = options.title || "No Title",
+            // chatbox
+            uiChatbox = (self.uiChatbox = $('<div></div>'))
+                .appendTo(document.body)
+                .addClass('ui-widget ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox'
+                         )
+                .attr('outline', 0)
+                .focusin(function() {
+                    // ui-state-highlight is not really helpful here
+                    //self.uiChatbox.removeClass('ui-state-highlight');
+                    self.uiChatboxTitlebar.addClass('ui-state-focus');
+                })
+                .focusout(function() {
+                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
+                }),
+            // titlebar
+            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
+                .addClass('ui-widget-header ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox-titlebar ' +
+                          self.options.status +
+                          ' ui-dialog-header' // take advantage of dialog header style
+                         )
+                .click(function(event) {
+                    self.toggleContent(event);
+                })
+                .appendTo(uiChatbox),
+            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
+                .html(title)
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon '
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    uiChatbox.hide();
+                    self.options.boxClosed(self.options.id);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarCloseText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-times')
+                .appendTo(uiChatboxTitlebarClose),
+            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon'
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    self.toggleContent(event);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarMinimizeText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-minus')
+                .appendTo(uiChatboxTitlebarMinimize),
+            // content
+            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-content '
+                         )
+                .appendTo(uiChatbox),
+            uiChatboxLog = (self.uiChatboxLog = self.element)
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-log ' +
+                          'custom-scroll'
+                         )
+                .appendTo(uiChatboxContent),
+            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input'
+                         )
+                .click(function(event) {
+                    // anything?
+                })
+                .appendTo(uiChatboxContent),
+            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input-box '
+                         )
+                .appendTo(uiChatboxInput)
+                .keydown(function(event) {
+                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
+                        var msg = $.trim($(this).val());
+                        if (msg.length > 0) {
+                            self.options.messageSent(self.options.id, self.options.user, msg);
+                        }
+                        $(this).val('');
+                        return false;
+                    }
+                })
+                .focusin(function() {
+                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
+                    var box = $(this).parent().prev();
+                    box.scrollTop(box.get(0).scrollHeight);
+                })
+                .focusout(function() {
+                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
+                });
+
+            // disable selection
+            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
+
+            // switch focus to input box when whatever clicked
+            uiChatboxContent.children().click(function() {
+                // click on any children, set focus on input box
+                self.uiChatboxInputBox.focus();
+            });
+
+            self._setWidth(self.options.width);
+            self._position(self.options.offset);
+
+            self.options.boxManager.init(self);
+
+            if (!self.options.hidden) {
+                uiChatbox.show();
+            }
+            
+            $(".ui-chatbox [rel=tooltip]").tooltip();
+            //console.log("tooltip created");
+        },
+        _setOption: function(option, value) {
+            if (value != null) {
+                switch (option) {
+                case "hidden":
+                    if (value)
+                        this.uiChatbox.hide();
+                    else
+                        this.uiChatbox.show();
+                    break;
+                case "offset":
+                    this._position(value);
+                    break;
+                case "width":
+                    this._setWidth(value);
+                    break;
+                }
+            }
+            $.Widget.prototype._setOption.apply(this, arguments);
+        },
+        _setWidth: function(width) {
+            this.uiChatbox.width((width + 28) + "px");
+            //this.uiChatboxTitlebar.width((width + 28) + "px");
+            //this.uiChatboxLog.width(width + "px");
+           // this.uiChatboxInput.css("maxWidth", width + "px");
+            // padding:2, boarder:2, margin:5
+            this.uiChatboxInputBox.css("width", (width + 18) + "px");
+        },
+        _position: function(offset) {
+            this.uiChatbox.css("right", offset);
+        }
+    });
+    }(jQuery));
+
+
+    /*
+    * jQuery CSSEmoticons plugin 0.2.9
+    *
+    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+    *
+    * Dual licensed under the MIT and GPL licenses:
+    *   http://www.opensource.org/licenses/mit-license.php
+    *   http://www.gnu.org/licenses/gpl.html
+    *
+    * Date: Sun Oct 22 1:00:00 2010 -0500
+    */
+    (function($) {
+    $.fn.emoticonize = function(options) {
+
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+
+    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
+
+    var threeCharacterEmoticons = [
+        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
+        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
+        //  it'll work again if you set preMatch equal to '()'
+        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
+      // ":{)",
+      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
+      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
+      // and the twoCharacterEmoticons from below, but with a space inserted
+      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
+    ];
+
+    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
+      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
+    ];
+
+    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
+      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
+      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
+      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
+      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
+      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
+      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
+      "O_O":    { cssClass: "no-rotate" },
+      "o_o":    { cssClass: "no-rotate" },
+      "0_o":    { cssClass: "no-rotate" },
+      "O_o":    { cssClass: "no-rotate" },
+      "T_T":    { cssClass: "no-rotate" },
+      "^_^":    { cssClass: "no-rotate" },
+      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
+      "O: )":   { cssClass: "small-emoticon" },
+      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
+      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
+      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
+      //"O-O":  { cssClass: "no-rotate" },
+      //"O=)":    { cssClass: "small-emoticon" } 
+    }
+
+    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
+    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
+    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
+    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
+    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
+    var preMatch = '(^|[\\s\\0])';
+
+    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
+      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
+      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var emoticon in specialEmoticons ){
+      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
+      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
+    }
+
+    var exclude = 'span.css-emoticon';
+    if(opts.exclude){ exclude += ','+opts.exclude; }
+    var excludeArray = exclude.split(',')
+
+    return this.not(exclude).each(function() {
+      var container = $(this);
+      var cssClass = 'css-emoticon'
+      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
+      
+      for( var emoticon in specialEmoticons ){
+        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
+        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
+      }
+      $(threeCharacterEmoticons).each(function(){
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
+      });                                                          
+      $(twoCharacterEmoticons).each(function(){                    
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
+      });
+      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
+      $.each(excludeArray,function(index,item){
+        container.find($.trim(item)+" span.css-emoticon").each(function(){
+          $(this).replaceWith($(this).text());
+        });
+      });
+      if(opts.animate){
+        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
+      }
+    });
+    }
+
+    $.fn.unemoticonize = function(options) {
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+    return this.each(function() {
+      var container = $(this);
+      container.find('span.css-emoticon').each(function(){
+        // add delay equal to animate speed if animate is not false
+        var span = $(this);
+        if(opts.animate){
+          span.addClass('un-transformed-emoticon');
+          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
+        }else{
+          span.replaceWith(span.text());
+        }
+      });
+    });
+    }
+
+    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
+    })(jQuery);
+
+    var chatboxManager = function () {
+        
+    var init = function (options) {
+        $.extend(chatbox_config, options)
+    };
+
+
+    var delBox = function (id) {
+        // TODO
+    };
+
+    var getNextOffset = function () {
+        return (chatbox_config.width + chatbox_config.gap) * showList.length;
+    };
+
+    var boxClosedCallback = function (id) {
+        // close button in the titlebar is clicked
+        var idx = showList.indexOf(id);
+        if (idx != -1) {
+            showList.splice(idx, 1);
+            var diff = chatbox_config.width + chatbox_config.gap;
+            for (var i = idx; i < showList.length; i++) {
+                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
+                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
+            }
+        } else {
+            alert("NOTE: Id missing from array: " + id);
+        }
+    };
+
+    // caller should guarantee the uniqueness of id
+    var addBox = function (id, user, name) {
+        var idx1 = showList.indexOf(id);
+        var idx2 = boxList.indexOf(id);
+        if (idx1 != -1) {
+            // found one in show box, do nothing
+        } else if (idx2 != -1) {
+            // exists, but hidden
+            // show it and put it back to showList
+            $("#" + id).chatbox("option", "offset", getNextOffset());
+            var manager = $("#" + id).chatbox("option", "boxManager");
+            manager.toggleBox();
+            showList.push(id);
+        } else {
+            var el = document.createElement('div');
+            el.setAttribute('id', id);
+            $(el).chatbox({
+                id: id,
+                user: user,
+                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
+                hidden: false,
+                offset: getNextOffset(),
+                width: chatbox_config.width,
+                status: user.status,
+                alertmsg: user.alertmsg,
+                alertshow: user.alertshow,
+                messageSent: dispatch,
+                boxClosed: boxClosedCallback
+            });
+            boxList.push(id);
+            showList.push(id);
+            nameList.push(user.first_name);
+        }
+    };
+
+    var messageSentCallback = function (id, user, msg) {
+        var idx = boxList.indexOf(id);
+        chatbox_config.messageSent(nameList[idx], msg);
+    };
+
+    // not used in demo
+    var dispatch = function (id, user, msg) {
+        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
+        if ($('#chatlog').length){
+            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
+        }
+        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
+    }
+
+    return {
+        init: init,
+        addBox: addBox,
+        delBox: delBox,
+        dispatch: dispatch
+    };
+    }();
+
+    var link = function (scope, element, attributes) {
+
+        $('a[data-chat-id]').click(function (event, ui) {
+            if(!$(this).hasClass('offline')){
+
+                var $this = $(this),
+                    temp_chat_id = $this.attr("data-chat-id"),
+                    fname = $this.attr("data-chat-fname"),
+                    lname = $this.attr("data-chat-lname"),
+                    status = $this.attr("data-chat-status") || "online",
+                    alertmsg = $this.attr("data-chat-alertmsg"),
+                    alertshow =  $this.attr("data-chat-alertshow") || false;
+
+
+                chatboxManager.addBox(temp_chat_id, {
+                    // dest:"dest" + counter, 
+                    // not used in demo
+                    title: "username" + temp_chat_id,
+                    first_name: fname,
+                    last_name: lname,
+                    status: status,
+                    alertmsg: alertmsg,
+                    alertshow: alertshow
+                    //you can add your own options too
+                });
+            }
+
+            event.preventDefault();
+
+        });
+
+    }
+
+    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
+        return {
+            restrict: 'A',
+            replace: true,
+            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
+            link: link
+        }
+    });
+
+})(); 
+"use strict";
+
+angular.module('app.chat').directive('chatUsers', function(ChatApi){
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
+        scope: true,
+        link: function(scope, element){
+            scope.open = false;
+            scope.openToggle = function(){
+                scope.open = !scope.open;
+            };
+
+            scope.chatUserFilter = '';
+
+            ChatApi.initialized.then(function () {
+                scope.chatUsers = ChatApi.users;
+            });
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.chat').directive('chatWidget', function (ChatApi) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
+        scope: {},
+        link: function (scope, element) {
+            scope.newMessage = '';
+
+            scope.sendMessage = function () {
+                ChatApi.sendMessage(scope.newMessage);
+                scope.newMessage = '';
+            };
+
+            scope.messageTo = function(user){
+                scope.newMessage += (user.username + ', ');
+            };
+
+            ChatApi.initialized.then(function () {
+                scope.chatMessages = ChatApi.messages;
+            });
+            scope.$watch(function () {
+                return ChatApi.messages.length
+            }, function (count) {
+                if (count){
+                    var $body = $('.chat-body', element);
+                    $body.animate({scrollTop: $body[0].scrollHeight});
+                }
+            })
+        }
+    }
+});
+"use strict";
+
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
+});
 "use strict";
 
  angular.module('app').directive('todoList', function ($timeout, Todo) {
@@ -13479,38 +13706,6 @@ angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($roo
 
         }
     }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
@@ -13990,448 +14185,6 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
                     });
                 }
             }
-        }
-    }
-});
-"use strict";
-
-
-angular.module('app.graphs').value('FlotConfig', {
-    "chartBorderColor": "#efefef",
-    "chartGridColor": "#DDD",
-    "charMain": "#E24913",
-    "chartSecond": "#6595b4",
-    "chartThird": "#FF9F01",
-    "chartFourth": "#7e9d3a",
-    "chartFifth": "#BD362F",
-    "chartMono": "#000"
-
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-// For the demo we use generated data, but normally it would be coming from the server
-            var data = [], totalPoints = 200;
-            function getRandomData() {
-                if (data.length > 0)
-                    data = data.slice(1);
-
-                // do a random walk
-                while (data.length < totalPoints) {
-                    var prev = data.length > 0 ? data[data.length - 1] : 50;
-                    var y = prev + Math.random() * 10 - 5;
-                    if (y < 0)
-                        y = 0;
-                    if (y > 100)
-                        y = 100;
-                    data.push(y);
-                }
-
-                // zip the generated y values with the x values
-                var res = [];
-                for (var i = 0; i < data.length; ++i)
-                    res.push([i, data[i]])
-                return res;
-            }
-
-            // setup control widget
-            var updateInterval = 1000;
-            element.val(updateInterval).change(function() {
-                var v = $(this).val();
-                if (v && !isNaN(+v)) {
-                    updateInterval = +v;
-                    if (updateInterval < 1)
-                        updateInterval = 1;
-                    if (updateInterval > 2000)
-                        updateInterval = 2000;
-                    $(this).val("" + updateInterval);
-                }
-            });
-
-            // setup plot
-            var options = {
-                yaxis : {
-                    min : 0,
-                    max : 100
-                },
-                xaxis : {
-                    min : 0,
-                    max : 100
-                },
-                colors : [FlotConfig.chartFourth],
-                series : {
-                    lines : {
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.4
-                            }, {
-                                opacity : 0
-                            }]
-                        },
-                        steps : false
-
-                    }
-                }
-            };
-            var plot = $.plot(element, [getRandomData()], options);
-
-            function update() {
-                plot.setData([getRandomData()]);
-                // since the axes don't change, we don't need to call plot.setupGrid()
-                plot.draw();
-
-                $timeout(update, updateInterval);
-            }
-
-            update();
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotBarChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
-                grid : {
-                    show : true,
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                legend : true,
-                tooltip : true,
-                tooltipOpts : {
-                    content : "<b>%x</b> = <span>%y</span>",
-                    defaultTheme : false
-                }
-
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('flotBasic', function () {
-    return {
-        restrict: 'A',
-        scope:{
-            data:'=flotData',
-            options: '=flotOptions'
-        },
-        link: function (scope, element, attributes) {
-            var plot = $.plot(element, scope.data, scope.options);
-
-            scope.$watchCollection('data', function(newData, oldData){
-                if(newData != oldData){
-                    plot.setData(newData);
-                    plot.draw();
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotFillChart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-
-                xaxis : {
-                    tickDecimals : 0
-                },
-
-                yaxis : {
-                    tickFormatter : function(v) {
-                        return v + " cm";
-                    }
-                }
-
-            });
-        }
-    }
-})
-"use strict";
-
-angular.module('app.graphs').directive('flotHorizontalBarChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-            $.plot(element, scope.data, {
-                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
-                grid : {
-                    show : true,
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                legend : true,
-                tooltip : true,
-                tooltipOpts : {
-                    content : "<b>%x</b> = <span>%y</span>",
-                    defaultTheme : false
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotPieChart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-            $.plot(element, scope.data, {
-                series : {
-                    pie : {
-                        show : true,
-                        innerRadius : 0.5,
-                        radius : 1,
-                        label : {
-                            show : false,
-                            radius : 2 / 3,
-                            formatter : function(label, series) {
-                                return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
-                            },
-                            threshold : 0.1
-                        }
-                    }
-                },
-                legend : {
-                    show : true,
-                    noColumns : 1, // number of colums in legend table
-                    labelFormatter : null, // fn: string -> string
-                    labelBoxBorderColor : "#000", // border color for the little label boxes
-                    container : null, // container (as jQuery object) to put legend in, null means default on top of graph
-                    position : "ne", // position of default legend container within plot
-                    margin : [5, 10], // distance from grid edge to default legend container within plot
-                    backgroundColor : "#efefef", // null means auto-detect
-                    backgroundOpacity : 1 // set to 0 to avoid background
-                },
-                grid : {
-                    hoverable : true,
-                    clickable : true
-                },
-            });
-
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotSalesChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, [scope.data], {
-                xaxis : {
-                    mode : "time",
-                    tickLength : 5
-                },
-                series : {
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
-                            }, {
-                                opacity : 0.15
-                            }]
-                        }
-                    },
-                    //points: { show: true },
-                    shadowSize : 0
-                },
-                selection : {
-                    mode : "x"
-                },
-                grid : {
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                tooltip : true,
-                tooltipOpts : {
-                    content : "Your sales for <b>%x</b> was <span>$%y</span>",
-                    dateFormat : "%y-%0m-%0d",
-                    defaultTheme : false
-                },
-                colors : [FlotConfig.chartSecond]
-
-            });
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotSinChart', function (FlotConfig) {
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function (scope, element) {
-
-            var plot = $.plot(element, scope.data, {
-                series: {
-                    lines: {
-                        show: true
-                    },
-                    points: {
-                        show: true
-                    }
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true,
-                    tickColor: FlotConfig.chartBorderColor,
-                    borderWidth: 0,
-                    borderColor: FlotConfig.chartBorderColor
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    //content : "Value <b>$x</b> Value <span>$y</span>",
-                    defaultTheme: false
-                },
-                colors: [FlotConfig.chartSecond, FlotConfig.chartFourth],
-                yaxis: {
-                    min: -1.1,
-                    max: 1.1
-                },
-                xaxis: {
-                    min: 0,
-                    max: 15
-                }
-            });
-
-            element.on("plotclick", function (event, pos, item) {
-                if (item) {
-                    $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
-                    plot.highlight(item.series, item.datapoint);
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-                series : {
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
-                            }, {
-                                opacity : 0.15
-                            }]
-                        }
-                    },
-                    points : {
-                        show : true
-                    },
-                    shadowSize : 0
-                },
-
-                yaxes : [{
-                    min : 20,
-                    tickLength : 5
-                }],
-                grid : {
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                tooltip : true,
-                tooltipOpts : {
-                    content : "%s for <b>%x:00 hrs</b> was %y",
-                    dateFormat : "%y-%0m-%0d",
-                    defaultTheme : false
-                },
-                colors : [FlotConfig.charMain, FlotConfig.chartSecond],
-                xaxis : {
-                    mode : "time",
-                    tickLength : 10,
-                    ticks : 15,
-                    tickDecimals : 2
-                },
-                yaxis : {
-                    ticks : 15,
-                    tickDecimals : 0
-                }
-            });
-
         }
     }
 });
@@ -14925,6 +14678,448 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
 
 
             drawSparklines();
+
+        }
+    }
+});
+"use strict";
+
+
+angular.module('app.graphs').value('FlotConfig', {
+    "chartBorderColor": "#efefef",
+    "chartGridColor": "#DDD",
+    "charMain": "#E24913",
+    "chartSecond": "#6595b4",
+    "chartThird": "#FF9F01",
+    "chartFourth": "#7e9d3a",
+    "chartFifth": "#BD362F",
+    "chartMono": "#000"
+
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+// For the demo we use generated data, but normally it would be coming from the server
+            var data = [], totalPoints = 200;
+            function getRandomData() {
+                if (data.length > 0)
+                    data = data.slice(1);
+
+                // do a random walk
+                while (data.length < totalPoints) {
+                    var prev = data.length > 0 ? data[data.length - 1] : 50;
+                    var y = prev + Math.random() * 10 - 5;
+                    if (y < 0)
+                        y = 0;
+                    if (y > 100)
+                        y = 100;
+                    data.push(y);
+                }
+
+                // zip the generated y values with the x values
+                var res = [];
+                for (var i = 0; i < data.length; ++i)
+                    res.push([i, data[i]])
+                return res;
+            }
+
+            // setup control widget
+            var updateInterval = 1000;
+            element.val(updateInterval).change(function() {
+                var v = $(this).val();
+                if (v && !isNaN(+v)) {
+                    updateInterval = +v;
+                    if (updateInterval < 1)
+                        updateInterval = 1;
+                    if (updateInterval > 2000)
+                        updateInterval = 2000;
+                    $(this).val("" + updateInterval);
+                }
+            });
+
+            // setup plot
+            var options = {
+                yaxis : {
+                    min : 0,
+                    max : 100
+                },
+                xaxis : {
+                    min : 0,
+                    max : 100
+                },
+                colors : [FlotConfig.chartFourth],
+                series : {
+                    lines : {
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.4
+                            }, {
+                                opacity : 0
+                            }]
+                        },
+                        steps : false
+
+                    }
+                }
+            };
+            var plot = $.plot(element, [getRandomData()], options);
+
+            function update() {
+                plot.setData([getRandomData()]);
+                // since the axes don't change, we don't need to call plot.setupGrid()
+                plot.draw();
+
+                $timeout(update, updateInterval);
+            }
+
+            update();
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotBarChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
+                grid : {
+                    show : true,
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                legend : true,
+                tooltip : true,
+                tooltipOpts : {
+                    content : "<b>%x</b> = <span>%y</span>",
+                    defaultTheme : false
+                }
+
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('flotBasic', function () {
+    return {
+        restrict: 'A',
+        scope:{
+            data:'=flotData',
+            options: '=flotOptions'
+        },
+        link: function (scope, element, attributes) {
+            var plot = $.plot(element, scope.data, scope.options);
+
+            scope.$watchCollection('data', function(newData, oldData){
+                if(newData != oldData){
+                    plot.setData(newData);
+                    plot.draw();
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotFillChart', function(){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+
+                xaxis : {
+                    tickDecimals : 0
+                },
+
+                yaxis : {
+                    tickFormatter : function(v) {
+                        return v + " cm";
+                    }
+                }
+
+            });
+        }
+    }
+})
+"use strict";
+
+angular.module('app.graphs').directive('flotHorizontalBarChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+            $.plot(element, scope.data, {
+                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
+                grid : {
+                    show : true,
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                legend : true,
+                tooltip : true,
+                tooltipOpts : {
+                    content : "<b>%x</b> = <span>%y</span>",
+                    defaultTheme : false
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotPieChart', function(){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+            $.plot(element, scope.data, {
+                series : {
+                    pie : {
+                        show : true,
+                        innerRadius : 0.5,
+                        radius : 1,
+                        label : {
+                            show : false,
+                            radius : 2 / 3,
+                            formatter : function(label, series) {
+                                return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+                            },
+                            threshold : 0.1
+                        }
+                    }
+                },
+                legend : {
+                    show : true,
+                    noColumns : 1, // number of colums in legend table
+                    labelFormatter : null, // fn: string -> string
+                    labelBoxBorderColor : "#000", // border color for the little label boxes
+                    container : null, // container (as jQuery object) to put legend in, null means default on top of graph
+                    position : "ne", // position of default legend container within plot
+                    margin : [5, 10], // distance from grid edge to default legend container within plot
+                    backgroundColor : "#efefef", // null means auto-detect
+                    backgroundOpacity : 1 // set to 0 to avoid background
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true
+                },
+            });
+
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotSalesChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, [scope.data], {
+                xaxis : {
+                    mode : "time",
+                    tickLength : 5
+                },
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.15
+                            }]
+                        }
+                    },
+                    //points: { show: true },
+                    shadowSize : 0
+                },
+                selection : {
+                    mode : "x"
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "Your sales for <b>%x</b> was <span>$%y</span>",
+                    dateFormat : "%y-%0m-%0d",
+                    defaultTheme : false
+                },
+                colors : [FlotConfig.chartSecond]
+
+            });
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotSinChart', function (FlotConfig) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function (scope, element) {
+
+            var plot = $.plot(element, scope.data, {
+                series: {
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: FlotConfig.chartBorderColor,
+                    borderWidth: 0,
+                    borderColor: FlotConfig.chartBorderColor
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    //content : "Value <b>$x</b> Value <span>$y</span>",
+                    defaultTheme: false
+                },
+                colors: [FlotConfig.chartSecond, FlotConfig.chartFourth],
+                yaxis: {
+                    min: -1.1,
+                    max: 1.1
+                },
+                xaxis: {
+                    min: 0,
+                    max: 15
+                }
+            });
+
+            element.on("plotclick", function (event, pos, item) {
+                if (item) {
+                    $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
+                    plot.highlight(item.series, item.datapoint);
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.15
+                            }]
+                        }
+                    },
+                    points : {
+                        show : true
+                    },
+                    shadowSize : 0
+                },
+
+                yaxes : [{
+                    min : 20,
+                    tickLength : 5
+                }],
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "%s for <b>%x:00 hrs</b> was %y",
+                    dateFormat : "%y-%0m-%0d",
+                    defaultTheme : false
+                },
+                colors : [FlotConfig.charMain, FlotConfig.chartSecond],
+                xaxis : {
+                    mode : "time",
+                    tickLength : 10,
+                    ticks : 15,
+                    tickDecimals : 2
+                },
+                yaxis : {
+                    ticks : 15,
+                    tickDecimals : 0
+                }
+            });
 
         }
     }
@@ -16075,1236 +16270,6 @@ angular.module('app.tables').directive('jqGrid', function ($compile) {
         }
     }
 });
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
-    return {
-        restrict: 'A',
-        scope: {
-            coords: '=',
-            options: '=',
-            selection: '='
-        },
-        link: function (scope, element, attributes) {
-            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
-
-            var listeners = {
-                onSelectHandlers: [],
-                onChangeHandlers: [],
-                onSelect: function (c) {
-                    angular.forEach(listeners.onSelectHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                },
-                onChange: function (c) {
-                    angular.forEach(listeners.onChangeHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                }
-            };
-
-            if (attributes.coords) {
-                var coordsUpdate = function (c) {
-                    scope.$apply(function () {
-                        scope.coords = c;
-                    });
-                };
-                listeners.onSelectHandlers.push(coordsUpdate);
-                listeners.onChangeHandlers.push(coordsUpdate);
-            }
-
-            var $previewPane = $(attributes.smartJcropPreview),
-                $previewContainer = $previewPane.find('.preview-container'),
-                $previewImg = $previewPane.find('img');
-
-            if ($previewPane.length && $previewImg.length) {
-                var previewUpdate = function (coords) {
-                    if (parseInt(coords.w) > 0) {
-                        var rx = $previewContainer.width() / coords.w;
-                        var ry = $previewContainer.height() / coords.h;
-
-                        $previewImg.css({
-                            width: Math.round(rx * imageWidth) + 'px',
-                            height: Math.round(ry * imageHeight) + 'px',
-                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
-                        });
-                    }
-                };
-                listeners.onSelectHandlers.push(previewUpdate);
-                listeners.onChangeHandlers.push(previewUpdate);
-            }
-
-
-            var options = {
-                onSelect: listeners.onSelect,
-                onChange: listeners.onChange
-            };
-
-            if ($previewContainer.length) {
-                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
-            }
-
-            if (attributes.selection) {
-                scope.$watch('selection', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
-
-                        var callback = newVal == 'release' ? function () {
-                            jcropApi.release();
-                        } : angular.noop;
-
-                        imageLoaded.promise.then(function () {
-                            if (scope.options && scope.options.animate) {
-                                jcropApi.animateTo(rectangle, callback);
-                            } else {
-                                jcropApi.setSelect(rectangle);
-                            }
-                        });
-                    }
-                });
-            }
-
-            if (attributes.options) {
-
-                var optionNames = [
-                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
-                    'allowSelect', 'allowMove', 'allowResize',
-                    'aspectRatio'
-                ];
-
-                angular.forEach(optionNames, function (name) {
-                    if (scope.options[name])
-                        options[name] = scope.options[name]
-
-                    scope.$watch('options.' + name, function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            imageLoaded.promise.then(function () {
-                                var update = {};
-                                update[name] = newVal;
-                                jcropApi.setOptions(update);
-                            });
-                        }
-                    });
-
-                });
-
-
-                scope.$watch('options.disabled', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.disable();
-                        } else {
-                            jcropApi.enable();
-                        }
-                    }
-                });
-
-                scope.$watch('options.destroyed', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.destroy();
-                        } else {
-                            _init();
-                        }
-                    }
-                });
-
-                scope.$watch('options.src', function (newVal, oldVal) {
-                    imageLoaded = $q.defer();
-                    if (newVal != oldVal) {
-                        jcropApi.setImage(scope.options.src, function () {
-                            imageLoaded.resolve();
-                        });
-                    }
-                });
-
-                var updateSize = function(){
-                    jcropApi.setOptions({
-                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
-                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
-                    });
-                };
-
-                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-            }
-
-            var _init = function () {
-                element.Jcrop(options, function () {
-                    jcropApi = this;
-                    // Use the API to get the real image size
-                    var bounds = this.getBounds();
-                    imageWidth = bounds[0];
-                    imageHeight = bounds[1];
-
-                    if (attributes.selection && angular.isArray(scope.selection)) {
-                        if (scope.options && scope.options.animate) {
-                            jcropApi.animateTo(scope.selection);
-                        } else {
-                            jcropApi.setSelect(scope.selection);
-                        }
-                    }
-                    imageLoaded.resolve();
-                });
-            };
-
-            _init()
-
-
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form) {
-           lazyScript.register('jquery-validation').then(function(){
-
-               scope.countries = formsCommon.countries;
-
-               form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        fname : {
-                            required : true
-                        },
-                        lname : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        phone : {
-                            required : true
-                        },
-                        country : {
-                            required : true
-                        },
-                        city : {
-                            required : true
-                        },
-                        code : {
-                            required : true,
-                            digits : true
-                        },
-                        address : {
-                            required : true
-                        },
-                        name : {
-                            required : true
-                        },
-                        card : {
-                            required : true,
-                            creditcard : true
-                        },
-                        cvv : {
-                            required : true,
-                            digits : true
-                        },
-                        month : {
-                            required : true
-                        },
-                        year : {
-                            required : true,
-                            digits : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        fname : {
-                            required : 'Please enter your first name'
-                        },
-                        lname : {
-                            required : 'Please enter your last name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : 'Please enter a VALID email address'
-                        },
-                        phone : {
-                            required : 'Please enter your phone number'
-                        },
-                        country : {
-                            required : 'Please select your country'
-                        },
-                        city : {
-                            required : 'Please enter your city'
-                        },
-                        code : {
-                            required : 'Please enter code',
-                            digits : 'Digits only please'
-                        },
-                        address : {
-                            required : 'Please enter your full address'
-                        },
-                        name : {
-                            required : 'Please enter name on your card'
-                        },
-                        card : {
-                            required : 'Please enter your card number'
-                        },
-                        cvv : {
-                            required : 'Enter CVV2',
-                            digits : 'Digits only'
-                        },
-                        month : {
-                            required : 'Select month'
-                        },
-                        year : {
-                            required : 'Enter year',
-                            digits : 'Digits only please'
-                        }
-                    }
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCommentForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        url : {
-                            url : true
-                        },
-                        comment : {
-                            required : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Enter your name',
-                        },
-                        email : {
-                            required : 'Enter your email address',
-                            email : 'Enter a VALID email'
-                        },
-                        url : {
-                            email : 'Enter a VALID url'
-                        },
-                        comment : {
-                            required : 'Please enter your comment'
-                        }
-                    },
-
-                    // Ajax form submition
-                    submitHandler : function() {
-                        form.ajaxSubmit({
-                            success : function() {
-                                form.addClass('submited');
-                            }
-                        });
-                    }
-
-                }, formsCommon.validateOptions));
-            });
-
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartContactsForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        message : {
-                            required : true,
-                            minlength : 10
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Please enter your name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : 'Please enter a VALID email address'
-                        },
-                        message : {
-                            required : 'Please enter your message'
-                        }
-                    },
-
-                    // Ajax form submition
-                    submitHandler : function() {
-                        form.ajaxSubmit({
-                            success : function() {
-                                form.addClass('submited');
-                            }
-                        });
-                    }
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartOrderForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'E',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        phone : {
-                            required : true
-                        },
-                        interested : {
-                            required : true
-                        },
-                        budget : {
-                            required : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Please enter your name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : 'Please enter a VALID email address'
-                        },
-                        phone : {
-                            required : 'Please enter your phone number'
-                        },
-                        interested : {
-                            required : 'Please select interested service'
-                        },
-                        budget : {
-                            required : 'Please select your budget'
-                        }
-                    },
-
-                }, formsCommon.validateOptions));
-            });
-
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartRegistrationForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'A',
-        link: function (scope, form, attributes) {
-            lazyScript.register('jquery-validation').then(function(){
-                form.validate(angular.extend({
-
-                    // Rules for form validation
-                    rules: {
-                        username: {
-                            required: true
-                        },
-                        email: {
-                            required: true,
-                            email: true
-                        },
-                        password: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20
-                        },
-                        passwordConfirm: {
-                            required: true,
-                            minlength: 3,
-                            maxlength: 20,
-                            equalTo: '#password'
-                        },
-                        firstname: {
-                            required: true
-                        },
-                        lastname: {
-                            required: true
-                        },
-                        gender: {
-                            required: true
-                        },
-                        terms: {
-                            required: true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages: {
-                        login: {
-                            required: 'Please enter your login'
-                        },
-                        email: {
-                            required: 'Please enter your email address',
-                            email: 'Please enter a VALID email address'
-                        },
-                        password: {
-                            required: 'Please enter your password'
-                        },
-                        passwordConfirm: {
-                            required: 'Please enter your password one more time',
-                            equalTo: 'Please enter the same password as above'
-                        },
-                        firstname: {
-                            required: 'Please select your first name'
-                        },
-                        lastname: {
-                            required: 'Please select your last name'
-                        },
-                        gender: {
-                            required: 'Please select your gender'
-                        },
-                        terms: {
-                            required: 'You must agree with Terms and Conditions'
-                        }
-                    }
-
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsCommon, lazyScript) {
-    return {
-        restrict: 'E',
-        link: function (scope, form) {
-            lazyScript.register('jquery-validation').then(function(){
-
-                form.validate(angular.extend({
-                    // Rules for form validation
-                    rules : {
-                        name : {
-                            required : true
-                        },
-                        email : {
-                            required : true,
-                            email : true
-                        },
-                        review : {
-                            required : true,
-                            minlength : 20
-                        },
-                        quality : {
-                            required : true
-                        },
-                        reliability : {
-                            required : true
-                        },
-                        overall : {
-                            required : true
-                        }
-                    },
-
-                    // Messages for form validation
-                    messages : {
-                        name : {
-                            required : 'Please enter your name'
-                        },
-                        email : {
-                            required : 'Please enter your email address',
-                            email : '<i class="fa fa-warning"></i><strong>Please enter a VALID email addres</strong>'
-                        },
-                        review : {
-                            required : 'Please enter your review'
-                        },
-                        quality : {
-                            required : 'Please rate quality of the product'
-                        },
-                        reliability : {
-                            required : 'Please rate reliability of the product'
-                        },
-                        overall : {
-                            required : 'Please rate the product'
-                        }
-                    }
-
-                }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-dropzone data-smart-dropzone');
-
-            tElement.dropzone({
-                addRemoveLinks : true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartClockpicker', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-clockpicker data-smart-clockpicker');
-
-            var options = {
-                placement: 'top',
-                donetext: 'Done'
-            }
-
-            tElement.clockpicker(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartColorpicker', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-colorpicker data-smart-colorpicker');
-
-
-            var aOptions = _.pick(tAttributes, ['']);
-
-            var options = _.extend(aOptions, {});
-
-            tElement.colorpicker(options);
-        }
-    }
-});
-"use strict";
-
-angular.module('SmartAdmin.Forms').directive('smartDatepicker', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smartDatepicker');
-
-            var onSelectCallbacks = [];
-            if (attributes.minRestrict) {
-                onSelectCallbacks.push(function (selectedDate) {
-                    $(attributes.minRestrict).datepicker('option', 'minDate', selectedDate);
-                });
-            }
-            if (attributes.maxRestrict) {
-                onSelectCallbacks.push(function (selectedDate) {
-                    $(attributes.maxRestrict).datepicker('option', 'maxDate', selectedDate);
-                });
-            }
-
-            //Let others know about changes to the data field
-            onSelectCallbacks.push(function (selectedDate) {
-                //CVB - 07/14/2015 - Update the scope with the selected value
-                element.triggerHandler("change");
-
-                //CVB - 07/17/2015 - Update Bootstrap Validator
-                var form = element.closest('form');
-
-                if(typeof form.bootstrapValidator == 'function')
-                    form.bootstrapValidator('revalidateField', element.attr('name'));
-            });
-
-            var options = {
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                dateFormat: 'yy-mm-dd',//日期格式
-                yearSuffix: '年', //年的后缀
-                showMonthAfterYear:true,//是否把月放在年的后面
-                monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
-                dayNamesMin: ['日','一','二','三','四','五','六'],
-                onSelect: function (selectedDate) {
-                    angular.forEach(onSelectCallbacks, function (callback) {
-                        callback.call(this, selectedDate)
-                    })
-                }
-            };
-
-
-            if (attributes.numberOfMonths) options.numberOfMonths = parseInt(attributes.numberOfMonths);
-
-            if (attributes.dateFormat) options.dateFormat = attributes.dateFormat;
-
-            if (attributes.defaultDate) options.defaultDate = attributes.defaultDate;
-
-            if (attributes.changeMonth) options.changeMonth = attributes.changeMonth == "true";
-
-
-            element.datepicker(options)
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDuallistbox', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-duallistbox data-smart-duallistbox');
-
-
-            var aOptions = _.pick(tAttributes, ['nonSelectedFilter']);
-
-            var options = _.extend(aOptions, {
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false
-            });
-
-            tElement.bootstrapDualListbox(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartIonslider', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-ionslider data-smart-ionslider');
-
-        	lazyScript.register('ionslider').then(function(){
-            	element.ionRangeSlider();
-        	});
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartKnob', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-knob data-smart-knob');
-
-            tElement.knob();
-        }
-    }
-});
-"use strict";
-
-angular.module('SmartAdmin.Forms').directive('smartMaskedInput', function(lazyScript){
-    return {
-        restrict: 'A',
-        compile: function(tElement, tAttributes){
-            tElement.removeAttr('smart-masked-input data-smart-masked-input');
-
-        	lazyScript.register('jquery-maskedinput').then(function(){
-
-	            var options = {};
-	            if(tAttributes.maskPlaceholder) options.placeholder =  tAttributes.maskPlaceholder;
-	            tElement.mask(tAttributes.smartMaskedInput, options);
-        	})	            
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartNouislider', function ($parse, lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            lazyScript.register('nouislider').then(function(){
-                tElement.removeAttr('smart-nouislider data-smart-nouislider');
-
-                tElement.addClass('noUiSlider');
-
-                var options = {
-                    range: {
-                        min: tAttributes.rangeMin ? parseInt(tAttributes.rangeMin) : 0,
-                        max: tAttributes.rangeMax ? parseInt(tAttributes.rangeMax) : 1000
-                    },
-                    start: $parse(tAttributes.start)()
-                };
-
-                if (tAttributes.step) options.step =  parseInt(tAttributes.step);
-
-                if(tAttributes.connect) options.connect = tAttributes.connect == 'true' ? true : tAttributes.connect;
-
-                tElement.noUiSlider(options);
-
-                if(tAttributes.update) tElement.on('slide', function(){
-                    $(tAttributes.update).text(JSON.stringify(tElement.val()));
-                });                
-            })
-        }
-    }
-});
-'use strict'
-
-angular.module('SmartAdmin.Forms').directive('smartSelect2', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.hide().removeAttr('smart-select2 data-smart-select2');
-        	lazyScript.register('select2').then(function(){
-	            element.show().select2();
-        	})
-        }
-    }
-});
-'use strict'
-
-angular.module('SmartAdmin.Forms').directive('smartSpinner', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-spinner');
-
-            var options = {};
-            if(tAttributes.smartSpinner == 'deicimal'){
-                options = {
-                    step: 0.01,
-                    numberFormat: "n"
-                };
-            }else if(tAttributes.smartSpinner == 'currency'){
-                options = {
-                    min: 5,
-                    max: 2500,
-                    step: 25,
-                    start: 1000,
-                    numberFormat: "C"
-                };
-            }
-
-            tElement.spinner(options);
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartTagsinput', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-tagsinput data-smart-tagsinput');
-            tElement.tagsinput();
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartTimepicker', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-timepicker data-smart-timepicker');
-            tElement.timepicker();
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartUislider', function ($parse, lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-
-            tElement.removeAttr('smart-uislider data-smart-uislider');
-
-            lazyScript.register('bootstrap-slider').then(function(){
-			    tElement.bootstrapSlider();
-
-			    $(tElement.data('bootstrapSlider').sliderElem).prepend(tElement);      	
-            })
-
-        }
-    }
-});
-"use strict";
-
-angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout, $log){
-
-	function link (scope, element, attrs, ngModel) {
-
-        var defaults = {
-            // display: function(value, srcData) {
-            //     ngModel.$setViewValue(value);
-            //     // scope.$apply();
-            // }
-        };
-
-        var inited = false;
-
-        var initXeditable = function() {
-
-            var options = scope.options || {};
-    		var initOptions = angular.extend(defaults, options);
-
-            // $log.log(initOptions);
-            element.editable('destroy');
-            element.editable(initOptions);
-        }
-
-        scope.$watch("options", function(newValue) {
-
-            if(!newValue) {
-                return false;
-            }
-
-            initXeditable();
-
-            // $log.log("Options changed...");
-
-        }, true);
-
-    }
-
-    return {
-    	restrict: 'A',
-    	require: "ngModel",
-        scope: {
-            options: "="
-        },
-    	link: link 
-
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
-    return {
-        restrict: 'A',
-        link: function (scope, form, attributes) {
-
-            var validateOptions = {
-                rules: {},
-                messages: {},
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            };
-            form.find('[data-smart-validate-input], [smart-validate-input]').each(function () {
-                var $input = $(this), fieldName = $input.attr('name');
-
-                validateOptions.rules[fieldName] = {};
-
-                if ($input.data('required') != undefined) {
-                    validateOptions.rules[fieldName].required = true;
-                }
-                if ($input.data('email') != undefined) {
-                    validateOptions.rules[fieldName].email = true;
-                }
-
-                if ($input.data('maxlength') != undefined) {
-                    validateOptions.rules[fieldName].maxlength = $input.data('maxlength');
-                }
-
-                if ($input.data('minlength') != undefined) {
-                    validateOptions.rules[fieldName].minlength = $input.data('minlength');
-                }
-
-                if($input.data('message')){
-                    validateOptions.messages[fieldName] = $input.data('message');
-                } else {
-                    angular.forEach($input.data(), function(value, key){
-                        if(key.search(/message/)== 0){
-                            if(!validateOptions.messages[fieldName])
-                                validateOptions.messages[fieldName] = {};
-
-                            var messageKey = key.toLowerCase().replace(/^message/,'')
-                            validateOptions.messages[fieldName][messageKey] = value;
-                        }
-                    });
-                }
-            });
-
-
-            form.validate(validateOptions);
-
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartFueluxWizard', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            smartWizardCallback: '&'
-        },
-        link: function (scope, element, attributes) {
-
-            var wizard = element.wizard();
-
-            var $form = element.find('form');
-
-            wizard.on('actionclicked.fu.wizard', function(e, data){
-                if ($form.data('validator')) {
-                    if (!$form.valid()) {
-                        $form.data('validator').focusInvalid();
-                        e.preventDefault();
-                    }
-                }
-            });
-
-            wizard.on('finished.fu.wizard', function (e, data) {
-                var formData = {};
-                _.each($form.serializeArray(), function(field){
-                    formData[field.name] = field.value
-                });
-                if(typeof scope.smartWizardCallback() === 'function'){
-                    scope.smartWizardCallback()(formData)
-                }
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            'smartWizardCallback': '&'
-        },
-        link: function (scope, element, attributes) {
-
-            var stepsCount = $('[data-smart-wizard-tab]').length;
-
-            var currentStep = 1;
-
-            var validSteps = [];
-
-            var $form = element.closest('form');
-
-            var $prev = $('[data-smart-wizard-prev]', element);
-
-            var $next = $('[data-smart-wizard-next]', element);
-
-            function setStep(step) {
-                currentStep = step;
-                $('[data-smart-wizard-pane=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-pane]').removeClass('active');
-                $('[data-smart-wizard-tab=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-tab]').removeClass('active');
-
-                $prev.toggleClass('disabled', step == 1)
-            }
-
-
-            element.on('click', '[data-smart-wizard-tab]', function (e) {
-                setStep(parseInt($(this).data('smartWizardTab')));
-                e.preventDefault();
-            });
-
-            $next.on('click', function (e) {
-                if ($form.data('validator')) {
-                    if (!$form.valid()) {
-                        validSteps = _.without(validSteps, currentStep);
-                        $form.data('validator').focusInvalid();
-                        return false;
-                    } else {
-                        validSteps = _.without(validSteps, currentStep);
-                        validSteps.push(currentStep);
-                        element.find('[data-smart-wizard-tab=' + currentStep + ']')
-                            .addClass('complete')
-                            .find('.step')
-                            .html('<i class="fa fa-check"></i>');
-                    }
-                }
-                if (currentStep < stepsCount) {
-                    setStep(currentStep + 1);
-                } else {
-                    if (validSteps.length < stepsCount) {
-                        var steps = _.range(1, stepsCount + 1)
-
-                        _(steps).forEach(function (num) {
-                            if (validSteps.indexOf(num) == -1) {
-                                console.log(num);
-                                setStep(num);
-                                return false;
-                            }
-                        })
-                    } else {
-                        var data = {};
-                        _.each($form.serializeArray(), function(field){
-                            data[field.name] = field.value
-                        });
-                        if(typeof  scope.smartWizardCallback() === 'function'){
-                            scope.smartWizardCallback()(data)
-                        }
-                    }
-                }
-
-                e.preventDefault();
-            });
-
-            $prev.on('click', function (e) {
-                if (!$prev.hasClass('disabled') && currentStep > 0) {
-                    setStep(currentStep - 1);
-                }
-                e.preventDefault();
-            });
-
-
-            setStep(currentStep);
-
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
-            });
-        }
-    }
-});
 "use strict";
 
 
@@ -17742,6 +16707,1236 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 
 
 
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form) {
+           lazyScript.register('jquery-validation').then(function(){
+
+               scope.countries = formsCommon.countries;
+
+               form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        fname : {
+                            required : true
+                        },
+                        lname : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        phone : {
+                            required : true
+                        },
+                        country : {
+                            required : true
+                        },
+                        city : {
+                            required : true
+                        },
+                        code : {
+                            required : true,
+                            digits : true
+                        },
+                        address : {
+                            required : true
+                        },
+                        name : {
+                            required : true
+                        },
+                        card : {
+                            required : true,
+                            creditcard : true
+                        },
+                        cvv : {
+                            required : true,
+                            digits : true
+                        },
+                        month : {
+                            required : true
+                        },
+                        year : {
+                            required : true,
+                            digits : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        fname : {
+                            required : 'Please enter your first name'
+                        },
+                        lname : {
+                            required : 'Please enter your last name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        phone : {
+                            required : 'Please enter your phone number'
+                        },
+                        country : {
+                            required : 'Please select your country'
+                        },
+                        city : {
+                            required : 'Please enter your city'
+                        },
+                        code : {
+                            required : 'Please enter code',
+                            digits : 'Digits only please'
+                        },
+                        address : {
+                            required : 'Please enter your full address'
+                        },
+                        name : {
+                            required : 'Please enter name on your card'
+                        },
+                        card : {
+                            required : 'Please enter your card number'
+                        },
+                        cvv : {
+                            required : 'Enter CVV2',
+                            digits : 'Digits only'
+                        },
+                        month : {
+                            required : 'Select month'
+                        },
+                        year : {
+                            required : 'Enter year',
+                            digits : 'Digits only please'
+                        }
+                    }
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCommentForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        url : {
+                            url : true
+                        },
+                        comment : {
+                            required : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Enter your name',
+                        },
+                        email : {
+                            required : 'Enter your email address',
+                            email : 'Enter a VALID email'
+                        },
+                        url : {
+                            email : 'Enter a VALID url'
+                        },
+                        comment : {
+                            required : 'Please enter your comment'
+                        }
+                    },
+
+                    // Ajax form submition
+                    submitHandler : function() {
+                        form.ajaxSubmit({
+                            success : function() {
+                                form.addClass('submited');
+                            }
+                        });
+                    }
+
+                }, formsCommon.validateOptions));
+            });
+
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartContactsForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        message : {
+                            required : true,
+                            minlength : 10
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Please enter your name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        message : {
+                            required : 'Please enter your message'
+                        }
+                    },
+
+                    // Ajax form submition
+                    submitHandler : function() {
+                        form.ajaxSubmit({
+                            success : function() {
+                                form.addClass('submited');
+                            }
+                        });
+                    }
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartOrderForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'E',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        phone : {
+                            required : true
+                        },
+                        interested : {
+                            required : true
+                        },
+                        budget : {
+                            required : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Please enter your name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        phone : {
+                            required : 'Please enter your phone number'
+                        },
+                        interested : {
+                            required : 'Please select interested service'
+                        },
+                        budget : {
+                            required : 'Please select your budget'
+                        }
+                    },
+
+                }, formsCommon.validateOptions));
+            });
+
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartRegistrationForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'A',
+        link: function (scope, form, attributes) {
+            lazyScript.register('jquery-validation').then(function(){
+                form.validate(angular.extend({
+
+                    // Rules for form validation
+                    rules: {
+                        username: {
+                            required: true
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20
+                        },
+                        passwordConfirm: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20,
+                            equalTo: '#password'
+                        },
+                        firstname: {
+                            required: true
+                        },
+                        lastname: {
+                            required: true
+                        },
+                        gender: {
+                            required: true
+                        },
+                        terms: {
+                            required: true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages: {
+                        login: {
+                            required: 'Please enter your login'
+                        },
+                        email: {
+                            required: 'Please enter your email address',
+                            email: 'Please enter a VALID email address'
+                        },
+                        password: {
+                            required: 'Please enter your password'
+                        },
+                        passwordConfirm: {
+                            required: 'Please enter your password one more time',
+                            equalTo: 'Please enter the same password as above'
+                        },
+                        firstname: {
+                            required: 'Please select your first name'
+                        },
+                        lastname: {
+                            required: 'Please select your last name'
+                        },
+                        gender: {
+                            required: 'Please select your gender'
+                        },
+                        terms: {
+                            required: 'You must agree with Terms and Conditions'
+                        }
+                    }
+
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsCommon, lazyScript) {
+    return {
+        restrict: 'E',
+        link: function (scope, form) {
+            lazyScript.register('jquery-validation').then(function(){
+
+                form.validate(angular.extend({
+                    // Rules for form validation
+                    rules : {
+                        name : {
+                            required : true
+                        },
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        review : {
+                            required : true,
+                            minlength : 20
+                        },
+                        quality : {
+                            required : true
+                        },
+                        reliability : {
+                            required : true
+                        },
+                        overall : {
+                            required : true
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        name : {
+                            required : 'Please enter your name'
+                        },
+                        email : {
+                            required : 'Please enter your email address',
+                            email : '<i class="fa fa-warning"></i><strong>Please enter a VALID email addres</strong>'
+                        },
+                        review : {
+                            required : 'Please enter your review'
+                        },
+                        quality : {
+                            required : 'Please rate quality of the product'
+                        },
+                        reliability : {
+                            required : 'Please rate reliability of the product'
+                        },
+                        overall : {
+                            required : 'Please rate the product'
+                        }
+                    }
+
+                }, formsCommon.validateOptions));
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
+    return {
+        restrict: 'A',
+        scope: {
+            coords: '=',
+            options: '=',
+            selection: '='
+        },
+        link: function (scope, element, attributes) {
+            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
+
+            var listeners = {
+                onSelectHandlers: [],
+                onChangeHandlers: [],
+                onSelect: function (c) {
+                    angular.forEach(listeners.onSelectHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                },
+                onChange: function (c) {
+                    angular.forEach(listeners.onChangeHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                }
+            };
+
+            if (attributes.coords) {
+                var coordsUpdate = function (c) {
+                    scope.$apply(function () {
+                        scope.coords = c;
+                    });
+                };
+                listeners.onSelectHandlers.push(coordsUpdate);
+                listeners.onChangeHandlers.push(coordsUpdate);
+            }
+
+            var $previewPane = $(attributes.smartJcropPreview),
+                $previewContainer = $previewPane.find('.preview-container'),
+                $previewImg = $previewPane.find('img');
+
+            if ($previewPane.length && $previewImg.length) {
+                var previewUpdate = function (coords) {
+                    if (parseInt(coords.w) > 0) {
+                        var rx = $previewContainer.width() / coords.w;
+                        var ry = $previewContainer.height() / coords.h;
+
+                        $previewImg.css({
+                            width: Math.round(rx * imageWidth) + 'px',
+                            height: Math.round(ry * imageHeight) + 'px',
+                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                        });
+                    }
+                };
+                listeners.onSelectHandlers.push(previewUpdate);
+                listeners.onChangeHandlers.push(previewUpdate);
+            }
+
+
+            var options = {
+                onSelect: listeners.onSelect,
+                onChange: listeners.onChange
+            };
+
+            if ($previewContainer.length) {
+                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
+            }
+
+            if (attributes.selection) {
+                scope.$watch('selection', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
+
+                        var callback = newVal == 'release' ? function () {
+                            jcropApi.release();
+                        } : angular.noop;
+
+                        imageLoaded.promise.then(function () {
+                            if (scope.options && scope.options.animate) {
+                                jcropApi.animateTo(rectangle, callback);
+                            } else {
+                                jcropApi.setSelect(rectangle);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (attributes.options) {
+
+                var optionNames = [
+                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
+                    'allowSelect', 'allowMove', 'allowResize',
+                    'aspectRatio'
+                ];
+
+                angular.forEach(optionNames, function (name) {
+                    if (scope.options[name])
+                        options[name] = scope.options[name]
+
+                    scope.$watch('options.' + name, function (newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            imageLoaded.promise.then(function () {
+                                var update = {};
+                                update[name] = newVal;
+                                jcropApi.setOptions(update);
+                            });
+                        }
+                    });
+
+                });
+
+
+                scope.$watch('options.disabled', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.disable();
+                        } else {
+                            jcropApi.enable();
+                        }
+                    }
+                });
+
+                scope.$watch('options.destroyed', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.destroy();
+                        } else {
+                            _init();
+                        }
+                    }
+                });
+
+                scope.$watch('options.src', function (newVal, oldVal) {
+                    imageLoaded = $q.defer();
+                    if (newVal != oldVal) {
+                        jcropApi.setImage(scope.options.src, function () {
+                            imageLoaded.resolve();
+                        });
+                    }
+                });
+
+                var updateSize = function(){
+                    jcropApi.setOptions({
+                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
+                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
+                    });
+                };
+
+                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+            }
+
+            var _init = function () {
+                element.Jcrop(options, function () {
+                    jcropApi = this;
+                    // Use the API to get the real image size
+                    var bounds = this.getBounds();
+                    imageWidth = bounds[0];
+                    imageHeight = bounds[1];
+
+                    if (attributes.selection && angular.isArray(scope.selection)) {
+                        if (scope.options && scope.options.animate) {
+                            jcropApi.animateTo(scope.selection);
+                        } else {
+                            jcropApi.setSelect(scope.selection);
+                        }
+                    }
+                    imageLoaded.resolve();
+                });
+            };
+
+            _init()
+
+
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartClockpicker', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-clockpicker data-smart-clockpicker');
+
+            var options = {
+                placement: 'top',
+                donetext: 'Done'
+            }
+
+            tElement.clockpicker(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartColorpicker', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-colorpicker data-smart-colorpicker');
+
+
+            var aOptions = _.pick(tAttributes, ['']);
+
+            var options = _.extend(aOptions, {});
+
+            tElement.colorpicker(options);
+        }
+    }
+});
+"use strict";
+
+angular.module('SmartAdmin.Forms').directive('smartDatepicker', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smartDatepicker');
+
+            var onSelectCallbacks = [];
+            if (attributes.minRestrict) {
+                onSelectCallbacks.push(function (selectedDate) {
+                    $(attributes.minRestrict).datepicker('option', 'minDate', selectedDate);
+                });
+            }
+            if (attributes.maxRestrict) {
+                onSelectCallbacks.push(function (selectedDate) {
+                    $(attributes.maxRestrict).datepicker('option', 'maxDate', selectedDate);
+                });
+            }
+
+            //Let others know about changes to the data field
+            onSelectCallbacks.push(function (selectedDate) {
+                //CVB - 07/14/2015 - Update the scope with the selected value
+                element.triggerHandler("change");
+
+                //CVB - 07/17/2015 - Update Bootstrap Validator
+                var form = element.closest('form');
+
+                if(typeof form.bootstrapValidator == 'function')
+                    form.bootstrapValidator('revalidateField', element.attr('name'));
+            });
+
+            var options = {
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                dateFormat: 'yy-mm-dd',//日期格式
+                yearSuffix: '年', //年的后缀
+                showMonthAfterYear:true,//是否把月放在年的后面
+                monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                dayNamesMin: ['日','一','二','三','四','五','六'],
+                onSelect: function (selectedDate) {
+                    angular.forEach(onSelectCallbacks, function (callback) {
+                        callback.call(this, selectedDate)
+                    })
+                }
+            };
+
+
+            if (attributes.numberOfMonths) options.numberOfMonths = parseInt(attributes.numberOfMonths);
+
+            if (attributes.dateFormat) options.dateFormat = attributes.dateFormat;
+
+            if (attributes.defaultDate) options.defaultDate = attributes.defaultDate;
+
+            if (attributes.changeMonth) options.changeMonth = attributes.changeMonth == "true";
+
+
+            element.datepicker(options)
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDuallistbox', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-duallistbox data-smart-duallistbox');
+
+
+            var aOptions = _.pick(tAttributes, ['nonSelectedFilter']);
+
+            var options = _.extend(aOptions, {
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false
+            });
+
+            tElement.bootstrapDualListbox(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartIonslider', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-ionslider data-smart-ionslider');
+
+        	lazyScript.register('ionslider').then(function(){
+            	element.ionRangeSlider();
+        	});
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartKnob', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-knob data-smart-knob');
+
+            tElement.knob();
+        }
+    }
+});
+"use strict";
+
+angular.module('SmartAdmin.Forms').directive('smartMaskedInput', function(lazyScript){
+    return {
+        restrict: 'A',
+        compile: function(tElement, tAttributes){
+            tElement.removeAttr('smart-masked-input data-smart-masked-input');
+
+        	lazyScript.register('jquery-maskedinput').then(function(){
+
+	            var options = {};
+	            if(tAttributes.maskPlaceholder) options.placeholder =  tAttributes.maskPlaceholder;
+	            tElement.mask(tAttributes.smartMaskedInput, options);
+        	})	            
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartNouislider', function ($parse, lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            lazyScript.register('nouislider').then(function(){
+                tElement.removeAttr('smart-nouislider data-smart-nouislider');
+
+                tElement.addClass('noUiSlider');
+
+                var options = {
+                    range: {
+                        min: tAttributes.rangeMin ? parseInt(tAttributes.rangeMin) : 0,
+                        max: tAttributes.rangeMax ? parseInt(tAttributes.rangeMax) : 1000
+                    },
+                    start: $parse(tAttributes.start)()
+                };
+
+                if (tAttributes.step) options.step =  parseInt(tAttributes.step);
+
+                if(tAttributes.connect) options.connect = tAttributes.connect == 'true' ? true : tAttributes.connect;
+
+                tElement.noUiSlider(options);
+
+                if(tAttributes.update) tElement.on('slide', function(){
+                    $(tAttributes.update).text(JSON.stringify(tElement.val()));
+                });                
+            })
+        }
+    }
+});
+'use strict'
+
+angular.module('SmartAdmin.Forms').directive('smartSelect2', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.hide().removeAttr('smart-select2 data-smart-select2');
+        	lazyScript.register('select2').then(function(){
+	            element.show().select2();
+        	})
+        }
+    }
+});
+'use strict'
+
+angular.module('SmartAdmin.Forms').directive('smartSpinner', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-spinner');
+
+            var options = {};
+            if(tAttributes.smartSpinner == 'deicimal'){
+                options = {
+                    step: 0.01,
+                    numberFormat: "n"
+                };
+            }else if(tAttributes.smartSpinner == 'currency'){
+                options = {
+                    min: 5,
+                    max: 2500,
+                    step: 25,
+                    start: 1000,
+                    numberFormat: "C"
+                };
+            }
+
+            tElement.spinner(options);
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartTagsinput', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-tagsinput data-smart-tagsinput');
+            tElement.tagsinput();
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartTimepicker', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-timepicker data-smart-timepicker');
+            tElement.timepicker();
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartUislider', function ($parse, lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+
+            tElement.removeAttr('smart-uislider data-smart-uislider');
+
+            lazyScript.register('bootstrap-slider').then(function(){
+			    tElement.bootstrapSlider();
+
+			    $(tElement.data('bootstrapSlider').sliderElem).prepend(tElement);      	
+            })
+
+        }
+    }
+});
+"use strict";
+
+angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout, $log){
+
+	function link (scope, element, attrs, ngModel) {
+
+        var defaults = {
+            // display: function(value, srcData) {
+            //     ngModel.$setViewValue(value);
+            //     // scope.$apply();
+            // }
+        };
+
+        var inited = false;
+
+        var initXeditable = function() {
+
+            var options = scope.options || {};
+    		var initOptions = angular.extend(defaults, options);
+
+            // $log.log(initOptions);
+            element.editable('destroy');
+            element.editable(initOptions);
+        }
+
+        scope.$watch("options", function(newValue) {
+
+            if(!newValue) {
+                return false;
+            }
+
+            initXeditable();
+
+            // $log.log("Options changed...");
+
+        }, true);
+
+    }
+
+    return {
+    	restrict: 'A',
+    	require: "ngModel",
+        scope: {
+            options: "="
+        },
+    	link: link 
+
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-dropzone data-smart-dropzone');
+
+            tElement.dropzone({
+                addRemoveLinks : true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
+    return {
+        restrict: 'A',
+        link: function (scope, form, attributes) {
+
+            var validateOptions = {
+                rules: {},
+                messages: {},
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            };
+            form.find('[data-smart-validate-input], [smart-validate-input]').each(function () {
+                var $input = $(this), fieldName = $input.attr('name');
+
+                validateOptions.rules[fieldName] = {};
+
+                if ($input.data('required') != undefined) {
+                    validateOptions.rules[fieldName].required = true;
+                }
+                if ($input.data('email') != undefined) {
+                    validateOptions.rules[fieldName].email = true;
+                }
+
+                if ($input.data('maxlength') != undefined) {
+                    validateOptions.rules[fieldName].maxlength = $input.data('maxlength');
+                }
+
+                if ($input.data('minlength') != undefined) {
+                    validateOptions.rules[fieldName].minlength = $input.data('minlength');
+                }
+
+                if($input.data('message')){
+                    validateOptions.messages[fieldName] = $input.data('message');
+                } else {
+                    angular.forEach($input.data(), function(value, key){
+                        if(key.search(/message/)== 0){
+                            if(!validateOptions.messages[fieldName])
+                                validateOptions.messages[fieldName] = {};
+
+                            var messageKey = key.toLowerCase().replace(/^message/,'')
+                            validateOptions.messages[fieldName][messageKey] = value;
+                        }
+                    });
+                }
+            });
+
+
+            form.validate(validateOptions);
+
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartFueluxWizard', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            smartWizardCallback: '&'
+        },
+        link: function (scope, element, attributes) {
+
+            var wizard = element.wizard();
+
+            var $form = element.find('form');
+
+            wizard.on('actionclicked.fu.wizard', function(e, data){
+                if ($form.data('validator')) {
+                    if (!$form.valid()) {
+                        $form.data('validator').focusInvalid();
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            wizard.on('finished.fu.wizard', function (e, data) {
+                var formData = {};
+                _.each($form.serializeArray(), function(field){
+                    formData[field.name] = field.value
+                });
+                if(typeof scope.smartWizardCallback() === 'function'){
+                    scope.smartWizardCallback()(formData)
+                }
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            'smartWizardCallback': '&'
+        },
+        link: function (scope, element, attributes) {
+
+            var stepsCount = $('[data-smart-wizard-tab]').length;
+
+            var currentStep = 1;
+
+            var validSteps = [];
+
+            var $form = element.closest('form');
+
+            var $prev = $('[data-smart-wizard-prev]', element);
+
+            var $next = $('[data-smart-wizard-next]', element);
+
+            function setStep(step) {
+                currentStep = step;
+                $('[data-smart-wizard-pane=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-pane]').removeClass('active');
+                $('[data-smart-wizard-tab=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-tab]').removeClass('active');
+
+                $prev.toggleClass('disabled', step == 1)
+            }
+
+
+            element.on('click', '[data-smart-wizard-tab]', function (e) {
+                setStep(parseInt($(this).data('smartWizardTab')));
+                e.preventDefault();
+            });
+
+            $next.on('click', function (e) {
+                if ($form.data('validator')) {
+                    if (!$form.valid()) {
+                        validSteps = _.without(validSteps, currentStep);
+                        $form.data('validator').focusInvalid();
+                        return false;
+                    } else {
+                        validSteps = _.without(validSteps, currentStep);
+                        validSteps.push(currentStep);
+                        element.find('[data-smart-wizard-tab=' + currentStep + ']')
+                            .addClass('complete')
+                            .find('.step')
+                            .html('<i class="fa fa-check"></i>');
+                    }
+                }
+                if (currentStep < stepsCount) {
+                    setStep(currentStep + 1);
+                } else {
+                    if (validSteps.length < stepsCount) {
+                        var steps = _.range(1, stepsCount + 1)
+
+                        _(steps).forEach(function (num) {
+                            if (validSteps.indexOf(num) == -1) {
+                                console.log(num);
+                                setStep(num);
+                                return false;
+                            }
+                        })
+                    } else {
+                        var data = {};
+                        _.each($form.serializeArray(), function(field){
+                            data[field.name] = field.value
+                        });
+                        if(typeof  scope.smartWizardCallback() === 'function'){
+                            scope.smartWizardCallback()(data)
+                        }
+                    }
+                }
+
+                e.preventDefault();
+            });
+
+            $prev.on('click', function (e) {
+                if (!$prev.hasClass('disabled') && currentStep > 0) {
+                    setStep(currentStep - 1);
+                }
+                e.preventDefault();
+            });
+
+
+            setStep(currentStep);
+
+        }
+    }
 });
 'use strict';
 

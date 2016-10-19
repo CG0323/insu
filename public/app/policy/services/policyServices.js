@@ -8,6 +8,7 @@ angular.module('app.policy').factory('PolicyService',
                 savePolicy: savePolicy,
                 getPolicies: getPolicies,
                 getClients: getClients,
+                getOrgClients: getOrgClients,
                 getCompanies: getCompanies,
                 getPolicy: getPolicy,
                 deletePolicy: deletePolicy,
@@ -163,6 +164,30 @@ angular.module('app.policy').factory('PolicyService',
 
                 // send a post request to the server
                 $http.get('/api/clients')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {

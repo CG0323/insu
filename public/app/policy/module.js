@@ -38,6 +38,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.import', {
+            url: '/policies/import',
+            data: {
+                title: '保单批量导入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyImportController as vm',
+                    templateUrl: 'app/policy/views/policy-importer.html'
+                }
+            }
+        })
         .state('app.policy.pay', {
             url: '/policies/pay/:policyId',
             data: {

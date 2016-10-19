@@ -109,6 +109,7 @@ angular.module('app.client').factory('ClientService',
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
+
                         } else {
                             deferred.reject(status);
                         }

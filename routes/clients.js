@@ -16,7 +16,6 @@ router.get('/', function(req, res, next) {
   }else if(type == "manager"){
     query = {client_type:'主管'};
   }
-  console.log(query);
   Client.find(query).exec()
   .then(function(clients){
     for(var i = 0; i<clients.length; i++){
@@ -78,6 +77,8 @@ router.put('/:id', function (req, res) {
         client.phone = req.body.phone;
         client.wechats = req.body.wechats;
         client.other_accounts = req.body.other_accounts;
+        client.payment_substract_rate = req.body.payment_substract_rate;
+        
         client.save(function (err) {
             if (err){
               logger.error(err);
