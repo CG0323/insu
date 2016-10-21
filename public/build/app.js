@@ -840,8 +840,8 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
             },
             views: {
                 "content@app": {
-                    controller: 'CompanyListController as vm',
-                    templateUrl: 'app/company/views/company-list.html'
+                    controller: 'LegacyCompanyListController as vm',
+                    templateUrl: 'app/company/views/legacy-company-list.html'
                 }
             }
         })
@@ -852,8 +852,8 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
             },
             views: {
                 "content@app": {
-                    controller: 'CompanyEditorController as vm',
-                    templateUrl: 'app/company/views/company.html'
+                    controller: 'LegacyCompanyEditorController as vm',
+                    templateUrl: 'app/company/views/legacy-company.html'
                 }
             }
         })
@@ -864,8 +864,8 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
             },
             views: {
                 "content@app": {
-                    controller: 'CompanyEditorController as vm',
-                    templateUrl: 'app/company/views/company.html'
+                    controller: 'LegacyCompanyEditorController as vm',
+                    templateUrl: 'app/company/views/legacy-company.html'
                 }
             }
         })
@@ -2087,18 +2087,6 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
-        .state('app.policy.import', {
-            url: '/policies/import',
-            data: {
-                title: '保单批量导入'
-            },
-            views: {
-                "content@app": {
-                    controller: 'PolicyImportController as vm',
-                    templateUrl: 'app/policy/views/policy-importer.html'
-                }
-            }
-        })
         .state('app.policy.pay', {
             url: '/policies/pay/:policyId',
             data: {
@@ -2240,6 +2228,48 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                         'datatables-responsive'
                     ])
 
+                }
+            }
+        })
+        .state('app.policy.org-policy', {
+            abstract: true,
+            data: {
+                title: '车商车险'
+            }
+        })        
+        .state('app.policy.org-policy.import', {
+            url: '/policies/org-policies/import',
+            data: {
+                title: '车商保单批量导入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'OrgPolicyImportController as vm',
+                    templateUrl: 'app/policy/views/org-policy-importer.html'
+                }
+            }
+        })
+        .state('app.policy.org-policy.to-be-paid', {
+            url: '/policies/org-policies/to-be-paid',
+            data: {
+                title: '待支付车商保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'OrgPolicyListController as vm',
+                    templateUrl: 'app/policy/views/org-policy-list.html'
+                }
+            }
+        })
+        .state('app.policy.org-policy.paid', {
+            url: '/policies/org-policies/paid',
+            data: {
+                title: '已支付车商保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'OrgPolicyListController as vm',
+                    templateUrl: 'app/policy/views/org-policy-list-paid.html'
                 }
             }
         })
@@ -2567,7 +2597,7 @@ $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-wid
 $templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-6\">\r\n            <span class=\"txt-color-white txt-big\">红叶保险代理@结算系统</span>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\r\n<div id=\"logo-group\">\r\n\r\n    <!-- PLACE YOUR LOGO HERE -->\r\n    <span id=\"logo\"> <img src=\"styles/img/hy-text-logo.png\" alt=\"SmartAdmin\"> </span>\r\n    <!-- END LOGO PLACEHOLDER -->\r\n\r\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\r\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\r\n    <!--<span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \r\n        <i class=\"fa fa-user\"></i> \r\n        <b class=\"badge bg-color-red\">21</b> \r\n    </span>\r\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>-->\r\n</div>\r\n\r\n\r\n<!--<recent-projects></recent-projects>-->\r\n\r\n\r\n\r\n<!-- pulled right: nav area -->\r\n<div class=\"pull-right\">\r\n\r\n    <!-- collapse menu button -->\r\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\r\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\r\n                class=\"fa fa-reorder\"></i></a> </span>\r\n    </div>\r\n    <!-- end collapse menu -->\r\n\r\n    <!-- #MOBILE -->\r\n    <!-- Top menu profile link : this shows only when top menu is active -->\r\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\r\n        <li class=\"\">\r\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\r\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\r\n            </a>\r\n            <ul class=\"dropdown-menu pull-right\">\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\r\n                            class=\"fa fa-cog\"></i> Setting</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\r\n                        <u>P</u>rofile</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\r\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n\r\n    <!-- logout button -->\r\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\r\n        <span> <a ng-click=\"logout()\" title=\"Sign Out\" data-action=\"userLogout\"\r\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\r\n                class=\"fa fa-sign-out\"></i></a> </span>\r\n    </div>\r\n    <!-- end logout button -->\r\n\r\n    <!-- input: search field -->\r\n    <!--<form action=\"#/search\" class=\"header-search pull-right\">\r\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\r\n					\"ActionScript\",\r\n					\"AppleScript\",\r\n					\"Asp\",\r\n					\"BASIC\",\r\n					\"C\",\r\n					\"C++\",\r\n					\"Clojure\",\r\n					\"COBOL\",\r\n					\"ColdFusion\",\r\n					\"Erlang\",\r\n					\"Fortran\",\r\n					\"Groovy\",\r\n					\"Haskell\",\r\n					\"Java\",\r\n					\"JavaScript\",\r\n					\"Lisp\",\r\n					\"Perl\",\r\n					\"PHP\",\r\n					\"Python\",\r\n					\"Ruby\",\r\n					\"Scala\",\r\n					\"Scheme\"]\'>\r\n        <button type=\"submit\">\r\n            <i class=\"fa fa-search\"></i>\r\n        </button>\r\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\r\n    </form>-->\r\n    <!-- end input: search field -->\r\n\r\n    <!-- fullscreen button -->\r\n    <!--<div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\r\n        <span> <a full-screen title=\"Full Screen\"><i\r\n                class=\"fa fa-arrows-alt\"></i></a> </span>\r\n    </div>-->\r\n    <!-- end fullscreen button -->\r\n\r\n    <!-- #Voice Command: Start Speech -->\r\n    <!--<div id=\"speech-btn\" class=\"btn-header transparent pull-right hidden-sm hidden-xs\">\r\n        <div>\r\n            <a title=\"Voice Command\" id=\"voice-command-btn\" speech-recognition><i class=\"fa fa-microphone\"></i></a>\r\n\r\n            <div class=\"popover bottom\">\r\n                <div class=\"arrow\"></div>\r\n                <div class=\"popover-content\">\r\n                    <h4 class=\"vc-title\">Voice command activated <br>\r\n                        <small>Please speak clearly into the mic</small>\r\n                    </h4>\r\n                    <h4 class=\"vc-title-error text-center\">\r\n                        <i class=\"fa fa-microphone-slash\"></i> Voice command failed\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must <strong>\"Allow\"</strong> Microphone</small>\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must have <strong>Internet Connection</strong></small>\r\n                    </h4>\r\n                    <a href-void class=\"btn btn-success\" id=\"speech-help-btn\">See Commands</a>\r\n                    <a href-void class=\"btn bg-color-purple txt-color-white\"\r\n                       onclick=\"$(\'#speech-btn .popover\').fadeOut(50);\">Close Popup</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>-->\r\n    <!-- end voice command -->\r\n\r\n\r\n\r\n    <!-- multiple lang dropdown : find all flags in the flags page -->\r\n    <language-selector ng-show=\"false\"></language-selector>\r\n    <!-- end multiple lang -->\r\n\r\n</div>\r\n<!-- end pulled right: nav area -->\r\n\r\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-reviewed\">待审核保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.import\">保单批量导入(测试)</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li ng-show=\"user.role!=\'财务\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-reviewed\">待审核保单</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入(新版测试)</a>\r\n                    </li>-->\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.import\">车商保单批量导入(测试)</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.to-be-paid\">待支付车商保单(测试)</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.paid\">已支付车商保单(测试)</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <!--<li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">保单录入</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n             <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">待支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">已支付保单</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">车险</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.paid\">寿险</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\r\n    <ul id=\"sparks\" class=\"\">\r\n        <li class=\"sparks-info\">\r\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\r\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\r\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\r\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\r\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</div>\r\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\r\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\r\n\r\n<!-- MODAL PLACE HOLDER\r\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\r\n<div class=\"modal-dialog\">\r\n<div class=\"modal-content\"></div>\r\n</div>\r\n</div>   -->\r\n<!--////////////////////////////////////-->\r\n\r\n<!--<div class=\"modal-header\">\r\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\r\n&times;\r\n</button>\r\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\r\n</div>-->\r\n<div class=\"modal-body\">\r\n\r\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\r\n	<hr class=\"simple\">\r\n	<h5>Instruction</h5>\r\n\r\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\r\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\r\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\r\n	<br>\r\n	<br>\r\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\r\n	<br>\r\n	<br>\r\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\r\n	<br>\r\n	<br>\r\n	<h5>Commands</h5>\r\n	<ul>\r\n		<li>\r\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\r\n		</li>\r\n		<li>\r\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\r\n		</li>\r\n		<li>\r\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\r\n		</li>\r\n		<li>\r\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\r\n		</li>\r\n		<li>\r\n			<strong>\'logout\'</strong> - logs you out\r\n		</li>\r\n	</ul>\r\n	<br>\r\n	<h5>Adding your own commands</h5>\r\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \r\n\r\n	<hr class=\"simple\">\r\n	<div class=\"text-right\">\r\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\r\n			Got it!\r\n		</button>\r\n	</div>\r\n\r\n</div>\r\n<!--<div class=\"modal-footer\">\r\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\r\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\r\n	<ul>\r\n		<li>\r\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\r\n		</li>\r\n	</ul>\r\n</div>");
@@ -3216,10 +3246,11 @@ angular.module('app.auth').controller('AuthCtrl',
                     .then(function(user) {
                         $rootScope.user = user;
                         if(user.role == "出单员"){
-                            $state.go('app.policy.new1');
+                            $state.go('app.policy.new');
                         }else
                         {
-                            $state.go('app.policy.to-be-reviewed');
+                            // $state.go('app.policy.to-be-reviewed');
+                            $state.go('app.policy.to-be-paid');
                         }
                         
                         $scope.disabled = false;
@@ -3328,29 +3359,6 @@ angular.module('app.auth').directive('loginInfo', function(AuthService){
             );
         }
     }
-})
-
-"use strict";
-
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
-        });
-    });
 })
 
 "use strict";
@@ -4750,7 +4758,14 @@ angular.module('app.company').controller('CompanyListController', function (scre
     vm.refreshCompanies();
 
     vm.view = function (companyId) {
-        $state.go("app.company.view", { companyId: companyId });
+        if (vm.level == "二级") {
+            $state.go("app.company.company2.view", { companyId: companyId });
+        } else if (vm.level == "三级") {
+            $state.go("app.company.company3.view", { companyId: companyId });
+        } else if (vm.level == "四级") {
+            $state.go("app.company.company4.view", { companyId: companyId });
+        }
+        // $state.go("app.company.view", { companyId: companyId });
     };
 
     vm.level1Changed = function () {
@@ -4848,6 +4863,120 @@ angular.module('app.company')
         return str;  
     };
 });
+'use strict'
+
+angular.module('app.company').controller('LegacyCompanyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
+    var vm = this;
+    vm.company = {};
+    vm.companyCatogories = [];
+    vm.editable = false;
+
+
+    CompanyService.getCompanyCatogories()
+        .then(function (companyCatogories) {
+            vm.companyCatogories = companyCatogories;
+        })
+
+
+
+    if ($state.is("app.company.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var companyId = $stateParams.companyId;
+    if (companyId) {
+        CompanyService.getCompany(companyId)
+            .then(function (company) {
+                vm.company = company;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        CompanyService.saveCompany(vm.company)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保险公司已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.company = {};
+                if (vm.back) {
+                   $state.go("app.company.all");  
+                }
+            }, function (err) { });
+    };
+
+
+
+});
+
+
+'use strict'
+
+angular.module('app.company').controller('LegacyCompanyListController', function (screenSize, $rootScope, $state, $scope, CompanyService, localStorageService) {
+    var vm = this;
+    vm.companies = [];
+
+    CompanyService.getCompanyCatogories()
+        .then(function (companyCatogories) {
+            vm.level1Companies = companyCatogories;
+        })
+
+    vm.refreshCompanies = function () {
+        CompanyService.getCompanies()
+          .then(function (companies) {
+                vm.companies = companies;
+         }, function (err) {
+
+         });
+
+    };
+
+    vm.refreshCompanies();
+    vm.view = function (companyId) {
+        $state.go("app.company.view", { companyId: companyId });
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (companyId) {
+        $.SmartMessageBox({
+            title: "删除保险公司",
+            content: "确认删除该保险公司？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteCompany(companyId)
+                    .then(function () {
+                        vm.refreshCompanies();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+
+});
+
 'use strict'
 
 angular.module('app.company').controller('PolicyNameEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
@@ -4952,6 +5081,396 @@ angular.module('app.company').controller('PolicyNameListController', function(sc
 
 });
 
+"use strict";
+
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
+
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
+        }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
+})
+
+"use strict";
+
+angular.module('app.company').factory('CompanyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveCompany: saveCompany,
+                getCompanies: getCompanies,
+                getSubCompanies: getSubCompanies,
+                getCompany: getCompany,
+                deleteCompany: deleteCompany,
+                savePolicyName: savePolicyName,
+                getPolicyNames: getPolicyNames,
+                getPolicyName: getPolicyName,
+                deletePolicyName: deletePolicyName,
+                saveCompanyCatogory: saveCompanyCatogory,
+                getCompanyCatogories: getCompanyCatogories,
+                getCompanyCatogory: getCompanyCatogory,
+                deleteCompanyCatogory: deleteCompanyCatogory,
+                
+            });
+
+            function saveCompany(company) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (company._id) {
+                    company.updated_at = Date.now();
+                    $http.put('api/companies/' + company._id, company)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    company.created_at = Date.now();
+                    company.updated_at = company.created_at;
+                    $http.post('api/companies', company)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicyName(policyName) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (policyName._id) {
+                    policyName.updated_at = Date.now();
+                    $http.put('api/policy-names/' + policyName._id, policyName)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policyName.created_at = Date.now();
+                    policyName.updated_at = policyName.created_at;
+                    $http.post('api/policy-names', policyName)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogories() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companycatogories')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveCompanyCatogory(companyCatogory) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (companyCatogory._id) {
+                    companyCatogory.updated_at = Date.now();
+                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    companyCatogory.created_at = Date.now();
+                    companyCatogory.updated_at = companyCatogory.created_at;
+                    $http.post('api/companycatogories', companyCatogory)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+
+        }]);
 "use strict";	
 
 angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
@@ -5099,44 +5618,6 @@ angular.module('app').directive('recentProjects', function(Project){
             }
         }
     }
-});
-"use strict";
-
-angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
-    $scope.newTodo = undefined;
-
-    $scope.states = ['Critical', 'Important', 'Completed'];
-
-    $scope.todos = Todo.getList().$object;
-
-    // $scope.$watch('todos', function(){ }, true)
-
-    $scope.toggleAdd = function () {
-        if (!$scope.newTodo) {
-            $scope.newTodo = {
-                state: 'Important'
-            };
-        } else {
-            $scope.newTodo = undefined;
-        }
-    };
-
-    $scope.createTodo = function () {
-        $scope.todos.push($scope.newTodo);
-        $scope.newTodo = undefined;
-        // $scope.newTodo.$save(function (respoonse) {
-        //     $scope.todos.push(respoonse);
-        //     $scope.newTodo = undefined;
-        // });
-    };
-
-    $scope.deleteTodo = function (todo) {
-        todo.remove().then(function () {
-            $scope.todos.splice($scope.todos.indexOf(todo), 1);
-        });
-
-    };
-
 });
 'use strict'
 
@@ -5823,6 +6304,44 @@ angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalI
     $scope.closeModal = function(){
         $modalInstance.dismiss('cancel');
     }
+});
+"use strict";
+
+angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
+    $scope.newTodo = undefined;
+
+    $scope.states = ['Critical', 'Important', 'Completed'];
+
+    $scope.todos = Todo.getList().$object;
+
+    // $scope.$watch('todos', function(){ }, true)
+
+    $scope.toggleAdd = function () {
+        if (!$scope.newTodo) {
+            $scope.newTodo = {
+                state: 'Important'
+            };
+        } else {
+            $scope.newTodo = undefined;
+        }
+    };
+
+    $scope.createTodo = function () {
+        $scope.todos.push($scope.newTodo);
+        $scope.newTodo = undefined;
+        // $scope.newTodo.$save(function (respoonse) {
+        //     $scope.todos.push(respoonse);
+        //     $scope.newTodo = undefined;
+        // });
+    };
+
+    $scope.deleteTodo = function (todo) {
+        todo.remove().then(function () {
+            $scope.todos.splice($scope.todos.indexOf(todo), 1);
+        });
+
+    };
+
 });
 "use strict";
 
@@ -8170,373 +8689,6 @@ angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CON
 
 
 });
-"use strict";
-
-angular.module('app.company').factory('CompanyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveCompany: saveCompany,
-                getCompanies: getCompanies,
-                getSubCompanies: getSubCompanies,
-                getCompany: getCompany,
-                deleteCompany: deleteCompany,
-                savePolicyName: savePolicyName,
-                getPolicyNames: getPolicyNames,
-                getPolicyName: getPolicyName,
-                deletePolicyName: deletePolicyName,
-                saveCompanyCatogory: saveCompanyCatogory,
-                getCompanyCatogories: getCompanyCatogories,
-                getCompanyCatogory: getCompanyCatogory,
-                deleteCompanyCatogory: deleteCompanyCatogory,
-                
-            });
-
-            function saveCompany(company) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (company._id) {
-                    company.updated_at = Date.now();
-                    $http.put('api/companies/' + company._id, company)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    company.created_at = Date.now();
-                    company.updated_at = company.created_at;
-                    $http.post('api/companies', company)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicyName(policyName) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (policyName._id) {
-                    policyName.updated_at = Date.now();
-                    $http.put('api/policy-names/' + policyName._id, policyName)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policyName.created_at = Date.now();
-                    policyName.updated_at = policyName.created_at;
-                    $http.post('api/policy-names', policyName)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogories() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companycatogories')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveCompanyCatogory(companyCatogory) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (companyCatogory._id) {
-                    companyCatogory.updated_at = Date.now();
-                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    companyCatogory.created_at = Date.now();
-                    companyCatogory.updated_at = companyCatogory.created_at;
-                    $http.post('api/companycatogories', companyCatogory)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-
-        }]);
 'use strict'
 
 angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
@@ -8759,1751 +8911,6 @@ angular.module('app.organization').factory('OrganizationService',
                 // return promise object
                 return deferred.promise;
             }
-        }]);
-'use strict'
-
-angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
-    var vm = this;
-    vm.policy = {};
-    vm.policy.plate_province = "苏";
-    vm.clientInfo = {};
-    vm.sellerInfo = $rootScope.user;
-    PolicyService.getClients()
-        .then(function (clients) {
-            vm.clients = clients;
-        })
-    PolicyService.getCompanies()
-        .then(function (companies) {
-            vm.companies = companies;
-        })
-
-    vm.editable = false;
-    if ($state.is("app.policy.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var policyId = $stateParams.policyId;
-    if (policyId) {
-        PolicyService.getPolicy(policyId)
-            .then(function (policy) {
-                vm.policy = policy;
-                vm.clientInfo = policy.client;
-                vm.sellerInfo = policy.seller;
-                policy.client = policy.client._id;
-                policy.seller = policy.seller._id;
-            });
-    }
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-
-    vm.submit = function () {
-        vm.policy.client = vm.clientInfo._id;
-        PolicyService.savePolicy(vm.policy)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保单已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.policy = {};
-                if (vm.back) {
-                    $state.go("app.policy.to-be-reviewed");
-                }
-            }, function (err) { });
-    };
-
-    vm.pay = function () {
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认已支付该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "已支付";
-                vm.policy.paid_at = Date.now();
-                PolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-
-    };
-
-    vm.approve = function () {
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认要批准该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "待支付";
-                vm.policy.paid_at = Date.now();
-                PolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为待支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        $state.go("app.policy.to-be-reviewed");
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-
-    };
-
-    vm.updateFee = function () {
-        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
-        if (vm.policy.mandatory_fee_income) {
-            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
-        }
-        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
-        if (vm.policy.commercial_fee_income) {
-            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
-        }
-        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
-        if (vm.policy.tax_fee_income) {
-            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
-        }
-        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
-        if (vm.policy.other_fee_income) {
-            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
-        }
-        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income)&& !isNaN(vm.policy.other_fee_income)) {
-            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
-        }
-
-        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
-
-        if (vm.policy.mandatory_fee_payment) {
-            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
-        }
-        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
-        if (vm.policy.commercial_fee_payment) {
-            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
-        }
-        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
-        if (vm.policy.tax_fee_payment) {
-            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
-        }
-        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
-        if (vm.policy.other_fee_payment) {
-            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
-        }
-        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment)&& !isNaN(vm.policy.other_fee_payment)) {
-            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-        if (vm.policy.payment_addition) {
-            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-        if (vm.policy.payment_substraction_rate) {
-            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment)- parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
-            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-            vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
-        }
-
-    }
-});
-
-angular.module('app.policy').directive('upper', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            var capitalize = function (inputValue) {
-                if (inputValue == undefined) inputValue = '';
-                var capitalized = inputValue.toUpperCase();
-                var re = /[^/u4e00-/u9fa5]/;
-                if (re.test(inputValue) && capitalized !== inputValue) {
-                    modelCtrl.$setViewValue(capitalized);
-                    modelCtrl.$render();
-                }
-                return capitalized;
-            }
-            modelCtrl.$parsers.push(capitalize);
-            capitalize(scope[attrs.ngModel]);  // capitalize initial value
-        }
-    };
-});
-
-angular.module('app.policy').directive('price', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            var removeIllegalInput = function (inputValue) {
-                if (inputValue == undefined) inputValue = '';
-                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
-           
-                //先把非数字的都替换掉，除了数字和.
-                var output = inputValue.replace(/[^\d.]/g, "");
-                //必须保证第一个为数字而不是.
-                output = output.replace(/^\./g, "");
-                //保证只有出现一个.而没有多个.
-                output = output.replace(/\.{2,}/g, ".");
-                //保证.只出现一次，而不能出现两次以上
-                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-                //只允许输入两位小数
-                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
-
-                if (output !== inputValue) {
-                    modelCtrl.$setViewValue(output);
-                    modelCtrl.$render();
-                }
-                return output;
-            }
-            modelCtrl.$parsers.push(removeIllegalInput);
-            removeIllegalInput(scope[attrs.ngModel]);
-        }
-    };
-});
-
-angular.module('app.policy').filter('propsFilter', function () {
-    return function (items, props) {
-        var out = [];
-
-        if (angular.isArray(items)) {
-            items.forEach(function (item) {
-                var itemMatches = false;
-
-                var keys = Object.keys(props);
-                for (var i = 0; i < keys.length; i++) {
-                    var prop = keys[i];
-                    if (/^[\u4e00-\u9fa5]+$/.test(text)) {
-                        if(item['name'].indexOf(text) == 0){
-                            itemMatches = true;
-                                break;
-                        }
-                    } else {
-                        var text = props[prop].toUpperCase();
-                        var pylist = item['py'];
-                      
-                        for (var j = 0; j < pylist.length; j++) {
-                            if (pylist[j].indexOf(text) == 0) {
-                                itemMatches = true;
-                                break;
-                            }
-                        }
-                        if(itemMatches){
-                            break;
-                        }
-                    }
-
-
-                }
-
-                if (itemMatches) {
-                    out.push(item);
-                }
-            });
-        } else {
-            // Let the output be the input untouched
-            out = items;
-        }
-
-        return out;
-    }
-});
-'use strict'
-
-angular.module('app.policy').controller('PolicyEditorController1', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
-    var vm = this;
-    vm.policy = {};
-    vm.policy.plate_province = "苏";
-    vm.clientInfo = {};
-    vm.sellerInfo = $rootScope.user;
-    vm.level2Companies = [];
-    vm.level3Companies = [];
-    vm.level4Companies = [];
-
-    PolicyService.getLevel2Companies()
-        .then(function (level2Companies) {
-            vm.level2Companies = level2Companies;
-        })
-
-
-    vm.loadLevel3Companies = function () {
-        if (!vm.policy.level2_company) {
-            vm.level3Companies = [];
-        } else {
-            PolicyService.getSubCompanies(vm.policy.level2_company)
-                .then(function (level3Companies) {
-                    vm.level3Companies = level3Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.loadLevel4Companies = function () {
-        if (!vm.policy.level3_company) {
-            vm.level4Companies = [];
-        } else {
-            PolicyService.getSubCompanies(vm.policy.level3_company)
-                .then(function (level4Companies) {
-                    vm.level4Companies = level4Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.applyCompanyRate = function (company) {
-        if (!company || !company.rates || company.rates.length == 0) {
-            vm.policy.mandatory_fee_income_rate = null;
-            vm.policy.mandatory_fee_payment_rate = null;
-            vm.policy.commercial_fee_income_rate = null;
-            vm.policy.commercial_fee_payment_rate = null;
-            vm.policy.tax_fee_income_rate = null;
-            vm.policy.tax_fee_payment_rate = null;
-            vm.policy.other_fee_income_rate = null;
-            vm.policy.other_fee_payment_rate = null;
-            vm.policy.rule_rates = null;
-        } else {
-            var rates = company.rates[0];
-            vm.policy.mandatory_fee_income_rate = rates.mandatory_income;
-            vm.policy.mandatory_fee_payment_rate = rates.mandatory_payment;
-            vm.policy.commercial_fee_income_rate = rates.commercial_income;
-            vm.policy.commercial_fee_payment_rate = rates.commercial_payment;
-            vm.policy.tax_fee_income_rate = rates.tax_income;
-            vm.policy.tax_fee_payment_rate = rates.tax_payment;
-            vm.policy.other_fee_income_rate = rates.other_income;
-            vm.policy.other_fee_payment_rate = rates.other_payment;
-            vm.policy.rule_rates = rates;
-        }
-    }
-
-    vm.level2Changed = function () {
-        if (!vm.policy.level2_company) {
-            vm.policy.level1_company = undefined;
-            vm.applyCompanyRate(null);
-        } else {
-            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
-            vm.policy.level1_company = company.catogory._id;
-            vm.applyCompanyRate(company);
-        }
-        vm.loadLevel3Companies();
-    }
-
-    vm.level3Changed = function () {
-        if (!vm.policy.level3_company) {
-            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
-            vm.applyCompanyRate(company);
-        } else {
-            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
-            vm.applyCompanyRate(company);
-        }
-        vm.loadLevel4Companies();
-    }
-
-    vm.level4Changed = function () {
-        if (!vm.policy.level4_company) {
-            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
-            vm.applyCompanyRate(company);
-        } else {
-            var company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
-            vm.applyCompanyRate(company);
-        }
-    }
-
-    PolicyService.getClients()
-        .then(function (clients) {
-            vm.clients = clients;
-        })
-
-
-    vm.editable = false;
-    if ($state.is("app.policy.new1")) {
-        vm.editable = true;
-    }
-
-
-
-
-
-    var policyId = $stateParams.policyId;
-    if (policyId) {
-        PolicyService.getPolicy(policyId)
-            .then(function (policy) {
-                vm.policy = policy;
-                vm.clientInfo = policy.client;
-                vm.sellerInfo = policy.seller;
-                policy.client = policy.client._id;
-                policy.seller = policy.seller._id;
-                vm.loadLevel3Companies();
-                vm.loadLevel4Companies();
-            });
-    }
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.checkRuleRates = function(){
-        if(!vm.policy.rule_rates){
-            return;
-        }
-        var rates = vm.policy.rule_rates;
-        var policy = vm.policy;
-        policy.has_warning = false;
-        if(rates.mandatory_income != policy.mandatory_fee_income_rate){
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.mandatory_payment != policy.mandatory_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.commercial_income != policy.commercial_fee_income_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.commercial_payment != policy.commercial_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.tax_income != policy.tax_fee_income_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.tax_payment != policy.tax_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.other_income != policy.other_fee_income_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.other_payment != policy.other_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        
-    }
-
-    vm.submit = function () {
-        vm.checkRuleRates();
-        console.log(vm.policy.has_warning);
-        vm.policy.client = vm.clientInfo._id;
-        PolicyService.savePolicy(vm.policy)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保单已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.policy = {};
-                vm.policy.plate_province = "苏";
-                if (vm.back) {
-                    $state.go("app.policy.to-be-reviewed");
-                }
-            }, function (err) { });
-    };
-
-    vm.pay = function () {
-        vm.checkRuleRates();
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认已支付该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "已支付";
-                vm.policy.paid_at = Date.now();
-                PolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-
-    };
-
-    vm.approve = function () {
-        $.SmartMessageBox({
-            title: "修改保单状态",
-            content: "确认要批准该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                vm.policy.policy_status = "待支付";
-                vm.policy.paid_at = Date.now();
-                PolicyService.savePolicy(vm.policy)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已成功更改为待支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        $state.go("app.policy.to-be-reviewed");
-                    }, function (err) { });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-
-    };
-
-    vm.updateFee = function () {
-        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
-        if (vm.policy.mandatory_fee_income) {
-            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
-        }
-        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
-        if (vm.policy.commercial_fee_income) {
-            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
-        }
-        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
-        if (vm.policy.tax_fee_income) {
-            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
-        }
-        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
-        if (vm.policy.other_fee_income) {
-            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
-        }
-        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income) && !isNaN(vm.policy.other_fee_income)) {
-            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
-        }
-
-        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
-
-        if (vm.policy.mandatory_fee_payment) {
-            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
-        }
-        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
-        if (vm.policy.commercial_fee_payment) {
-            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
-        }
-        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
-        if (vm.policy.tax_fee_payment) {
-            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
-        }
-        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
-        if (vm.policy.other_fee_payment) {
-            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
-        }
-        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment) && !isNaN(vm.policy.other_fee_payment)) {
-            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-        if (vm.policy.payment_addition) {
-            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-        }
-        if (vm.policy.payment_substraction_rate) {
-            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
-            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-            vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
-        }
-
-    }
-});
-
-angular.module('app.policy').directive('upper', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            var capitalize = function (inputValue) {
-                if (inputValue == undefined) inputValue = '';
-                var capitalized = inputValue.toUpperCase();
-                var re = /[^/u4e00-/u9fa5]/;
-                if (re.test(inputValue) && capitalized !== inputValue) {
-                    modelCtrl.$setViewValue(capitalized);
-                    modelCtrl.$render();
-                }
-                return capitalized;
-            }
-            modelCtrl.$parsers.push(capitalize);
-            capitalize(scope[attrs.ngModel]);  // capitalize initial value
-        }
-    };
-});
-
-angular.module('app.policy').directive('price', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            var removeIllegalInput = function (inputValue) {
-                if (inputValue == undefined) inputValue = '';
-                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
-
-                //先把非数字的都替换掉，除了数字和.
-                var output = inputValue.replace(/[^\d.]/g, "");
-                //必须保证第一个为数字而不是.
-                output = output.replace(/^\./g, "");
-                //保证只有出现一个.而没有多个.
-                output = output.replace(/\.{2,}/g, ".");
-                //保证.只出现一次，而不能出现两次以上
-                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-                //只允许输入两位小数
-                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
-
-                if (output !== inputValue) {
-                    modelCtrl.$setViewValue(output);
-                    modelCtrl.$render();
-                }
-                return output;
-            }
-            modelCtrl.$parsers.push(removeIllegalInput);
-            removeIllegalInput(scope[attrs.ngModel]);
-        }
-    };
-});
-
-angular.module('app.policy').filter('propsFilter', function () {
-    return function (items, props) {
-        var out = [];
-
-        if (angular.isArray(items)) {
-            items.forEach(function (item) {
-                var itemMatches = false;
-
-                var keys = Object.keys(props);
-                for (var i = 0; i < keys.length; i++) {
-                    var prop = keys[i];
-                    if (/^[\u4e00-\u9fa5]+$/.test(text)) {
-                        if (item['name'].indexOf(text) == 0) {
-                            itemMatches = true;
-                            break;
-                        }
-                    } else {
-                        var text = props[prop].toUpperCase();
-                        var pylist = item['py'];
-
-                        for (var j = 0; j < pylist.length; j++) {
-                            if (pylist[j].indexOf(text) == 0) {
-                                itemMatches = true;
-                                break;
-                            }
-                        }
-                        if (itemMatches) {
-                            break;
-                        }
-                    }
-
-
-                }
-
-                if (itemMatches) {
-                    out.push(item);
-                }
-            });
-        } else {
-            // Let the output be the input untouched
-            out = items;
-        }
-
-        return out;
-    }
-});
-'use strict'
-
-angular.module('app.policy').controller('PolicyImportController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService, PolicyImportService) {
-    var vm = this;
-    vm.clientInfo = {};
-    vm.sellerInfo = $rootScope.user;
-    vm.level2Companies = [];
-    vm.level3Companies = [];
-    vm.level4Companies = [];
-
-    PolicyService.getLevel2Companies()
-        .then(function (level2Companies) {
-            vm.level2Companies = level2Companies;
-        })
-
-
-    vm.loadLevel3Companies = function () {
-        if (!vm.level2_company) {
-            vm.level3Companies = [];
-        } else {
-            PolicyService.getSubCompanies(vm.level2_company)
-                .then(function (level3Companies) {
-                    vm.level3Companies = level3Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    vm.loadLevel4Companies = function () {
-        if (!vm.level3_company) {
-            vm.level4Companies = [];
-        } else {
-            PolicyService.getSubCompanies(vm.level3_company)
-                .then(function (level4Companies) {
-                    vm.level4Companies = level4Companies;
-                }, function (err) {
-
-                });
-        }
-    }
-
-    
-
-    vm.level2Changed = function () {
-        if (!vm.level2_company) {
-            vm.level1_company = undefined;
-        } else {
-            var company = vm.level2Companies.find(c => c._id === vm.level2_company);
-            vm.level1_company = company.catogory._id;
-        }
-        vm.loadLevel3Companies();
-    }
-
-    vm.level3Changed = function () {
-        if (!vm.level3_company) {
-            var company = vm.level2Companies.find(c => c._id === vm.level2_company);
-        } else {
-            var company = vm.level3Companies.find(c => c._id === vm.level3_company);
-        }
-        vm.loadLevel4Companies();
-    }
-
-    vm.level4Changed = function () {
-
-    }
-
-    PolicyService.getOrgClients()
-        .then(function (clients) {
-            vm.clients = clients;
-        })
-
-    vm.fileChanged = function(files) {
-        vm.file = files[0];
-    };
-
-    vm.isDisableParseButton = function(){
-        return (!vm.level2_company || !vm.clientInfo || !vm.file );
-    }
-
-    vm.parseFile = function(){
-        PolicyImportService.readExcel(vm.file, vm.level1_company, vm.level2_company, vm.level3_company, vm.level4_company, vm.clientInfo)
-            .then(function(policies){
-                vm.policies = policies;
-        })
-    }
-
-});
-
-'use strict'
-
-angular.module('app.policy').controller('PolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, PolicyService, localStorageService) {
-    var vm = this;
-    vm.policies = [];
-    vm.organizations = [];
-    vm.totalIncome = 0;
-    vm.totalPayment = 0;
-    vm.totalProfit = 0;
-    vm.clientName = "";
-    vm.clientDictionary = {};
-    vm.areAllSelected = false;
-
-
-    PolicyService.getClients()
-        .then(function (clients) {
-            for (var i = 0; i < clients.length; i++) {
-                vm.clientDictionary[clients[i].name] = clients[i]._id;
-            }
-            vm.clients = clients;
-        })
-    PolicyService.getOrganizations()
-        .then(function (organizations) {
-            vm.organizations = organizations;
-        })
-
-    PolicyService.getSellers()
-        .then(function (sellers) {
-            vm.sellers = sellers;
-        })
-
-
-    vm.listType = "all";
-    if ($state.is("app.policy.to-be-reviewed")) {
-        vm.listType = "to-be-reviewed";
-        vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
-        if (vm.filterSettings.client) {
-            PolicyService.getClient(vm.filterSettings.client)
-                .then(function (clientInfo) {
-                    vm.clientName = clientInfo.name;
-                })
-        }
-        vm.fromDate = localStorageService.get("review-fromDate") ? localStorageService.get("review-fromDate") : undefined;
-        vm.toDate = localStorageService.get("review-toDate") ? localStorageService.get("review-toDate") : undefined;
-        vm.tableHeader = "待审核保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate"];
-        }
-    }
-    else if ($state.is("app.policy.to-be-paid")) {
-        vm.listType = "to-be-paid";
-        vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
-        if (vm.filterSettings.client) {
-            PolicyService.getClient(vm.filterSettings.client)
-                .then(function (clientInfo) {
-                    vm.clientName = clientInfo.name;
-                })
-        }
-        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
-        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
-        vm.tableHeader = "待支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate"];
-        }
-    } else if ($state.is("app.policy.paid")) {
-        vm.listType = "paid";
-        vm.filterSettings = localStorageService.get("paid-filterSettings") ? localStorageService.get("paid-filterSettings") : {};
-        if (vm.filterSettings.client) {
-            PolicyService.getClient(vm.filterSettings.client)
-                .then(function (clientInfo) {
-                    vm.clientName = clientInfo.name;
-                })
-        }
-        vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
-        vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
-        vm.tableHeader = "已支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate", "paid_at"];
-        }
-    }
-
-    vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        vm.areAllSelected = false;
-        vm.currentPage = currentPage;
-        vm.pageItems = pageItems;
-        PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-            .then(function (data) {
-                vm.policies = data.policies;
-                vm.policyTotalCount = data.totalCount;
-            }, function (err) { });
-    };
-
-    vm.filterChanged = function () {
-        if ($state.is("app.policy.to-be-reviewed")) {
-            localStorageService.set("review-filterSettings", vm.filterSettings);
-            localStorageService.set('review-fromDate', vm.fromDate);
-            localStorageService.set('review-toDate', vm.toDate);
-        }
-        else if ($state.is("app.policy.to-be-paid")) {
-            localStorageService.set("filterSettings", vm.filterSettings);
-            localStorageService.set('fromDate', vm.fromDate);
-            localStorageService.set('toDate', vm.toDate);
-        }
-        else if ($state.is("app.policy.paid")) {
-            localStorageService.set("paid-filterSettings", vm.filterSettings);
-            localStorageService.set('paid-fromDate', vm.fromDate);
-            localStorageService.set('paid-toDate', vm.toDate);
-        }
-
-        vm.refreshPolicies();
-        vm.refreshSummary();
-    };
-
-    vm.clientFilterChanged = function () {
-        if (vm.clientDictionary[vm.clientName]) {
-            vm.filterSettings.client = vm.clientDictionary[vm.clientName];
-
-        }
-        else {
-            vm.filterSettings.client = undefined;
-        }
-
-        if ($state.is("app.policy.to-be-reviewed")) {
-            localStorageService.set("review-filterSettings", vm.filterSettings);
-        }
-        else if ($state.is("app.policy.to-be-paid")) {
-            localStorageService.set("filterSettings", vm.filterSettings);
-        }
-        else if ($state.is("app.policy.paid")) {
-            localStorageService.set("paid-filterSettings", vm.filterSettings);
-        }
-        vm.refreshPolicies();
-        vm.refreshSummary();
-    }
-    vm.refreshPolicies = function () {
-        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
-            return;
-        }
-        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
-    };
-
-    vm.refreshSummary = function () {
-        PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-            .then(function (data) {
-                vm.totalIncome = data.total_income;
-                vm.totalPayment = data.total_payment;
-                vm.totalProfit = data.total_profit;
-            }, function (err) { });
-    };
-
-
-
-
-    var poller = function () {
-        if ($rootScope.user.role == "出单员") {
-            return;
-        }
-        vm.refreshPolicies();
-        vm.refreshSummary();
-        $timeout(poller, 1000 * 60 * 2);
-    };
-
-    poller();
-
-    vm.exportFilteredPolicies = function () {
-        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-            .then(function (csv) {
-                var file = new Blob(['\ufeff', csv], {
-                    type: 'application/csv'
-                });
-                var fileURL = window.URL.createObjectURL(file);
-                var anchor = angular.element('<a/>');
-                anchor.attr({
-                    href: fileURL,
-                    target: '_blank',
-                    download: 'statistics.csv'
-                })[0].click();
-            })
-    };
-
-    vm.bulkPay = function () {
-        $.SmartMessageBox({
-            title: "批量修改保单状态",
-            content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                PolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已批量更改为已支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        vm.refreshPolicies();
-                        vm.refreshSummary();
-                    }, function (err) {
-
-                    });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-    vm.getSelectedPolicyIds = function(){
-        var ids = [];
-        if(vm.policies){
-            for(var i = 0; i < vm.policies.length; i ++){
-                if(vm.policies[i].isSelected){
-                    ids.push(vm.policies[i]._id);
-                }
-            }
-        }
-        return ids;
-    }
-
-    vm.bulkApprove = function () {
-        var policyIds = vm.getSelectedPolicyIds();
-        $.SmartMessageBox({
-            title: "批量修改保单状态",
-            content: "确认批准选中的" + policyIds.length + "条保单?",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                PolicyService.bulkApprove(policyIds)
-                    .then(function (data) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "保单状态已批量更改为待支付",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        vm.refreshPolicies();
-                        vm.refreshSummary();
-                    }, function (err) {
-
-                    });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-    vm.isShowReviewButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待审核";
-    };
-
-    vm.isShowPayButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowDeleteButton = function (policy) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";
-    };
-
-    vm.isShowBulkPayButton = function () {
-        if ($rootScope.user.role == "出单员") {
-            return false
-        };
-        return true;
-    };
-
-    vm.isShowBulkApproveButton = function () {
-        if ($rootScope.user.role == "出单员") {
-            return false
-        };
-        if(vm.policies){
-            for(var i = 0; i < vm.policies.length; i ++){
-                if(vm.policies[i].isSelected){
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
-
-    vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
-    };
-
-    vm.pay = function (policy) {
-        if (!policy.level2_company) {
-            $state.go("app.policy.pay", { policyId: policy._id }); //this is from old version
-        } else {
-            $state.go("app.policy.pay1", { policyId: policy._id });
-        }
-    };
-
-    vm.approve = function (policy) {
-        if (!policy.level2_company) {
-            $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
-        } else {
-            $state.go("app.policy.approve1", { policyId: policy._id });
-        }
-    };
-
-    vm.view = function (policy) {
-        if (!policy.level2_company) {
-            $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
-        } else {
-            $state.go("app.policy.view1", { policyId: policy._id });
-        }
-
-    };
-
-    vm.selectAll = function () {
-        if (vm.policies && vm.policies.length > 0) {
-            for (var i = 0; i < vm.policies.length; i++) {
-                vm.policies[i].isSelected = true;
-            }
-        }
-    }
-
-    vm.clearSelection = function () {
-        if (vm.policies && vm.policies.length > 0) {
-            for (var i = 0; i < vm.policies.length; i++) {
-                vm.policies[i].isSelected = false;
-            }
-        }
-    }
-
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete = function (policyId) {
-        $.SmartMessageBox({
-            title: "删除保单",
-            content: "确认删除该保单？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                PolicyService.deletePolicy(policyId)
-                    .then(function () {
-                        vm.refreshPolicies();
-                        vm.refreshSummary();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-
-});
-
-angular.module('app.policy')
-    .filter("computeTotal", function () {
-        return function (fieldValueUnused, item) {
-            return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
-        }
-    })
-    .filter("combinePlate", function () {
-        return function (fieldValueUnused, item) {
-            return (item.plate_no);
-        }
-    });
-"use strict";
-
-angular.module('app.policy').factory('PolicyImportService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                readExcel: readExcel,
-            });
-
-
-            function readExcel(file,level1_company,level2_company,level3_company,level4_company,clientInfo) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var reader = new FileReader();
-                var name = file.name;
-                reader.onload = function (e) {
-                    var data = e.target.result;
-                    var workbook = XLSX.read(data, { type: 'binary' });
-
-                    var first_sheet_name = workbook.SheetNames[1];
-                    var sheet = workbook.Sheets[first_sheet_name];
-                    //
-                    var range = XLSX.utils.decode_range(sheet['!ref']);
-                    var sheetData = [];
-
-                    _.forEachRight(_.range(range.s.r, range.e.r + 1), function (row) {
-                        var rowData = [];
-                        _.forEachRight(_.range(range.s.c, range.e.c + 1), function (column) {
-                            var cellIndex = XLSX.utils.encode_cell({
-                                'c': column,
-                                'r': row
-                            });
-                            var cell = sheet[cellIndex];
-                            rowData[column] = cell ? cell.v : undefined;
-                        });
-                        sheetData[row] = rowData;
-                    });
-                    var policies = [];
-                    for(var i = 1; i < sheetData.length; i++){
-                        var row = sheetData[i];
-                        var policy = {};
-                        policy.policy_no = row[0];
-                        policy.plate = row[1];
-                        policy.applicant = row[2];
-                        policy.policy_name = row[3];
-                        policy.fee = row[4];
-                        policy.income_rate = row[5];
-                        policy.income = row[6];
-                        policy.created_at = row[7];
-                        policy.level1_company = level1_company;
-                        policy.level2_company = level2_company;
-                        policy.level3_company = level3_company;
-                        policy.level4_company = level4_company;
-                        policy.payment_substract_rate = clientInfo.payment_substract_rate;
-                        policy.payment = policy.income * (1-policy.payment_substract_rate / 100);
-                        policies.push(policy);
-                    }
-                    deferred.resolve(policies);
-                }
-
-                reader.readAsBinaryString(file);
-
-                return deferred.promise;
-
-            }
-
-        }]);
-"use strict";
-
-angular.module('app.policy').factory('PolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                savePolicy: savePolicy,
-                getPolicies: getPolicies,
-                getClients: getClients,
-                getOrgClients: getOrgClients,
-                getCompanies: getCompanies,
-                getPolicy: getPolicy,
-                deletePolicy: deletePolicy,
-                searchPolicies: searchPolicies,
-                getOrganizations: getOrganizations,
-                getSellers: getSellers,
-                getFilteredCSV: getFilteredCSV,
-                getSummary: getSummary,
-                bulkPay: bulkPay,
-                getClient: getClient,
-                getSubCompanies: getSubCompanies,
-                getLevel2Companies: getLevel2Companies,
-                bulkApprove: bulkApprove
-            });
-            
-            function getClient(clientId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/clients/' + clientId)
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                    // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicy(policy) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (policy._id) {
-                    policy.updated_at = Date.now();
-                    $http.put('/api/policies/' + policy._id, policy)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policy.created_at = Date.now();
-                    policy.updated_at = policy.created_at;
-                    $http.post('/api/policies', policy)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicies(type) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                var url = "/api/policies"
-                if (type == "to-be-paid") {
-                    url = "/api/policies/to-be-paid";
-                } else if (type == "paid") {
-                    url = "/api/policies/paid";
-                }
-                $http.get(url)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicy(policyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/api/policies/' + policyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrgClients() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=organization')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
-                    // filterBy: filterBy,
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                
-                $http.post("/api/policies/search", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSummary(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                $http.post("/api/policies/summary", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function bulkPay(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                $http.post("/api/policies/bulk-pay", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function bulkApprove(policyIds) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                $http.post("/api/policies/bulk-approve", policyIds)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-                $http.post("/api/policies/excel", config)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getLevel2Companies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/level2')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
         }]);
 'use strict';
 
@@ -11550,6 +9957,2208 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
         }
     };
 });
+'use strict'
+
+angular.module('app.policy').controller('OrgPolicyImportController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService, OrgPolicyService) {
+    var vm = this;
+    vm.clientInfo = null;
+    vm.sellerInfo = $rootScope.user;
+    vm.level2Companies = [];
+    vm.level3Companies = [];
+    vm.level4Companies = [];
+
+    PolicyService.getLevel2Companies()
+        .then(function (level2Companies) {
+            vm.level2Companies = level2Companies;
+        })
+
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.level2_company) {
+            vm.level3Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.level2_company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Companies = function () {
+        if (!vm.level3_company) {
+            vm.level4Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.level3_company)
+                .then(function (level4Companies) {
+                    vm.level4Companies = level4Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    
+
+    vm.level2Changed = function () {
+        if (!vm.level2_company) {
+            vm.level1_company = undefined;
+        } else {
+            var company = vm.level2Companies.find(c => c._id === vm.level2_company);
+            vm.level1_company = company.catogory._id;
+        }
+        vm.loadLevel3Companies();
+    }
+
+    vm.level3Changed = function () {
+        if (!vm.level3_company) {
+            var company = vm.level2Companies.find(c => c._id === vm.level2_company);
+        } else {
+            var company = vm.level3Companies.find(c => c._id === vm.level3_company);
+        }
+        vm.loadLevel4Companies();
+    }
+
+    vm.level4Changed = function () {
+
+    }
+
+    PolicyService.getOrgClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+
+    vm.fileChanged = function(files) {
+        vm.file = files[0];
+    };
+
+    vm.isDisableParseButton = function(){
+        return (!vm.level2_company || !vm.clientInfo || !vm.file );
+    }
+
+    vm.parseFile = function(){
+        OrgPolicyService.readExcel(vm.file, vm.level1_company, vm.level2_company, vm.level3_company, vm.level4_company, vm.clientInfo)
+            .then(function(policies){
+                vm.policies = policies;
+        },function(err){
+            $.bigBox({
+                    title: "文件解析失败",
+                    content: err,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    timeout: 6000
+                });
+        })
+    }
+
+    vm.submitPolicies = function(){
+        OrgPolicyService.savePolicies(vm.policies)
+            .then(function(data){
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保单已成功批量保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.policies = [];
+                vm.clientInfo = null;
+                vm.level1_company = vm.level2_company = vm.level3_company = vm.level4_company = null;
+                if (vm.back) {
+                    $state.go("app.policy.org-policy.to-be-paid");
+                }
+            }, function (err) { });              
+    }
+
+});
+
+'use strict'
+
+angular.module('app.policy').controller('OrgPolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, PolicyService, OrgPolicyService, localStorageService) {
+    var vm = this;
+    vm.policies = [];
+    vm.areAllSelected = false;
+    vm.summary = {income:0, payment:0, profit:0};
+    vm.pageSize = 15;
+
+    vm.totalIncome = 0;
+    vm.totalPayment = 0;
+    vm.totalProfit = 0;
+
+
+    PolicyService.getOrgClients()
+        .then(function (clients) {
+            clients.unshift({ _id: -1, name: "全部车商" });
+            vm.clients = clients;
+        })
+
+    vm.listType = "all";
+    if ($state.is("app.policy.org-policy.to-be-paid")) {
+        vm.listType = "to-be-paid";
+        vm.filterSettings = localStorageService.get("org-to-be-paid-filterSettings") ? localStorageService.get("org-to-be-paid-filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.fromDate = localStorageService.get("org-to-be-paid-fromDate") ? localStorageService.get("org-to-be-paid-fromDate") : undefined;
+        vm.toDate = localStorageService.get("org-to-be-paid-toDate") ? localStorageService.get("org-to-be-paid-toDate") : undefined;
+        vm.tableHeader = "待支付车商保单";
+    } else if ($state.is("app.policy.org-policy.paid")) {
+        vm.listType = "paid";
+        vm.filterSettings = localStorageService.get("org-paid-filterSettings") ? localStorageService.get("org-paid-filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.fromDate = localStorageService.get("org-paid-fromDate") ? localStorageService.get("org-paid-fromDate") : undefined;
+        vm.toDate = localStorageService.get("org-paid-toDate") ? localStorageService.get("org-paid-toDate") : undefined;
+        vm.tableHeader = "已支付车商保单";
+    }
+
+    vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        vm.areAllSelected = false;
+        vm.currentPage = currentPage;
+        vm.pageItems = pageItems;
+        OrgPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (data) {
+                vm.policies = data.policies;
+                vm.policyTotalCount = data.totalCount;
+                vm.selectionChanged();
+            }, function (err) { });
+    };
+
+    vm.filterChanged = function () {
+        if ($state.is("app.policy.org-policy.to-be-paid")) {
+            localStorageService.set("org-to-be-paid-filterSettings", vm.filterSettings);
+            localStorageService.set('org-to-be-paid-fromDate', vm.fromDate);
+            localStorageService.set('org-to-be-paid-toDate', vm.toDate);
+        }
+        else if ($state.is("app.policy.org-policy.paid")) {
+            localStorageService.set("org-paid-filterSettings", vm.filterSettings);
+            localStorageService.set('org-paid-fromDate', vm.fromDate);
+            localStorageService.set('org-paid-toDate', vm.toDate);
+        }
+        vm.refreshPolicies();
+        vm.refreshSummary();
+    };
+
+    vm.clientFilterChanged = function () {
+        if (vm.clientInfo._id != -1) {
+            vm.filterSettings.client = vm.clientInfo._id;
+        }
+        else {
+            vm.filterSettings.client = undefined;
+        }
+
+        if ($state.is("app.policy.org-policy.to-be-paid")) {
+            localStorageService.set("org-to-be-paid-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.org-policy.paid")) {
+            localStorageService.set("org-paid-filterSettings", vm.filterSettings);
+        }
+        vm.refreshPolicies();
+        vm.refreshSummary();
+    }
+    vm.refreshPolicies = function () {
+        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+            return;
+        }
+        vm.pageSize = 15;
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+        vm.refreshSummary();
+    };
+
+    vm.refreshSummary = function () {
+        OrgPolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (data) {
+                vm.totalIncome = data.total_income;
+                vm.totalPayment = data.total_payment;
+                vm.totalProfit = data.total_profit;
+            }, function (err) { });
+    };
+
+    
+
+    vm.refreshPolicies();
+    vm.refreshSummary();
+
+    vm.refreshClicked = function(){
+        vm.refreshPolicies();
+        vm.refreshSummary();
+    }
+
+    vm.exportFilteredPolicies = function () {
+        OrgPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'org-statistics.csv'
+                })[0].click();
+            })
+    };
+
+    vm.getSelectedPolicyIds = function () {
+        var ids = [];
+        if (vm.policies) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                if (vm.policies[i].isSelected) {
+                    ids.push(vm.policies[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
+
+    vm.bulkPay = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 结算费共计:" + vm.summary.payment.toFixed(2),
+            buttons: '[取消][确认]',
+            input: "text",
+            placeholder: "可填写转账银行与日期备注"
+        }, function (ButtonPressed, value) {
+            if (ButtonPressed === "确认") {
+                var data = {};
+                data.policyIds = policyIds;
+                data.remarks = value;
+                OrgPolicyService.bulkPay(data)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+    vm.selectionChanged = function(){
+        if (!vm.policies){
+            vm.summary = {income:0, payment:0, profit:0};
+            vm.selectedPolicies = [];
+            vm.isShowBulkPayButton = false;
+        }
+        vm.selectedPolicies = vm.policies.filter(function (item) {
+            return item.isSelected
+        });
+
+        vm.summary = vm.selectedPolicies.reduce(function(a,b){
+            return {income: a.income + b.income, payment: a.payment + b.payment, profit: a.income + b.income - a.payment - b.payment}
+        }, {income:0, payment:0, profit:0});
+        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0;
+    }
+
+    vm.selectAll = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = true;
+            }
+        }
+        vm.selectionChanged();
+    }
+
+    vm.clearSelection = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = false;
+            }
+        }
+        vm.selectionChanged();
+    }
+
+    vm.showAll = function(){
+        vm.pageSize = vm.policyTotalCount;
+    }
+
+
+});
+
+angular.module('app.policy')
+    .filter("getCompanyName", function () {
+        return function (fieldValueUnused, item) {
+            if (item.level4_company) {
+                return item.level4_company.name;
+            }
+            else if (item.level3_company) {
+                return item.level3_company.name;
+            }
+            else {
+                return item.level2_company.name;
+            }
+        }
+    })
+    .filter("combinePlate", function () {
+        return function (fieldValueUnused, item) {
+            return (item.plate_no);
+        }
+    });
+
+'use strict'
+
+angular.module('app.policy').controller('PolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
+    var vm = this;
+    vm.policy = {};
+    vm.policy.plate_province = "苏";
+    vm.clientInfo = {};
+    vm.sellerInfo = $rootScope.user;
+    PolicyService.getClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+    PolicyService.getCompanies()
+        .then(function (companies) {
+            vm.companies = companies;
+        })
+
+    vm.editable = false;
+    if ($state.is("app.policy.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var policyId = $stateParams.policyId;
+    if (policyId) {
+        PolicyService.getPolicy(policyId)
+            .then(function (policy) {
+                vm.policy = policy;
+                vm.clientInfo = policy.client;
+                vm.sellerInfo = policy.seller;
+                policy.client = policy.client._id;
+                policy.seller = policy.seller._id;
+            });
+    }
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+
+    vm.submit = function () {
+        vm.policy.client = vm.clientInfo._id;
+        PolicyService.savePolicy(vm.policy)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保单已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.policy = {};
+                if (vm.back) {
+                    // $state.go("app.policy.to-be-reviewed");
+                    $state.go("app.policy.to-be-paid");
+                }
+            }, function (err) { });
+    };
+
+    vm.pay = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认已支付该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "已支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.approve = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认要批准该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "待支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        $state.go("app.policy.to-be-reviewed");
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.updateFee = function () {
+        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
+        if (vm.policy.mandatory_fee_income) {
+            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+        }
+        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
+        if (vm.policy.commercial_fee_income) {
+            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+        }
+        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
+        if (vm.policy.tax_fee_income) {
+            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+        }
+        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
+        if (vm.policy.other_fee_income) {
+            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income)&& !isNaN(vm.policy.other_fee_income)) {
+            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+        }
+
+        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
+
+        if (vm.policy.mandatory_fee_payment) {
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+        }
+        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
+        if (vm.policy.commercial_fee_payment) {
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+        }
+        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
+        if (vm.policy.tax_fee_payment) {
+            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+        }
+        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
+        if (vm.policy.other_fee_payment) {
+            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment)&& !isNaN(vm.policy.other_fee_payment)) {
+            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_addition) {
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_substraction_rate) {
+            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment)- parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
+            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
+        }
+
+    }
+});
+
+angular.module('app.policy').directive('upper', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var capitalize = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                var capitalized = inputValue.toUpperCase();
+                var re = /[^/u4e00-/u9fa5]/;
+                if (re.test(inputValue) && capitalized !== inputValue) {
+                    modelCtrl.$setViewValue(capitalized);
+                    modelCtrl.$render();
+                }
+                return capitalized;
+            }
+            modelCtrl.$parsers.push(capitalize);
+            capitalize(scope[attrs.ngModel]);  // capitalize initial value
+        }
+    };
+});
+
+angular.module('app.policy').directive('price', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var removeIllegalInput = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+           
+                //先把非数字的都替换掉，除了数字和.
+                var output = inputValue.replace(/[^\d.]/g, "");
+                //必须保证第一个为数字而不是.
+                output = output.replace(/^\./g, "");
+                //保证只有出现一个.而没有多个.
+                output = output.replace(/\.{2,}/g, ".");
+                //保证.只出现一次，而不能出现两次以上
+                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                //只允许输入两位小数
+                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+
+                if (output !== inputValue) {
+                    modelCtrl.$setViewValue(output);
+                    modelCtrl.$render();
+                }
+                return output;
+            }
+            modelCtrl.$parsers.push(removeIllegalInput);
+            removeIllegalInput(scope[attrs.ngModel]);
+        }
+    };
+});
+
+angular.module('app.policy').filter('propsFilter', function () {
+    return function (items, props) {
+        var out = [];
+
+        if (angular.isArray(items)) {
+            items.forEach(function (item) {
+                var itemMatches = false;
+
+                var keys = Object.keys(props);
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    if (/^[\u4e00-\u9fa5]+$/.test(text)) {
+                        if(item['name'].indexOf(text) == 0){
+                            itemMatches = true;
+                                break;
+                        }
+                    } else {
+                        var text = props[prop].toUpperCase();
+                        var pylist = item['py'];
+                      
+                        for (var j = 0; j < pylist.length; j++) {
+                            if (pylist[j].indexOf(text) == 0) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+                        if(itemMatches){
+                            break;
+                        }
+                    }
+
+
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    }
+});
+'use strict'
+
+angular.module('app.policy').controller('PolicyEditorController1', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
+    var vm = this;
+    vm.policy = {};
+    vm.policy.plate_province = "苏";
+    vm.clientInfo = {};
+    vm.sellerInfo = $rootScope.user;
+    vm.level2Companies = [];
+    vm.level3Companies = [];
+    vm.level4Companies = [];
+
+    PolicyService.getLevel2Companies()
+        .then(function (level2Companies) {
+            vm.level2Companies = level2Companies;
+        })
+
+
+    vm.loadLevel3Companies = function () {
+        if (!vm.policy.level2_company) {
+            vm.level3Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.policy.level2_company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Companies = function () {
+        if (!vm.policy.level3_company) {
+            vm.level4Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.policy.level3_company)
+                .then(function (level4Companies) {
+                    vm.level4Companies = level4Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.applyCompanyRate = function (company) {
+        if (!company || !company.rates || company.rates.length == 0) {
+            vm.policy.mandatory_fee_income_rate = null;
+            vm.policy.mandatory_fee_payment_rate = null;
+            vm.policy.commercial_fee_income_rate = null;
+            vm.policy.commercial_fee_payment_rate = null;
+            vm.policy.tax_fee_income_rate = null;
+            vm.policy.tax_fee_payment_rate = null;
+            vm.policy.other_fee_income_rate = null;
+            vm.policy.other_fee_payment_rate = null;
+            vm.policy.rule_rates = null;
+        } else {
+            var rates = company.rates[0];
+            vm.policy.mandatory_fee_income_rate = rates.mandatory_income;
+            vm.policy.mandatory_fee_payment_rate = rates.mandatory_payment;
+            vm.policy.commercial_fee_income_rate = rates.commercial_income;
+            vm.policy.commercial_fee_payment_rate = rates.commercial_payment;
+            vm.policy.tax_fee_income_rate = rates.tax_income;
+            vm.policy.tax_fee_payment_rate = rates.tax_payment;
+            vm.policy.other_fee_income_rate = rates.other_income;
+            vm.policy.other_fee_payment_rate = rates.other_payment;
+            vm.policy.rule_rates = rates;
+        }
+    }
+
+    vm.level2Changed = function () {
+        if (!vm.policy.level2_company) {
+            vm.policy.level1_company = undefined;
+            vm.applyCompanyRate(null);
+        } else {
+            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
+            vm.policy.level1_company = company.catogory._id;
+            vm.applyCompanyRate(company);
+        }
+        vm.loadLevel3Companies();
+    }
+
+    vm.level3Changed = function () {
+        if (!vm.policy.level3_company) {
+            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
+            vm.applyCompanyRate(company);
+        } else {
+            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
+            vm.applyCompanyRate(company);
+        }
+        vm.loadLevel4Companies();
+    }
+
+    vm.level4Changed = function () {
+        if (!vm.policy.level4_company) {
+            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
+            vm.applyCompanyRate(company);
+        } else {
+            var company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
+            vm.applyCompanyRate(company);
+        }
+    }
+
+    PolicyService.getClients()
+        .then(function (clients) {
+            vm.clients = clients;
+        })
+
+
+    vm.editable = false;
+    if ($state.is("app.policy.new1")) {
+        vm.editable = true;
+    }
+
+
+
+
+
+    var policyId = $stateParams.policyId;
+    if (policyId) {
+        PolicyService.getPolicy(policyId)
+            .then(function (policy) {
+                vm.policy = policy;
+                vm.clientInfo = policy.client;
+                vm.sellerInfo = policy.seller;
+                policy.client = policy.client._id;
+                policy.seller = policy.seller._id;
+                vm.loadLevel3Companies();
+                vm.loadLevel4Companies();
+            });
+    }
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.checkRuleRates = function(){
+        if(!vm.policy.rule_rates){
+            return;
+        }
+        var rates = vm.policy.rule_rates;
+        var policy = vm.policy;
+        policy.has_warning = false;
+        if(rates.mandatory_income != policy.mandatory_fee_income_rate){
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.mandatory_payment != policy.mandatory_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.commercial_income != policy.commercial_fee_income_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.commercial_payment != policy.commercial_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.tax_income != policy.tax_fee_income_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.tax_payment != policy.tax_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.other_income != policy.other_fee_income_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        if (rates.other_payment != policy.other_fee_payment_rate) {
+            policy.has_warning = true;
+            return;
+        }
+        
+    }
+
+    vm.submit = function () {
+        vm.checkRuleRates();
+        vm.policy.client = vm.clientInfo._id;
+        PolicyService.savePolicy(vm.policy)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "保单已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.policy = {};
+                vm.policy.plate_province = "苏";
+                if (vm.back) {
+                    $state.go("app.policy.to-be-reviewed");
+                }
+            }, function (err) { });
+    };
+
+    vm.pay = function () {
+        vm.checkRuleRates();
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认已支付该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "已支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.approve = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认要批准该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "待支付";
+                vm.policy.paid_at = Date.now();
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        $state.go("app.policy.to-be-reviewed");
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+
+    };
+
+    vm.updateFee = function () {
+        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
+        if (vm.policy.mandatory_fee_income) {
+            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+        }
+        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
+        if (vm.policy.commercial_fee_income) {
+            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+        }
+        vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
+        if (vm.policy.tax_fee_income) {
+            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+        }
+        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
+        if (vm.policy.other_fee_income) {
+            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income) && !isNaN(vm.policy.other_fee_income)) {
+            vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+        }
+
+        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
+
+        if (vm.policy.mandatory_fee_payment) {
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+        }
+        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
+        if (vm.policy.commercial_fee_payment) {
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+        }
+        vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
+        if (vm.policy.tax_fee_payment) {
+            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+        }
+        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
+        if (vm.policy.other_fee_payment) {
+            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
+        }
+        if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment) && !isNaN(vm.policy.other_fee_payment)) {
+            vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_addition) {
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+        }
+        if (vm.policy.payment_substraction_rate) {
+            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
+            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
+        }
+
+    }
+});
+
+angular.module('app.policy').directive('upper', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var capitalize = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                var capitalized = inputValue.toUpperCase();
+                var re = /[^/u4e00-/u9fa5]/;
+                if (re.test(inputValue) && capitalized !== inputValue) {
+                    modelCtrl.$setViewValue(capitalized);
+                    modelCtrl.$render();
+                }
+                return capitalized;
+            }
+            modelCtrl.$parsers.push(capitalize);
+            capitalize(scope[attrs.ngModel]);  // capitalize initial value
+        }
+    };
+});
+
+angular.module('app.policy').directive('price', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            var removeIllegalInput = function (inputValue) {
+                if (inputValue == undefined) inputValue = '';
+                //    var output = inputValue.replace(/[^(\d|\\.)]/g,'') 
+
+                //先把非数字的都替换掉，除了数字和.
+                var output = inputValue.replace(/[^\d.]/g, "");
+                //必须保证第一个为数字而不是.
+                output = output.replace(/^\./g, "");
+                //保证只有出现一个.而没有多个.
+                output = output.replace(/\.{2,}/g, ".");
+                //保证.只出现一次，而不能出现两次以上
+                output = output.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                //只允许输入两位小数
+                output = output.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+
+                if (output !== inputValue) {
+                    modelCtrl.$setViewValue(output);
+                    modelCtrl.$render();
+                }
+                return output;
+            }
+            modelCtrl.$parsers.push(removeIllegalInput);
+            removeIllegalInput(scope[attrs.ngModel]);
+        }
+    };
+});
+
+angular.module('app.policy').filter('propsFilter', function () {
+    return function (items, props) {
+        var out = [];
+
+        if (angular.isArray(items)) {
+            items.forEach(function (item) {
+                var itemMatches = false;
+
+                var keys = Object.keys(props);
+                for (var i = 0; i < keys.length; i++) {
+                    var prop = keys[i];
+                    if (/^[\u4e00-\u9fa5]+$/.test(text)) {
+                        if (item['name'].indexOf(text) == 0) {
+                            itemMatches = true;
+                            break;
+                        }
+                    } else {
+                        var text = props[prop].toUpperCase();
+                        var pylist = item['py'];
+
+                        for (var j = 0; j < pylist.length; j++) {
+                            if (pylist[j].indexOf(text) == 0) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+                        if (itemMatches) {
+                            break;
+                        }
+                    }
+
+
+                }
+
+                if (itemMatches) {
+                    out.push(item);
+                }
+            });
+        } else {
+            // Let the output be the input untouched
+            out = items;
+        }
+
+        return out;
+    }
+});
+'use strict'
+
+angular.module('app.policy').controller('PolicyListController', function (screenSize, $timeout, $rootScope, $state, $scope, PolicyService, localStorageService) {
+    var vm = this;
+    vm.policies = [];
+    vm.organizations = [];
+    vm.totalIncome = 0;
+    vm.totalPayment = 0;
+    vm.totalProfit = 0;
+    vm.clientName = "";
+    vm.clientDictionary = {};
+    vm.areAllSelected = false;
+
+
+    PolicyService.getClients()
+        .then(function (clients) {
+            for (var i = 0; i < clients.length; i++) {
+                vm.clientDictionary[clients[i].name] = clients[i]._id;
+            }
+            vm.clients = clients;
+        })
+    PolicyService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+    PolicyService.getSellers()
+        .then(function (sellers) {
+            vm.sellers = sellers;
+        })
+
+
+    vm.listType = "all";
+    if ($state.is("app.policy.to-be-reviewed")) {
+        vm.listType = "to-be-reviewed";
+        vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientName = clientInfo.name;
+                })
+        }
+        vm.fromDate = localStorageService.get("review-fromDate") ? localStorageService.get("review-fromDate") : undefined;
+        vm.toDate = localStorageService.get("review-toDate") ? localStorageService.get("review-toDate") : undefined;
+        vm.tableHeader = "待审核保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields = ["client.name", "plate"];
+        }
+    }
+    else if ($state.is("app.policy.to-be-paid")) {
+        vm.listType = "to-be-paid";
+        vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientName = clientInfo.name;
+                })
+        }
+        vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
+        vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.tableHeader = "待支付保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields = ["client.name", "plate"];
+        }
+    } else if ($state.is("app.policy.paid")) {
+        vm.listType = "paid";
+        vm.filterSettings = localStorageService.get("paid-filterSettings") ? localStorageService.get("paid-filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientName = clientInfo.name;
+                })
+        }
+        vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
+        vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
+        vm.tableHeader = "已支付保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields = ["client.name", "plate", "paid_at"];
+        }
+    }
+
+    vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        vm.areAllSelected = false;
+        vm.currentPage = currentPage;
+        vm.pageItems = pageItems;
+        PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (data) {
+                vm.policies = data.policies;
+                vm.policyTotalCount = data.totalCount;
+            }, function (err) { });
+    };
+
+    vm.filterChanged = function () {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-filterSettings", vm.filterSettings);
+            localStorageService.set('review-fromDate', vm.fromDate);
+            localStorageService.set('review-toDate', vm.toDate);
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("filterSettings", vm.filterSettings);
+            localStorageService.set('fromDate', vm.fromDate);
+            localStorageService.set('toDate', vm.toDate);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-filterSettings", vm.filterSettings);
+            localStorageService.set('paid-fromDate', vm.fromDate);
+            localStorageService.set('paid-toDate', vm.toDate);
+        }
+
+        vm.refreshPolicies();
+        vm.refreshSummary();
+    };
+
+    vm.clientFilterChanged = function () {
+        if (vm.clientDictionary[vm.clientName]) {
+            vm.filterSettings.client = vm.clientDictionary[vm.clientName];
+
+        }
+        else {
+            vm.filterSettings.client = undefined;
+        }
+
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-filterSettings", vm.filterSettings);
+        }
+        vm.refreshPolicies();
+        vm.refreshSummary();
+    }
+    vm.refreshPolicies = function () {
+        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+            return;
+        }
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+    };
+
+    vm.refreshSummary = function () {
+        PolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (data) {
+                vm.totalIncome = data.total_income;
+                vm.totalPayment = data.total_payment;
+                vm.totalProfit = data.total_profit;
+            }, function (err) { });
+    };
+
+
+
+
+    var poller = function () {
+        if ($rootScope.user.role == "出单员") {
+            return;
+        }
+        vm.refreshPolicies();
+        vm.refreshSummary();
+        $timeout(poller, 1000 * 60 * 2);
+    };
+
+    poller();
+
+    vm.exportFilteredPolicies = function () {
+        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'statistics.csv'
+                })[0].click();
+            })
+    };
+
+    vm.bulkPay = function () {
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                        vm.refreshSummary();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+    vm.getSelectedPolicyIds = function(){
+        var ids = [];
+        if(vm.policies){
+            for(var i = 0; i < vm.policies.length; i ++){
+                if(vm.policies[i].isSelected){
+                    ids.push(vm.policies[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
+
+    vm.bulkApprove = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认批准选中的" + policyIds.length + "条保单?",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.bulkApprove(policyIds)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                        vm.refreshSummary();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+    vm.isShowReviewButton = function (policy) {
+        return $rootScope.user.role == "财务" && policy.policy_status == "待审核";
+    };
+
+    vm.isShowPayButton = function (policy) {
+        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
+    };
+
+    vm.isShowDeleteButton = function (policy) {
+        if ($rootScope.user.role == "管理员") return true;
+        return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";
+    };
+
+    vm.isShowBulkPayButton = function () {
+        if ($rootScope.user.role == "出单员") {
+            return false
+        };
+        return true;
+    };
+
+    vm.isShowBulkApproveButton = function () {
+        if ($rootScope.user.role == "出单员") {
+            return false
+        };
+        if(vm.policies){
+            for(var i = 0; i < vm.policies.length; i ++){
+                if(vm.policies[i].isSelected){
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    vm.isShowViewButton = function (policy) {
+        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
+    };
+
+    vm.pay = function (policy) {
+        if (!policy.level2_company) {
+            $state.go("app.policy.pay", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.pay1", { policyId: policy._id });
+        }
+    };
+
+    vm.approve = function (policy) {
+        if (!policy.level2_company) {
+            $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.approve1", { policyId: policy._id });
+        }
+    };
+
+    vm.view = function (policy) {
+        if (!policy.level2_company) {
+            $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
+        } else {
+            $state.go("app.policy.view1", { policyId: policy._id });
+        }
+
+    };
+
+    vm.selectAll = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = true;
+            }
+        }
+    }
+
+    vm.clearSelection = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = false;
+            }
+        }
+    }
+
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete = function (policyId) {
+        $.SmartMessageBox({
+            title: "删除保单",
+            content: "确认删除该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                PolicyService.deletePolicy(policyId)
+                    .then(function () {
+                        vm.refreshPolicies();
+                        vm.refreshSummary();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+
+});
+
+angular.module('app.policy')
+    .filter("computeTotal", function () {
+        return function (fieldValueUnused, item) {
+            return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
+        }
+    })
+    .filter("combinePlate", function () {
+        return function (fieldValueUnused, item) {
+            return (item.plate_no);
+        }
+    });
+"use strict";
+
+angular.module('app.policy').factory('OrgPolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                readExcel: readExcel,
+                savePolicies: savePolicies,
+                searchPolicies: searchPolicies,
+                bulkPay: bulkPay,
+                getSummary: getSummary,
+                getFilteredCSV: getFilteredCSV
+            });
+
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+
+                var end = new Date(toDate);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    filterByFields: filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+
+                $http.post("/api/org-policies/search", config)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkPay(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/org-policies/bulk-pay", policyIds)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+
+            function readExcel(file, level1_company, level2_company, level3_company, level4_company, clientInfo) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var reader = new FileReader();
+                var name = file.name;
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, { type: 'binary' });
+
+                    var first_sheet_name = workbook.SheetNames[0];
+                    var sheet = workbook.Sheets[first_sheet_name];
+                    //
+                    var range = XLSX.utils.decode_range(sheet['!ref']);
+                    var sheetData = [];
+
+                    _.forEachRight(_.range(range.s.r, range.e.r + 1), function (row) {
+                        var rowData = [];
+                        var hasValidData = false;
+                        _.forEachRight(_.range(range.s.c, range.e.c + 1), function (column) {
+                            var cellIndex = XLSX.utils.encode_cell({
+                                'c': column,
+                                'r': row
+                            });
+                            var cell = sheet[cellIndex];
+                            if(cell){
+                                hasValidData = true;
+                                rowData[column] = cell.v;
+                            }
+                            else{
+                                rowData[column] = undefined;
+                            }
+                            
+                        });
+                        if(hasValidData){
+                            sheetData.unshift(rowData);
+                        }
+                        
+                    });
+                    var policies = [];
+                    for (var i = 1; i < sheetData.length; i++) {
+                        var row = sheetData[i];
+                        for (var k = 0; k < row.length; k++) {
+                            if (!row[k] || row[k] == "") {
+                                deferred.reject("导入失败，文件中有保单信息不全，请检查导入文件！");
+                            }
+                        }
+                        var policy = {};
+                        policy.policy_no = row[0];
+                        policy.plate = row[1];
+                        policy.applicant = row[2];
+                        policy.policy_name = row[3];
+                        policy.fee = row[4];
+                        policy.income_rate = row[5];
+                        policy.income = row[6];
+                        policy.created_at = new Date(row[7]);
+                        policy.level1_company = level1_company;
+                        policy.level2_company = level2_company;
+                        policy.level3_company = level3_company;
+                        policy.level4_company = level4_company;
+                        policy.client = clientInfo._id;
+                        policy.payment_substract_rate = clientInfo.payment_substract_rate;
+                        policy.payment = policy.income * (1 - policy.payment_substract_rate / 100);
+                        policy.profit = policy.income - policy.payment;
+                        policy.policy_status = "待支付";
+                        policies.push(policy);
+                    }
+                    deferred.resolve(policies);
+                }
+
+                reader.readAsBinaryString(file);
+
+                return deferred.promise;
+
+            }
+
+            function getSummary(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                var config = {
+                    filterByFields: filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                $http.post("/api/org-policies/summary", config)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function savePolicies(policies) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post('/api/org-policies', policies)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                var config = {
+                    filterByFields: filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/org-policies/excel", config)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+
+        }]);
+"use strict";
+
+angular.module('app.policy').factory('PolicyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                savePolicy: savePolicy,
+                getPolicies: getPolicies,
+                getClients: getClients,
+                getOrgClients: getOrgClients,
+                getCompanies: getCompanies,
+                getPolicy: getPolicy,
+                deletePolicy: deletePolicy,
+                searchPolicies: searchPolicies,
+                getOrganizations: getOrganizations,
+                getSellers: getSellers,
+                getFilteredCSV: getFilteredCSV,
+                getSummary: getSummary,
+                bulkPay: bulkPay,
+                getClient: getClient,
+                getSubCompanies: getSubCompanies,
+                getLevel2Companies: getLevel2Companies,
+                bulkApprove: bulkApprove
+            });
+            
+            function getClient(clientId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/clients/' + clientId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicy(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (policy._id) {
+                    policy.updated_at = Date.now();
+                    $http.put('/api/policies/' + policy._id, policy)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policy.created_at = Date.now();
+                    policy.updated_at = policy.created_at;
+                    $http.post('/api/policies', policy)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicies(type) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                var url = "/api/policies"
+                if (type == "to-be-paid") {
+                    url = "/api/policies/to-be-paid";
+                } else if (type == "paid") {
+                    url = "/api/policies/paid";
+                }
+                $http.get(url)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/policies/' + policyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrgClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                
+                $http.post("/api/policies/search", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSummary(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                $http.post("/api/policies/summary", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function bulkPay(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+                $http.post("/api/policies/bulk-pay", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkApprove(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/policies/bulk-approve", policyIds)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                }
+                var end = new Date(toDate);
+                end.setDate(end.getDate()+1);
+                var config = {
+                    filterByFields:filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/policies/excel", config)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getSellers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getLevel2Companies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/level2')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+        }]);
 "use strict";
 
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){
@@ -13634,38 +14243,6 @@ angular.module('app.chat').directive('chatWidget', function (ChatApi) {
 });
 "use strict";
 
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
-});
-"use strict";
-
  angular.module('app').directive('todoList', function ($timeout, Todo) {
 
     return {
@@ -13706,6 +14283,38 @@ angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
 
         }
     }
+});
+"use strict";
+
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
@@ -14185,6 +14794,448 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
                     });
                 }
             }
+        }
+    }
+});
+"use strict";
+
+
+angular.module('app.graphs').value('FlotConfig', {
+    "chartBorderColor": "#efefef",
+    "chartGridColor": "#DDD",
+    "charMain": "#E24913",
+    "chartSecond": "#6595b4",
+    "chartThird": "#FF9F01",
+    "chartFourth": "#7e9d3a",
+    "chartFifth": "#BD362F",
+    "chartMono": "#000"
+
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+// For the demo we use generated data, but normally it would be coming from the server
+            var data = [], totalPoints = 200;
+            function getRandomData() {
+                if (data.length > 0)
+                    data = data.slice(1);
+
+                // do a random walk
+                while (data.length < totalPoints) {
+                    var prev = data.length > 0 ? data[data.length - 1] : 50;
+                    var y = prev + Math.random() * 10 - 5;
+                    if (y < 0)
+                        y = 0;
+                    if (y > 100)
+                        y = 100;
+                    data.push(y);
+                }
+
+                // zip the generated y values with the x values
+                var res = [];
+                for (var i = 0; i < data.length; ++i)
+                    res.push([i, data[i]])
+                return res;
+            }
+
+            // setup control widget
+            var updateInterval = 1000;
+            element.val(updateInterval).change(function() {
+                var v = $(this).val();
+                if (v && !isNaN(+v)) {
+                    updateInterval = +v;
+                    if (updateInterval < 1)
+                        updateInterval = 1;
+                    if (updateInterval > 2000)
+                        updateInterval = 2000;
+                    $(this).val("" + updateInterval);
+                }
+            });
+
+            // setup plot
+            var options = {
+                yaxis : {
+                    min : 0,
+                    max : 100
+                },
+                xaxis : {
+                    min : 0,
+                    max : 100
+                },
+                colors : [FlotConfig.chartFourth],
+                series : {
+                    lines : {
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.4
+                            }, {
+                                opacity : 0
+                            }]
+                        },
+                        steps : false
+
+                    }
+                }
+            };
+            var plot = $.plot(element, [getRandomData()], options);
+
+            function update() {
+                plot.setData([getRandomData()]);
+                // since the axes don't change, we don't need to call plot.setupGrid()
+                plot.draw();
+
+                $timeout(update, updateInterval);
+            }
+
+            update();
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotBarChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
+                grid : {
+                    show : true,
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                legend : true,
+                tooltip : true,
+                tooltipOpts : {
+                    content : "<b>%x</b> = <span>%y</span>",
+                    defaultTheme : false
+                }
+
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('flotBasic', function () {
+    return {
+        restrict: 'A',
+        scope:{
+            data:'=flotData',
+            options: '=flotOptions'
+        },
+        link: function (scope, element, attributes) {
+            var plot = $.plot(element, scope.data, scope.options);
+
+            scope.$watchCollection('data', function(newData, oldData){
+                if(newData != oldData){
+                    plot.setData(newData);
+                    plot.draw();
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotFillChart', function(){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+
+                xaxis : {
+                    tickDecimals : 0
+                },
+
+                yaxis : {
+                    tickFormatter : function(v) {
+                        return v + " cm";
+                    }
+                }
+
+            });
+        }
+    }
+})
+"use strict";
+
+angular.module('app.graphs').directive('flotHorizontalBarChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+            $.plot(element, scope.data, {
+                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
+                grid : {
+                    show : true,
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                legend : true,
+                tooltip : true,
+                tooltipOpts : {
+                    content : "<b>%x</b> = <span>%y</span>",
+                    defaultTheme : false
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotPieChart', function(){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+            $.plot(element, scope.data, {
+                series : {
+                    pie : {
+                        show : true,
+                        innerRadius : 0.5,
+                        radius : 1,
+                        label : {
+                            show : false,
+                            radius : 2 / 3,
+                            formatter : function(label, series) {
+                                return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+                            },
+                            threshold : 0.1
+                        }
+                    }
+                },
+                legend : {
+                    show : true,
+                    noColumns : 1, // number of colums in legend table
+                    labelFormatter : null, // fn: string -> string
+                    labelBoxBorderColor : "#000", // border color for the little label boxes
+                    container : null, // container (as jQuery object) to put legend in, null means default on top of graph
+                    position : "ne", // position of default legend container within plot
+                    margin : [5, 10], // distance from grid edge to default legend container within plot
+                    backgroundColor : "#efefef", // null means auto-detect
+                    backgroundOpacity : 1 // set to 0 to avoid background
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true
+                },
+            });
+
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotSalesChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, [scope.data], {
+                xaxis : {
+                    mode : "time",
+                    tickLength : 5
+                },
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.15
+                            }]
+                        }
+                    },
+                    //points: { show: true },
+                    shadowSize : 0
+                },
+                selection : {
+                    mode : "x"
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "Your sales for <b>%x</b> was <span>$%y</span>",
+                    dateFormat : "%y-%0m-%0d",
+                    defaultTheme : false
+                },
+                colors : [FlotConfig.chartSecond]
+
+            });
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotSinChart', function (FlotConfig) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function (scope, element) {
+
+            var plot = $.plot(element, scope.data, {
+                series: {
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: FlotConfig.chartBorderColor,
+                    borderWidth: 0,
+                    borderColor: FlotConfig.chartBorderColor
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    //content : "Value <b>$x</b> Value <span>$y</span>",
+                    defaultTheme: false
+                },
+                colors: [FlotConfig.chartSecond, FlotConfig.chartFourth],
+                yaxis: {
+                    min: -1.1,
+                    max: 1.1
+                },
+                xaxis: {
+                    min: 0,
+                    max: 15
+                }
+            });
+
+            element.on("plotclick", function (event, pos, item) {
+                if (item) {
+                    $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
+                    plot.highlight(item.series, item.datapoint);
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.15
+                            }]
+                        }
+                    },
+                    points : {
+                        show : true
+                    },
+                    shadowSize : 0
+                },
+
+                yaxes : [{
+                    min : 20,
+                    tickLength : 5
+                }],
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "%s for <b>%x:00 hrs</b> was %y",
+                    dateFormat : "%y-%0m-%0d",
+                    defaultTheme : false
+                },
+                colors : [FlotConfig.charMain, FlotConfig.chartSecond],
+                xaxis : {
+                    mode : "time",
+                    tickLength : 10,
+                    ticks : 15,
+                    tickDecimals : 2
+                },
+                yaxis : {
+                    ticks : 15,
+                    tickDecimals : 0
+                }
+            });
+
         }
     }
 });
@@ -14678,448 +15729,6 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
 
 
             drawSparklines();
-
-        }
-    }
-});
-"use strict";
-
-
-angular.module('app.graphs').value('FlotConfig', {
-    "chartBorderColor": "#efefef",
-    "chartGridColor": "#DDD",
-    "charMain": "#E24913",
-    "chartSecond": "#6595b4",
-    "chartThird": "#FF9F01",
-    "chartFourth": "#7e9d3a",
-    "chartFifth": "#BD362F",
-    "chartMono": "#000"
-
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-// For the demo we use generated data, but normally it would be coming from the server
-            var data = [], totalPoints = 200;
-            function getRandomData() {
-                if (data.length > 0)
-                    data = data.slice(1);
-
-                // do a random walk
-                while (data.length < totalPoints) {
-                    var prev = data.length > 0 ? data[data.length - 1] : 50;
-                    var y = prev + Math.random() * 10 - 5;
-                    if (y < 0)
-                        y = 0;
-                    if (y > 100)
-                        y = 100;
-                    data.push(y);
-                }
-
-                // zip the generated y values with the x values
-                var res = [];
-                for (var i = 0; i < data.length; ++i)
-                    res.push([i, data[i]])
-                return res;
-            }
-
-            // setup control widget
-            var updateInterval = 1000;
-            element.val(updateInterval).change(function() {
-                var v = $(this).val();
-                if (v && !isNaN(+v)) {
-                    updateInterval = +v;
-                    if (updateInterval < 1)
-                        updateInterval = 1;
-                    if (updateInterval > 2000)
-                        updateInterval = 2000;
-                    $(this).val("" + updateInterval);
-                }
-            });
-
-            // setup plot
-            var options = {
-                yaxis : {
-                    min : 0,
-                    max : 100
-                },
-                xaxis : {
-                    min : 0,
-                    max : 100
-                },
-                colors : [FlotConfig.chartFourth],
-                series : {
-                    lines : {
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.4
-                            }, {
-                                opacity : 0
-                            }]
-                        },
-                        steps : false
-
-                    }
-                }
-            };
-            var plot = $.plot(element, [getRandomData()], options);
-
-            function update() {
-                plot.setData([getRandomData()]);
-                // since the axes don't change, we don't need to call plot.setupGrid()
-                plot.draw();
-
-                $timeout(update, updateInterval);
-            }
-
-            update();
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotBarChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
-                grid : {
-                    show : true,
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                legend : true,
-                tooltip : true,
-                tooltipOpts : {
-                    content : "<b>%x</b> = <span>%y</span>",
-                    defaultTheme : false
-                }
-
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('flotBasic', function () {
-    return {
-        restrict: 'A',
-        scope:{
-            data:'=flotData',
-            options: '=flotOptions'
-        },
-        link: function (scope, element, attributes) {
-            var plot = $.plot(element, scope.data, scope.options);
-
-            scope.$watchCollection('data', function(newData, oldData){
-                if(newData != oldData){
-                    plot.setData(newData);
-                    plot.draw();
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotFillChart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-
-                xaxis : {
-                    tickDecimals : 0
-                },
-
-                yaxis : {
-                    tickFormatter : function(v) {
-                        return v + " cm";
-                    }
-                }
-
-            });
-        }
-    }
-})
-"use strict";
-
-angular.module('app.graphs').directive('flotHorizontalBarChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-            $.plot(element, scope.data, {
-                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
-                grid : {
-                    show : true,
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                legend : true,
-                tooltip : true,
-                tooltipOpts : {
-                    content : "<b>%x</b> = <span>%y</span>",
-                    defaultTheme : false
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotPieChart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-            $.plot(element, scope.data, {
-                series : {
-                    pie : {
-                        show : true,
-                        innerRadius : 0.5,
-                        radius : 1,
-                        label : {
-                            show : false,
-                            radius : 2 / 3,
-                            formatter : function(label, series) {
-                                return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
-                            },
-                            threshold : 0.1
-                        }
-                    }
-                },
-                legend : {
-                    show : true,
-                    noColumns : 1, // number of colums in legend table
-                    labelFormatter : null, // fn: string -> string
-                    labelBoxBorderColor : "#000", // border color for the little label boxes
-                    container : null, // container (as jQuery object) to put legend in, null means default on top of graph
-                    position : "ne", // position of default legend container within plot
-                    margin : [5, 10], // distance from grid edge to default legend container within plot
-                    backgroundColor : "#efefef", // null means auto-detect
-                    backgroundOpacity : 1 // set to 0 to avoid background
-                },
-                grid : {
-                    hoverable : true,
-                    clickable : true
-                },
-            });
-
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotSalesChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, [scope.data], {
-                xaxis : {
-                    mode : "time",
-                    tickLength : 5
-                },
-                series : {
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
-                            }, {
-                                opacity : 0.15
-                            }]
-                        }
-                    },
-                    //points: { show: true },
-                    shadowSize : 0
-                },
-                selection : {
-                    mode : "x"
-                },
-                grid : {
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                tooltip : true,
-                tooltipOpts : {
-                    content : "Your sales for <b>%x</b> was <span>$%y</span>",
-                    dateFormat : "%y-%0m-%0d",
-                    defaultTheme : false
-                },
-                colors : [FlotConfig.chartSecond]
-
-            });
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotSinChart', function (FlotConfig) {
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function (scope, element) {
-
-            var plot = $.plot(element, scope.data, {
-                series: {
-                    lines: {
-                        show: true
-                    },
-                    points: {
-                        show: true
-                    }
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true,
-                    tickColor: FlotConfig.chartBorderColor,
-                    borderWidth: 0,
-                    borderColor: FlotConfig.chartBorderColor
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    //content : "Value <b>$x</b> Value <span>$y</span>",
-                    defaultTheme: false
-                },
-                colors: [FlotConfig.chartSecond, FlotConfig.chartFourth],
-                yaxis: {
-                    min: -1.1,
-                    max: 1.1
-                },
-                xaxis: {
-                    min: 0,
-                    max: 15
-                }
-            });
-
-            element.on("plotclick", function (event, pos, item) {
-                if (item) {
-                    $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
-                    plot.highlight(item.series, item.datapoint);
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-                series : {
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
-                            }, {
-                                opacity : 0.15
-                            }]
-                        }
-                    },
-                    points : {
-                        show : true
-                    },
-                    shadowSize : 0
-                },
-
-                yaxes : [{
-                    min : 20,
-                    tickLength : 5
-                }],
-                grid : {
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                tooltip : true,
-                tooltipOpts : {
-                    content : "%s for <b>%x:00 hrs</b> was %y",
-                    dateFormat : "%y-%0m-%0d",
-                    defaultTheme : false
-                },
-                colors : [FlotConfig.charMain, FlotConfig.chartSecond],
-                xaxis : {
-                    mode : "time",
-                    tickLength : 10,
-                    ticks : 15,
-                    tickDecimals : 2
-                },
-                yaxis : {
-                    ticks : 15,
-                    tickDecimals : 0
-                }
-            });
 
         }
     }
@@ -16710,6 +17319,96 @@ angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function()
 });
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
+        }
+    }
+});
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
     return {
         restrict: 'A',
@@ -17115,96 +17814,6 @@ angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsC
                     }
 
                 }, formsCommon.validateOptions));
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
             });
         }
     }

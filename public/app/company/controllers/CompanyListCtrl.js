@@ -74,7 +74,14 @@ angular.module('app.company').controller('CompanyListController', function (scre
     vm.refreshCompanies();
 
     vm.view = function (companyId) {
-        $state.go("app.company.view", { companyId: companyId });
+        if (vm.level == "二级") {
+            $state.go("app.company.company2.view", { companyId: companyId });
+        } else if (vm.level == "三级") {
+            $state.go("app.company.company3.view", { companyId: companyId });
+        } else if (vm.level == "四级") {
+            $state.go("app.company.company4.view", { companyId: companyId });
+        }
+        // $state.go("app.company.view", { companyId: companyId });
     };
 
     vm.level1Changed = function () {

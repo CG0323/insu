@@ -182,7 +182,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     vm.submit = function () {
         vm.checkRuleRates();
-        console.log(vm.policy.has_warning);
         vm.policy.client = vm.clientInfo._id;
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {

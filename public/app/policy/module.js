@@ -38,18 +38,6 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
-        .state('app.policy.import', {
-            url: '/policies/import',
-            data: {
-                title: '保单批量导入'
-            },
-            views: {
-                "content@app": {
-                    controller: 'PolicyImportController as vm',
-                    templateUrl: 'app/policy/views/policy-importer.html'
-                }
-            }
-        })
         .state('app.policy.pay', {
             url: '/policies/pay/:policyId',
             data: {
@@ -191,6 +179,48 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                         'datatables-responsive'
                     ])
 
+                }
+            }
+        })
+        .state('app.policy.org-policy', {
+            abstract: true,
+            data: {
+                title: '车商车险'
+            }
+        })        
+        .state('app.policy.org-policy.import', {
+            url: '/policies/org-policies/import',
+            data: {
+                title: '车商保单批量导入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'OrgPolicyImportController as vm',
+                    templateUrl: 'app/policy/views/org-policy-importer.html'
+                }
+            }
+        })
+        .state('app.policy.org-policy.to-be-paid', {
+            url: '/policies/org-policies/to-be-paid',
+            data: {
+                title: '待支付车商保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'OrgPolicyListController as vm',
+                    templateUrl: 'app/policy/views/org-policy-list.html'
+                }
+            }
+        })
+        .state('app.policy.org-policy.paid', {
+            url: '/policies/org-policies/paid',
+            data: {
+                title: '已支付车商保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'OrgPolicyListController as vm',
+                    templateUrl: 'app/policy/views/org-policy-list-paid.html'
                 }
             }
         })

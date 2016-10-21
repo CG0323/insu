@@ -21,8 +21,8 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
             },
             views: {
                 "content@app": {
-                    controller: 'CompanyListController as vm',
-                    templateUrl: 'app/company/views/company-list.html'
+                    controller: 'LegacyCompanyListController as vm',
+                    templateUrl: 'app/company/views/legacy-company-list.html'
                 }
             }
         })
@@ -33,8 +33,8 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
             },
             views: {
                 "content@app": {
-                    controller: 'CompanyEditorController as vm',
-                    templateUrl: 'app/company/views/company.html'
+                    controller: 'LegacyCompanyEditorController as vm',
+                    templateUrl: 'app/company/views/legacy-company.html'
                 }
             }
         })
@@ -45,8 +45,8 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
             },
             views: {
                 "content@app": {
-                    controller: 'CompanyEditorController as vm',
-                    templateUrl: 'app/company/views/company.html'
+                    controller: 'LegacyCompanyEditorController as vm',
+                    templateUrl: 'app/company/views/legacy-company.html'
                 }
             }
         })

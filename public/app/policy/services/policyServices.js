@@ -250,7 +250,6 @@ angular.module('app.policy').factory('PolicyService',
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
-                    // filterBy: filterBy,
                     filterByFields:filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,

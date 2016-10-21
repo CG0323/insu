@@ -13,14 +13,15 @@ router.post('/', function (req, res) {
     if (policies.length > 0) {
       res.status(400).send('系统中已存在相同保单号的保单');
     } else {
-      if (!data.company && !data.level3_company) {
-        res.status(400).send('前三级保险公司必须填写');
+      if (!data.company && !data.level2_company) {
+        res.status(400).send('二级保险公司必须填写');
 
       } else {
         var policy = new Policy(data);
         policy.seller = req.user._id;
         policy.organization = req.user.org;
-        policy.policy_status = '待审核';
+        // policy.policy_status = '待审核';
+        policy.policy_status = '待支付';
         policy.save(function (err, policy, numAffected) {
           if (err) {
             logger.error(err);
@@ -71,7 +72,6 @@ router.get('/upgrade', function (req, res) {
       // console.log(policies);
       for (var i = 0; i < policies.length; i++) {
         var policy = policies[i];
-        console.log(policy);
         policy.organization = policy.seller.org;
         // console.log(policy.organization);
         policy.save();
@@ -213,7 +213,7 @@ router.post('/excel', function (req, res) {
         row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
         row.policy_no = "'" + policy.policy_no;
 
-        row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name : policy.level3_company.name;
+        row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company.name;
 
         row.applicant.name = policy.applicant.name;
         row.plate_no = policy.plate_no;
@@ -375,6 +375,7 @@ router.put('/:id', function (req, res) {
     policy.level2_company = req.body.level2_company;
     policy.level3_company = req.body.level3_company;
     policy.level4_company = req.body.level4_company;
+    console.log(req.body.rule_rates);
     policy.rule_rates = req.body.rule_rates;
     policy.has_warning = req.body.has_warning;
     policy.organization = req.body.organization;
@@ -421,14 +422,13 @@ router.post('/search', function (req, res) {
     sortParam = req.body.orderBy.toString();
   }
 
-  if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+  if (req.body.fromDate != undefined && req.body.fromDate !='' && req.body.toDate != undefined) {
     conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
-  } else if (req.body.fromDate != undefined) {
+  } else if (req.body.fromDate != undefined && req.body.fromDate !='' ) {
     conditions['created_at'] = { $gte: req.body.fromDate };
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
-
   var query = Policy.find(conditions);
   query
     .sort(sortParam)

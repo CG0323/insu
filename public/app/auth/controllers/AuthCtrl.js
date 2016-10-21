@@ -23,10 +23,11 @@ angular.module('app.auth').controller('AuthCtrl',
                     .then(function(user) {
                         $rootScope.user = user;
                         if(user.role == "出单员"){
-                            $state.go('app.policy.new1');
+                            $state.go('app.policy.new');
                         }else
                         {
-                            $state.go('app.policy.to-be-reviewed');
+                            // $state.go('app.policy.to-be-reviewed');
+                            $state.go('app.policy.to-be-paid');
                         }
                         
                         $scope.disabled = false;
