@@ -18,13 +18,13 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
         ClientService.getClient(clientId)
             .then(function (client) {
                 vm.client = client;
-                LoadWechats();
+                // LoadWechats();
             });
     }else{
-        ClientService.getFollowers()
-                    .then(function (followers) {
-                        vm.wechats = followers;
-                    });
+        // ClientService.getFollowers()
+        //             .then(function (followers) {
+        //                 vm.wechats = followers;
+        //             });
     }
     
 

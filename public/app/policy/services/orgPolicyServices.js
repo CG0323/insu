@@ -85,6 +85,11 @@ angular.module('app.policy').factory('OrgPolicyService',
                 var reader = new FileReader();
                 var name = file.name;
                 reader.onload = function (e) {
+                    //first check if payment_substract_rate is set for this client
+                    if(!clientInfo.payment_substract_rate){
+                        deferred.reject("导入失败，请联系业务管理员先设置该车商的结算费扣除比例！");
+                    }
+
                     var data = e.target.result;
                     var workbook = XLSX.read(data, { type: 'binary' });
 
