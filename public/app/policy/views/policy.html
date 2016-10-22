@@ -271,13 +271,11 @@
                                             </label>
                                         </section>
                                         <section class="col col-3" ng-show="vm.policy.policy_status=='待支付'">
-                                            <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付'" ng-click="vm.pay()"
+                                            <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付'" validation-submit="payForm"  ng-click="vm.pay()"
                                             class="btn btn-primary btn-lg">修改保单状态为已支付</button>
                                         </section>
-                                    </div>
-                                    <div class="row" ng-show="vm.policy.policy_status=='待审核'">
-                                        <section class="col col-3">
-                                            <button style="margin-top:1.5em" ng-click="vm.approve()"
+                                        <section class="col col-3" ng-show="vm.policy.policy_status=='待审核'">
+                                            <button style="margin-top:1.5em" ng-click="vm.approve()" validation-submit="payForm" 
                                                 class="btn btn-primary btn-lg">审核通过，修改保单状态为待支付</button>
                                         </section>
                                     </div>
@@ -289,7 +287,6 @@
             </div>
         </article>
     </div>
-
 
     <div class="row">
         <article class="col-sm-12">

@@ -2565,28 +2565,6 @@ angular.module('app.widgets', ['ui.router'])
 
     angular.module('SmartAdmin.Layout', []);
 })();
-    "use strict";
-
-
-angular.module('app.chat', ['ngSanitize'])
-.run(function ($templateCache) {
-
-    $templateCache.put("template/popover/popover.html",
-        "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
-        "  <div class=\"arrow\"></div>\n" +
-        "\n" +
-        "  <div class=\"popover-inner\">\n" +
-        "      <h3 class=\"popover-title\" ng-bind-html=\"title | unsafe\" ng-show=\"title\"></h3>\n" +
-        "      <div class=\"popover-content\"ng-bind-html=\"content | unsafe\"></div>\n" +
-        "  </div>\n" +
-        "</div>\n" +
-        "");
-
-}).filter('unsafe', ['$sce', function ($sce) {
-    return function (val) {
-        return $sce.trustAsHtml(val);
-    };
-}]);
 angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("app/dashboard/live-feeds.tpl.html","<div jarvis-widget id=\"live-feeds-widget\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\r\n<!-- widget options:\r\nusage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\r\n\r\ndata-widget-colorbutton=\"false\"\r\ndata-widget-editbutton=\"false\"\r\ndata-widget-togglebutton=\"false\"\r\ndata-widget-deletebutton=\"false\"\r\ndata-widget-fullscreenbutton=\"false\"\r\ndata-widget-custombutton=\"false\"\r\ndata-widget-collapsed=\"true\"\r\ndata-widget-sortable=\"false\"\r\n\r\n-->\r\n<header>\r\n    <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\r\n\r\n    <h2>Live Feeds </h2>\r\n\r\n    <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\r\n        <li class=\"active\">\r\n            <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\r\n        </li>\r\n\r\n        <li>\r\n            <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\r\n        </li>\r\n    </ul>\r\n\r\n</header>\r\n\r\n<!-- widget div-->\r\n<div class=\"no-padding\">\r\n\r\n    <div class=\"widget-body\">\r\n        <!-- content -->\r\n        <div id=\"myTabContent\" class=\"tab-content\">\r\n            <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\r\n                <div class=\"row no-space\">\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\r\n														<span class=\"demo-liveupdate-1\"> <span\r\n                                                                class=\"onoffswitch-title\">Live switch</span> <span\r\n                                                                class=\"onoffswitch\">\r\n																<input type=\"checkbox\" name=\"start_interval\" ng-model=\"autoUpdate\"\r\n                                                                       class=\"onoffswitch-checkbox\" id=\"start_interval\">\r\n																<label class=\"onoffswitch-label\" for=\"start_interval\">\r\n                                                                    <span class=\"onoffswitch-inner\"\r\n                                                                          data-swchon-text=\"ON\"\r\n                                                                          data-swchoff-text=\"OFF\"></span>\r\n                                                                    <span class=\"onoffswitch-switch\"></span>\r\n                                                                </label> </span> </span>\r\n\r\n                        <div id=\"updating-chart\" class=\"chart-large txt-color-blue\" flot-basic flot-data=\"liveStats\" flot-options=\"liveStatsOptions\"></div>\r\n\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\r\n\r\n                        <div class=\"row\">\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> My Tasks <span\r\n                                    class=\"pull-right\">130/200</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Transfered <span\r\n                                    class=\"pull-right\">440 GB</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> Bugs Squashed<span\r\n                                    class=\"pull-right\">77%</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"><span class=\"text\"> User Testing <span\r\n                                    class=\"pull-right\">7 Days</span> </span>\r\n\r\n                                <div class=\"progress\">\r\n                                    <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\r\n                                </div>\r\n                            </div>\r\n\r\n                            <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a\r\n                                    href-void class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span\r\n                                    class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href-void\r\n                                                                                     class=\"btn btn-default btn-block hidden-xs\">Report\r\n                                a bug</a> </span> </span>\r\n\r\n                        </div>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"show-stat-microcharts\" data-sparkline-container data-easy-pie-chart-container>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n\r\n                        <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">35</span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">78.9 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\r\n                            <span class=\"percent percent-sign\">23 </span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-darken\">10GB</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\"\r\n                             data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\"\r\n                             data-fill-color=\"transparent\">\r\n                            200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\r\n                        <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\r\n                            <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\r\n                        </div>\r\n                        <span class=\"easy-pie-title\"> Temperature <i\r\n                                class=\"fa fa-caret-down icon-color-good\"></i></span>\r\n                        <ul class=\"smaller-stat hidden-sm pull-right\">\r\n                            <li>\r\n                                <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\"\r\n                             data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\r\n                            2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s1 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s2\">\r\n                <div class=\"widget-body-toolbar bg-color-white\">\r\n\r\n                    <form class=\"form-inline\" role=\"form\">\r\n\r\n                        <div class=\"form-group\">\r\n                            <label class=\"sr-only\" for=\"s123\">Show From</label>\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\r\n                        </div>\r\n\r\n                        <div class=\"btn-group hidden-phone pull-right\">\r\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                    class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                            <ul class=\"dropdown-menu pull-right\">\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                                </li>\r\n                                <li>\r\n                                    <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                                </li>\r\n                            </ul>\r\n                        </div>\r\n\r\n                    </form>\r\n\r\n                </div>\r\n                <div class=\"padding-10\">\r\n                    <div id=\"statsChart\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"statsData\" flot-options=\"statsDisplayOptions\"></div>\r\n                </div>\r\n\r\n            </div>\r\n            <!-- end s2 tab pane -->\r\n\r\n            <div class=\"tab-pane fade\" id=\"s3\">\r\n\r\n                <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\r\n\r\n                    <div class=\"inline-group\">\r\n\r\n                        <label for=\"gra-0\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-0\" ng-model=\"targetsShow\">\r\n                            <i></i> Target </label>\r\n                        <label for=\"gra-1\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-1\" ng-model=\"actualsShow\">\r\n                            <i></i> Actual </label>\r\n                        <label for=\"gra-2\" class=\"checkbox\">\r\n                            <input type=\"checkbox\" id=\"gra-2\" ng-model=\"signupsShow\">\r\n                            <i></i> Signups </label>\r\n                    </div>\r\n\r\n                    <div class=\"btn-group hidden-phone pull-right\">\r\n                        <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i\r\n                                class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\r\n                        <ul class=\"dropdown-menu pull-right\">\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\r\n                            </li>\r\n                            <li>\r\n                                <a href-void><i class=\"fa fa-question-sign\"></i> Help</a>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <div class=\"padding-10\">\r\n                    <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\" flot-basic flot-data=\"revenewData\" flot-options=\"revenewDisplayOptions\" ></div>\r\n                </div>\r\n            </div>\r\n            <!-- end s3 tab pane -->\r\n        </div>\r\n\r\n        <!-- end content -->\r\n    </div>\r\n\r\n</div>\r\n<!-- end widget div -->\r\n</div>\r\n");
 $templateCache.put("app/layout/layout.tpl.html","<!-- HEADER -->\r\n<div data-smart-include=\"app/layout/partials/header.tpl.html\" class=\"placeholder-header\"></div>\r\n<!-- END HEADER -->\r\n\r\n\r\n<!-- Left panel : Navigation area -->\r\n<!-- Note: This width of the aside area can be adjusted through LESS variables -->\r\n<div data-smart-include=\"app/layout/partials/navigation.tpl.html\" class=\"placeholder-left-panel\"></div>\r\n\r\n<!-- END NAVIGATION -->\r\n\r\n<!-- MAIN PANEL -->\r\n<div id=\"main\" role=\"main\">\r\n    <!--<demo-states></demo-states>-->\r\n\r\n    <!-- RIBBON -->\r\n    <div id=\"ribbon\">\r\n\r\n				<!--<span class=\"ribbon-button-alignment\">\r\n					<span id=\"refresh\" class=\"btn btn-ribbon\" reset-widgets\r\n                          tooltip-placement=\"bottom\"\r\n                          tooltip-html=\"<i class=\'text-warning fa fa-warning\'></i> Warning! This will reset all your widget settings.\">\r\n						<i class=\"fa fa-refresh\"></i>\r\n					</span>\r\n				</span>-->\r\n\r\n        <!-- breadcrumb -->\r\n        <state-breadcrumbs></state-breadcrumbs>\r\n        <!-- end breadcrumb -->\r\n\r\n\r\n    </div>\r\n    <!-- END RIBBON -->\r\n\r\n\r\n    <div data-smart-router-animation-wrap=\"content content@app\" data-wrap-for=\"#content\">\r\n        <div data-ui-view=\"content\" data-autoscroll=\"false\"></div>\r\n    </div>\r\n\r\n</div>\r\n<!-- END MAIN PANEL -->\r\n\r\n<!-- PAGE FOOTER -->\r\n<div data-smart-include=\"app/layout/partials/footer.tpl.html\"></div>\r\n\r\n<div data-smart-include=\"app/layout/shortcut/shortcut.tpl.html\"></div>\r\n\r\n<!-- END PAGE FOOTER -->\r\n\r\n\r\n");
 $templateCache.put("app/auth/directives/login-info.tpl.html","<div class=\"login-info ng-cloak\">\r\n    <span> <!-- User image size is adjusted inside CSS, it should stay as it -->\r\n        <a  href=\"\">\r\n            <!--<img ng-src=\"{{user.picture}}\" alt=\"me\" class=\"online\">-->\r\n            <span>{{user.name}}  \r\n            <i class=\"fa fa-user\"></i>\r\n             {{user.role}}\r\n             </span>\r\n        </a>\r\n     </span>\r\n</div>");
@@ -2613,6 +2591,28 @@ $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html","<form id=\"profileForm\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label>Email address</label>\r\n            <input type=\"text\" class=\"form-control\" name=\"email\" />\r\n        </div>\r\n    </fieldset>\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label>Password</label>\r\n            <input type=\"password\" class=\"form-control\" name=\"password\" />\r\n        </div>\r\n    </fieldset>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>\r\n");
 $templateCache.put("app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html","<form id=\"togglingForm\" method=\"post\" class=\"form-horizontal\">\r\n\r\n    <fieldset>\r\n        <legend>\r\n            Default Form Elements\r\n        </legend>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Full name <sup>*</sup></label>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"firstName\" placeholder=\"First name\" />\r\n            </div>\r\n            <div class=\"col-lg-4\">\r\n                <input type=\"text\" class=\"form-control\" name=\"lastName\" placeholder=\"Last name\" />\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Company <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"company\"\r\n                       required data-bv-notempty-message=\"The company name is required\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#jobInfo\">\r\n                    Add more info\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"jobInfo\" style=\"display: none;\">\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Job title <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"job\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Department <sup>*</sup></label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"department\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <fieldset>\r\n        <div class=\"form-group\">\r\n            <label class=\"col-lg-3 control-label\">Mobile phone <sup>*</sup></label>\r\n            <div class=\"col-lg-5\">\r\n                <input type=\"text\" class=\"form-control\" name=\"mobilePhone\" />\r\n            </div>\r\n            <div class=\"col-lg-2\">\r\n                <button type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"#phoneInfo\">\r\n                    Add more phone numbers\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </fieldset>\r\n    <!-- These fields will not be validated as long as they are not visible -->\r\n    <div id=\"phoneInfo\" style=\"display: none;\">\r\n\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Home phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"homePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n        <fieldset>\r\n            <div class=\"form-group\">\r\n                <label class=\"col-lg-3 control-label\">Office phone</label>\r\n                <div class=\"col-lg-5\">\r\n                    <input type=\"text\" class=\"form-control\" name=\"officePhone\" />\r\n                </div>\r\n            </div>\r\n        </fieldset>\r\n    </div>\r\n\r\n    <div class=\"form-actions\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <button class=\"btn btn-default\" type=\"submit\">\r\n                    <i class=\"fa fa-eye\"></i>\r\n                    Validate\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</form>");
 $templateCache.put("app/_common/layout/directives/demo/demo-states.tpl.html","<div class=\"demo\"><span id=\"demo-setting\"><i class=\"fa fa-cog txt-color-blueDark\"></i></span>\r\n\r\n    <form>\r\n        <legend class=\"no-padding margin-bottom-10\">Layout Options</legend>\r\n        <section>\r\n            <label><input type=\"checkbox\" ng-model=\"fixedHeader\"\r\n                          class=\"checkbox style-0\"><span>Fixed Header</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedNavigation\"\r\n                          class=\"checkbox style-0\"><span>Fixed Navigation</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedRibbon\"\r\n                          class=\"checkbox style-0\"><span>Fixed Ribbon</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"fixedPageFooter\"\r\n                          class=\"checkbox style-0\"><span>Fixed Footer</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"insideContainer\"\r\n                          class=\"checkbox style-0\"><span>Inside <b>.container</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"rtl\"\r\n                          class=\"checkbox style-0\"><span>RTL</span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"menuOnTop\"\r\n                          class=\"checkbox style-0\"><span>Menu on <b>top</b></span></label>\r\n            <label><input type=\"checkbox\"\r\n                          ng-model=\"colorblindFriendly\"\r\n                          class=\"checkbox style-0\"><span>For Colorblind <div\r\n                    class=\"font-xs text-right\">(experimental)\r\n            </div></span>\r\n            </label><span id=\"smart-bgimages\"></span></section>\r\n        <section><h6 class=\"margin-top-10 semi-bold margin-bottom-5\">Clear Localstorage</h6><a\r\n                ng-click=\"factoryReset()\" class=\"btn btn-xs btn-block btn-primary\" id=\"reset-smart-widget\"><i\r\n                class=\"fa fa-refresh\"></i> Factory Reset</a></section>\r\n\r\n        <h6 class=\"margin-top-10 semi-bold margin-bottom-5\">SmartAdmin Skins</h6>\r\n\r\n\r\n        <section id=\"smart-styles\">\r\n            <a ng-repeat=\"skin in skins\" ng-click=\"setSkin(skin)\" class=\"{{skin.class}}\" style=\"{{skin.style}}\"><i ng-if=\"skin.name == $parent.smartSkin\" class=\"fa fa-check fa-fw\"></i> {{skin.label}}</a>\r\n        </section>\r\n    </form>\r\n</div>");}]);
+    "use strict";
+
+
+angular.module('app.chat', ['ngSanitize'])
+.run(function ($templateCache) {
+
+    $templateCache.put("template/popover/popover.html",
+        "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+        "  <div class=\"arrow\"></div>\n" +
+        "\n" +
+        "  <div class=\"popover-inner\">\n" +
+        "      <h3 class=\"popover-title\" ng-bind-html=\"title | unsafe\" ng-show=\"title\"></h3>\n" +
+        "      <div class=\"popover-content\"ng-bind-html=\"content | unsafe\"></div>\n" +
+        "  </div>\n" +
+        "</div>\n" +
+        "");
+
+}).filter('unsafe', ['$sce', function ($sce) {
+    return function (val) {
+        return $sce.trustAsHtml(val);
+    };
+}]);
 'use strict';
 
 angular.module('app.dashboard').controller('DashboardCtrl', function ($scope, $interval, CalendarEvent) {
@@ -3359,6 +3359,29 @@ angular.module('app.auth').directive('loginInfo', function(AuthService){
             );
         }
     }
+})
+
+"use strict";
+
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
+
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
+        }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
 })
 
 "use strict";
@@ -5083,29 +5106,6 @@ angular.module('app.company').controller('PolicyNameListController', function(sc
 
 "use strict";
 
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
-        });
-    });
-})
-
-"use strict";
-
 angular.module('app.company').factory('CompanyService',
     ['$q', '$http',
         function ($q, $http) {
@@ -5618,6 +5618,44 @@ angular.module('app').directive('recentProjects', function(Project){
             }
         }
     }
+});
+"use strict";
+
+angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
+    $scope.newTodo = undefined;
+
+    $scope.states = ['Critical', 'Important', 'Completed'];
+
+    $scope.todos = Todo.getList().$object;
+
+    // $scope.$watch('todos', function(){ }, true)
+
+    $scope.toggleAdd = function () {
+        if (!$scope.newTodo) {
+            $scope.newTodo = {
+                state: 'Important'
+            };
+        } else {
+            $scope.newTodo = undefined;
+        }
+    };
+
+    $scope.createTodo = function () {
+        $scope.todos.push($scope.newTodo);
+        $scope.newTodo = undefined;
+        // $scope.newTodo.$save(function (respoonse) {
+        //     $scope.todos.push(respoonse);
+        //     $scope.newTodo = undefined;
+        // });
+    };
+
+    $scope.deleteTodo = function (todo) {
+        todo.remove().then(function () {
+            $scope.todos.splice($scope.todos.indexOf(todo), 1);
+        });
+
+    };
+
 });
 'use strict'
 
@@ -6304,44 +6342,6 @@ angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalI
     $scope.closeModal = function(){
         $modalInstance.dismiss('cancel');
     }
-});
-"use strict";
-
-angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
-    $scope.newTodo = undefined;
-
-    $scope.states = ['Critical', 'Important', 'Completed'];
-
-    $scope.todos = Todo.getList().$object;
-
-    // $scope.$watch('todos', function(){ }, true)
-
-    $scope.toggleAdd = function () {
-        if (!$scope.newTodo) {
-            $scope.newTodo = {
-                state: 'Important'
-            };
-        } else {
-            $scope.newTodo = undefined;
-        }
-    };
-
-    $scope.createTodo = function () {
-        $scope.todos.push($scope.newTodo);
-        $scope.newTodo = undefined;
-        // $scope.newTodo.$save(function (respoonse) {
-        //     $scope.todos.push(respoonse);
-        //     $scope.newTodo = undefined;
-        // });
-    };
-
-    $scope.deleteTodo = function (todo) {
-        todo.remove().then(function () {
-            $scope.todos.splice($scope.todos.indexOf(todo), 1);
-        });
-
-    };
-
 });
 "use strict";
 
@@ -8912,1051 +8912,6 @@ angular.module('app.organization').factory('OrganizationService',
                 return deferred.promise;
             }
         }]);
-'use strict';
-
-angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
-    $scope.gridData = {
-        data: [
-            {
-                id: "1",
-                date: "2007-10-01",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "2",
-                date: "2007-10-02",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "3",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "4",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "5",
-                date: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "6",
-                date: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "7",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "8",
-                date: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "9",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "10",
-                date: "2007-10-01",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "11",
-                date: "2007-10-02",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "12",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "13",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "14",
-                date: "2007-10-05",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "15",
-                date: "2007-09-06",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            },
-            {
-                id: "16",
-                date: "2007-10-04",
-                name: "test",
-                note: "note",
-                amount: "200.00",
-                tax: "10.00",
-                total: "210.00"
-            },
-            {
-                id: "17",
-                date: "2007-10-03",
-                name: "test2",
-                note: "note2",
-                amount: "300.00",
-                tax: "20.00",
-                total: "320.00"
-            },
-            {
-                id: "18",
-                date: "2007-09-01",
-                name: "test3",
-                note: "note3",
-                amount: "400.00",
-                tax: "30.00",
-                total: "430.00"
-            }
-        ],
-        colNames: ['Actions', 'Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
-        colModel: [
-            {
-                name: 'act',
-                index: 'act',
-                sortable: false
-            },
-            {
-                name: 'id',
-                index: 'id'
-            },
-            {
-                name: 'date',
-                index: 'date',
-                editable: true
-            },
-            {
-                name: 'name',
-                index: 'name',
-                editable: true
-            },
-            {
-                name: 'amount',
-                index: 'amount',
-                align: "right",
-                editable: true
-            },
-            {
-                name: 'tax',
-                index: 'tax',
-                align: "right",
-                editable: true
-            },
-            {
-                name: 'total',
-                index: 'total',
-                align: "right",
-                editable: true
-            },
-            {
-                name: 'note',
-                index: 'note',
-                sortable: false,
-                editable: true
-            }
-        ]
-    }
-
-
-    $scope.getSelection = function(){
-        alert(jQuery('table').jqGrid('getGridParam', 'selarrrow'));
-    };
-
-    $scope.selectRow = function(row){
-       jQuery('table').jqGrid('setSelection', row);
-
-    }
-});
-"use strict";
-
-angular.module('app.ui').controller('GeneralElementsCtrl', function ($scope) {
-    /*
-     * Smart Notifications
-     */
-    $scope.eg1 = function () {
-
-        $.bigBox({
-            title: "Big Information box",
-            content: "This message will dissapear in 6 seconds!",
-            color: "#C46A69",
-            //timeout: 6000,
-            icon: "fa fa-warning shake animated",
-            number: "1",
-            timeout: 6000
-        });
-    };
-
-    $scope.eg2 = function () {
-
-        $.bigBox({
-            title: "Big Information box",
-            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#3276B1",
-            //timeout: 8000,
-            icon: "fa fa-bell swing animated",
-            number: "2"
-        });
-
-    };
-
-    $scope.eg3 = function () {
-
-        $.bigBox({
-            title: "Shield is up and running!",
-            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#C79121",
-            //timeout: 8000,
-            icon: "fa fa-shield fadeInLeft animated",
-            number: "3"
-        });
-
-    };
-
-    $scope.eg4 = function () {
-
-        $.bigBox({
-            title: "Success Message Example",
-            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#739E73",
-            //timeout: 8000,
-            icon: "fa fa-check",
-            number: "4"
-        }, function () {
-            $scope.closedthis();
-        });
-
-    };
-
-
-    $scope.eg5 = function() {
-
-        $.smallBox({
-            title: "Ding Dong!",
-            content: "Someone's at the door...shall one get it sir? <p class='text-align-right'><a href-void class='btn btn-primary btn-sm'>Yes</a> <a href-void class='btn btn-danger btn-sm'>No</a></p>",
-            color: "#296191",
-            //timeout: 8000,
-            icon: "fa fa-bell swing animated"
-        });
-    };
-
-
-    $scope.eg6 = function() {
-
-        $.smallBox({
-            title: "Big Information box",
-            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-            color: "#5384AF",
-            //timeout: 8000,
-            icon: "fa fa-bell"
-        });
-
-    };
-
-    $scope.eg7 = function() {
-
-        $.smallBox({
-            title: "James Simmons liked your comment",
-            content: "<i class='fa fa-clock-o'></i> <i>2 seconds ago...</i>",
-            color: "#296191",
-            iconSmall: "fa fa-thumbs-up bounce animated",
-            timeout: 4000
-        });
-
-    };
-
-    $scope.closedthis = function() {
-        $.smallBox({
-            title: "Great! You just closed that last alert!",
-            content: "This message will be gone in 5 seconds!",
-            color: "#739E73",
-            iconSmall: "fa fa-cloud",
-            timeout: 5000
-        });
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    $scope.smartModEg1 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Alert!",
-            content: "This is a confirmation box. Can be programmed for button callback",
-            buttons: '[No][Yes]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "Yes") {
-
-                $.smallBox({
-                    title: "Callback function",
-                    content: "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
-                    color: "#659265",
-                    iconSmall: "fa fa-check fa-2x fadeInRight animated",
-                    timeout: 4000
-                });
-            }
-            if (ButtonPressed === "No") {
-                $.smallBox({
-                    title: "Callback function",
-                    content: "<i class='fa fa-clock-o'></i> <i>You pressed No...</i>",
-                    color: "#C46A69",
-                    iconSmall: "fa fa-times fa-2x fadeInRight animated",
-                    timeout: 4000
-                });
-            }
-
-        });
-    };
-
-    // With Input
-    $scope.smartModEg2 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Alert: Input",
-            content: "Please enter your user name",
-            buttons: "[Accept]",
-            input: "text",
-            placeholder: "Enter your user name"
-        }, function (ButtonPress, Value) {
-            alert(ButtonPress + " " + Value);
-        });
-    };
-
-    // With Buttons
-    $scope.smartModEg3 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Notification: Buttons",
-            content: "Lots of buttons to go...",
-            buttons: '[Need?][You][Do][Buttons][Many][How]'
-        });
-
-    }
-    // With Select
-    $scope.smartModEg4 =  function () {
-        $.SmartMessageBox({
-            title: "Smart Alert: Select",
-            content: "You can even create a group of options.",
-            buttons: "[Done]",
-            input: "select",
-            options: "[Costa Rica][United States][Autralia][Spain]"
-        }, function (ButtonPress, Value) {
-            alert(ButtonPress + " " + Value);
-        });
-
-    };
-
-    // With Login
-    $scope.smartModEg5 =  function () {
-
-        $.SmartMessageBox({
-            title: "Login form",
-            content: "Please enter your user name",
-            buttons: "[Cancel][Accept]",
-            input: "text",
-            placeholder: "Enter your user name"
-        }, function (ButtonPress, Value) {
-            if (ButtonPress == "Cancel") {
-                alert("Why did you cancel that? :(");
-                return 0;
-            }
-
-            var Value1 = Value.toUpperCase();
-            var ValueOriginal = Value;
-            $.SmartMessageBox({
-                title: "Hey! <strong>" + Value1 + ",</strong>",
-                content: "And now please provide your password:",
-                buttons: "[Login]",
-                input: "password",
-                placeholder: "Password"
-            }, function (ButtonPress, Value) {
-                alert("Username: " + ValueOriginal + " and your password is: " + Value);
-            });
-        });
-
-    };
-});
-
-"use strict";
-
-
-angular.module('app.ui').controller('JquiCtrl', function ($scope) {
-    $scope.demoAutocompleteWords = [
-        "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
-        "C",
-        "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"];
-
-
-    $scope.demoAjaxAutocomplete = '';
-
-
-    $scope.modalDemo1 = function(){
-        console.log('modalDemo1');
-    }
-
-    $scope.modalDemo2 = function(){
-        console.log('modalDemo2');
-    }
-
-
-});
-"use strict";
-
-
-angular.module('app.ui').controller('TreeviewCtrl', function ($scope) {
-    $scope.demoTree1 = [
-        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 2</span>", "expanded": true, "children": [
-            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-plus-circle\"></i> Monday, January 7: 8.00 hours</span>", "expanded": true, "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"},
-            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Tuesday, January 8: 8.00 hours</span>", "expanded": true, "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"},
-            {"content": "<span class=\"label label-warning\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 6.00 hours</span>", "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"},
-            {"content": "<span class=\"label label-danger\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 4.00 hours</span>", "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
-        ]},
-        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 3</span>", "children": [
-            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Monday, January 14: 8.00 hours</span>", "children": [
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
-                {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
-            {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
-        ]}
-    ]
-
-    $scope.demoTree2 = [
-        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent</span>", "expanded": true, "children": [
-            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Administrators</span>", "expanded": true, "children": [
-                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
-                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
-                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"}
-            ]},
-            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
-            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
-            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"},
-            {"content": "<span><i class=\"fa fa-lg fa-minus-circle\"></i> Child</span>", "expanded": true, "children": [
-                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>",  "children": [
-                    {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-                    ]},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-                ]},
-                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-                ]},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-            ]},
-            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
-            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>", "children": [
-                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-                ]},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-            ]},
-            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
-            ]},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
-            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
-        ]},
-        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent2</span>", "children": [
-            {"content": "<span><i class=\"icon-leaf\"></i> Child</span>"}
-        ]}
-    ]
-});
-'use strict';
-
-angular.module('app.ui').directive('smartClassFilter', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            model: '=',
-            displayElements: '@',
-            filterElements: '@'
-        },
-        link: function (scope, element) {
-            scope.$watch('model', function (model) {
-                if (angular.isString(model)) {
-                    var search = model.trim();
-                    if (search) {
-                        angular.element(scope.displayElements, element).hide();
-
-                        angular.element(scope.filterElements, element)
-                            .filter(function () {
-                                var r = new RegExp(search, 'i');
-                                return r.test($(this).attr('class') + $(this).attr('alt'))
-                            })
-                            .closest(scope.displayElements).show();
-                    } else {
-                        angular.element(scope.displayElements, element).show();
-                    }
-                }
-            })
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.ui').directive('smartHtmlPopoverPopup', function () {
-    return {
-        restrict: "EA",
-        replace: true,
-        scope: { title: "@", content: "@", placement: "@", animation: "&", isOpen: "&" },
-        template: '<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title" bind-html-unsafe="title" ng-show="title"></h3><div class="popover-content" bind-html-unsafe="content"></div></div></div>'
-    };
-});
-angular.module('app.ui').directive('smartHtmlPopover',function ($tooltip) {
-    return $tooltip("smartHtmlPopover", "popover", "click");
-});
-'use strict';
-
-angular.module('app.ui').directive('smartJquiAccordion', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-
-            element.accordion({
-                autoHeight : false,
-                heightStyle : "content",
-                collapsible : true,
-                animate : 300,
-                icons: {
-                    header: "fa fa-plus",    // custom icon class
-                    activeHeader: "fa fa-minus" // custom icon class
-                },
-                header : "h4"
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('app.ui').directive('smartJquiAjaxAutocomplete', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            ngModel: '='
-        },
-        link: function (scope, element, attributes) {
-            function split(val) {
-                return val.split(/,\s*/);
-            }
-
-            function extractLast(term) {
-                return split(term).pop();
-            }
-
-            function extractFirst(term) {
-                return split(term)[0];
-            }
-
-
-            element.autocomplete({
-                source: function (request, response) {
-                    jQuery.getJSON(
-                            "http://gd.geobytes.com/AutoCompleteCity?callback=?&q=" + extractLast(request.term),
-                        function (data) {
-                            response(data);
-                        }
-                    );
-                },
-                minLength: 3,
-                select: function (event, ui) {
-                    var selectedObj = ui.item,
-                    placeName = selectedObj.value;
-                    if (typeof placeName == "undefined") placeName = element.val();
-
-                    if (placeName) {
-                        var terms = split(element.val());
-                        // remove the current input
-                        terms.pop();
-                        // add the selected item (city only)
-                        terms.push(extractFirst(placeName));
-                        // add placeholder to get the comma-and-space at the end
-                        terms.push("");
-
-                        scope.$apply(function(){
-                            scope.ngModel = terms.join(", ")
-                        });
-                    }
-
-                    return false;
-                },
-                focus: function() {
-                    // prevent value inserted on focus
-                    return false;
-                },
-                delay: 100
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartJquiAutocomplete', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            'source': '='
-        },
-        link: function (scope, element, attributes) {
-
-            element.autocomplete({
-                source: scope.source
-            });
-        }
-    }
-});
-'use strict';
-
-/*
- * CONVERT DIALOG TITLE TO HTML
- * REF: http://stackoverflow.com/questions/14488774/using-html-in-a-dialogs-title-in-jquery-ui-1-10
- */
-$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-    _title: function (title) {
-        if (!this.options.title) {
-            title.html("&#160;");
-        } else {
-            title.html(this.options.title);
-        }
-    }
-}));
-
-
-angular.module('app.ui').directive('smartJquiDialog', function () {
-
-    var optionAttributes = ['autoOpen', 'modal', 'width', 'resizable'];
-
-    var defaults = {
-        width: Math.min($(window).width() * .7, 600),
-        autoOpen: false,
-        resizable: false
-    };
-
-
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-
-            var title = element.find('[data-dialog-title]').remove().html();
-
-            var options = _.clone(defaults);
-
-            optionAttributes.forEach(function (option) {
-                if (element.data(option)) {
-                    options[option] = element.data(option);
-                }
-            });
-
-            var buttons = element.find('[data-dialog-buttons]').remove()
-                .find('button').map(function (idx, button) {
-                    return {
-                        class: button.className,
-                        html: button.innerHTML,
-                        click: function () {
-                            if ($(button).data('action'))
-                                scope.$eval($(button).data('action'));
-                            element.dialog("close");
-                        }
-                    }
-                });
-
-            element.dialog(_.extend({
-                title: title,
-                buttons: buttons
-            }, options));
-
-        }
-    }
-});
-'use strict';
-
-//    $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-//        _title: function (title) {
-//            if (!this.options.title) {
-//                title.html("&#160;");
-//            } else {
-//                title.html(this.options.title);
-//            }
-//        }
-//    }));
-
-
-angular.module('app.ui').directive('smartJquiDialogLauncher', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-jqui-dialog-launcher data-smart-jqui-dialog-launcher');
-            element.on('click', function (e) {
-                $(attributes.smartJquiDialogLauncher).dialog('open');
-                e.preventDefault();
-            })
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartJquiDynamicTabs', function ($timeout) {
-
-	
-	function addDomEvents(element){
-
-		$('#tabs2').tabs();
-
-		var tabTitle = $("#tab_title"), tabContent = $("#tab_content"), tabTemplate = "<li style='position:relative;'> <span class='air air-top-left delete-tab' style='top:7px; left:7px;'><button class='btn btn-xs font-xs btn-default hover-transparent'><i class='fa fa-times'></i></button></span></span><a href='#{href}'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #{label}</a></li>", tabCounter = 2;
-
-		var tabs = $('#tabs2').tabs();
-
-		// modal dialog init: custom buttons and a "close" callback reseting the form inside
-		var dialog = $("#addtab").dialog({
-			autoOpen : false,
-			width : 600,
-			resizable : false,
-			modal : true,
-			buttons : [{
-			html : "<i class='fa fa-times'></i>&nbsp; Cancel",
-			"class" : "btn btn-default",
-			click : function() {
-			$(this).dialog("close");
-
-		}
-		}, {
-
-			html : "<i class='fa fa-plus'></i>&nbsp; Add",
-			"class" : "btn btn-danger",
-			click : function() {
-				addTab();
-				$(this).dialog("close");
-			}
-		}]
-		});
-
-		// addTab form: calls addTab function on submit and closes the dialog
-		var form = dialog.find("form").submit(function(event) {
-			addTab();
-			dialog.dialog("close");
-			event.preventDefault();
-		});
-
-		// actual addTab function: adds new tab using the input from the form above
-		function addTab() {
-			var label = tabTitle.val() || "Tab " + tabCounter, id = "tabs-" + tabCounter, li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)), tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
-
-			tabs.find(".ui-tabs-nav").append(li);
-			tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p></div>");
-			tabs.tabs("refresh");
-			tabCounter++;
-
-			// clear fields
-			$("#tab_title").val("");
-			$("#tab_content").val("");
-		}
-
-		// addTab button: just opens the dialog
-		$("#add_tab").button().click(function() {
-			dialog.dialog("open");
-		});
-
-		// close icon: removing the tab on click
-		$("#tabs2").on("click", 'span.delete-tab', function() {
-
-			var panelId = $(this).closest("li").remove().attr("aria-controls");
-			$("#" + panelId).remove();
-			tabs.tabs("refresh");
-
-		});
-
-	}
-
-	function link(element){
-
-		$timeout(function(){
-			addDomEvents(element);
-		});
-
-	}
-
-
-    return {
-        restrict: 'A',
-        link: link
-    }
-});
-
-'use strict';
-
-angular.module('app.ui').directive('smartJquiMenu', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-
-            element.menu();
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartJquiTabs', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-
-            element.tabs();
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartNestable', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            group: '@',
-            output: '='
-        },
-        link: function (scope, element, attributes) {
-            var options = {};
-            if(scope.group){
-                options.group = scope.group;
-            }
-            element.nestable(options);
-            if(attributes.output){
-                element.on('change', function(){
-                    scope.$apply(function(){
-                        scope.output = element.nestable('serialize');
-                    });
-                });
-                scope.output = element.nestable('serialize');
-            }
-
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartProgressbar', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-        	lazyScript.register('bootstrap-progressbar').then(function(){
-        		tElement.removeAttr('smart-progressbar data-smart-progressbar');
-        		tElement.progressbar({
-        		    display_text : 'fill'
-        		})
-        	})
-
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartRideCarousel', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-ride-carousel data-smart-ride-carousel');
-            tElement.carousel(tElement.data());
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartSuperBox', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-
-            tElement.removeAttr('smart-super-box data-smart-super-box');
-
-            tElement.SuperBox();
-        }
-    }
-});
-'use strict';
-
-angular.module('app.ui').directive('smartTreeviewContent', function ($compile) {
-    return {
-        restrict: 'E',
-        link: function (scope, element) {
-            var $content = $(scope.item.content);
-
-            function handleExpanded(){
-                $content.find('>i')
-                    .toggleClass('fa-plus-circle', !scope.item.expanded)
-                    .toggleClass('fa-minus-circle', !!scope.item.expanded)
-
-            }
-
-
-            if (scope.item.children && scope.item.children.length) {
-                $content.on('click', function(){
-                    scope.$apply(function(){
-                        scope.item.expanded = !scope.item.expanded;
-                        handleExpanded();
-                    });
-
-
-                });
-                handleExpanded();
-            }
-
-            element.replaceWith($content);
-
-
-        }
-    }
-});
-
-angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
-    return {
-        restrict: 'A',
-        scope: {
-            'items': '='
-        },
-        template: '<li ng-class="{parent_li: item.children.length}" ng-repeat="item in items" role="treeitem">' +
-            '<smart-treeview-content></smart-treeview-content>' +
-            '<ul ng-if="item.children.length" smart-treeview ng-show="item.expanded"  items="item.children" role="group" class="smart-treeview-group" ></ul>' +
-            '</li>',
-        compile: function (element) {
-            // Break the recursion loop by removing the contents
-            var contents = element.contents().remove();
-            var compiledContents;
-            return {
-                post: function (scope, element) {
-                    // Compile the contents
-                    if (!compiledContents) {
-                        compiledContents = $compile(contents);
-                    }
-                    // Re-add the compiled contents to the element
-                    compiledContents(scope, function (clone) {
-                        element.append(clone);
-                    });
-                }
-            };
-        }
-    };
-});
 'use strict'
 
 angular.module('app.policy').controller('OrgPolicyImportController', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService, OrgPolicyService) {
@@ -10381,6 +9336,7 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
     };
 
     vm.pay = function () {
+        console.log("I have entered");
         $.SmartMessageBox({
             title: "修改保单状态",
             content: "确认已支付该保单？",
@@ -11498,7 +10454,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                         var row = sheetData[i];
                         for (var k = 0; k < row.length; k++) {
                             if (!row[k] || row[k] == "") {
-                                deferred.reject("导入失败，文件中有保单信息不全，请检查导入文件！");
+                                deferred.reject("导入失败，第"+k+"行保单信息不全，请检查导入文件！");
                             }
                         }
                         var policy = {};
@@ -11515,7 +10471,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                         policy.level3_company = level3_company;
                         policy.level4_company = level4_company;
                         policy.client = clientInfo._id;
-                        policy.payment_substract_rate = clientInfo.payment_substract_rate;
+                        policy.payment_substract_rate = clientInfo.payment_substract_rate > 1 ? clientInfo.payment_substract_rate :clientInfo.payment_substract_rate * 100;
                         policy.payment = policy.income * (1 - policy.payment_substract_rate / 100);
                         policy.profit = policy.income - policy.payment;
                         policy.policy_status = "待支付";
@@ -12159,6 +11115,1051 @@ angular.module('app.policy').factory('PolicyService',
             }
             
         }]);
+'use strict';
+
+angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
+    $scope.gridData = {
+        data: [
+            {
+                id: "1",
+                date: "2007-10-01",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "2",
+                date: "2007-10-02",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "3",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "4",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "5",
+                date: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "6",
+                date: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "7",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "8",
+                date: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "9",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "10",
+                date: "2007-10-01",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "11",
+                date: "2007-10-02",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "12",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "13",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "14",
+                date: "2007-10-05",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "15",
+                date: "2007-09-06",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            },
+            {
+                id: "16",
+                date: "2007-10-04",
+                name: "test",
+                note: "note",
+                amount: "200.00",
+                tax: "10.00",
+                total: "210.00"
+            },
+            {
+                id: "17",
+                date: "2007-10-03",
+                name: "test2",
+                note: "note2",
+                amount: "300.00",
+                tax: "20.00",
+                total: "320.00"
+            },
+            {
+                id: "18",
+                date: "2007-09-01",
+                name: "test3",
+                note: "note3",
+                amount: "400.00",
+                tax: "30.00",
+                total: "430.00"
+            }
+        ],
+        colNames: ['Actions', 'Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
+        colModel: [
+            {
+                name: 'act',
+                index: 'act',
+                sortable: false
+            },
+            {
+                name: 'id',
+                index: 'id'
+            },
+            {
+                name: 'date',
+                index: 'date',
+                editable: true
+            },
+            {
+                name: 'name',
+                index: 'name',
+                editable: true
+            },
+            {
+                name: 'amount',
+                index: 'amount',
+                align: "right",
+                editable: true
+            },
+            {
+                name: 'tax',
+                index: 'tax',
+                align: "right",
+                editable: true
+            },
+            {
+                name: 'total',
+                index: 'total',
+                align: "right",
+                editable: true
+            },
+            {
+                name: 'note',
+                index: 'note',
+                sortable: false,
+                editable: true
+            }
+        ]
+    }
+
+
+    $scope.getSelection = function(){
+        alert(jQuery('table').jqGrid('getGridParam', 'selarrrow'));
+    };
+
+    $scope.selectRow = function(row){
+       jQuery('table').jqGrid('setSelection', row);
+
+    }
+});
+"use strict";
+
+angular.module('app.ui').controller('GeneralElementsCtrl', function ($scope) {
+    /*
+     * Smart Notifications
+     */
+    $scope.eg1 = function () {
+
+        $.bigBox({
+            title: "Big Information box",
+            content: "This message will dissapear in 6 seconds!",
+            color: "#C46A69",
+            //timeout: 6000,
+            icon: "fa fa-warning shake animated",
+            number: "1",
+            timeout: 6000
+        });
+    };
+
+    $scope.eg2 = function () {
+
+        $.bigBox({
+            title: "Big Information box",
+            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#3276B1",
+            //timeout: 8000,
+            icon: "fa fa-bell swing animated",
+            number: "2"
+        });
+
+    };
+
+    $scope.eg3 = function () {
+
+        $.bigBox({
+            title: "Shield is up and running!",
+            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#C79121",
+            //timeout: 8000,
+            icon: "fa fa-shield fadeInLeft animated",
+            number: "3"
+        });
+
+    };
+
+    $scope.eg4 = function () {
+
+        $.bigBox({
+            title: "Success Message Example",
+            content: "Lorem ipsum dolor sit amet, test consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#739E73",
+            //timeout: 8000,
+            icon: "fa fa-check",
+            number: "4"
+        }, function () {
+            $scope.closedthis();
+        });
+
+    };
+
+
+    $scope.eg5 = function() {
+
+        $.smallBox({
+            title: "Ding Dong!",
+            content: "Someone's at the door...shall one get it sir? <p class='text-align-right'><a href-void class='btn btn-primary btn-sm'>Yes</a> <a href-void class='btn btn-danger btn-sm'>No</a></p>",
+            color: "#296191",
+            //timeout: 8000,
+            icon: "fa fa-bell swing animated"
+        });
+    };
+
+
+    $scope.eg6 = function() {
+
+        $.smallBox({
+            title: "Big Information box",
+            content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+            color: "#5384AF",
+            //timeout: 8000,
+            icon: "fa fa-bell"
+        });
+
+    };
+
+    $scope.eg7 = function() {
+
+        $.smallBox({
+            title: "James Simmons liked your comment",
+            content: "<i class='fa fa-clock-o'></i> <i>2 seconds ago...</i>",
+            color: "#296191",
+            iconSmall: "fa fa-thumbs-up bounce animated",
+            timeout: 4000
+        });
+
+    };
+
+    $scope.closedthis = function() {
+        $.smallBox({
+            title: "Great! You just closed that last alert!",
+            content: "This message will be gone in 5 seconds!",
+            color: "#739E73",
+            iconSmall: "fa fa-cloud",
+            timeout: 5000
+        });
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    $scope.smartModEg1 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Alert!",
+            content: "This is a confirmation box. Can be programmed for button callback",
+            buttons: '[No][Yes]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "Yes") {
+
+                $.smallBox({
+                    title: "Callback function",
+                    content: "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
+                    color: "#659265",
+                    iconSmall: "fa fa-check fa-2x fadeInRight animated",
+                    timeout: 4000
+                });
+            }
+            if (ButtonPressed === "No") {
+                $.smallBox({
+                    title: "Callback function",
+                    content: "<i class='fa fa-clock-o'></i> <i>You pressed No...</i>",
+                    color: "#C46A69",
+                    iconSmall: "fa fa-times fa-2x fadeInRight animated",
+                    timeout: 4000
+                });
+            }
+
+        });
+    };
+
+    // With Input
+    $scope.smartModEg2 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Alert: Input",
+            content: "Please enter your user name",
+            buttons: "[Accept]",
+            input: "text",
+            placeholder: "Enter your user name"
+        }, function (ButtonPress, Value) {
+            alert(ButtonPress + " " + Value);
+        });
+    };
+
+    // With Buttons
+    $scope.smartModEg3 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Notification: Buttons",
+            content: "Lots of buttons to go...",
+            buttons: '[Need?][You][Do][Buttons][Many][How]'
+        });
+
+    }
+    // With Select
+    $scope.smartModEg4 =  function () {
+        $.SmartMessageBox({
+            title: "Smart Alert: Select",
+            content: "You can even create a group of options.",
+            buttons: "[Done]",
+            input: "select",
+            options: "[Costa Rica][United States][Autralia][Spain]"
+        }, function (ButtonPress, Value) {
+            alert(ButtonPress + " " + Value);
+        });
+
+    };
+
+    // With Login
+    $scope.smartModEg5 =  function () {
+
+        $.SmartMessageBox({
+            title: "Login form",
+            content: "Please enter your user name",
+            buttons: "[Cancel][Accept]",
+            input: "text",
+            placeholder: "Enter your user name"
+        }, function (ButtonPress, Value) {
+            if (ButtonPress == "Cancel") {
+                alert("Why did you cancel that? :(");
+                return 0;
+            }
+
+            var Value1 = Value.toUpperCase();
+            var ValueOriginal = Value;
+            $.SmartMessageBox({
+                title: "Hey! <strong>" + Value1 + ",</strong>",
+                content: "And now please provide your password:",
+                buttons: "[Login]",
+                input: "password",
+                placeholder: "Password"
+            }, function (ButtonPress, Value) {
+                alert("Username: " + ValueOriginal + " and your password is: " + Value);
+            });
+        });
+
+    };
+});
+
+"use strict";
+
+
+angular.module('app.ui').controller('JquiCtrl', function ($scope) {
+    $scope.demoAutocompleteWords = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"];
+
+
+    $scope.demoAjaxAutocomplete = '';
+
+
+    $scope.modalDemo1 = function(){
+        console.log('modalDemo1');
+    }
+
+    $scope.modalDemo2 = function(){
+        console.log('modalDemo2');
+    }
+
+
+});
+"use strict";
+
+
+angular.module('app.ui').controller('TreeviewCtrl', function ($scope) {
+    $scope.demoTree1 = [
+        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 2</span>", "expanded": true, "children": [
+            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-plus-circle\"></i> Monday, January 7: 8.00 hours</span>", "expanded": true, "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 8.00</span> &ndash; <a> Changed CSS to accomodate...</a>"},
+            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Tuesday, January 8: 8.00 hours</span>", "expanded": true, "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 6.00</span> &ndash; <a> Altered code...</a>"},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Simplified our approach to...</a>"},
+            {"content": "<span class=\"label label-warning\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 6.00 hours</span>", "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Fixed bug caused by...</a>"},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 3.00</span> &ndash; <a> Comitting latest code to Git...</a>"},
+            {"content": "<span class=\"label label-danger\"><i class=\"fa fa-lg fa-minus-circle\"></i> Wednesday, January 9: 4.00 hours</span>", "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 2.00</span> &ndash; <a> Create component that...</a>"}
+        ]},
+        {"content": "<span><i class=\"fa fa-lg fa-calendar\"></i> 2013, Week 3</span>", "children": [
+            {"content": "<span class=\"label label-success\"><i class=\"fa fa-lg fa-minus-circle\"></i> Monday, January 14: 8.00 hours</span>", "children": [
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
+                {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 7.75</span> &ndash; <a> Writing documentation...</a>"},
+            {"content": "<span><i class=\"fa fa-clock-o\"></i> 0.25</span> &ndash; <a> Reverting code back to...</a>"}
+        ]}
+    ]
+
+    $scope.demoTree2 = [
+        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent</span>", "expanded": true, "children": [
+            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Administrators</span>", "expanded": true, "children": [
+                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
+                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
+                {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"}
+            ]},
+            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" name=\"checkbox-inline\"><i></i>Michael.Jackson</label> </span>"},
+            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Sunny.Ahmed</label> </span>"},
+            {"content": "<span> <label class=\"checkbox inline-block\"><input type=\"checkbox\" checked=\"checked\" name=\"checkbox-inline\"><i></i>Jackie.Chan</label> </span>"},
+            {"content": "<span><i class=\"fa fa-lg fa-minus-circle\"></i> Child</span>", "expanded": true, "children": [
+                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>",  "children": [
+                    {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                        {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+                    ]},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+                ]},
+                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+                ]},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+            ]},
+            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Grand Child</span>"},
+            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Grand Child</span>", "children": [
+                {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                    {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+                ]},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+            ]},
+            {"content": "<span><i class=\"fa fa-lg fa-plus-circle\"></i> Great Grand Child</span>", "children": [
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+                {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"}
+            ]},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great great Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"},
+            {"content": "<span><i class=\"icon-leaf\"></i> Great Grand Child</span>"}
+        ]},
+        {"content": "<span><i class=\"fa fa-lg fa-folder-open\"></i> Parent2</span>", "children": [
+            {"content": "<span><i class=\"icon-leaf\"></i> Child</span>"}
+        ]}
+    ]
+});
+'use strict';
+
+angular.module('app.ui').directive('smartClassFilter', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            model: '=',
+            displayElements: '@',
+            filterElements: '@'
+        },
+        link: function (scope, element) {
+            scope.$watch('model', function (model) {
+                if (angular.isString(model)) {
+                    var search = model.trim();
+                    if (search) {
+                        angular.element(scope.displayElements, element).hide();
+
+                        angular.element(scope.filterElements, element)
+                            .filter(function () {
+                                var r = new RegExp(search, 'i');
+                                return r.test($(this).attr('class') + $(this).attr('alt'))
+                            })
+                            .closest(scope.displayElements).show();
+                    } else {
+                        angular.element(scope.displayElements, element).show();
+                    }
+                }
+            })
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.ui').directive('smartHtmlPopoverPopup', function () {
+    return {
+        restrict: "EA",
+        replace: true,
+        scope: { title: "@", content: "@", placement: "@", animation: "&", isOpen: "&" },
+        template: '<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title" bind-html-unsafe="title" ng-show="title"></h3><div class="popover-content" bind-html-unsafe="content"></div></div></div>'
+    };
+});
+angular.module('app.ui').directive('smartHtmlPopover',function ($tooltip) {
+    return $tooltip("smartHtmlPopover", "popover", "click");
+});
+'use strict';
+
+angular.module('app.ui').directive('smartJquiAccordion', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+
+            element.accordion({
+                autoHeight : false,
+                heightStyle : "content",
+                collapsible : true,
+                animate : 300,
+                icons: {
+                    header: "fa fa-plus",    // custom icon class
+                    activeHeader: "fa fa-minus" // custom icon class
+                },
+                header : "h4"
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('app.ui').directive('smartJquiAjaxAutocomplete', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            ngModel: '='
+        },
+        link: function (scope, element, attributes) {
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+
+            function extractLast(term) {
+                return split(term).pop();
+            }
+
+            function extractFirst(term) {
+                return split(term)[0];
+            }
+
+
+            element.autocomplete({
+                source: function (request, response) {
+                    jQuery.getJSON(
+                            "http://gd.geobytes.com/AutoCompleteCity?callback=?&q=" + extractLast(request.term),
+                        function (data) {
+                            response(data);
+                        }
+                    );
+                },
+                minLength: 3,
+                select: function (event, ui) {
+                    var selectedObj = ui.item,
+                    placeName = selectedObj.value;
+                    if (typeof placeName == "undefined") placeName = element.val();
+
+                    if (placeName) {
+                        var terms = split(element.val());
+                        // remove the current input
+                        terms.pop();
+                        // add the selected item (city only)
+                        terms.push(extractFirst(placeName));
+                        // add placeholder to get the comma-and-space at the end
+                        terms.push("");
+
+                        scope.$apply(function(){
+                            scope.ngModel = terms.join(", ")
+                        });
+                    }
+
+                    return false;
+                },
+                focus: function() {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                delay: 100
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartJquiAutocomplete', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            'source': '='
+        },
+        link: function (scope, element, attributes) {
+
+            element.autocomplete({
+                source: scope.source
+            });
+        }
+    }
+});
+'use strict';
+
+/*
+ * CONVERT DIALOG TITLE TO HTML
+ * REF: http://stackoverflow.com/questions/14488774/using-html-in-a-dialogs-title-in-jquery-ui-1-10
+ */
+$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+    _title: function (title) {
+        if (!this.options.title) {
+            title.html("&#160;");
+        } else {
+            title.html(this.options.title);
+        }
+    }
+}));
+
+
+angular.module('app.ui').directive('smartJquiDialog', function () {
+
+    var optionAttributes = ['autoOpen', 'modal', 'width', 'resizable'];
+
+    var defaults = {
+        width: Math.min($(window).width() * .7, 600),
+        autoOpen: false,
+        resizable: false
+    };
+
+
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+
+            var title = element.find('[data-dialog-title]').remove().html();
+
+            var options = _.clone(defaults);
+
+            optionAttributes.forEach(function (option) {
+                if (element.data(option)) {
+                    options[option] = element.data(option);
+                }
+            });
+
+            var buttons = element.find('[data-dialog-buttons]').remove()
+                .find('button').map(function (idx, button) {
+                    return {
+                        class: button.className,
+                        html: button.innerHTML,
+                        click: function () {
+                            if ($(button).data('action'))
+                                scope.$eval($(button).data('action'));
+                            element.dialog("close");
+                        }
+                    }
+                });
+
+            element.dialog(_.extend({
+                title: title,
+                buttons: buttons
+            }, options));
+
+        }
+    }
+});
+'use strict';
+
+//    $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+//        _title: function (title) {
+//            if (!this.options.title) {
+//                title.html("&#160;");
+//            } else {
+//                title.html(this.options.title);
+//            }
+//        }
+//    }));
+
+
+angular.module('app.ui').directive('smartJquiDialogLauncher', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-jqui-dialog-launcher data-smart-jqui-dialog-launcher');
+            element.on('click', function (e) {
+                $(attributes.smartJquiDialogLauncher).dialog('open');
+                e.preventDefault();
+            })
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartJquiDynamicTabs', function ($timeout) {
+
+	
+	function addDomEvents(element){
+
+		$('#tabs2').tabs();
+
+		var tabTitle = $("#tab_title"), tabContent = $("#tab_content"), tabTemplate = "<li style='position:relative;'> <span class='air air-top-left delete-tab' style='top:7px; left:7px;'><button class='btn btn-xs font-xs btn-default hover-transparent'><i class='fa fa-times'></i></button></span></span><a href='#{href}'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #{label}</a></li>", tabCounter = 2;
+
+		var tabs = $('#tabs2').tabs();
+
+		// modal dialog init: custom buttons and a "close" callback reseting the form inside
+		var dialog = $("#addtab").dialog({
+			autoOpen : false,
+			width : 600,
+			resizable : false,
+			modal : true,
+			buttons : [{
+			html : "<i class='fa fa-times'></i>&nbsp; Cancel",
+			"class" : "btn btn-default",
+			click : function() {
+			$(this).dialog("close");
+
+		}
+		}, {
+
+			html : "<i class='fa fa-plus'></i>&nbsp; Add",
+			"class" : "btn btn-danger",
+			click : function() {
+				addTab();
+				$(this).dialog("close");
+			}
+		}]
+		});
+
+		// addTab form: calls addTab function on submit and closes the dialog
+		var form = dialog.find("form").submit(function(event) {
+			addTab();
+			dialog.dialog("close");
+			event.preventDefault();
+		});
+
+		// actual addTab function: adds new tab using the input from the form above
+		function addTab() {
+			var label = tabTitle.val() || "Tab " + tabCounter, id = "tabs-" + tabCounter, li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)), tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
+
+			tabs.find(".ui-tabs-nav").append(li);
+			tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p></div>");
+			tabs.tabs("refresh");
+			tabCounter++;
+
+			// clear fields
+			$("#tab_title").val("");
+			$("#tab_content").val("");
+		}
+
+		// addTab button: just opens the dialog
+		$("#add_tab").button().click(function() {
+			dialog.dialog("open");
+		});
+
+		// close icon: removing the tab on click
+		$("#tabs2").on("click", 'span.delete-tab', function() {
+
+			var panelId = $(this).closest("li").remove().attr("aria-controls");
+			$("#" + panelId).remove();
+			tabs.tabs("refresh");
+
+		});
+
+	}
+
+	function link(element){
+
+		$timeout(function(){
+			addDomEvents(element);
+		});
+
+	}
+
+
+    return {
+        restrict: 'A',
+        link: link
+    }
+});
+
+'use strict';
+
+angular.module('app.ui').directive('smartJquiMenu', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+
+            element.menu();
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartJquiTabs', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+
+            element.tabs();
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartNestable', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            group: '@',
+            output: '='
+        },
+        link: function (scope, element, attributes) {
+            var options = {};
+            if(scope.group){
+                options.group = scope.group;
+            }
+            element.nestable(options);
+            if(attributes.output){
+                element.on('change', function(){
+                    scope.$apply(function(){
+                        scope.output = element.nestable('serialize');
+                    });
+                });
+                scope.output = element.nestable('serialize');
+            }
+
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartProgressbar', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+        	lazyScript.register('bootstrap-progressbar').then(function(){
+        		tElement.removeAttr('smart-progressbar data-smart-progressbar');
+        		tElement.progressbar({
+        		    display_text : 'fill'
+        		})
+        	})
+
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartRideCarousel', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-ride-carousel data-smart-ride-carousel');
+            tElement.carousel(tElement.data());
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartSuperBox', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+
+            tElement.removeAttr('smart-super-box data-smart-super-box');
+
+            tElement.SuperBox();
+        }
+    }
+});
+'use strict';
+
+angular.module('app.ui').directive('smartTreeviewContent', function ($compile) {
+    return {
+        restrict: 'E',
+        link: function (scope, element) {
+            var $content = $(scope.item.content);
+
+            function handleExpanded(){
+                $content.find('>i')
+                    .toggleClass('fa-plus-circle', !scope.item.expanded)
+                    .toggleClass('fa-minus-circle', !!scope.item.expanded)
+
+            }
+
+
+            if (scope.item.children && scope.item.children.length) {
+                $content.on('click', function(){
+                    scope.$apply(function(){
+                        scope.item.expanded = !scope.item.expanded;
+                        handleExpanded();
+                    });
+
+
+                });
+                handleExpanded();
+            }
+
+            element.replaceWith($content);
+
+
+        }
+    }
+});
+
+angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
+    return {
+        restrict: 'A',
+        scope: {
+            'items': '='
+        },
+        template: '<li ng-class="{parent_li: item.children.length}" ng-repeat="item in items" role="treeitem">' +
+            '<smart-treeview-content></smart-treeview-content>' +
+            '<ul ng-if="item.children.length" smart-treeview ng-show="item.expanded"  items="item.children" role="group" class="smart-treeview-group" ></ul>' +
+            '</li>',
+        compile: function (element) {
+            // Break the recursion loop by removing the contents
+            var contents = element.contents().remove();
+            var compiledContents;
+            return {
+                post: function (scope, element) {
+                    // Compile the contents
+                    if (!compiledContents) {
+                        compiledContents = $compile(contents);
+                    }
+                    // Re-add the compiled contents to the element
+                    compiledContents(scope, function (clone) {
+                        element.append(clone);
+                    });
+                }
+            };
+        }
+    };
+});
 "use strict";
 
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){

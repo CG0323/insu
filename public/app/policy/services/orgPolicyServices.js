@@ -122,7 +122,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                         var row = sheetData[i];
                         for (var k = 0; k < row.length; k++) {
                             if (!row[k] || row[k] == "") {
-                                deferred.reject("导入失败，文件中有保单信息不全，请检查导入文件！");
+                                deferred.reject("导入失败，第"+k+"行保单信息不全，请检查导入文件！");
                             }
                         }
                         var policy = {};
@@ -139,7 +139,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                         policy.level3_company = level3_company;
                         policy.level4_company = level4_company;
                         policy.client = clientInfo._id;
-                        policy.payment_substract_rate = clientInfo.payment_substract_rate;
+                        policy.payment_substract_rate = clientInfo.payment_substract_rate > 1 ? clientInfo.payment_substract_rate :clientInfo.payment_substract_rate * 100;
                         policy.payment = policy.income * (1 - policy.payment_substract_rate / 100);
                         policy.profit = policy.income - policy.payment;
                         policy.policy_status = "待支付";
