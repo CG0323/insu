@@ -108,9 +108,16 @@ angular.module('app.policy').factory('OrgPolicyService',
                                 'r': row
                             });
                             var cell = sheet[cellIndex];
+                            
                             if(cell){
                                 hasValidData = true;
-                                rowData[column] = cell.v;
+                                if(column == 7){ //special handling for date
+                                    rowData[column] = cell.w;
+                                }
+                                else{
+                                    rowData[column] = cell.v;
+                                }
+                                
                             }
                             else{
                                 rowData[column] = undefined;
@@ -127,7 +134,13 @@ angular.module('app.policy').factory('OrgPolicyService',
                         var row = sheetData[i];
                         for (var k = 0; k < row.length; k++) {
                             if (!row[k] || row[k] == "") {
-                                deferred.reject("导入失败，第"+k+"行保单信息不全，请检查导入文件！");
+                                if(k == 7){ // default date is today
+                                    row[k] = new Date();
+                                }
+                                else{
+                                    deferred.reject("导入失败，第"+k+"行保单信息不全，请检查导入文件！");
+                                }
+                                
                             }
                         }
                         var policy = {};
@@ -136,7 +149,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                         policy.applicant = row[2];
                         policy.policy_name = row[3];
                         policy.fee = row[4];
-                        policy.income_rate = row[5];
+                        policy.income_rate = row[5] > 1 ? row[5] : row[5] * 100;
                         policy.income = row[6];
                         policy.created_at = new Date(row[7]);
                         policy.level1_company = level1_company;
