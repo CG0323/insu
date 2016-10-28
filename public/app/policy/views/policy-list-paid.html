@@ -18,7 +18,7 @@
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <!--<a ng-href="/api/policies/excel" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</a>              -->
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                <label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>
+                <label ng-show="user.role!='出单员'"> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>
             
             </span>
 
@@ -46,7 +46,7 @@
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="client.name" display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                    <th field-name="client.name" cell-width="8em"  display-name="业务来源" enable-filtering="true" enable-sorting="false">
                                         <div class="tr-ng-title">
                                             业务来源
                                         </div>
@@ -60,8 +60,8 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
-                                    </th>
+                                    <!--<th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="true" enable-sorting="false">
                                         <div class="tr-ng-title">
                                             营业部
@@ -79,8 +79,8 @@
                                     </th>
                                     <th field-name="paid_at" display-name="支付日期" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <!--<th field-name="payment_proof" display-name="凭证号" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
+                                    <th field-name="payment_bank" display-name="转账备注" enable-filtering="false" enable-sorting="false">
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -71,6 +71,7 @@ router.put('/:id', function (req, res) {
     company.phone = req.body.phone;
     company.catogory = req.body.catogory;
     company.rates = req.body.rates;
+    // company.rates_based_on_taxed = req.body.rates_based_on_taxed;
     company.save(function (err) {
       if (err) {
         logger.error(err);

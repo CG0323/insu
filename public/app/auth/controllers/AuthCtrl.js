@@ -26,8 +26,8 @@ angular.module('app.auth').controller('AuthCtrl',
                             $state.go('app.policy.new');
                         }else
                         {
-                            // $state.go('app.policy.to-be-reviewed');
-                            $state.go('app.policy.to-be-paid');
+                            $state.go('app.policy.to-be-reviewed');
+                            // $state.go('app.policy.to-be-paid');
                         }
                         
                         $scope.disabled = false;

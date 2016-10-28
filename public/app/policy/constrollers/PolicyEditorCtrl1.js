@@ -9,6 +9,8 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     vm.level2Companies = [];
     vm.level3Companies = [];
     vm.level4Companies = [];
+    vm.ratesBasedString = "";
+    vm.company = {};
 
     PolicyService.getLevel2Companies()
         .then(function (level2Companies) {
@@ -71,32 +73,33 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (!vm.policy.level2_company) {
             vm.policy.level1_company = undefined;
             vm.applyCompanyRate(null);
+            vm.company = {};
         } else {
-            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
-            vm.policy.level1_company = company.catogory._id;
-            vm.applyCompanyRate(company);
+            vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
+            vm.policy.level1_company = vm.company.catogory._id;
+            vm.applyCompanyRate(vm.company);
         }
         vm.loadLevel3Companies();
     }
 
     vm.level3Changed = function () {
         if (!vm.policy.level3_company) {
-            var company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
-            vm.applyCompanyRate(company);
+            vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
+            vm.applyCompanyRate(vm.company);
         } else {
-            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
-            vm.applyCompanyRate(company);
+            vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
+            vm.applyCompanyRate(vm.company);
         }
         vm.loadLevel4Companies();
     }
 
     vm.level4Changed = function () {
         if (!vm.policy.level4_company) {
-            var company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
-            vm.applyCompanyRate(company);
+            vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
+            vm.applyCompanyRate(vm.company);
         } else {
-            var company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
-            vm.applyCompanyRate(company);
+            vm.company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
+            vm.applyCompanyRate(vm.company);
         }
     }
 
@@ -111,7 +114,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.editable = true;
     }
 
-
+    vm.getRatesBasedString = function(){
+        if(vm.policy.rates_based_on_taxed){
+             return "基于不含税保费";
+        }else{
+            return "基于含税保费";
+        }
+    }
 
 
 
@@ -145,35 +154,35 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         var rates = vm.policy.rule_rates;
         var policy = vm.policy;
         policy.has_warning = false;
-        if(rates.mandatory_income != policy.mandatory_fee_income_rate){
+        if(rates.mandatory_income < policy.mandatory_fee_income_rate){
             policy.has_warning = true;
             return;
         }
-        if (rates.mandatory_payment != policy.mandatory_fee_payment_rate) {
+        if (rates.mandatory_payment > policy.mandatory_fee_payment_rate) {
             policy.has_warning = true;
             return;
         }
-        if (rates.commercial_income != policy.commercial_fee_income_rate) {
+        if (rates.commercial_income < policy.commercial_fee_income_rate) {
             policy.has_warning = true;
             return;
         }
-        if (rates.commercial_payment != policy.commercial_fee_payment_rate) {
+        if (rates.commercial_payment > policy.commercial_fee_payment_rate) {
             policy.has_warning = true;
             return;
         }
-        if (rates.tax_income != policy.tax_fee_income_rate) {
+        if (rates.tax_income < policy.tax_fee_income_rate) {
             policy.has_warning = true;
             return;
         }
-        if (rates.tax_payment != policy.tax_fee_payment_rate) {
+        if (rates.tax_payment > policy.tax_fee_payment_rate) {
             policy.has_warning = true;
             return;
         }
-        if (rates.other_income != policy.other_fee_income_rate) {
+        if (rates.other_income < policy.other_fee_income_rate) {
             policy.has_warning = true;
             return;
         }
-        if (rates.other_payment != policy.other_fee_payment_rate) {
+        if (rates.other_payment > policy.other_fee_payment_rate) {
             policy.has_warning = true;
             return;
         }
@@ -259,11 +268,26 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     };
 
     vm.updateFee = function () {
-        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / 100;
+        vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee / 1.06;
+        if (vm.policy.mandatory_fee_taxed) {
+            vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee_taxed.toFixed(2);
+        }
+        vm.policy.commercial_fee_taxed = vm.policy.commercial_fee / 1.06;
+        if (vm.policy.commercial_fee_taxed) {
+            vm.policy.commercial_fee_taxed = vm.policy.commercial_fee_taxed.toFixed(2);
+        }
+        vm.policy.other_fee_taxed = vm.policy.other_fee / 1.06;
+        if (vm.policy.other_fee_taxed) {
+            vm.policy.other_fee_taxed = vm.policy.other_fee_taxed.toFixed(2);
+        }
+
+        var divideBy = vm.policy.rates_based_on_taxed ? 106 : 100;
+
+        vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / divideBy;
         if (vm.policy.mandatory_fee_income) {
             vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
         }
-        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / 100;
+        vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / divideBy;
         if (vm.policy.commercial_fee_income) {
             vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
         }
@@ -271,7 +295,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.policy.tax_fee_income) {
             vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
         }
-        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / 100;
+        vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / divideBy;
         if (vm.policy.other_fee_income) {
             vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
         }
@@ -280,12 +304,12 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             vm.policy.total_income = vm.policy.total_income.toFixed(2);
         }
 
-        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / 100;
+        vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / divideBy;
 
         if (vm.policy.mandatory_fee_payment) {
             vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
         }
-        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / 100;
+        vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / divideBy;
         if (vm.policy.commercial_fee_payment) {
             vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
         }
@@ -293,7 +317,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.policy.tax_fee_payment) {
             vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
         }
-        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / 100;
+        vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / divideBy;
         if (vm.policy.other_fee_payment) {
             vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
         }

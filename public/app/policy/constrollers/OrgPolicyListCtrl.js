@@ -214,7 +214,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     }
 
     vm.showAll = function(){
-        vm.pageSize = vm.policyTotalCount;
+        vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
     }
 
 

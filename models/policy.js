@@ -3,7 +3,8 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-  policy_no: { type: String, index: true, unique: true },
+  policy_no: { type: String},
+  mandatory_policy_no: { type: String},
   // insu_company: String,
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level1_company: { type: mongoose.Schema.Types.ObjectId, ref: 'CompanyCatogory' },
@@ -54,14 +55,14 @@ var schema = new mongoose.Schema({
   payment_substraction_comment: String,
   total_payment: Number,
   rule_rates: { set_at: { type: Date }, mandatory_income: Number, mandatory_payment: Number, commercial_income: Number, commercial_payment: Number, tax_income: Number, tax_payment: Number, other_income: Number, other_payment: Number },
-  has_warning: Boolean
+  has_warning: Boolean,
+  rates_based_on_taxed : Boolean
 });
 
 schema.pre('save', function(next){
    var now = new Date();
    this.updated_at = now;
    if ( !this.created_at ) {
-     console.log("i am seeting created at date here");
      this.created_at = now;
    }
   next();

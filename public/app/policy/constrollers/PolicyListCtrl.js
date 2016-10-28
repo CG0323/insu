@@ -10,6 +10,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.clientName = "";
     vm.clientDictionary = {};
     vm.areAllSelected = false;
+    vm.summary = {total_income:0, total_payment:0, total_profit:0};
+    vm.pageSize = 15;
 
 
     PolicyService.getClients()
@@ -87,6 +89,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
+                vm.selectionChanged();
             }, function (err) { });
     };
 
@@ -108,7 +111,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
 
         vm.refreshPolicies();
-        vm.refreshSummary();
+        // vm.refreshSummary();
     };
 
     vm.clientFilterChanged = function () {
@@ -130,13 +133,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set("paid-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
-        vm.refreshSummary();
+        // vm.refreshSummary();
     }
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
+        vm.pageSize = 15;
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+        vm.refreshSummary();
     };
 
     vm.refreshSummary = function () {
@@ -148,19 +153,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }, function (err) { });
     };
 
+    vm.refreshPolicies();
+    vm.refreshSummary();
 
-
-
-    var poller = function () {
-        if ($rootScope.user.role == "出单员") {
-            return;
-        }
+    vm.refreshClicked = function(){
         vm.refreshPolicies();
-        vm.refreshSummary();
-        $timeout(poller, 1000 * 60 * 2);
-    };
-
-    poller();
+        // vm.refreshSummary();
+    }
 
     vm.exportFilteredPolicies = function () {
         PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
@@ -179,13 +178,19 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.bulkPay = function () {
+        var policyIds = vm.getSelectedPolicyIds();
         $.SmartMessageBox({
             title: "批量修改保单状态",
-            content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
+            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 结算费共计:" + vm.summary.total_payment.toFixed(2),
+            buttons: '[取消][确认]',
+            input: "text",
+            placeholder: "可填写转账银行与日期备注"
+        }, function (ButtonPressed, value) {
             if (ButtonPressed === "确认") {
-                PolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+                var data = {};
+                data.policyIds = policyIds;
+                data.remarks = value;
+                PolicyService.bulkPay(data)
                     .then(function (data) {
                         $.smallBox({
                             title: "服务器确认信息",
@@ -195,7 +200,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                             timeout: 5000
                         });
                         vm.refreshPolicies();
-                        vm.refreshSummary();
                     }, function (err) {
 
                     });
@@ -206,7 +210,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
         });
     };
-
     vm.getSelectedPolicyIds = function(){
         var ids = [];
         if(vm.policies){
@@ -259,7 +262,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.isShowDeleteButton = function (policy) {
         if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";//"待审核";
+        return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";//"待支付";
     };
 
     vm.isShowBulkPayButton = function () {
@@ -269,19 +272,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         return true;
     };
 
-    vm.isShowBulkApproveButton = function () {
-        if ($rootScope.user.role == "出单员") {
-            return false
-        };
-        if(vm.policies){
-            for(var i = 0; i < vm.policies.length; i ++){
-                if(vm.policies[i].isSelected){
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
 
     vm.isShowViewButton = function (policy) {
         return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
@@ -312,12 +302,29 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     };
 
+    vm.selectionChanged = function(){
+        if (!vm.policies){
+            vm.summary = {income:0, payment:0, profit:0};
+            vm.selectedPolicies = [];
+            vm.isShowBulkOperationButton = false;
+        }
+        vm.selectedPolicies = vm.policies.filter(function (item) {
+            return item.isSelected
+        });
+
+        vm.summary = vm.selectedPolicies.reduce(function(a,b){
+            return {total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment, total_profit: a.total_income + b.total_income - a.total_payment - b.total_payment}
+        }, {total_income:0, total_payment:0, total_profit:0});
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
+    }
+
     vm.selectAll = function () {
         if (vm.policies && vm.policies.length > 0) {
             for (var i = 0; i < vm.policies.length; i++) {
                 vm.policies[i].isSelected = true;
             }
         }
+        vm.selectionChanged();
     }
 
     vm.clearSelection = function () {
@@ -326,7 +333,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 vm.policies[i].isSelected = false;
             }
         }
+        vm.selectionChanged();
     }
+
+    vm.showAll = function(){
+        vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
+    }
+
 
 
     /*

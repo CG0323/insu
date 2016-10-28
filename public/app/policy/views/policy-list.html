@@ -15,11 +15,10 @@
                                             ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
-                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.refreshClicked()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                <label ng-show="user.role!='出单员'"> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>
-                <button ng-show="vm.isShowBulkPayButton()" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付</button>
-                                        
+                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}}  结算费总额:{{vm.summary.total_payment.toFixed(2)}}  毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
+                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付选中的保单</button>                                         
             </span>
 
 
@@ -31,10 +30,14 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize" enable-filtering="false"
                         total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
+                                    <th ng-show="user.role!='出单员'" display-align="center" cell-width="2em">
+                                        <div class="tr-ng-title">&nbsp;</div>
+                                        <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
+                                    </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
@@ -99,6 +102,11 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td ng-show="user.role!='出单员'">
+                                        <div>
+                                            <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
+                                        </div>
+                                    </td>
                                     <td field-name="client.name"></td>
                                     <td field-name="organization.name"></td>
                                     <td field-name="seller.name"></td>
@@ -112,6 +120,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="row">
+                        <section class="col col-4">
+                            <button class="btn btn-primary" ng-show="vm.pageSize < vm.policyTotalCount" ng-click="vm.showAll()">在一页显示所有符合筛选条件的保单(最多300条一页)</button>
+                        </section>
+                    </div>                    
                 </div>
             </div>
         </article>

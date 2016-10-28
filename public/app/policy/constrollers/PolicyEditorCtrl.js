@@ -57,8 +57,8 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                 });
                 vm.policy = {};
                 if (vm.back) {
-                    // $state.go("app.policy.to-be-reviewed");
-                    $state.go("app.policy.to-be-paid");
+                     $state.go("app.policy.to-be-reviewed");
+                    // $state.go("app.policy.to-be-paid");
                 }
             }, function (err) { });
     };

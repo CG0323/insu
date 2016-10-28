@@ -321,34 +321,11 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
             
-            function bulkPay(type, filterSettings, fromDate, toDate) {
+           function bulkPay(policyIds) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                var orderBy = "created_at";
-                var orderByReverse = false;
-                if (type == "to-be-reviewed") {
-                    filterSettings.policy_status = "待审核";
-                    orderByReverse = false;
-                } else if (type == "to-be-paid") {
-                    filterSettings.policy_status = "待支付";
-                    orderByReverse = false;
-                } else if (type == "paid") {
-                    filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
-                }
-                var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
-                var config = {
-                    filterByFields:filterSettings,
-                    orderBy: orderBy,
-                    orderByReverse: orderByReverse,
-                    requestTrapped: true,
-                    fromDate: fromDate,
-                    toDate: end
-                };
-
-                $http.post("/api/policies/bulk-pay", config)
-                // handle success
+                $http.post("/api/policies/bulk-pay", policyIds)
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -356,7 +333,7 @@ angular.module('app.policy').factory('PolicyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
