@@ -76,6 +76,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         })
         .state('app.policy.approve1', {
             url: '/policies/approve1/:policyId',
+            params: {policyId: null, ids: null},
             data: {
                 title: '保单支付'
             },
@@ -167,6 +168,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 "content@app": {
                     controller: 'PolicyListController as vm',
                     templateUrl: 'app/policy/views/policy-list-paid.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
+        .state('app.policy.test', {
+            url: '/policies/test',
+            data: {
+                title: '上传测试'
+            },
+            views: {
+                "content@app": {
+                    controller: 'TestController as vm',
+                    templateUrl: 'app/policy/views/test.html'
                 }
             },
             resolve: {

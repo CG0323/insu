@@ -20,11 +20,13 @@ var schema = new mongoose.Schema({
   payment_bank: String,
   payment_proof: String,
   mandatory_fee: Number,
+  mandatory_fee_taxed: Number,
   mandatory_fee_income_rate: Number,
   mandatory_fee_income: Number,
   mandatory_fee_payment_rate: Number,
   mandatory_fee_payment: Number,
   commercial_fee: Number,
+  commercial_fee_taxed: Number,
   commercial_fee_income_rate: Number,
   commercial_fee_income: Number,
   commercial_fee_payment_rate: Number,
@@ -35,6 +37,7 @@ var schema = new mongoose.Schema({
   tax_fee_payment_rate: Number,
   tax_fee_payment: Number,
   other_fee: Number,
+  other_fee_taxed: Number,
   other_fee_income_rate: Number,
   other_fee_income: Number,
   other_fee_payment_rate: Number,
@@ -58,6 +61,8 @@ var schema = new mongoose.Schema({
   has_warning: Boolean,
   rates_based_on_taxed : Boolean
 });
+
+schema.index({policy_status: 1, client: 1, organization: 1, created_at: 1});
 
 schema.pre('save', function(next){
    var now = new Date();

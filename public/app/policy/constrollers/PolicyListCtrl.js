@@ -289,7 +289,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (!policy.level2_company) {
             $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
         } else {
-            $state.go("app.policy.approve1", { policyId: policy._id });
+            var ids = vm.policies.map(function(item){return item._id});
+            var index = ids.indexOf(policy._id);
+            ids.splice(index, 1);
+            $state.go("app.policy.approve1", { policyId: policy._id, ids: ids});
         }
     };
 

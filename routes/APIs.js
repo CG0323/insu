@@ -10,6 +10,7 @@ var companies = require('./companies.js');
 var companyCatogories = require('./companyCatogories.js');
 var policyNames = require('./policyNames.js');
 var orgPolicies = require('./orgPolicies.js');
+var sts = require('./sts.js');
 var router = express.Router();
 
 /* GET home page. */
@@ -25,6 +26,7 @@ router.use('/life-salaries', lifeSalaries);
 router.use('/life-statements', lifeStatements);
 router.use('/policy-names', policyNames);
 router.use('/org-policies', orgPolicies);
+router.use('/sts', sts);
 function ensureAuthenticated(req, res, next) {
     // console.log('Calling: ensureAuthenticated.....');
     if (req.isAuthenticated()) {

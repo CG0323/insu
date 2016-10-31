@@ -364,11 +364,13 @@ router.put('/:id', function (req, res) {
     policy.frame_no = req.body.frame_no;
     policy.engine_no = req.body.engine_no;
     policy.mandatory_fee = req.body.mandatory_fee;
+    policy.mandatory_fee_taxed = req.body.mandatory_fee_taxed;
     policy.mandatory_fee_income_rate = req.body.mandatory_fee_income_rate;
     policy.mandatory_fee_income = req.body.mandatory_fee_income;
     policy.mandatory_fee_payment_rate = req.body.mandatory_fee_payment_rate;
     policy.mandatory_fee_payment = req.body.mandatory_fee_payment;
     policy.commercial_fee = req.body.commercial_fee;
+    policy.commercial_fee_taxed = req.body.commercial_fee_taxed;
     policy.commercial_fee_income_rate = req.body.commercial_fee_income_rate;
     policy.commercial_fee_income = req.body.commercial_fee_income;
     policy.commercial_fee_payment_rate = req.body.commercial_fee_payment_rate;
@@ -379,6 +381,7 @@ router.put('/:id', function (req, res) {
     policy.tax_fee_payment_rate = req.body.tax_fee_payment_rate;
     policy.tax_fee_payment = req.body.tax_fee_payment;
     policy.other_fee = req.body.other_fee;
+    policy.other_fee_taxed = req.body.other_fee_taxed;
     policy.other_fee_income_rate = req.body.other_fee_income_rate;
     policy.other_fee_income = req.body.other_fee_income;
     policy.other_fee_payment_rate = req.body.other_fee_payment_rate;

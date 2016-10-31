@@ -25,7 +25,8 @@
     "angular-media-queries",
     "ui-select",
     "angular-local-storage",
-    "js-xlsx"
+    "js-xlsx",
+    "ali-oss"
   ],
   "paths": {
 
@@ -149,7 +150,8 @@
     "angular-media-queries":"plugin/angular-media-queries/match-media.js",
     "ui-select":"plugin/angular-ui-select/dist/select.min.js",
     "angular-local-storage":"plugin/angular-local-storage/dist/angular-local-storage.min.js",
-    "js-xlsx":"plugin/js-xlsx/dist/xlsx.core.min.js"
+    "js-xlsx":"plugin/js-xlsx/dist/xlsx.core.min.js",
+    "ali-oss":"plugin/ali-oss/dist/aliyun-oss-sdk.min.js"
   },
   "shim": {
     "to-markdown": {"deps": ["he"]},

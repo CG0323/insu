@@ -1,0 +1,41 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <h2>上传测试</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <form name="uploadForm" id="uploadForm" class="smart-form" novalidate>
+
+                            <fieldset class="optional-input-field-set">
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">上传文件</label>
+                                        <label class="select">
+                                            <input type="file" class = "input-lg" accept=".jpg,.jpeg,.png,.bmp"
+                                             onchange="angular.element(this).scope().vm.fileChanged(this.files);"/>
+                                        </label>
+                                    </section>
+
+                                </div>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <button class="btn btn-primary" ng-disabled="vm.isDisableUploadButton()" ng-click="vm.uploadFile()">上传</button>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <a ng-show="vm.file" target="_blank" href={{vm.getFileLink()}}>Show Photo</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            
+        </article>
+    </div>
+
+
+</div>

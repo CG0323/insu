@@ -256,7 +256,14 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
-                        $state.go("app.policy.to-be-reviewed");
+                        var ids = $stateParams.ids;
+                        if(ids && ids.length > 0){
+                            var id = ids.shift();
+                            $state.go("app.policy.approve1",{policyId: id, ids: ids});
+                        }else{
+                            $state.go("app.policy.to-be-reviewed");
+                        }
+                        
                     }, function (err) { });
             }
             if (ButtonPressed === "取消") {
