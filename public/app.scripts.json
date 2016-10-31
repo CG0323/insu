@@ -26,7 +26,8 @@
     "ui-select",
     "angular-local-storage",
     "js-xlsx",
-    "ali-oss"
+    "ali-oss",
+    "angular-uuid"
   ],
   "paths": {
 
@@ -151,7 +152,8 @@
     "ui-select":"plugin/angular-ui-select/dist/select.min.js",
     "angular-local-storage":"plugin/angular-local-storage/dist/angular-local-storage.min.js",
     "js-xlsx":"plugin/js-xlsx/dist/xlsx.core.min.js",
-    "ali-oss":"plugin/ali-oss/dist/aliyun-oss-sdk.min.js"
+    "ali-oss":"plugin/ali-oss/dist/aliyun-oss-sdk.min.js",
+    "angular-uuid":"plugin/angular-uuid/angular-uuid.js"
   },
   "shim": {
     "to-markdown": {"deps": ["he"]},

@@ -22,7 +22,6 @@ sts.assumeRole({
         DurationSeconds: 3600,
         RoleSessionName: 'PhotoEditor'
 }, function (err, data) {
-        console.log(data);
         res.status(200).send(data);
 });
 });

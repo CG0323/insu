@@ -10,6 +10,7 @@
  */
 
 angular.module('app', [
+    "angular-uuid",
     'ngSanitize',
     'ngAnimate',
     'restangular',

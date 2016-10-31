@@ -13,21 +13,27 @@
                             <fieldset class="optional-input-field-set">
                                 <div class="row">
                                     <section class="col col-4">
-                                        <label class="label">上传文件</label>
-                                        <label class="select">
-                                            <input type="file" class = "input-lg" accept=".jpg,.jpeg,.png,.bmp"
+                                            <input type="file" style="display: none;" class = "input-lg" accept="image/*" id="file_selector" name="file_selector"
                                              onchange="angular.element(this).scope().vm.fileChanged(this.files);"/>
-                                        </label>
+                                            <button type="button" class="btn btn-primary" id="select_file"  
+       	                                     onclick="file_selector.click()">上传扫描件  
+ 	                                        </button>  
                                     </section>
+                                     <!--<section class="col col-4">
+                                            <button type="file" ngf-select="vm.uploadFile($file)"
+                                            accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                                            上传扫描件</button>
+
+                                    </section>-->
 
                                 </div>
                                 <div class="row">
                                     <section class="col col-4">
-                                        <button class="btn btn-primary" ng-disabled="vm.isDisableUploadButton()" ng-click="vm.uploadFile()">上传</button>
+                                        <!--<button class="btn btn-primary" ng-disabled="vm.isDisableUploadButton()" ng-click="vm.uploadFile()">上传</button>-->
                                     </section>
                                 </div>
                             </fieldset>
-                            <a ng-show="vm.file" target="_blank" href={{vm.getFileLink()}}>Show Photo</a>
+                            <a ng-show="vm.fileName" target="_blank" href={{vm.getFileLink()}}>Show Photo</a>
                         </form>
                     </div>
                 </div>
