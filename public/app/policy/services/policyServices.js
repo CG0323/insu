@@ -530,6 +530,7 @@ angular.module('app.policy').factory('PolicyService',
             }
 
             function uploadFile(file) {
+                document.body.style.cursor='wait';
                 var deferred = $q.defer();
                 getStsCredential()
                 .then(function(credentials){
@@ -544,6 +545,14 @@ angular.module('app.policy').factory('PolicyService',
                 var fileName = uuid.v1() + ext;
                 client.multipartUpload(fileName, file).then(function (result) {
                     var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    $.smallBox({
+                            title: "服务器确认信息",
+                            content: "扫描件已成功上传",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    document.body.style.cursor='default';    
                     deferred.resolve(fileName);
                     }).catch(function (err) {
                     deferred.reject(err);

@@ -13,19 +13,6 @@ angular.module('app.policy').controller('TestController', function ($scope, $fil
     }
 
     vm.uploadFile = function(file){
-        // var client = new OSS.Wrapper({
-        //     region: 'oss-cn-shanghai',
-        //     accessKeyId: 'LTAIZDJoabqQUUmZ',
-        //     accessKeySecret: 'vv5bFFUzoQFL0LGxEpY7w5y5l8z7JI',
-        //     bucket: 'cwang1'
-        // });
-        // var file = vm.file;
-        // var storeAs = 'upload-file';
-        // client.multipartUpload(file.name, file).then(function (result) {
-        //     console.log(result);
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
         PolicyService.uploadFile(file)
         .then(function(fileName){
             console.log(fileName);

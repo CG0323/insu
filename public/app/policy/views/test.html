@@ -13,8 +13,9 @@
                             <fieldset class="optional-input-field-set">
                                 <div class="row">
                                     <section class="col col-4">
-                                            <input type="file" style="display: none;" class = "input-lg" accept="image/*" id="file_selector" name="file_selector"
+                                            <input type="file" style="display: none;" class = "input-lg" accept=".jpg,.png,.bmp" id="file_selector" name="file_selector"
                                              onchange="angular.element(this).scope().vm.fileChanged(this.files);"/>
+                                            
                                             <button type="button" class="btn btn-primary" id="select_file"  
        	                                     onclick="file_selector.click()">上传扫描件  
  	                                        </button>  
