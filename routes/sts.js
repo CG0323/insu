@@ -3,7 +3,6 @@ var router = express.Router();
 var ALY = require("aliyun-sdk");
 var config = require('../common.js').config();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   var sts = new ALY.STS({
         accessKeyId: config.sts_config.accessKeyId,
@@ -22,7 +21,11 @@ sts.assumeRole({
         DurationSeconds: 3600,
         RoleSessionName: 'PhotoEditor'
 }, function (err, data) {
-        res.status(200).send(data);
+        if(err){
+                res.status(500).send(err.code);
+        }else{
+                res.status(200).send(data);
+        }
 });
 });
 

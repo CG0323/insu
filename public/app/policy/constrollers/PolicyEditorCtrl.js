@@ -29,7 +29,9 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
-                policy.client = policy.client._id;
+                if(policy.client){
+                    policy.client = policy.client._id;
+                }
                 policy.seller = policy.seller._id;
             });
     }
@@ -45,7 +47,9 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
 
 
     vm.submit = function () {
-        vm.policy.client = vm.clientInfo._id;
+        if(vm.clientInfo){
+            vm.policy.client = vm.clientInfo._id;
+        }       
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -57,8 +61,7 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
                 });
                 vm.policy = {};
                 if (vm.back) {
-                     $state.go("app.policy.to-be-reviewed");
-                    // $state.go("app.policy.to-be-paid");
+                     $state.go("app.policy.to-be-paid");
                 }
             }, function (err) { });
     };

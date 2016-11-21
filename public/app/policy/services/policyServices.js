@@ -514,7 +514,6 @@ angular.module('app.policy').factory('PolicyService',
                         // handle success
                         .success(function (data, status) {
                             if (status === 200) {
-                                // $rootScope.user.sts = data.Credentials;
                                 deferred.resolve(data.Credentials);
                             } else {
                                 deferred.reject(status);
@@ -540,6 +539,16 @@ angular.module('app.policy').factory('PolicyService',
                     accessKeySecret: credentials.AccessKeySecret,
                     stsToken: credentials.SecurityToken,
                     bucket: 'cwang1'
+                }, function(err){
+                    document.body.style.cursor='default';   
+                    $.bigBox({
+                        title: "上传文件",
+                        content: "上传失败，请检查网络",
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        timeout: 6000
+                    });
+                    return;
                 });
                 var ext = /\.[^\.]+$/.exec(file.name); 
                 var fileName = uuid.v1() + ext;

@@ -131,7 +131,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
-                policy.client = policy.client._id;
+                if(policy.client){
+                    policy.client = policy.client._id;
+                }           
                 policy.seller = policy.seller._id;
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
@@ -191,7 +193,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     vm.submit = function () {
         vm.checkRuleRates();
-        vm.policy.client = vm.clientInfo._id;
+        if(vm.clientInfo){
+            vm.policy.client = vm.clientInfo._id;
+        }     
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
