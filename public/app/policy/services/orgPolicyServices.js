@@ -133,7 +133,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                     for (var i = 1; i < sheetData.length; i++) {
                         var row = sheetData[i];
                         for (var k = 0; k < row.length; k++) {
-                            if (!row[k] || row[k] == "") {
+                            if (k<=7 && (!row[k] || row[k] == "")) {
                                 if(k == 7){ // default date is today
                                     row[k] = new Date();
                                 }
