@@ -136,6 +136,7 @@ router.post('/excel', function (req, res) {
         'created_at',
         'policy_no',
         'company.name',
+        'applicant.payer',
         'applicant.name',
         'plate_no',
         'applicant.phone',
@@ -183,6 +184,7 @@ router.post('/excel', function (req, res) {
         '保单号',
         '保险公司',
         '投保人',
+        '被保险人',
         '车牌号',
         '投保人电话',
         '营业部',
@@ -238,13 +240,11 @@ router.post('/excel', function (req, res) {
         row.client = {};
         row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
         row.policy_no = "'" + policy.policy_no;
-
         row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company.name;
-
+        row.applicant.payer = policy.applicant.payer;
         row.applicant.name = policy.applicant.name;
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
-
         row.organization.name = policy.organization ? policy.organization.name : "";
         row.seller.name = policy.seller.name;
         row.client.name = policy.client ? policy.client.name : '';
@@ -361,7 +361,6 @@ router.put('/:id', function (req, res) {
     if (err)
       res.send(err);
     policy.policy_no = req.body.policy_no;
-    // policy.insu_company = req.body.insu_company;
     policy.plate_no = req.body.plate_no;
     policy.applicant = req.body.applicant;
     policy.frame_no = req.body.frame_no;

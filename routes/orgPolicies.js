@@ -52,10 +52,6 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/delete', function (req, res) {
-  OrgPolicy.collection.remove({});
-});
-
 
 router.post('/excel', function (req, res) {
   var conditions = {};
@@ -331,5 +327,20 @@ router.post('/bulk-pay', function (req, res) {
       logger.error(err);
     })
 });
+
+router.post('/bulk-delete', function (req, res) {
+  var ids = req.body;
+  console.log(ids);
+  OrgPolicy.remove({_id: {$in: ids}}, function (err, policies) {
+    if (err) {
+      logger.error(err);
+      res.send(err);
+    }
+    logger.info(req.user.name + " 批量删除了车商保单。" + req.clientIP);
+    res.json({ message: '保单已成功删除' });
+  });
+  
+});
+
 
 module.exports = router;

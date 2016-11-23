@@ -179,6 +179,35 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         });
     };
 
+    vm.bulkDelete = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量删除保单",
+            content: "确认删除选中的" + vm.selectedPolicies.length + "条保单?",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed, value) {
+            if (ButtonPressed === "确认") {
+                OrgPolicyService.bulkDelete(policyIds)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单已成功删除",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
     vm.selectionChanged = function(){
         if (!vm.policies){
             vm.summary = {income:0, payment:0, profit:0};

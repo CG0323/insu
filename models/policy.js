@@ -14,7 +14,7 @@ var schema = new mongoose.Schema({
   plate_province: String,
   plate_no: String,
   effective_date: {type: Date},
-  applicant: { name: String, phone: String, identity: String, address: String },
+  applicant: { name: String, phone: String, identity: String, address: String, payer: String },
   frame_no: String,
   engine_no: String,
   payment_bank: String,

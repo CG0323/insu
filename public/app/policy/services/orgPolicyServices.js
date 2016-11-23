@@ -9,6 +9,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                 savePolicies: savePolicies,
                 searchPolicies: searchPolicies,
                 bulkPay: bulkPay,
+                bulkDelete: bulkDelete,
                 getSummary: getSummary,
                 getFilteredCSV: getFilteredCSV
             });
@@ -61,6 +62,27 @@ angular.module('app.policy').factory('OrgPolicyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 $http.post("/api/org-policies/bulk-pay", policyIds)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkDelete(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/org-policies/bulk-delete", policyIds)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
