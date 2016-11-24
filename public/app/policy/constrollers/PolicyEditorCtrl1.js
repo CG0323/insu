@@ -169,39 +169,48 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         var rates = vm.policy.rule_rates;
         var policy = vm.policy;
         policy.has_warning = false;
-        if(rates.mandatory_income < policy.mandatory_fee_income_rate){
-            policy.has_warning = true;
-            return;
+        if (policy.mandatory_fee > 0){
+            if(rates.mandatory_income < policy.mandatory_fee_income_rate){
+                policy.has_warning = true;
+                return;
+            }
+            if (rates.mandatory_payment > policy.mandatory_fee_payment_rate) {
+                policy.has_warning = true;
+                return;
+            }
         }
-        if (rates.mandatory_payment > policy.mandatory_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
+        if (policy.commercial_fee > 0){
+            if (rates.commercial_income < policy.commercial_fee_income_rate) {
+                policy.has_warning = true;
+                return;
+            }
+            if (rates.commercial_payment > policy.commercial_fee_payment_rate) {
+                policy.has_warning = true;
+                return;
+            }
         }
-        if (rates.commercial_income < policy.commercial_fee_income_rate) {
-            policy.has_warning = true;
-            return;
+
+        if(policy.tax_fee > 0){
+            if (rates.tax_income < policy.tax_fee_income_rate) {
+                policy.has_warning = true;
+                return;
+            }
+            if (rates.tax_payment > policy.tax_fee_payment_rate) {
+                policy.has_warning = true;
+                return;
+            }
         }
-        if (rates.commercial_payment > policy.commercial_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
+
+        if(policy.other_fee > 0){
+            if (rates.other_income < policy.other_fee_income_rate) {
+                policy.has_warning = true;
+                return;
+            }
+            if (rates.other_payment > policy.other_fee_payment_rate) {
+                policy.has_warning = true;
+                return;
+            }
         }
-        if (rates.tax_income < policy.tax_fee_income_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.tax_payment > policy.tax_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.other_income < policy.other_fee_income_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        if (rates.other_payment > policy.other_fee_payment_rate) {
-            policy.has_warning = true;
-            return;
-        }
-        
     }
 
     vm.submit = function () {
