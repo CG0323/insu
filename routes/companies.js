@@ -44,7 +44,7 @@ router.get('/:id', function (req, res) {
 
 router.post('/', function (req, res) {
   var data = req.body;
-  Company.find({ name: data.name }, function (err, companies) {
+  Company.find({ name: data.name, level:{$exists:true} }, function (err, companies) {
     if (companies.length > 0) {
       res.status(400).send('系统中已存在该公司名称');
     } else {
