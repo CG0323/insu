@@ -24,7 +24,6 @@ router.post('/', function (req, res) {
     } else {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
-
       } else {
         var policy = new Policy(data);
         policy.seller = req.user._id;
@@ -134,10 +133,12 @@ router.post('/excel', function (req, res) {
       var json2csv = require('json2csv');
       var fields = [
         'created_at',
+        'mandatory_policy_no',
         'policy_no',
         'company.name',
         'applicant.payer',
         'applicant.name',
+        'applicant.identity',
         'plate_no',
         'applicant.phone',
         'organization.name',
@@ -181,10 +182,12 @@ router.post('/excel', function (req, res) {
       ];
       var fieldNames = [
         '提交日期',
-        '保单号',
+        '交强险保单号',
+        '商业险保单号',
         '保险公司',
         '投保人',
         '被保险人',
+        '投保人身份证号',
         '车牌号',
         '投保人电话',
         '营业部',
@@ -239,10 +242,12 @@ router.post('/excel', function (req, res) {
         row.seller = {};
         row.client = {};
         row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
+        row.mandatory_policy_no = "'" + policy.mandatory_policy_no;
         row.policy_no = "'" + policy.policy_no;
         row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';
         row.applicant.payer = policy.applicant.payer;
         row.applicant.name = policy.applicant.name;
+        row.applicant.identity = "'" + policy.applicant.identity;
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
         row.organization.name = policy.organization ? policy.organization.name : "";

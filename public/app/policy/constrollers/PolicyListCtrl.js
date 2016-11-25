@@ -7,18 +7,26 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.totalIncome = 0;
     vm.totalPayment = 0;
     vm.totalProfit = 0;
-    vm.clientName = "";
-    vm.clientDictionary = {};
     vm.areAllSelected = false;
     vm.summary = {total_income:0, total_payment:0, total_profit:0};
     vm.pageSize = 15;
 
+      //Infinite Scroll Magic
+    vm.infiniteScroll = {};
+    vm.infiniteScroll.numToAdd = 20;
+    vm.infiniteScroll.currentItems = 20;
+  
+    vm.resetInfScroll = function() {
+        vm.infiniteScroll.currentItems = vm.infiniteScroll.numToAdd;
+    };
+    vm.addMoreItems = function(){
+        vm.infiniteScroll.currentItems += vm.infiniteScroll.numToAdd;
+    };
+
 
     PolicyService.getClients()
         .then(function (clients) {
-            for (var i = 0; i < clients.length; i++) {
-                vm.clientDictionary[clients[i].name] = clients[i]._id;
-            }
+            clients.unshift({ _id: -1, name: "全部业务员" });
             vm.clients = clients;
         })
     PolicyService.getOrganizations()
@@ -39,7 +47,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (vm.filterSettings.client) {
             PolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
-                    vm.clientName = clientInfo.name;
+                    vm.clientInfo = clientInfo;
                 })
         }
         vm.fromDate = localStorageService.get("review-fromDate") ? localStorageService.get("review-fromDate") : undefined;
@@ -55,7 +63,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (vm.filterSettings.client) {
             PolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
-                    vm.clientName = clientInfo.name;
+                    vm.clientInfo = clientInfo;
                 })
         }
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
@@ -70,7 +78,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (vm.filterSettings.client) {
             PolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
-                    vm.clientName = clientInfo.name;
+                    vm.clientInfo = clientInfo;
                 })
         }
         vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
@@ -115,9 +123,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.clientFilterChanged = function () {
-        if (vm.clientDictionary[vm.clientName]) {
-            vm.filterSettings.client = vm.clientDictionary[vm.clientName];
-
+        if (vm.clientInfo._id != -1) {
+            vm.filterSettings.client = vm.clientInfo._id;
         }
         else {
             vm.filterSettings.client = undefined;
