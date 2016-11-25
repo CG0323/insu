@@ -231,7 +231,6 @@ router.post('/excel', function (req, res) {
       var arr = [];
 
       for (var i = 0; i < policies.length; i++) {
-        console.log("in row "+ i);
         var policy = policies[i];
         var row = {};
         row.company = {};
@@ -241,15 +240,13 @@ router.post('/excel', function (req, res) {
         row.client = {};
         row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
         row.policy_no = "'" + policy.policy_no;
-        row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company.name;
-        console.log("11111");
+        row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';
         row.applicant.payer = policy.applicant.payer;
         row.applicant.name = policy.applicant.name;
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
         row.organization.name = policy.organization ? policy.organization.name : "";
         row.seller.name = policy.seller.name;
-        console.log("22222");
         row.client.name = policy.client ? policy.client.name : '';
         row.mandatory_fee = policy.mandatory_fee;
         row.mandatory_fee_taxed = policy.mandatory_fee/1.06;
@@ -270,7 +267,6 @@ router.post('/excel', function (req, res) {
         row.commercial_fee_profit = policy.commercial_fee_income - policy.commercial_fee_payment;
         row.commercial_fee_profit = row.commercial_fee_profit.toFixed(2);
         row.tax_fee = policy.tax_fee;
-        console.log("33333");
         row.tax_fee_income_rate = policy.tax_fee_income_rate + "%";
         row.tax_fee_income = policy.tax_fee_income;
         row.tax_fee_payment_rate = policy.tax_fee_payment_rate + "%";
@@ -288,7 +284,6 @@ router.post('/excel', function (req, res) {
         row.other_fee_profit = row.other_fee_profit.toFixed(2);
         row.payment_addition = policy.payment_addition ? policy.payment_addition : 0;
         row.payment_substraction = policy.payment_substraction ? policy.payment_substraction : 0;
-        console.log("44444");
         row.total_income = policy.total_income;
         row.total_payment = policy.total_payment;
         row.total_profit = policy.total_income - policy.total_payment;
@@ -296,7 +291,6 @@ router.post('/excel', function (req, res) {
         row.policy_status = policy.policy_status;
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
         row.payment_bank = policy.payment_bank ? policy.payment_bank : '';
-        console.log("55555");
         arr.push(row);
       }
       json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
