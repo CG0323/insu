@@ -44,6 +44,7 @@
                                 <fieldset class="optional-input-field-set" ng-disabled="vm.policy.policy_status=='已支付'">
                                     <div class="row">
                                         <section class="col col-3">
+                                            <a ng-show="vm.policy.mandatory_policy_photo" target="_blank" href={{vm.getMandatoryPhotoLink()}}>查看扫描件</a>
                                             <label class="label">交强险</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-cny"></i>
@@ -90,6 +91,7 @@
                                         </section>
 
                                         <section class="col col-3">
+                                            <a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>
                                             <label class="label">商业险</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-cny"></i>
