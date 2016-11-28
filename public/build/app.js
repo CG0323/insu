@@ -3448,34 +3448,325 @@ angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_
     return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
 });
 'use strict';
+/**
+ * @ngdoc function
+ * @name myApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the myApp
+ */
+angular.module('app.auth').controller('AuthCtrl',
+    ['$rootScope','$scope', '$state', 'AuthService',
+        function ($rootScope,$scope, $state, AuthService) {
 
-angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
+            var vm = this;
+            vm.username= "";
+            vm.password= "";
+            vm.login = function () {
+                // initial values
+                $scope.error = false;
+                $scope.disabled = true;
+                // call login from service
+                AuthService.login(vm.username, vm.password)
+                    // handle success
+                    .then(function(user) {
+                        $rootScope.user = user;
+                        if(user.role == "出单员"){
+                            $state.go('app.policy.new1');
+                        }else
+                        {
+                            $state.go('app.policy.to-be-reviewed');
+                            // $state.go('app.policy.to-be-paid');
+                        }
+                        
+                        $scope.disabled = false;
+                        vm.username= "";
+                        vm.password= "";
+                    },
+                    function(err){
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                    }
+                    )
+                    // handle error
+                    .catch(function () {
+                        $scope.error = true;
+                        $scope.errorMessage = "账号或密码错误";
+                        $scope.disabled = false;
+                        //vm.username= "";
+                        // vm.password= "";
+                    });
 
-    $scope.projects = projects.data;
+            };
+        }]);
 
-    $scope.tableOptions =  {
-        "data": projects.data.data,
-//            "bDestroy": true,
-        "iDisplayLength": 15,
-        "columns": [
-            {
-                "class":          'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
+/**
+ * Created by CWang11 on 3/29/2016.
+ */
+'use strict';
+/**
+ * @ngdoc function
+ * @name myApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the myApp
+ */
+angular.module('app.auth').controller('ChangePasswordCtrl',
+    ['$rootScope','$scope', '$state', 'AuthService',
+        function ($rootScope,$scope, $state, AuthService) {
+
+            var vm = this;
+            vm.password= "";
+            vm.newPassword="";
+            vm.confirmPassword="";
+            vm.submit = function () {
+                // initial values
+                $scope.error = false;
+
+                if(vm.newPassword != vm.confirmPassword){
+                    $.bigBox({
+                        title: "修改密码",
+                        content: "两次密码输入不一致",
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        timeout: 6000
+                    });
+                    return;
+                }
+                // call login from service
+                AuthService.changePassword(vm.password, vm.newPassword)
+                    // handle success
+                    .then(function(data) {
+                        if(data.status == "success"){
+                            $.smallBox({
+                                title: "服务器确认信息",
+                                content: "密码已成功修改",
+                                color: "#739E73",
+                                iconSmall: "fa fa-check",
+                                timeout: 5000
+                            });
+                            vm.password= "";
+                            vm.newPassword="";
+                            vm.confirmPassword="";
+                            $state.go('app.policy.to-be-paid');
+                        }
+                    },
+                    function(err){
+                        $scope.error = true;
+                        $scope.errorMessage = err;
+                    }
+                )
+                    // handle error
+                    .catch(function () {
+                        $scope.error = true;
+                        $scope.errorMessage = "更新密码失败";
+                        $scope.disabled = false;
+                        //vm.username= "";
+                        // vm.password= "";
+                    });
+
+            };
+        }]);
+
+"use strict";
+
+angular.module('app.auth').directive('loginInfo', function(AuthService){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            AuthService.getUser()
+            .then(function(user){
+                scope.user = user;
             },
-            { "data": "name" },
-            { "data": "est" },
-            { "data": "contacts" },
-            { "data": "status" },
-            { "data": "target-actual" },
-            { "data": "starts" },
-            { "data": "ends" },
-            { "data": "tracker" }
-        ],
-        "order": [[1, 'asc']]
+            function(err){
+            }
+            );
+        }
     }
-});
+})
+
+"use strict";
+
+angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
+
+    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+        if (authResult.status.method == 'PROMPT') {
+            GooglePlus.getUser().then(function (user) {
+                User.username = user.name;
+                User.picture = user.picture;
+                $state.go('app.dashboard');
+            });
+        }
+    });
+
+    $scope.$on('event:facebook-signin-success', function (event, authResult) {
+        ezfb.api('/me', function (res) {
+            User.username = res.name;
+            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
+            $state.go('app.dashboard');
+        });
+    });
+})
+
+"use strict";
+
+angular.module('app.auth').factory('AuthService',
+    ['$q', '$timeout', '$http', '$cookies',
+        function ($q, $timeout, $http, $cookies) {
+            // return available functions for use in controllers
+            return ({
+                isLoggedIn: isLoggedIn,
+                getUserStatus: getUserStatus,
+                login: login,
+                logout: logout,
+                register: register,
+                getUser: getUser,
+                changePassword: changePassword
+            });
+
+            function isLoggedIn() {
+                if ($cookies.get('loggedIn') == "true") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            function getUserStatus() {
+                return $cookies.get('loggedIn');
+            }
+            
+            function getUser() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users/me')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject();
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+ 
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function login(username, password) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.post('/users/login', { username: username, password: password })
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            $cookies.put('loggedIn', 'true');
+                            $http.get('/users/me')
+                            .success(function (data, status) {
+                                 deferred.resolve(data);
+                            })
+                            
+                           
+                        } else {
+                            $cookies.put('loggedIn', 'false');
+                            deferred.reject();
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+
+            }
+
+            function logout() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a get request to the server
+                $http.post('/users/logout')
+                // handle success
+                    .success(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.resolve();
+                    })
+                // handle error
+                    .error(function (data) {
+                        $cookies.put('loggedIn', 'false');
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+
+            }
+
+            function register(username, password) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.post('/users/register', { username: username, password: password })
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200 && data.status) {
+                            deferred.resolve();
+                        } else {
+                            deferred.reject();
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+
+            }
+
+            function changePassword(password, newPassword) {
+                console.log("in service");
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.post('/users/changepsw', {password:password, newPassword:newPassword})
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200 && data.status) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject();
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject();
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+        }]);
 'use strict'
 
 angular.module('app.client').controller('IndClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
@@ -4173,324 +4464,371 @@ angular.module('app.client').factory('ClientService',
             
            
         }]);
-'use strict';
-/**
- * @ngdoc function
- * @name myApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the myApp
- */
-angular.module('app.auth').controller('AuthCtrl',
-    ['$rootScope','$scope', '$state', 'AuthService',
-        function ($rootScope,$scope, $state, AuthService) {
-
-            var vm = this;
-            vm.username= "";
-            vm.password= "";
-            vm.login = function () {
-                // initial values
-                $scope.error = false;
-                $scope.disabled = true;
-                // call login from service
-                AuthService.login(vm.username, vm.password)
-                    // handle success
-                    .then(function(user) {
-                        $rootScope.user = user;
-                        if(user.role == "出单员"){
-                            $state.go('app.policy.new1');
-                        }else
-                        {
-                            $state.go('app.policy.to-be-reviewed');
-                            // $state.go('app.policy.to-be-paid');
-                        }
-                        
-                        $scope.disabled = false;
-                        vm.username= "";
-                        vm.password= "";
-                    },
-                    function(err){
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                    }
-                    )
-                    // handle error
-                    .catch(function () {
-                        $scope.error = true;
-                        $scope.errorMessage = "账号或密码错误";
-                        $scope.disabled = false;
-                        //vm.username= "";
-                        // vm.password= "";
-                    });
-
-            };
-        }]);
-
-/**
- * Created by CWang11 on 3/29/2016.
- */
-'use strict';
-/**
- * @ngdoc function
- * @name myApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the myApp
- */
-angular.module('app.auth').controller('ChangePasswordCtrl',
-    ['$rootScope','$scope', '$state', 'AuthService',
-        function ($rootScope,$scope, $state, AuthService) {
-
-            var vm = this;
-            vm.password= "";
-            vm.newPassword="";
-            vm.confirmPassword="";
-            vm.submit = function () {
-                // initial values
-                $scope.error = false;
-
-                if(vm.newPassword != vm.confirmPassword){
-                    $.bigBox({
-                        title: "修改密码",
-                        content: "两次密码输入不一致",
-                        color: "#C46A69",
-                        icon: "fa fa-warning shake animated",
-                        timeout: 6000
-                    });
-                    return;
-                }
-                // call login from service
-                AuthService.changePassword(vm.password, vm.newPassword)
-                    // handle success
-                    .then(function(data) {
-                        if(data.status == "success"){
-                            $.smallBox({
-                                title: "服务器确认信息",
-                                content: "密码已成功修改",
-                                color: "#739E73",
-                                iconSmall: "fa fa-check",
-                                timeout: 5000
-                            });
-                            vm.password= "";
-                            vm.newPassword="";
-                            vm.confirmPassword="";
-                            $state.go('app.policy.to-be-paid');
-                        }
-                    },
-                    function(err){
-                        $scope.error = true;
-                        $scope.errorMessage = err;
-                    }
-                )
-                    // handle error
-                    .catch(function () {
-                        $scope.error = true;
-                        $scope.errorMessage = "更新密码失败";
-                        $scope.disabled = false;
-                        //vm.username= "";
-                        // vm.password= "";
-                    });
-
-            };
-        }]);
-
 "use strict";
 
-angular.module('app.auth').directive('loginInfo', function(AuthService){
-
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            AuthService.getUser()
-            .then(function(user){
-                scope.user = user;
-            },
-            function(err){
-            }
-            );
-        }
-    }
-})
-
-"use strict";
-
-angular.module('app.auth').controller('LoginCtrl', function ($scope, $state, GooglePlus, User, ezfb) {
-
-    $scope.$on('event:google-plus-signin-success', function (event, authResult) {
-        if (authResult.status.method == 'PROMPT') {
-            GooglePlus.getUser().then(function (user) {
-                User.username = user.name;
-                User.picture = user.picture;
-                $state.go('app.dashboard');
-            });
-        }
-    });
-
-    $scope.$on('event:facebook-signin-success', function (event, authResult) {
-        ezfb.api('/me', function (res) {
-            User.username = res.name;
-            User.picture = 'https://graph.facebook.com/' + res.id + '/picture';
-            $state.go('app.dashboard');
-        });
-    });
-})
-
-"use strict";
-
-angular.module('app.auth').factory('AuthService',
-    ['$q', '$timeout', '$http', '$cookies',
-        function ($q, $timeout, $http, $cookies) {
+angular.module('app.company').factory('CompanyService',
+    ['$q', '$http',
+        function ($q, $http) {
             // return available functions for use in controllers
             return ({
-                isLoggedIn: isLoggedIn,
-                getUserStatus: getUserStatus,
-                login: login,
-                logout: logout,
-                register: register,
-                getUser: getUser,
-                changePassword: changePassword
+                saveCompany: saveCompany,
+                getCompanies: getCompanies,
+                getSubCompanies: getSubCompanies,
+                getCompany: getCompany,
+                deleteCompany: deleteCompany,
+                savePolicyName: savePolicyName,
+                getPolicyNames: getPolicyNames,
+                getPolicyName: getPolicyName,
+                deletePolicyName: deletePolicyName,
+                saveCompanyCatogory: saveCompanyCatogory,
+                getCompanyCatogories: getCompanyCatogories,
+                getCompanyCatogory: getCompanyCatogory,
+                deleteCompanyCatogory: deleteCompanyCatogory,
+                
             });
 
-            function isLoggedIn() {
-                if ($cookies.get('loggedIn') == "true") {
-                    return true;
+            function saveCompany(company) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (company._id) {
+                    company.updated_at = Date.now();
+                    $http.put('api/companies/' + company._id, company)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
                 } else {
-                    return false;
+                    company.created_at = Date.now();
+                    company.updated_at = company.created_at;
+                    $http.post('api/companies', company)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
                 }
+                
+                // return promise object
+                return deferred.promise;
             }
 
-            function getUserStatus() {
-                return $cookies.get('loggedIn');
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
             }
             
-            function getUser() {
+            function getCompanies() {
+
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/users/me')
+                $http.get('api/companies')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
                         } else {
-                            deferred.reject();
+                            deferred.reject(status);
                         }
                     })
                 // handle error
                     .error(function (data) {
- 
-                        deferred.reject();
+                        deferred.reject(status);
                     });
 
                 // return promise object
                 return deferred.promise;
             }
 
-            function login(username, password) {
+            function getSubCompanies(parentId) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.post('/users/login', { username: username, password: password })
+                $http.get('api/companies/sub/' + parentId)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
-                            $cookies.put('loggedIn', 'true');
-                            $http.get('/users/me')
-                            .success(function (data, status) {
-                                 deferred.resolve(data);
-                            })
-                            
-                           
+                            deferred.resolve(data);
                         } else {
-                            $cookies.put('loggedIn', 'false');
-                            deferred.reject();
+                            deferred.reject(status);
                         }
                     })
                 // handle error
                     .error(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.reject();
+                        deferred.reject(status);
                     });
 
                 // return promise object
                 return deferred.promise;
-
             }
-
-            function logout() {
+            
+            function savePolicyName(policyName) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-
-                // send a get request to the server
-                $http.post('/users/logout')
-                // handle success
-                    .success(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.resolve();
-                    })
-                // handle error
-                    .error(function (data) {
-                        $cookies.put('loggedIn', 'false');
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function register(username, password) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/register', { username: username, password: password })
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200 && data.status) {
-                            deferred.resolve();
-                        } else {
-                            deferred.reject();
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject();
-                    });
-
-                // return promise object
-                return deferred.promise;
-
-            }
-
-            function changePassword(password, newPassword) {
-                console.log("in service");
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.post('/users/changepsw', {password:password, newPassword:newPassword})
+                if (policyName._id) {
+                    policyName.updated_at = Date.now();
+                    $http.put('api/policy-names/' + policyName._id, policyName)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policyName.created_at = Date.now();
+                    policyName.updated_at = policyName.created_at;
+                    $http.post('api/policy-names', policyName)
                     // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/policy-names/' + policyNameId)
+                // handle success
                     .success(function (data, status) {
-                        if (status === 200 && data.status) {
+                        if (status === 200) {
                             deferred.resolve(data);
                         } else {
-                            deferred.reject();
+                            deferred.reject(status);
                         }
                     })
-                    // handle error
-                    .error(function (data) {
-                        deferred.reject();
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
                     });
 
                 // return promise object
                 return deferred.promise;
             }
+
+            function deletePolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogories() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companycatogories')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveCompanyCatogory(companyCatogory) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (companyCatogory._id) {
+                    companyCatogory.updated_at = Date.now();
+                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    companyCatogory.created_at = Date.now();
+                    companyCatogory.updated_at = companyCatogory.created_at;
+                    $http.post('api/companycatogories', companyCatogory)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
 
         }]);
 
@@ -4793,6 +5131,192 @@ angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalI
     $scope.closeModal = function(){
         $modalInstance.dismiss('cancel');
     }
+});
+"use strict";	
+
+angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
+
+	$scope.activeTab = 'default';
+	$scope.currentActivityItems = [];
+	
+	// Getting different type of activites
+	activityService.get(function(data){
+
+		$scope.activities = data.activities;
+		
+	});
+
+
+	$scope.isActive = function(tab){
+		return $scope.activeTab === tab;
+	};
+
+	$scope.setTab = function(activityType){
+		$scope.activeTab = activityType;
+
+		activityService.getbytype(activityType, function(data) {
+
+			$scope.currentActivityItems = data.data;
+
+		});
+
+	};
+
+});
+"use strict";
+
+angular.module('app').directive('activitiesDropdownToggle', function($log) {
+
+	var link = function($scope,$element, attrs){
+		var ajax_dropdown = null;
+
+		$element.on('click',function(){
+			var badge = $(this).find('.badge');
+
+			if (badge.hasClass('bg-color-red')) {
+
+				badge.removeClass('bg-color-red').text(0);
+
+			}
+
+			ajax_dropdown = $(this).next('.ajax-dropdown');
+
+			if (!ajax_dropdown.is(':visible')) {
+
+				ajax_dropdown.fadeIn(150);
+
+				$(this).addClass('active');
+
+			}
+			 else {
+				
+				ajax_dropdown.fadeOut(150);
+				
+				$(this).removeClass('active');
+
+			}
+
+		})
+
+		$(document).mouseup(function(e) {
+			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
+				ajax_dropdown.fadeOut(150);
+				$element.removeClass('active');
+			}
+		});
+	}
+	
+	return{
+		restrict:'EA',
+		link:link
+	}
+});
+"use strict";
+
+angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
+
+	function getActivities(callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getActivitiesByType(type, callback){
+
+		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
+
+			callback(data);
+				
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+	
+	return{
+		get:function(callback){
+			getActivities(callback);
+		},
+		getbytype:function(type,callback){
+			getActivitiesByType(type, callback);
+		}
+	}
+});
+"use strict";
+
+angular.module('app').factory('Project', function($http, APP_CONFIG){
+    return {
+        list: $http.get(APP_CONFIG.apiRootUrl + '/projects.json')
+    }
+});
+"use strict";
+
+angular.module('app').directive('recentProjects', function(Project){
+    return {
+        restrict: "EA",
+        replace: true,
+        templateUrl: "app/dashboard/projects/recent-projects.tpl.html",
+        scope: true,
+        link: function(scope, element){
+
+            Project.list.then(function(response){
+                scope.projects = response.data;
+            });
+            scope.clearProjects = function(){
+                scope.projects = [];
+            }
+        }
+    }
+});
+"use strict";
+
+angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
+    $scope.newTodo = undefined;
+
+    $scope.states = ['Critical', 'Important', 'Completed'];
+
+    $scope.todos = Todo.getList().$object;
+
+    // $scope.$watch('todos', function(){ }, true)
+
+    $scope.toggleAdd = function () {
+        if (!$scope.newTodo) {
+            $scope.newTodo = {
+                state: 'Important'
+            };
+        } else {
+            $scope.newTodo = undefined;
+        }
+    };
+
+    $scope.createTodo = function () {
+        $scope.todos.push($scope.newTodo);
+        $scope.newTodo = undefined;
+        // $scope.newTodo.$save(function (respoonse) {
+        //     $scope.todos.push(respoonse);
+        //     $scope.newTodo = undefined;
+        // });
+    };
+
+    $scope.deleteTodo = function (todo) {
+        todo.remove().then(function () {
+            $scope.todos.splice($scope.todos.indexOf(todo), 1);
+        });
+
+    };
+
 });
 'use strict'
 
@@ -5431,906 +5955,259 @@ angular.module('app.company').controller('PolicyNameListController', function(sc
 
 });
 
-"use strict";
-
-angular.module('app.company').factory('CompanyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveCompany: saveCompany,
-                getCompanies: getCompanies,
-                getSubCompanies: getSubCompanies,
-                getCompany: getCompany,
-                deleteCompany: deleteCompany,
-                savePolicyName: savePolicyName,
-                getPolicyNames: getPolicyNames,
-                getPolicyName: getPolicyName,
-                deletePolicyName: deletePolicyName,
-                saveCompanyCatogory: saveCompanyCatogory,
-                getCompanyCatogories: getCompanyCatogories,
-                getCompanyCatogory: getCompanyCatogory,
-                deleteCompanyCatogory: deleteCompanyCatogory,
-                
-            });
-
-            function saveCompany(company) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (company._id) {
-                    company.updated_at = Date.now();
-                    $http.put('api/companies/' + company._id, company)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    company.created_at = Date.now();
-                    company.updated_at = company.created_at;
-                    $http.post('api/companies', company)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicyName(policyName) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (policyName._id) {
-                    policyName.updated_at = Date.now();
-                    $http.put('api/policy-names/' + policyName._id, policyName)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policyName.created_at = Date.now();
-                    policyName.updated_at = policyName.created_at;
-                    $http.post('api/policy-names', policyName)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogories() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companycatogories')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveCompanyCatogory(companyCatogory) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (companyCatogory._id) {
-                    companyCatogory.updated_at = Date.now();
-                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    companyCatogory.created_at = Date.now();
-                    companyCatogory.updated_at = companyCatogory.created_at;
-                    $http.post('api/companycatogories', companyCatogory)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-
-        }]);
-"use strict";	
-
-angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
-
-	$scope.activeTab = 'default';
-	$scope.currentActivityItems = [];
-	
-	// Getting different type of activites
-	activityService.get(function(data){
-
-		$scope.activities = data.activities;
-		
-	});
-
-
-	$scope.isActive = function(tab){
-		return $scope.activeTab === tab;
-	};
-
-	$scope.setTab = function(activityType){
-		$scope.activeTab = activityType;
-
-		activityService.getbytype(activityType, function(data) {
-
-			$scope.currentActivityItems = data.data;
-
-		});
-
-	};
-
-});
-"use strict";
-
-angular.module('app').directive('activitiesDropdownToggle', function($log) {
-
-	var link = function($scope,$element, attrs){
-		var ajax_dropdown = null;
-
-		$element.on('click',function(){
-			var badge = $(this).find('.badge');
-
-			if (badge.hasClass('bg-color-red')) {
-
-				badge.removeClass('bg-color-red').text(0);
-
-			}
-
-			ajax_dropdown = $(this).next('.ajax-dropdown');
-
-			if (!ajax_dropdown.is(':visible')) {
-
-				ajax_dropdown.fadeIn(150);
-
-				$(this).addClass('active');
-
-			}
-			 else {
-				
-				ajax_dropdown.fadeOut(150);
-				
-				$(this).removeClass('active');
-
-			}
-
-		})
-
-		$(document).mouseup(function(e) {
-			if (ajax_dropdown && !ajax_dropdown.is(e.target) && ajax_dropdown.has(e.target).length === 0) {
-				ajax_dropdown.fadeOut(150);
-				$element.removeClass('active');
-			}
-		});
-	}
-	
-	return{
-		restrict:'EA',
-		link:link
-	}
-});
-"use strict";
-
-angular.module('app').factory('activityService', function($http, $log, APP_CONFIG) {
-
-	function getActivities(callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getActivitiesByType(type, callback){
-
-		$http.get(APP_CONFIG.apiRootUrl + '/activities/activity-' + type + '.json').success(function(data){
-
-			callback(data);
-				
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-	
-	return{
-		get:function(callback){
-			getActivities(callback);
-		},
-		getbytype:function(type,callback){
-			getActivitiesByType(type, callback);
-		}
-	}
-});
-"use strict";
-
-angular.module('app').factory('Project', function($http, APP_CONFIG){
-    return {
-        list: $http.get(APP_CONFIG.apiRootUrl + '/projects.json')
+'use strict';
+
+angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
+
+    $scope.projects = projects.data;
+
+    $scope.tableOptions =  {
+        "data": projects.data.data,
+//            "bDestroy": true,
+        "iDisplayLength": 15,
+        "columns": [
+            {
+                "class":          'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "name" },
+            { "data": "est" },
+            { "data": "contacts" },
+            { "data": "status" },
+            { "data": "target-actual" },
+            { "data": "starts" },
+            { "data": "ends" },
+            { "data": "tracker" }
+        ],
+        "order": [[1, 'asc']]
     }
 });
 "use strict";
 
-angular.module('app').directive('recentProjects', function(Project){
+angular.module('app.inbox').directive('messageLabels', function (InboxConfig) {
     return {
-        restrict: "EA",
         replace: true,
-        templateUrl: "app/dashboard/projects/recent-projects.tpl.html",
-        scope: true,
-        link: function(scope, element){
+        restrict: 'AE',
+        link: function (scope, element) {
 
-            Project.list.then(function(response){
-                scope.projects = response.data;
-            });
-            scope.clearProjects = function(){
-                scope.projects = [];
+            if (scope.message.labels && scope.message.labels.length) {
+                InboxConfig.success(function (config) {
+                    var html = _.map(scope.message.labels, function (label) {
+                        return '<span class="label bg-color-'+config.labels[label].color +'">' + config.labels[label].name + '</span>';
+                    }).join('');
+                    element.replaceWith(html);
+                });
+
+            } else {
+                element.replaceWith('');
             }
         }
     }
 });
-'use strict'
-
-angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
-    var vm = this;
-    vm.user = {};
-    vm.editable = false;
-
-    if ($state.is("app.employee.finance.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        vm.user.role="财务";
-        EmployeeService.saveUser(vm.user)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "用户已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.user = {};
-                if (vm.back) {
-                    $state.go("app.employee.finance");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.employee').controller('FinanceListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
-    var vm = this;
-    vm.users = [];
-
-
-
-    vm.refreshUsers = function(){
-       EmployeeService.getFinances()
-       .then(function(users){
-           vm.users = users;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshUsers();
-	
-    vm.view = function(userId){
-        $state.go("app.employee.finance.view", {userId: userId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (userId) {
-        $.SmartMessageBox({
-            title: "删除账号",
-            content: "确认删除该用户？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                EmployeeService.deleteUser(userId)
-                    .then(function(){
-                        vm.refreshUsers();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-'use strict'
-
-angular.module('app.employee').controller('SellerEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
-    var vm = this;
-    vm.user = {};
-    vm.editable = false;
-    vm.organizations=[];
-
-    EmployeeService.getOrganizations()
-        .then(function (organizations) {
-            vm.organizations = organizations;
-        })
-
-
-    if ($state.is("app.employee.seller.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var userId = $stateParams.userId;
-    if (userId) {
-        EmployeeService.getUser(userId)
-            .then(function (user) {
-                vm.user = user;
-            });
-    }
-    
-    
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        vm.user.role="出单员";
-        EmployeeService.saveUser(vm.user)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "用户已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.user = {};
-                if (vm.back) {
-                    $state.go("app.employee.seller");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.employee').controller('SellerListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
-    var vm = this;
-    vm.users = [];
-
-
-
-    vm.refreshUsers = function(){
-       EmployeeService.getSellers()
-       .then(function(users){
-           vm.users = users;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshUsers();
-	
-    vm.view = function(userId){
-        $state.go("app.employee.seller.view", {userId: userId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (userId) {
-        $.SmartMessageBox({
-            title: "删除账号",
-            content: "确认删除该用户？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                EmployeeService.deleteUser(userId)
-                    .then(function(){
-                        vm.refreshUsers();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
 "use strict";
 
-angular.module('app.employee').factory('EmployeeService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveUser: saveUser,
-                getSellers: getSellers,
-                getFinances: getFinances,
-                getUser: getUser,
-                deleteUser: deleteUser,
-                getOrganizations: getOrganizations
-            });
+angular.module('app.inbox').directive('unreadMessagesCount', function(InboxConfig){
+    return {
+        restrict: 'A',
+        link: function(scope, element){
+            InboxConfig.success(function(config){
+                element.html(_.find(config.folders, {key: 'inbox'}).unread);
+            })
+        }
+    }
+});
+"use strict";
 
-            function saveUser(user) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
+angular.module('app.inbox').factory('InboxConfig', function($http, APP_CONFIG){
+    return $http.get(APP_CONFIG.apiRootUrl + '/inbox.json');
+})
+"use strict";
 
-                if (user._id) {
-                    user.updated_at = Date.now();
-                    $http.put('/users/' + user._id, user)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    user.created_at = Date.now();
-                    user.updated_at = user.created_at;
-                    $http.post('/users', user)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
+angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONFIG){
+   var InboxMessage = $resource(APP_CONFIG.apiRootUrl + '/messages.json/:id', {'id': '@_id'}, {
+        get:{
+            url: APP_CONFIG.apiRootUrl + '/message.json',
+            isArray: false
+        }
+    });
 
-            function getUser(userID) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
+    _.extend(InboxMessage.prototype, {
+        selected: false,
+        hasAttachments: function(){
+            return (_.isArray(this.attachments) && this.attachments.length)
+        },
+        fullAttachmentsTootlip: function(){
+            return 'FILES: ' + _.pluck(this.attachments, 'name').join(', ');
+        },
+        getBodyTeaser: function(){
+            var clearBody  = this.body.replace(/<[^<>]+?>/gm, ' ').replace(/(\s{2}|\n)/gm, ' ');
 
-                $http.get('/users/' + userID)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
+            var teaserMaxLength = 55 - this.subject.length;
 
-                // return promise object
-                return deferred.promise;
-            }
+            return clearBody.length > teaserMaxLength ? clearBody.substring(0, teaserMaxLength) + '...' : clearBody;
+        }
+    });
 
-            function deleteUser(userId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
+    return InboxMessage;
 
-                $http.delete('/users/' + userId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
+});
+"use strict";
 
-                // return promise object
-                return deferred.promise;
-            }
+angular.module('app').factory('Language', function($http, APP_CONFIG){
 
-            function getSellers() {
+	function getLanguage(key, callback) {
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
+		$http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function(data){
 
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
+			callback(data);
+			
+		}).error(function(){
 
-                // return promise object
-                return deferred.promise;
-            }
+			$log.log('Error');
+			callback([]);
 
-            function getFinances() {
+		});
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
+	}
 
-                // send a post request to the server
-                $http.get('/users?role=finance')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
+	function getLanguages(callback) {
 
-                // return promise object
-                return deferred.promise;
-            }         
+		$http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function(data){
+
+			callback(data);
+			
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	return {
+		getLang: function(type, callback) {
+			getLanguage(type, callback);
+		},
+		getLanguages:function(callback){
+			getLanguages(callback);
+		}
+	}
+
+});
+"use strict";
+
+angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
+
+    $rootScope.lang = {};
+    
+    Language.getLanguages(function(data){
+
+        $rootScope.currentLanguage = data[0];
+
+        $rootScope.languages = data;
+
+        Language.getLang(data[0].key,function(data){
+
+            $rootScope.lang = data;
+        });
+
+    });
+
+    $scope.selectLanguage = function(language){
+        $rootScope.currentLanguage = language;
+        
+        Language.getLang(language.key,function(data){
+
+            $rootScope.lang = data;
             
-            function getOrganizations() {
+        });
+    }
 
-                // create a new instance of deferred
-                var deferred = $q.defer();
+    $rootScope.getWord = function(key){
+        if(angular.isDefined($rootScope.lang[key])){
+            return $rootScope.lang[key];
+        } 
+        else {
+            return key;
+        }
+    }
 
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
+});
+"use strict";
 
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
+angular.module('app').directive('languageSelector', function(Language){
+    return {
+        restrict: "EA",
+        replace: true,
+        templateUrl: "app/layout/language/language-selector.tpl.html",
+        scope: true
+    }
+});
+"use strict";
+
+angular.module('app').directive('toggleShortcut', function($log,$timeout) {
+
+	var initDomEvents = function($element){
+
+		var shortcut_dropdown = $('#shortcut');
+
+		$element.on('click',function(){
+		
+			if (shortcut_dropdown.is(":visible")) {
+				shortcut_buttons_hide();
+			} else {
+				shortcut_buttons_show();
+			}
+
+		})
+
+		shortcut_dropdown.find('a').click(function(e) {
+			e.preventDefault();
+			window.location = $(this).attr('href');
+			setTimeout(shortcut_buttons_hide, 300);
+		});
+
+		
+
+		// SHORTCUT buttons goes away if mouse is clicked outside of the area
+		$(document).mouseup(function(e) {
+			if (shortcut_dropdown && !shortcut_dropdown.is(e.target) && shortcut_dropdown.has(e.target).length === 0) {
+				shortcut_buttons_hide();
+			}
+		});
+
+		// SHORTCUT ANIMATE HIDE
+		function shortcut_buttons_hide() {
+			shortcut_dropdown.animate({
+				height : "hide"
+			}, 300, "easeOutCirc");
+			$('body').removeClass('shortcut-on');
+
+		}
+
+		// SHORTCUT ANIMATE SHOW
+		function shortcut_buttons_show() {
+			shortcut_dropdown.animate({
+				height : "show"
+			}, 200, "easeOutCirc");
+			$('body').addClass('shortcut-on');
+		}
+	}
+
+	var link = function($scope,$element){
+		$timeout(function(){
+			initDomEvents($element);
+		});
+	}
+
+	return{
+		restrict:'EA',
+		link:link
+	}
+})
 "use strict";
 
 angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
@@ -6636,268 +6513,6 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
         label : "Site visitors"
     }];
 });
-"use strict";
-
-angular.module('app.inbox').directive('messageLabels', function (InboxConfig) {
-    return {
-        replace: true,
-        restrict: 'AE',
-        link: function (scope, element) {
-
-            if (scope.message.labels && scope.message.labels.length) {
-                InboxConfig.success(function (config) {
-                    var html = _.map(scope.message.labels, function (label) {
-                        return '<span class="label bg-color-'+config.labels[label].color +'">' + config.labels[label].name + '</span>';
-                    }).join('');
-                    element.replaceWith(html);
-                });
-
-            } else {
-                element.replaceWith('');
-            }
-        }
-    }
-});
-"use strict";
-
-angular.module('app.inbox').directive('unreadMessagesCount', function(InboxConfig){
-    return {
-        restrict: 'A',
-        link: function(scope, element){
-            InboxConfig.success(function(config){
-                element.html(_.find(config.folders, {key: 'inbox'}).unread);
-            })
-        }
-    }
-});
-"use strict";
-
-angular.module('app.inbox').factory('InboxConfig', function($http, APP_CONFIG){
-    return $http.get(APP_CONFIG.apiRootUrl + '/inbox.json');
-})
-"use strict";
-
-angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONFIG){
-   var InboxMessage = $resource(APP_CONFIG.apiRootUrl + '/messages.json/:id', {'id': '@_id'}, {
-        get:{
-            url: APP_CONFIG.apiRootUrl + '/message.json',
-            isArray: false
-        }
-    });
-
-    _.extend(InboxMessage.prototype, {
-        selected: false,
-        hasAttachments: function(){
-            return (_.isArray(this.attachments) && this.attachments.length)
-        },
-        fullAttachmentsTootlip: function(){
-            return 'FILES: ' + _.pluck(this.attachments, 'name').join(', ');
-        },
-        getBodyTeaser: function(){
-            var clearBody  = this.body.replace(/<[^<>]+?>/gm, ' ').replace(/(\s{2}|\n)/gm, ' ');
-
-            var teaserMaxLength = 55 - this.subject.length;
-
-            return clearBody.length > teaserMaxLength ? clearBody.substring(0, teaserMaxLength) + '...' : clearBody;
-        }
-    });
-
-    return InboxMessage;
-
-});
-"use strict";
-
-angular.module('app').controller('TodoCtrl', function ($scope, $timeout, Todo) {
-    $scope.newTodo = undefined;
-
-    $scope.states = ['Critical', 'Important', 'Completed'];
-
-    $scope.todos = Todo.getList().$object;
-
-    // $scope.$watch('todos', function(){ }, true)
-
-    $scope.toggleAdd = function () {
-        if (!$scope.newTodo) {
-            $scope.newTodo = {
-                state: 'Important'
-            };
-        } else {
-            $scope.newTodo = undefined;
-        }
-    };
-
-    $scope.createTodo = function () {
-        $scope.todos.push($scope.newTodo);
-        $scope.newTodo = undefined;
-        // $scope.newTodo.$save(function (respoonse) {
-        //     $scope.todos.push(respoonse);
-        //     $scope.newTodo = undefined;
-        // });
-    };
-
-    $scope.deleteTodo = function (todo) {
-        todo.remove().then(function () {
-            $scope.todos.splice($scope.todos.indexOf(todo), 1);
-        });
-
-    };
-
-});
-"use strict";
-
-angular.module('app').factory('Language', function($http, APP_CONFIG){
-
-	function getLanguage(key, callback) {
-
-		$http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function(data){
-
-			callback(data);
-			
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	function getLanguages(callback) {
-
-		$http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function(data){
-
-			callback(data);
-			
-		}).error(function(){
-
-			$log.log('Error');
-			callback([]);
-
-		});
-
-	}
-
-	return {
-		getLang: function(type, callback) {
-			getLanguage(type, callback);
-		},
-		getLanguages:function(callback){
-			getLanguages(callback);
-		}
-	}
-
-});
-"use strict";
-
-angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
-
-    $rootScope.lang = {};
-    
-    Language.getLanguages(function(data){
-
-        $rootScope.currentLanguage = data[0];
-
-        $rootScope.languages = data;
-
-        Language.getLang(data[0].key,function(data){
-
-            $rootScope.lang = data;
-        });
-
-    });
-
-    $scope.selectLanguage = function(language){
-        $rootScope.currentLanguage = language;
-        
-        Language.getLang(language.key,function(data){
-
-            $rootScope.lang = data;
-            
-        });
-    }
-
-    $rootScope.getWord = function(key){
-        if(angular.isDefined($rootScope.lang[key])){
-            return $rootScope.lang[key];
-        } 
-        else {
-            return key;
-        }
-    }
-
-});
-"use strict";
-
-angular.module('app').directive('languageSelector', function(Language){
-    return {
-        restrict: "EA",
-        replace: true,
-        templateUrl: "app/layout/language/language-selector.tpl.html",
-        scope: true
-    }
-});
-"use strict";
-
-angular.module('app').directive('toggleShortcut', function($log,$timeout) {
-
-	var initDomEvents = function($element){
-
-		var shortcut_dropdown = $('#shortcut');
-
-		$element.on('click',function(){
-		
-			if (shortcut_dropdown.is(":visible")) {
-				shortcut_buttons_hide();
-			} else {
-				shortcut_buttons_show();
-			}
-
-		})
-
-		shortcut_dropdown.find('a').click(function(e) {
-			e.preventDefault();
-			window.location = $(this).attr('href');
-			setTimeout(shortcut_buttons_hide, 300);
-		});
-
-		
-
-		// SHORTCUT buttons goes away if mouse is clicked outside of the area
-		$(document).mouseup(function(e) {
-			if (shortcut_dropdown && !shortcut_dropdown.is(e.target) && shortcut_dropdown.has(e.target).length === 0) {
-				shortcut_buttons_hide();
-			}
-		});
-
-		// SHORTCUT ANIMATE HIDE
-		function shortcut_buttons_hide() {
-			shortcut_dropdown.animate({
-				height : "hide"
-			}, 300, "easeOutCirc");
-			$('body').removeClass('shortcut-on');
-
-		}
-
-		// SHORTCUT ANIMATE SHOW
-		function shortcut_buttons_show() {
-			shortcut_dropdown.animate({
-				height : "show"
-			}, 200, "easeOutCirc");
-			$('body').addClass('shortcut-on');
-		}
-	}
-
-	var link = function($scope,$element){
-		$timeout(function(){
-			initDomEvents($element);
-		});
-	}
-
-	return{
-		restrict:'EA',
-		link:link
-	}
-})
 'use strict'
 
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
@@ -8715,6 +8330,614 @@ angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CON
 
 
 });
+'use strict'
+
+angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+    var vm = this;
+    vm.user = {};
+    vm.editable = false;
+
+    if ($state.is("app.employee.finance.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var userId = $stateParams.userId;
+    if (userId) {
+        EmployeeService.getUser(userId)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        vm.user.role="财务";
+        EmployeeService.saveUser(vm.user)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "用户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.user = {};
+                if (vm.back) {
+                    $state.go("app.employee.finance");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.employee').controller('FinanceListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+    var vm = this;
+    vm.users = [];
+
+
+
+    vm.refreshUsers = function(){
+       EmployeeService.getFinances()
+       .then(function(users){
+           vm.users = users;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshUsers();
+	
+    vm.view = function(userId){
+        $state.go("app.employee.finance.view", {userId: userId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (userId) {
+        $.SmartMessageBox({
+            title: "删除账号",
+            content: "确认删除该用户？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                EmployeeService.deleteUser(userId)
+                    .then(function(){
+                        vm.refreshUsers();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+'use strict'
+
+angular.module('app.employee').controller('SellerEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+    var vm = this;
+    vm.user = {};
+    vm.editable = false;
+    vm.organizations=[];
+
+    EmployeeService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+
+    if ($state.is("app.employee.seller.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var userId = $stateParams.userId;
+    if (userId) {
+        EmployeeService.getUser(userId)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+    
+    
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        vm.user.role="出单员";
+        EmployeeService.saveUser(vm.user)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "用户已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.user = {};
+                if (vm.back) {
+                    $state.go("app.employee.seller");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.employee').controller('SellerListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+    var vm = this;
+    vm.users = [];
+
+
+
+    vm.refreshUsers = function(){
+       EmployeeService.getSellers()
+       .then(function(users){
+           vm.users = users;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshUsers();
+	
+    vm.view = function(userId){
+        $state.go("app.employee.seller.view", {userId: userId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (userId) {
+        $.SmartMessageBox({
+            title: "删除账号",
+            content: "确认删除该用户？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                EmployeeService.deleteUser(userId)
+                    .then(function(){
+                        vm.refreshUsers();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.employee').factory('EmployeeService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveUser: saveUser,
+                getSellers: getSellers,
+                getFinances: getFinances,
+                getUser: getUser,
+                deleteUser: deleteUser,
+                getOrganizations: getOrganizations
+            });
+
+            function saveUser(user) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (user._id) {
+                    user.updated_at = Date.now();
+                    $http.put('/users/' + user._id, user)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    user.created_at = Date.now();
+                    user.updated_at = user.created_at;
+                    $http.post('/users', user)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getUser(userID) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/users/' + userID)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteUser(userId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/users/' + userId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSellers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getFinances() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=finance')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }         
+            
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
+'use strict'
+
+angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
+    var vm = this;
+    vm.organization = {};
+    
+    
+    vm.editable = false;
+
+    if ($state.is("app.organization.new")) {
+        vm.editable = true;
+    }
+
+
+
+    var organizationId = $stateParams.organizationId;
+    if (organizationId) {
+        OrganizationService.getOrganization(organizationId)
+            .then(function (organization) {
+                vm.organization = organization;
+            });
+    }
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.submit = function () {
+        OrganizationService.saveOrganization(vm.organization)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "分支机构已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.organization = {};
+                if (vm.back) {
+                    $state.go("app.organization.all");
+                }
+            }, function (err) { });
+    };
+
+
+
+}); 
+
+
+'use strict'
+
+angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
+    var vm = this;
+    vm.organizations = [];
+
+
+
+    vm.refreshOrganizations = function(){
+       OrganizationService.getOrganizations()
+       .then(function(organizations){
+           vm.organizations = organizations;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshOrganizations();
+	
+    vm.view = function(organizationId){
+        $state.go("app.organization.view", {organizationId: organizationId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (organizationId) {
+        $.SmartMessageBox({
+            title: "删除分支机构",
+            content: "确认删除该分支机构？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrganizationService.deleteOrganization(organizationId)
+                    .then(function(){
+                        vm.refreshOrganizations();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.organization').factory('OrganizationService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveOrganization: saveOrganization,
+                getOrganizations: getOrganizations,
+                getOrganization: getOrganization,
+                deleteOrganization: deleteOrganization,
+            });
+
+            function saveOrganization(organization) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (organization._id) {
+                    organization.updated_at = Date.now();
+                    $http.put('api/organizations/' + organization._id, organization)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    organization.created_at = Date.now();
+                    organization.updated_at = organization.created_at;
+                    $http.post('api/organizations', organization)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 "use strict";
 
 angular.module('app.policy').factory('OrgPolicyService',
@@ -11205,229 +11428,6 @@ angular.module('app.policy').controller('TestController', function ($scope, $fil
     }
 });
 
-'use strict'
-
-angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
-    var vm = this;
-    vm.organization = {};
-    
-    
-    vm.editable = false;
-
-    if ($state.is("app.organization.new")) {
-        vm.editable = true;
-    }
-
-
-
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
-            .then(function (organization) {
-                vm.organization = organization;
-            });
-    }
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.submit = function () {
-        OrganizationService.saveOrganization(vm.organization)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "分支机构已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.organization = {};
-                if (vm.back) {
-                    $state.go("app.organization.all");
-                }
-            }, function (err) { });
-    };
-
-
-
-}); 
-
-
-'use strict'
-
-angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
-    var vm = this;
-    vm.organizations = [];
-
-
-
-    vm.refreshOrganizations = function(){
-       OrganizationService.getOrganizations()
-       .then(function(organizations){
-           vm.organizations = organizations;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshOrganizations();
-	
-    vm.view = function(organizationId){
-        $state.go("app.organization.view", {organizationId: organizationId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (organizationId) {
-        $.SmartMessageBox({
-            title: "删除分支机构",
-            content: "确认删除该分支机构？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                OrganizationService.deleteOrganization(organizationId)
-                    .then(function(){
-                        vm.refreshOrganizations();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-"use strict";
-
-angular.module('app.organization').factory('OrganizationService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveOrganization: saveOrganization,
-                getOrganizations: getOrganizations,
-                getOrganization: getOrganization,
-                deleteOrganization: deleteOrganization,
-            });
-
-            function saveOrganization(organization) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (organization._id) {
-                    organization.updated_at = Date.now();
-                    $http.put('api/organizations/' + organization._id, organization)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    organization.created_at = Date.now();
-                    organization.updated_at = organization.created_at;
-                    $http.post('api/organizations', organization)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 'use strict';
 
 angular.module('app.tables').controller('JqGridCtrl', function ($scope) {
@@ -12620,714 +12620,6 @@ angular.module('SmartAdmin.Layout').directive('toggleMenu', function(){
         }
     }
 });
-"use strict";
-
-angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
-    return {
-        replace: true,
-        restrict: 'E',
-        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
-        link: function(scope, element){
-            element.on('click', function(){
-                ezfb.login(function (res) {
-                    if (res.authResponse) {
-                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
-                    }
-                }, {scope: 'public_profile'});
-            })
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
-    return {
-        restrict: 'E',
-        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
-        replace: true,
-        link: function (scope, element) {
-            element.on('click', function(){
-                GooglePlus.login().then(function (authResult) {
-                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
-
-                }, function (err) {
-                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
-
-                });
-            })
-        }
-    };
-});
-
-'use strict';
-
-angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
-    var dfd = $q.defer();
-    var _user;
-    var ChatSrv = {
-        initialized: dfd.promise,
-        users: [],
-        messages: [],
-        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
-        status: 'Online',
-        setUser: function (user) {
-            if (ChatSrv.users.indexOf(_user) != -1)
-                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
-            _user = user;
-            ChatSrv.users.push(_user);
-        },
-        sendMessage: function (text) {
-            var message = {
-                user: _user,
-                body: text,
-                date: new Date()
-            };
-            this.messages.push(message);
-        }
-    };
-
-
-    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
-        ChatSrv.messages = res.data.messages;
-        ChatSrv.users = res.data.users;
-        dfd.resolve();
-    });
-
-    ChatSrv.initialized.then(function () {
-
-        User.initialized.then(function () {
-            ChatSrv.setUser({
-                username: User.username,
-                picture: User.picture,
-                status: ChatSrv.status
-            });
-        });
-
-        $rootScope.$watch(function () {
-            return User.username
-        }, function (name, oldName) {
-            if (name != oldName) {
-                ChatSrv.setUser({
-                    username: User.username,
-                    picture: User.picture,
-                    status: ChatSrv.status
-                });
-            }
-        });
-    });
-
-
-    return ChatSrv;
-
-});
-(function() {
-        
-   'use strict';
-
-    /*
-    * SMARTCHAT PLUGIN ARRAYS & CONFIG
-    * Dependency: js/plugin/moment/moment.min.js 
-    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
-    *             js/smart-chat-ui/smart.chat.ui.js
-    * (DO NOT CHANGE) 
-    */ 
-        var boxList = [],
-        showList = [],
-        nameList = [],
-        idList = [];
-    /*
-    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
-    */ 
-        var chatbox_config = {
-            width: 200,
-            gap: 35,
-            offset: 0
-        };
-
-
-
-    /*
-    * SMART CHAT ENGINE
-    * Copyright (c) 2013 Wen Pu
-    * Modified by MyOrange
-    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
-    */
-
-    // TODO: implement destroy()
-    (function($) {
-    $.widget("ui.chatbox", {
-        options: {
-            id: null, //id for the DOM element
-            title: null, // title of the chatbox
-            user: null, // can be anything associated with this chatbox
-            hidden: false,
-            offset: 0, // relative to right edge of the browser window
-            width: 300, // width of the chatbox
-            status: 'online', //
-            alertmsg: null,
-            alertshow: null,
-            messageSent: function(id, user, msg) {
-                // override this
-                this.boxManager.addMsg(user.first_name, msg);
-            },
-            boxClosed: function(id) {
-            }, // called when the close icon is clicked
-            boxManager: {
-                // thanks to the widget factory facility
-                // similar to http://alexsexton.com/?p=51
-                init: function(elem) {
-                    this.elem = elem;
-                },
-                addMsg: function(peer, msg) {
-                    var self = this;
-                    var box = self.elem.uiChatboxLog;
-                    var e = document.createElement('div');
-                    box.append(e);
-                    $(e).hide();
-
-                    var systemMessage = false;
-
-                    if (peer) {
-                        var peerName = document.createElement("b");
-                        $(peerName).text(peer + ": ");
-                        e.appendChild(peerName);
-                    } else {
-                        systemMessage = true;
-                    }
-
-                    var msgElement = document.createElement(
-                        systemMessage ? "i" : "span");
-                    $(msgElement).text(msg);
-                    e.appendChild(msgElement);
-                    $(e).addClass("ui-chatbox-msg");
-                    $(e).css("maxWidth", $(box).width());
-                    $(e).fadeIn();
-                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
-                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
-                    self._scrollToBottom();
-
-                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
-                        && !self.highlightLock) {
-                        self.highlightLock = true;
-                        self.highlightBox();
-                    }
-                },
-                highlightBox: function() {
-                    var self = this;
-                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
-                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
-                        self.highlightLock = false;
-                        self._scrollToBottom();
-                    });
-                },
-                toggleBox: function() {
-                    this.elem.uiChatbox.toggle();
-                },
-                _scrollToBottom: function() {
-                    var box = this.elem.uiChatboxLog;
-                    box.scrollTop(box.get(0).scrollHeight);
-                }
-            }
-        },
-        toggleContent: function(event) {
-            this.uiChatboxContent.toggle();
-            if (this.uiChatboxContent.is(":visible")) {
-                this.uiChatboxInputBox.focus();
-            }
-        },
-        widget: function() {
-            return this.uiChatbox
-        },
-        _create: function() {
-            var self = this,
-            options = self.options,
-            title = options.title || "No Title",
-            // chatbox
-            uiChatbox = (self.uiChatbox = $('<div></div>'))
-                .appendTo(document.body)
-                .addClass('ui-widget ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox'
-                         )
-                .attr('outline', 0)
-                .focusin(function() {
-                    // ui-state-highlight is not really helpful here
-                    //self.uiChatbox.removeClass('ui-state-highlight');
-                    self.uiChatboxTitlebar.addClass('ui-state-focus');
-                })
-                .focusout(function() {
-                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                }),
-            // titlebar
-            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
-                .addClass('ui-widget-header ' +
-                          //'ui-corner-top ' +
-                          'ui-chatbox-titlebar ' +
-                          self.options.status +
-                          ' ui-dialog-header' // take advantage of dialog header style
-                         )
-                .click(function(event) {
-                    self.toggleContent(event);
-                })
-                .appendTo(uiChatbox),
-            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
-                .html(title)
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon '
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    uiChatbox.hide();
-                    self.options.boxClosed(self.options.id);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarCloseText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-times')
-                .appendTo(uiChatboxTitlebarClose),
-            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
-                .addClass(//'ui-corner-all ' +
-                          'ui-chatbox-icon'
-                         )
-                .attr('role', 'button')
-                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
-                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
-                .click(function(event) {
-                    self.toggleContent(event);
-                    return false;
-                })
-                .appendTo(uiChatboxTitlebar),
-            uiChatboxTitlebarMinimizeText = $('<i></i>')
-                .addClass('fa ' +
-                          'fa-minus')
-                .appendTo(uiChatboxTitlebarMinimize),
-            // content
-            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-content '
-                         )
-                .appendTo(uiChatbox),
-            uiChatboxLog = (self.uiChatboxLog = self.element)
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-log ' +
-                          'custom-scroll'
-                         )
-                .appendTo(uiChatboxContent),
-            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input'
-                         )
-                .click(function(event) {
-                    // anything?
-                })
-                .appendTo(uiChatboxContent),
-            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
-                .addClass('ui-widget-content ' +
-                          'ui-chatbox-input-box '
-                         )
-                .appendTo(uiChatboxInput)
-                .keydown(function(event) {
-                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
-                        var msg = $.trim($(this).val());
-                        if (msg.length > 0) {
-                            self.options.messageSent(self.options.id, self.options.user, msg);
-                        }
-                        $(this).val('');
-                        return false;
-                    }
-                })
-                .focusin(function() {
-                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
-                    var box = $(this).parent().prev();
-                    box.scrollTop(box.get(0).scrollHeight);
-                })
-                .focusout(function() {
-                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
-                });
-
-            // disable selection
-            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
-
-            // switch focus to input box when whatever clicked
-            uiChatboxContent.children().click(function() {
-                // click on any children, set focus on input box
-                self.uiChatboxInputBox.focus();
-            });
-
-            self._setWidth(self.options.width);
-            self._position(self.options.offset);
-
-            self.options.boxManager.init(self);
-
-            if (!self.options.hidden) {
-                uiChatbox.show();
-            }
-            
-            $(".ui-chatbox [rel=tooltip]").tooltip();
-            //console.log("tooltip created");
-        },
-        _setOption: function(option, value) {
-            if (value != null) {
-                switch (option) {
-                case "hidden":
-                    if (value)
-                        this.uiChatbox.hide();
-                    else
-                        this.uiChatbox.show();
-                    break;
-                case "offset":
-                    this._position(value);
-                    break;
-                case "width":
-                    this._setWidth(value);
-                    break;
-                }
-            }
-            $.Widget.prototype._setOption.apply(this, arguments);
-        },
-        _setWidth: function(width) {
-            this.uiChatbox.width((width + 28) + "px");
-            //this.uiChatboxTitlebar.width((width + 28) + "px");
-            //this.uiChatboxLog.width(width + "px");
-           // this.uiChatboxInput.css("maxWidth", width + "px");
-            // padding:2, boarder:2, margin:5
-            this.uiChatboxInputBox.css("width", (width + 18) + "px");
-        },
-        _position: function(offset) {
-            this.uiChatbox.css("right", offset);
-        }
-    });
-    }(jQuery));
-
-
-    /*
-    * jQuery CSSEmoticons plugin 0.2.9
-    *
-    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
-    *
-    * Dual licensed under the MIT and GPL licenses:
-    *   http://www.opensource.org/licenses/mit-license.php
-    *   http://www.gnu.org/licenses/gpl.html
-    *
-    * Date: Sun Oct 22 1:00:00 2010 -0500
-    */
-    (function($) {
-    $.fn.emoticonize = function(options) {
-
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-
-    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
-
-    var threeCharacterEmoticons = [
-        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
-        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
-        //  it'll work again if you set preMatch equal to '()'
-        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
-      // ":{)",
-      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
-      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
-      // and the twoCharacterEmoticons from below, but with a space inserted
-      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
-    ];
-
-    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
-      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
-    ];
-
-    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
-      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
-      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
-      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
-      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
-      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
-      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
-      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
-      "O_O":    { cssClass: "no-rotate" },
-      "o_o":    { cssClass: "no-rotate" },
-      "0_o":    { cssClass: "no-rotate" },
-      "O_o":    { cssClass: "no-rotate" },
-      "T_T":    { cssClass: "no-rotate" },
-      "^_^":    { cssClass: "no-rotate" },
-      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
-      "O: )":   { cssClass: "small-emoticon" },
-      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
-      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
-      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
-      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
-      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
-      //"O-O":  { cssClass: "no-rotate" },
-      //"O=)":    { cssClass: "small-emoticon" } 
-    }
-
-    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
-    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
-    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
-    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
-    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
-    var preMatch = '(^|[\\s\\0])';
-
-    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
-      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
-      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
-      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
-    }
-
-    for ( var emoticon in specialEmoticons ){
-      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
-      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
-    }
-
-    var exclude = 'span.css-emoticon';
-    if(opts.exclude){ exclude += ','+opts.exclude; }
-    var excludeArray = exclude.split(',')
-
-    return this.not(exclude).each(function() {
-      var container = $(this);
-      var cssClass = 'css-emoticon'
-      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
-      
-      for( var emoticon in specialEmoticons ){
-        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
-        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
-      }
-      $(threeCharacterEmoticons).each(function(){
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
-      });                                                          
-      $(twoCharacterEmoticons).each(function(){                    
-        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
-      });
-      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
-      $.each(excludeArray,function(index,item){
-        container.find($.trim(item)+" span.css-emoticon").each(function(){
-          $(this).replaceWith($(this).text());
-        });
-      });
-      if(opts.animate){
-        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
-      }
-    });
-    }
-
-    $.fn.unemoticonize = function(options) {
-    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
-    return this.each(function() {
-      var container = $(this);
-      container.find('span.css-emoticon').each(function(){
-        // add delay equal to animate speed if animate is not false
-        var span = $(this);
-        if(opts.animate){
-          span.addClass('un-transformed-emoticon');
-          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
-        }else{
-          span.replaceWith(span.text());
-        }
-      });
-    });
-    }
-
-    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
-    })(jQuery);
-
-    var chatboxManager = function () {
-        
-    var init = function (options) {
-        $.extend(chatbox_config, options)
-    };
-
-
-    var delBox = function (id) {
-        // TODO
-    };
-
-    var getNextOffset = function () {
-        return (chatbox_config.width + chatbox_config.gap) * showList.length;
-    };
-
-    var boxClosedCallback = function (id) {
-        // close button in the titlebar is clicked
-        var idx = showList.indexOf(id);
-        if (idx != -1) {
-            showList.splice(idx, 1);
-            var diff = chatbox_config.width + chatbox_config.gap;
-            for (var i = idx; i < showList.length; i++) {
-                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
-                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
-            }
-        } else {
-            alert("NOTE: Id missing from array: " + id);
-        }
-    };
-
-    // caller should guarantee the uniqueness of id
-    var addBox = function (id, user, name) {
-        var idx1 = showList.indexOf(id);
-        var idx2 = boxList.indexOf(id);
-        if (idx1 != -1) {
-            // found one in show box, do nothing
-        } else if (idx2 != -1) {
-            // exists, but hidden
-            // show it and put it back to showList
-            $("#" + id).chatbox("option", "offset", getNextOffset());
-            var manager = $("#" + id).chatbox("option", "boxManager");
-            manager.toggleBox();
-            showList.push(id);
-        } else {
-            var el = document.createElement('div');
-            el.setAttribute('id', id);
-            $(el).chatbox({
-                id: id,
-                user: user,
-                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
-                hidden: false,
-                offset: getNextOffset(),
-                width: chatbox_config.width,
-                status: user.status,
-                alertmsg: user.alertmsg,
-                alertshow: user.alertshow,
-                messageSent: dispatch,
-                boxClosed: boxClosedCallback
-            });
-            boxList.push(id);
-            showList.push(id);
-            nameList.push(user.first_name);
-        }
-    };
-
-    var messageSentCallback = function (id, user, msg) {
-        var idx = boxList.indexOf(id);
-        chatbox_config.messageSent(nameList[idx], msg);
-    };
-
-    // not used in demo
-    var dispatch = function (id, user, msg) {
-        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
-        if ($('#chatlog').length){
-            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
-        }
-        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
-    }
-
-    return {
-        init: init,
-        addBox: addBox,
-        delBox: delBox,
-        dispatch: dispatch
-    };
-    }();
-
-    var link = function (scope, element, attributes) {
-
-        $('a[data-chat-id]').click(function (event, ui) {
-            if(!$(this).hasClass('offline')){
-
-                var $this = $(this),
-                    temp_chat_id = $this.attr("data-chat-id"),
-                    fname = $this.attr("data-chat-fname"),
-                    lname = $this.attr("data-chat-lname"),
-                    status = $this.attr("data-chat-status") || "online",
-                    alertmsg = $this.attr("data-chat-alertmsg"),
-                    alertshow =  $this.attr("data-chat-alertshow") || false;
-
-
-                chatboxManager.addBox(temp_chat_id, {
-                    // dest:"dest" + counter, 
-                    // not used in demo
-                    title: "username" + temp_chat_id,
-                    first_name: fname,
-                    last_name: lname,
-                    status: status,
-                    alertmsg: alertmsg,
-                    alertshow: alertshow
-                    //you can add your own options too
-                });
-            }
-
-            event.preventDefault();
-
-        });
-
-    }
-
-    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
-        return {
-            restrict: 'A',
-            replace: true,
-            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
-            link: link
-        }
-    });
-
-})(); 
-"use strict";
-
-angular.module('app.chat').directive('chatUsers', function(ChatApi){
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
-        scope: true,
-        link: function(scope, element){
-            scope.open = false;
-            scope.openToggle = function(){
-                scope.open = !scope.open;
-            };
-
-            scope.chatUserFilter = '';
-
-            ChatApi.initialized.then(function () {
-                scope.chatUsers = ChatApi.users;
-            });
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.chat').directive('chatWidget', function (ChatApi) {
-    return {
-        replace: true,
-        restrict: 'E',
-        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
-        scope: {},
-        link: function (scope, element) {
-            scope.newMessage = '';
-
-            scope.sendMessage = function () {
-                ChatApi.sendMessage(scope.newMessage);
-                scope.newMessage = '';
-            };
-
-            scope.messageTo = function(user){
-                scope.newMessage += (user.username + ', ');
-            };
-
-            ChatApi.initialized.then(function () {
-                scope.chatMessages = ChatApi.messages;
-            });
-            scope.$watch(function () {
-                return ChatApi.messages.length
-            }, function (count) {
-                if (count){
-                    var $body = $('.chat-body', element);
-                    $body.animate({scrollTop: $body[0].scrollHeight});
-                }
-            })
-        }
-    }
-});
 'use strict';
 
 angular.module('SmartAdmin.Layout').factory('SmartCss', function ($rootScope, $timeout) {
@@ -13512,6 +12804,46 @@ angular.module('SmartAdmin.Layout').factory('lazyScript', function($q, $http){
         }
     };
 });
+"use strict";
+
+angular.module('app.auth').directive('facebookSignin', function ($rootScope, ezfb) {
+    return {
+        replace: true,
+        restrict: 'E',
+        template: '<a class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>',
+        link: function(scope, element){
+            element.on('click', function(){
+                ezfb.login(function (res) {
+                    if (res.authResponse) {
+                        $rootScope.$broadcast('event:facebook-signin-success', res.authResponse);
+                    }
+                }, {scope: 'public_profile'});
+            })
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.auth').directive('googleSignin', function ($rootScope, GooglePlus) {
+    return {
+        restrict: 'E',
+        template: '<a class="g-signin btn btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google</a>',
+        replace: true,
+        link: function (scope, element) {
+            element.on('click', function(){
+                GooglePlus.login().then(function (authResult) {
+                    $rootScope.$broadcast('event:google-plus-signin-success', authResult);
+
+                }, function (err) {
+                    $rootScope.$broadcast('event:google-plus-signin-failure', err);
+
+                });
+            })
+        }
+    };
+});
+
 'use strict';
 
 angular.module('SmartAdmin.Layout').directive('bigBreadcrumbs', function () {
@@ -14554,6 +13886,749 @@ angular.module('SmartAdmin.Layout').directive('stateBreadcrumbs', function ($roo
             })
         }
     }
+});
+'use strict';
+
+angular.module('app.chat').factory('ChatApi', function ($q, $rootScope, User, $http, APP_CONFIG) {
+    var dfd = $q.defer();
+    var _user;
+    var ChatSrv = {
+        initialized: dfd.promise,
+        users: [],
+        messages: [],
+        statuses: ['Online', 'Busy', 'Away', 'Log Off'],
+        status: 'Online',
+        setUser: function (user) {
+            if (ChatSrv.users.indexOf(_user) != -1)
+                ChatSrv.users.splice(ChatSrv.users.indexOf(_user), 1);
+            _user = user;
+            ChatSrv.users.push(_user);
+        },
+        sendMessage: function (text) {
+            var message = {
+                user: _user,
+                body: text,
+                date: new Date()
+            };
+            this.messages.push(message);
+        }
+    };
+
+
+    $http.get(APP_CONFIG.apiRootUrl + '/chat.json').then(function(res){
+        ChatSrv.messages = res.data.messages;
+        ChatSrv.users = res.data.users;
+        dfd.resolve();
+    });
+
+    ChatSrv.initialized.then(function () {
+
+        User.initialized.then(function () {
+            ChatSrv.setUser({
+                username: User.username,
+                picture: User.picture,
+                status: ChatSrv.status
+            });
+        });
+
+        $rootScope.$watch(function () {
+            return User.username
+        }, function (name, oldName) {
+            if (name != oldName) {
+                ChatSrv.setUser({
+                    username: User.username,
+                    picture: User.picture,
+                    status: ChatSrv.status
+                });
+            }
+        });
+    });
+
+
+    return ChatSrv;
+
+});
+(function() {
+        
+   'use strict';
+
+    /*
+    * SMARTCHAT PLUGIN ARRAYS & CONFIG
+    * Dependency: js/plugin/moment/moment.min.js 
+    *             js/plugin/cssemotions/jquery.cssemoticons.min.js 
+    *             js/smart-chat-ui/smart.chat.ui.js
+    * (DO NOT CHANGE) 
+    */ 
+        var boxList = [],
+        showList = [],
+        nameList = [],
+        idList = [];
+    /*
+    * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
+    */ 
+        var chatbox_config = {
+            width: 200,
+            gap: 35,
+            offset: 0
+        };
+
+
+
+    /*
+    * SMART CHAT ENGINE
+    * Copyright (c) 2013 Wen Pu
+    * Modified by MyOrange
+    * All modifications made are hereby copyright (c) 2014-2015 MyOrange
+    */
+
+    // TODO: implement destroy()
+    (function($) {
+    $.widget("ui.chatbox", {
+        options: {
+            id: null, //id for the DOM element
+            title: null, // title of the chatbox
+            user: null, // can be anything associated with this chatbox
+            hidden: false,
+            offset: 0, // relative to right edge of the browser window
+            width: 300, // width of the chatbox
+            status: 'online', //
+            alertmsg: null,
+            alertshow: null,
+            messageSent: function(id, user, msg) {
+                // override this
+                this.boxManager.addMsg(user.first_name, msg);
+            },
+            boxClosed: function(id) {
+            }, // called when the close icon is clicked
+            boxManager: {
+                // thanks to the widget factory facility
+                // similar to http://alexsexton.com/?p=51
+                init: function(elem) {
+                    this.elem = elem;
+                },
+                addMsg: function(peer, msg) {
+                    var self = this;
+                    var box = self.elem.uiChatboxLog;
+                    var e = document.createElement('div');
+                    box.append(e);
+                    $(e).hide();
+
+                    var systemMessage = false;
+
+                    if (peer) {
+                        var peerName = document.createElement("b");
+                        $(peerName).text(peer + ": ");
+                        e.appendChild(peerName);
+                    } else {
+                        systemMessage = true;
+                    }
+
+                    var msgElement = document.createElement(
+                        systemMessage ? "i" : "span");
+                    $(msgElement).text(msg);
+                    e.appendChild(msgElement);
+                    $(e).addClass("ui-chatbox-msg");
+                    $(e).css("maxWidth", $(box).width());
+                    $(e).fadeIn();
+                    //$(e).prop( 'title', moment().calendar() ); // add dep: moment.js
+                    $(e).find("span").emoticonize(); // add dep: jquery.cssemoticons.js
+                    self._scrollToBottom();
+
+                    if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")
+                        && !self.highlightLock) {
+                        self.highlightLock = true;
+                        self.highlightBox();
+                    }
+                },
+                highlightBox: function() {
+                    var self = this;
+                    self.elem.uiChatboxTitlebar.effect("highlight", {}, 300);
+                    self.elem.uiChatbox.effect("bounce", {times: 2}, 300, function() {
+                        self.highlightLock = false;
+                        self._scrollToBottom();
+                    });
+                },
+                toggleBox: function() {
+                    this.elem.uiChatbox.toggle();
+                },
+                _scrollToBottom: function() {
+                    var box = this.elem.uiChatboxLog;
+                    box.scrollTop(box.get(0).scrollHeight);
+                }
+            }
+        },
+        toggleContent: function(event) {
+            this.uiChatboxContent.toggle();
+            if (this.uiChatboxContent.is(":visible")) {
+                this.uiChatboxInputBox.focus();
+            }
+        },
+        widget: function() {
+            return this.uiChatbox
+        },
+        _create: function() {
+            var self = this,
+            options = self.options,
+            title = options.title || "No Title",
+            // chatbox
+            uiChatbox = (self.uiChatbox = $('<div></div>'))
+                .appendTo(document.body)
+                .addClass('ui-widget ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox'
+                         )
+                .attr('outline', 0)
+                .focusin(function() {
+                    // ui-state-highlight is not really helpful here
+                    //self.uiChatbox.removeClass('ui-state-highlight');
+                    self.uiChatboxTitlebar.addClass('ui-state-focus');
+                })
+                .focusout(function() {
+                    self.uiChatboxTitlebar.removeClass('ui-state-focus');
+                }),
+            // titlebar
+            uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
+                .addClass('ui-widget-header ' +
+                          //'ui-corner-top ' +
+                          'ui-chatbox-titlebar ' +
+                          self.options.status +
+                          ' ui-dialog-header' // take advantage of dialog header style
+                         )
+                .click(function(event) {
+                    self.toggleContent(event);
+                })
+                .appendTo(uiChatbox),
+            uiChatboxTitle = (self.uiChatboxTitle = $('<span></span>'))
+                .html(title)
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Hide"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon '
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarClose.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarClose.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    uiChatbox.hide();
+                    self.options.boxClosed(self.options.id);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarCloseText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-times')
+                .appendTo(uiChatboxTitlebarClose),
+            uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#" rel="tooltip" data-placement="top" data-original-title="Minimize"></a>'))
+                .addClass(//'ui-corner-all ' +
+                          'ui-chatbox-icon'
+                         )
+                .attr('role', 'button')
+                .hover(function() { uiChatboxTitlebarMinimize.addClass('ui-state-hover'); },
+                       function() { uiChatboxTitlebarMinimize.removeClass('ui-state-hover'); })
+                .click(function(event) {
+                    self.toggleContent(event);
+                    return false;
+                })
+                .appendTo(uiChatboxTitlebar),
+            uiChatboxTitlebarMinimizeText = $('<i></i>')
+                .addClass('fa ' +
+                          'fa-minus')
+                .appendTo(uiChatboxTitlebarMinimize),
+            // content
+            uiChatboxContent = (self.uiChatboxContent = $('<div class="'+ self.options.alertshow +'"><span class="alert-msg">'+ self.options.alertmsg + '</span></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-content '
+                         )
+                .appendTo(uiChatbox),
+            uiChatboxLog = (self.uiChatboxLog = self.element)
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-log ' +
+                          'custom-scroll'
+                         )
+                .appendTo(uiChatboxContent),
+            uiChatboxInput = (self.uiChatboxInput = $('<div></div>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input'
+                         )
+                .click(function(event) {
+                    // anything?
+                })
+                .appendTo(uiChatboxContent),
+            uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
+                .addClass('ui-widget-content ' +
+                          'ui-chatbox-input-box '
+                         )
+                .appendTo(uiChatboxInput)
+                .keydown(function(event) {
+                    if (event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
+                        var msg = $.trim($(this).val());
+                        if (msg.length > 0) {
+                            self.options.messageSent(self.options.id, self.options.user, msg);
+                        }
+                        $(this).val('');
+                        return false;
+                    }
+                })
+                .focusin(function() {
+                    uiChatboxInputBox.addClass('ui-chatbox-input-focus');
+                    var box = $(this).parent().prev();
+                    box.scrollTop(box.get(0).scrollHeight);
+                })
+                .focusout(function() {
+                    uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
+                });
+
+            // disable selection
+            uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
+
+            // switch focus to input box when whatever clicked
+            uiChatboxContent.children().click(function() {
+                // click on any children, set focus on input box
+                self.uiChatboxInputBox.focus();
+            });
+
+            self._setWidth(self.options.width);
+            self._position(self.options.offset);
+
+            self.options.boxManager.init(self);
+
+            if (!self.options.hidden) {
+                uiChatbox.show();
+            }
+            
+            $(".ui-chatbox [rel=tooltip]").tooltip();
+            //console.log("tooltip created");
+        },
+        _setOption: function(option, value) {
+            if (value != null) {
+                switch (option) {
+                case "hidden":
+                    if (value)
+                        this.uiChatbox.hide();
+                    else
+                        this.uiChatbox.show();
+                    break;
+                case "offset":
+                    this._position(value);
+                    break;
+                case "width":
+                    this._setWidth(value);
+                    break;
+                }
+            }
+            $.Widget.prototype._setOption.apply(this, arguments);
+        },
+        _setWidth: function(width) {
+            this.uiChatbox.width((width + 28) + "px");
+            //this.uiChatboxTitlebar.width((width + 28) + "px");
+            //this.uiChatboxLog.width(width + "px");
+           // this.uiChatboxInput.css("maxWidth", width + "px");
+            // padding:2, boarder:2, margin:5
+            this.uiChatboxInputBox.css("width", (width + 18) + "px");
+        },
+        _position: function(offset) {
+            this.uiChatbox.css("right", offset);
+        }
+    });
+    }(jQuery));
+
+
+    /*
+    * jQuery CSSEmoticons plugin 0.2.9
+    *
+    * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+    *
+    * Dual licensed under the MIT and GPL licenses:
+    *   http://www.opensource.org/licenses/mit-license.php
+    *   http://www.gnu.org/licenses/gpl.html
+    *
+    * Date: Sun Oct 22 1:00:00 2010 -0500
+    */
+    (function($) {
+    $.fn.emoticonize = function(options) {
+
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+
+    var escapeCharacters = [ ")", "(", "*", "[", "]", "{", "}", "|", "^", "<", ">", "\\", "?", "+", "=", "." ];
+
+    var threeCharacterEmoticons = [
+        // really weird bug if you have :{ and then have :{) in the same container anywhere *after* :{ then :{ doesn't get matched, e.g. :] :{ :) :{) :) :-) will match everything except :{
+        //  But if you take out the :{) or even just move :{ to the right of :{) then everything works fine. This has something to do with the preMatch string below I think, because
+        //  it'll work again if you set preMatch equal to '()'
+        //  So for now, we'll just remove :{) from the emoticons, because who actually uses this mustache man anyway?
+      // ":{)",
+      ":-)", ":o)", ":c)", ":^)", ":-D", ":-(", ":-9", ";-)", ":-P", ":-p", ":-Þ", ":-b", ":-O", ":-/", ":-X", ":-#", ":'(", "B-)", "8-)", ";*(", ":-*", ":-\\",
+      "?-)", // <== This is my own invention, it's a smiling pirate (with an eye-patch)!
+      // and the twoCharacterEmoticons from below, but with a space inserted
+      ": )", ": ]", "= ]", "= )", "8 )", ": }", ": D", "8 D", "X D", "x D", "= D", ": (", ": [", ": {", "= (", "; )", "; ]", "; D", ": P", ": p", "= P", "= p", ": b", ": Þ", ": O", "8 O", ": /", "= /", ": S", ": #", ": X", "B )", ": |", ": \\", "= \\", ": *", ": &gt;", ": &lt;"//, "* )"
+    ];
+
+    var twoCharacterEmoticons = [ // separate these out so that we can add a letter-spacing between the characters for better proportions
+      ":)", ":]", "=]", "=)", "8)", ":}", ":D", ":(", ":[", ":{", "=(", ";)", ";]", ";D", ":P", ":p", "=P", "=p", ":b", ":Þ", ":O", ":/", "=/", ":S", ":#", ":X", "B)", ":|", ":\\", "=\\", ":*", ":&gt;", ":&lt;"//, "*)"
+    ];
+
+    var specialEmoticons = { // emoticons to be treated with a special class, hash specifies the additional class to add, along with standard css-emoticon class
+      "&gt;:)": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;;)": { cssClass: "red-emoticon small-emoticon spaced-emoticon"},
+      "&gt;:(": { cssClass: "red-emoticon small-emoticon spaced-emoticon" },
+      "&gt;: )": { cssClass: "red-emoticon small-emoticon" },
+      "&gt;; )": { cssClass: "red-emoticon small-emoticon"},
+      "&gt;: (": { cssClass: "red-emoticon small-emoticon" },
+      ";(":     { cssClass: "red-emoticon spaced-emoticon" },
+      "&lt;3":  { cssClass: "pink-emoticon counter-rotated" },
+      "O_O":    { cssClass: "no-rotate" },
+      "o_o":    { cssClass: "no-rotate" },
+      "0_o":    { cssClass: "no-rotate" },
+      "O_o":    { cssClass: "no-rotate" },
+      "T_T":    { cssClass: "no-rotate" },
+      "^_^":    { cssClass: "no-rotate" },
+      "O:)":    { cssClass: "small-emoticon spaced-emoticon" },
+      "O: )":   { cssClass: "small-emoticon" },
+      "8D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "XD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "xD":     { cssClass: "small-emoticon spaced-emoticon" },
+      "=D":     { cssClass: "small-emoticon spaced-emoticon" },
+      "8O":     { cssClass: "small-emoticon spaced-emoticon" },
+      "[+=..]":  { cssClass: "no-rotate nintendo-controller" }
+      //"OwO":  { cssClass: "no-rotate" }, // these emoticons overflow and look weird even if they're made even smaller, could probably fix this with some more css trickery
+      //"O-O":  { cssClass: "no-rotate" },
+      //"O=)":    { cssClass: "small-emoticon" } 
+    }
+
+    var specialRegex = new RegExp( '(\\' + escapeCharacters.join('|\\') + ')', 'g' );
+    // One of these characters must be present before the matched emoticon, or the matched emoticon must be the first character in the container HTML
+    //  This is to ensure that the characters in the middle of HTML properties or URLs are not matched as emoticons
+    //  Below matches ^ (first character in container HTML), \s (whitespace like space or tab), or \0 (NULL character)
+    // (<\\S+.*>) matches <\\S+.*> (matches an HTML tag like <span> or <div>), but haven't quite gotten it working yet, need to push this fix now
+    var preMatch = '(^|[\\s\\0])';
+
+    for ( var i=threeCharacterEmoticons.length-1; i>=0; --i ){
+      threeCharacterEmoticons[i] = threeCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      threeCharacterEmoticons[i] = new RegExp( preMatch+'(' + threeCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var i=twoCharacterEmoticons.length-1; i>=0; --i ){
+      twoCharacterEmoticons[i] = twoCharacterEmoticons[i].replace(specialRegex,'\\$1');
+      twoCharacterEmoticons[i] = new RegExp( preMatch+'(' + twoCharacterEmoticons[i] + ')', 'g' );
+    }
+
+    for ( var emoticon in specialEmoticons ){
+      specialEmoticons[emoticon].regexp = emoticon.replace(specialRegex,'\\$1');
+      specialEmoticons[emoticon].regexp = new RegExp( preMatch+'(' + specialEmoticons[emoticon].regexp + ')', 'g' );
+    }
+
+    var exclude = 'span.css-emoticon';
+    if(opts.exclude){ exclude += ','+opts.exclude; }
+    var excludeArray = exclude.split(',')
+
+    return this.not(exclude).each(function() {
+      var container = $(this);
+      var cssClass = 'css-emoticon'
+      if(opts.animate){ cssClass += ' un-transformed-emoticon animated-emoticon'; }
+      
+      for( var emoticon in specialEmoticons ){
+        var specialCssClass = cssClass + " " + specialEmoticons[emoticon].cssClass;
+        container.html(container.html().replace(specialEmoticons[emoticon].regexp,"$1<span class='" + specialCssClass + "'>$2</span>"));
+      }
+      $(threeCharacterEmoticons).each(function(){
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + "'>$2</span>"));
+      });                                                          
+      $(twoCharacterEmoticons).each(function(){                    
+        container.html(container.html().replace(this,"$1<span class='" + cssClass + " spaced-emoticon'>$2</span>"));
+      });
+      // fix emoticons that got matched more then once (where one emoticon is a subset of another emoticon), and thus got nested spans
+      $.each(excludeArray,function(index,item){
+        container.find($.trim(item)+" span.css-emoticon").each(function(){
+          $(this).replaceWith($(this).text());
+        });
+      });
+      if(opts.animate){
+        setTimeout(function(){$('.un-transformed-emoticon').removeClass('un-transformed-emoticon');}, opts.delay);
+      }
+    });
+    }
+
+    $.fn.unemoticonize = function(options) {
+    var opts = $.extend({}, $.fn.emoticonize.defaults, options);
+    return this.each(function() {
+      var container = $(this);
+      container.find('span.css-emoticon').each(function(){
+        // add delay equal to animate speed if animate is not false
+        var span = $(this);
+        if(opts.animate){
+          span.addClass('un-transformed-emoticon');
+          setTimeout(function(){span.replaceWith(span.text());}, opts.delay); 
+        }else{
+          span.replaceWith(span.text());
+        }
+      });
+    });
+    }
+
+    $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
+    })(jQuery);
+
+    var chatboxManager = function () {
+        
+    var init = function (options) {
+        $.extend(chatbox_config, options)
+    };
+
+
+    var delBox = function (id) {
+        // TODO
+    };
+
+    var getNextOffset = function () {
+        return (chatbox_config.width + chatbox_config.gap) * showList.length;
+    };
+
+    var boxClosedCallback = function (id) {
+        // close button in the titlebar is clicked
+        var idx = showList.indexOf(id);
+        if (idx != -1) {
+            showList.splice(idx, 1);
+            var diff = chatbox_config.width + chatbox_config.gap;
+            for (var i = idx; i < showList.length; i++) {
+                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
+                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
+            }
+        } else {
+            alert("NOTE: Id missing from array: " + id);
+        }
+    };
+
+    // caller should guarantee the uniqueness of id
+    var addBox = function (id, user, name) {
+        var idx1 = showList.indexOf(id);
+        var idx2 = boxList.indexOf(id);
+        if (idx1 != -1) {
+            // found one in show box, do nothing
+        } else if (idx2 != -1) {
+            // exists, but hidden
+            // show it and put it back to showList
+            $("#" + id).chatbox("option", "offset", getNextOffset());
+            var manager = $("#" + id).chatbox("option", "boxManager");
+            manager.toggleBox();
+            showList.push(id);
+        } else {
+            var el = document.createElement('div');
+            el.setAttribute('id', id);
+            $(el).chatbox({
+                id: id,
+                user: user,
+                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
+                hidden: false,
+                offset: getNextOffset(),
+                width: chatbox_config.width,
+                status: user.status,
+                alertmsg: user.alertmsg,
+                alertshow: user.alertshow,
+                messageSent: dispatch,
+                boxClosed: boxClosedCallback
+            });
+            boxList.push(id);
+            showList.push(id);
+            nameList.push(user.first_name);
+        }
+    };
+
+    var messageSentCallback = function (id, user, msg) {
+        var idx = boxList.indexOf(id);
+        chatbox_config.messageSent(nameList[idx], msg);
+    };
+
+    // not used in demo
+    var dispatch = function (id, user, msg) {
+        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
+        if ($('#chatlog').length){
+            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);;
+        }
+        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
+    }
+
+    return {
+        init: init,
+        addBox: addBox,
+        delBox: delBox,
+        dispatch: dispatch
+    };
+    }();
+
+    var link = function (scope, element, attributes) {
+
+        $('a[data-chat-id]').click(function (event, ui) {
+            if(!$(this).hasClass('offline')){
+
+                var $this = $(this),
+                    temp_chat_id = $this.attr("data-chat-id"),
+                    fname = $this.attr("data-chat-fname"),
+                    lname = $this.attr("data-chat-lname"),
+                    status = $this.attr("data-chat-status") || "online",
+                    alertmsg = $this.attr("data-chat-alertmsg"),
+                    alertshow =  $this.attr("data-chat-alertshow") || false;
+
+
+                chatboxManager.addBox(temp_chat_id, {
+                    // dest:"dest" + counter, 
+                    // not used in demo
+                    title: "username" + temp_chat_id,
+                    first_name: fname,
+                    last_name: lname,
+                    status: status,
+                    alertmsg: alertmsg,
+                    alertshow: alertshow
+                    //you can add your own options too
+                });
+            }
+
+            event.preventDefault();
+
+        });
+
+    }
+
+    angular.module('app.chat').directive('asideChatWidget', function (ChatApi) {
+        return {
+            restrict: 'A',
+            replace: true,
+            templateUrl: 'app/dashboard/chat/directives/aside-chat-widget.tpl.html',
+            link: link
+        }
+    });
+
+})(); 
+"use strict";
+
+angular.module('app.chat').directive('chatUsers', function(ChatApi){
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/chat/directives/chat-users.tpl.html',
+        scope: true,
+        link: function(scope, element){
+            scope.open = false;
+            scope.openToggle = function(){
+                scope.open = !scope.open;
+            };
+
+            scope.chatUserFilter = '';
+
+            ChatApi.initialized.then(function () {
+                scope.chatUsers = ChatApi.users;
+            });
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.chat').directive('chatWidget', function (ChatApi) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: 'app/dashboard/chat/directives/chat-widget.tpl.html',
+        scope: {},
+        link: function (scope, element) {
+            scope.newMessage = '';
+
+            scope.sendMessage = function () {
+                ChatApi.sendMessage(scope.newMessage);
+                scope.newMessage = '';
+            };
+
+            scope.messageTo = function(user){
+                scope.newMessage += (user.username + ', ');
+            };
+
+            ChatApi.initialized.then(function () {
+                scope.chatMessages = ChatApi.messages;
+            });
+            scope.$watch(function () {
+                return ChatApi.messages.length
+            }, function (count) {
+                if (count){
+                    var $body = $('.chat-body', element);
+                    $body.animate({scrollTop: $body[0].scrollHeight});
+                }
+            })
+        }
+    }
+});
+"use strict";
+
+ angular.module('app').directive('todoList', function ($timeout, Todo) {
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
+        scope: {
+            todos: '='
+        },
+        link: function (scope, element, attributes) {
+            scope.title = attributes.title
+            scope.icon = attributes.icon
+            scope.state = attributes.state
+            scope.filter = {
+                state: scope.state
+            }
+
+            element.find('.todo').sortable({
+                handle: '.handle',
+                connectWith: ".todo",
+                receive: function (event, ui) {
+
+                   
+                    var todo = ui.item.scope().todo;
+                    var state = scope.state
+                    // // console.log(ui.item, todo, state)
+                    // // console.log(state, todo)
+                    if (todo && state) {
+                        todo.setState(state);
+                         // ui.sender.sortable("cancel");
+                        // scope.$apply();
+                    } else {
+                        console.log('Wat', todo, state);
+                    }
+                    
+                }
+            }).disableSelection();
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
+
+
+    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
+        todo.toggle = function(){
+            if (!todo.completedAt) {
+                todo.state = 'Completed';
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.state = 'Critical';
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        todo.setState = function(state){
+            todo.state = state;
+            if (state == 'Completed') {
+                todo.completedAt = JSON.stringify(new Date());
+            } else {
+                todo.completedAt = null;
+            }
+            // return this.$update();
+        };
+
+        return todo;
+      });
+
+    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
 });
 'use strict';
 
@@ -16711,81 +16786,6 @@ angular.module('app.graphs').directive('vectorMap', function () {
         }
     }
 });
-"use strict";
-
- angular.module('app').directive('todoList', function ($timeout, Todo) {
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/dashboard/todo/directives/todo-list.tpl.html',
-        scope: {
-            todos: '='
-        },
-        link: function (scope, element, attributes) {
-            scope.title = attributes.title
-            scope.icon = attributes.icon
-            scope.state = attributes.state
-            scope.filter = {
-                state: scope.state
-            }
-
-            element.find('.todo').sortable({
-                handle: '.handle',
-                connectWith: ".todo",
-                receive: function (event, ui) {
-
-                   
-                    var todo = ui.item.scope().todo;
-                    var state = scope.state
-                    // // console.log(ui.item, todo, state)
-                    // // console.log(state, todo)
-                    if (todo && state) {
-                        todo.setState(state);
-                         // ui.sender.sortable("cancel");
-                        // scope.$apply();
-                    } else {
-                        console.log('Wat', todo, state);
-                    }
-                    
-                }
-            }).disableSelection();
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
-
-
-    Restangular.extendModel(APP_CONFIG.apiRootUrl + '/todos.json', function(todo) {
-        todo.toggle = function(){
-            if (!todo.completedAt) {
-                todo.state = 'Completed';
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.state = 'Critical';
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        todo.setState = function(state){
-            todo.state = state;
-            if (state == 'Completed') {
-                todo.completedAt = JSON.stringify(new Date());
-            } else {
-                todo.completedAt = null;
-            }
-            // return this.$update();
-        };
-
-        return todo;
-      });
-
-    return Restangular.all(APP_CONFIG.apiRootUrl + '/todos.json')
-});
 'use strict';
 
 angular.module('app.tables').directive('datatableBasic', function ($compile) {
@@ -17190,6 +17190,534 @@ angular.module('app.tables').directive('jqGrid', function ($compile) {
 
 
             $compile(element.contents())(scope);
+        }
+    }
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapAttributeForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-attribute-form.tpl.html',
+        link: function(scope, form){
+            form.bootstrapValidator();
+
+
+        }
+
+    }
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapButtonGroupForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-button-group-form.tpl.html',
+        link: function(scope, form){
+            form.bootstrapValidator({
+                excluded : ':disabled',
+                feedbackIcons : {
+                    valid : 'glyphicon glyphicon-ok',
+                    invalid : 'glyphicon glyphicon-remove',
+                    validating : 'glyphicon glyphicon-refresh'
+                },
+                fields : {
+                    gender : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The gender is required'
+                            }
+                        }
+                    },
+                    'languages[]' : {
+                        validators : {
+                            choice : {
+                                min : 1,
+                                max : 2,
+                                message : 'Please choose 1 - 2 languages you can speak'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        }
+
+    }
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapContactForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-contact-form.tpl.html',
+        link: function(scope, form){
+            form.bootstrapValidator({
+                container : '#messages',
+                feedbackIcons : {
+                    valid : 'glyphicon glyphicon-ok',
+                    invalid : 'glyphicon glyphicon-remove',
+                    validating : 'glyphicon glyphicon-refresh'
+                },
+                fields : {
+                    fullName : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The full name is required and cannot be empty'
+                            }
+                        }
+                    },
+                    email : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The email address is required and cannot be empty'
+                            },
+                            emailAddress : {
+                                message : 'The email address is not valid'
+                            }
+                        }
+                    },
+                    title : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The title is required and cannot be empty'
+                            },
+                            stringLength : {
+                                max : 100,
+                                message : 'The title must be less than 100 characters long'
+                            }
+                        }
+                    },
+                    content : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The content is required and cannot be empty'
+                            },
+                            stringLength : {
+                                max : 500,
+                                message : 'The content must be less than 500 characters long'
+                            }
+                        }
+                    }
+                }
+            });
+
+        }
+
+    }
+
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapMovieForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-movie-form.tpl.html',
+        link: function(scope, form){
+            form.bootstrapValidator({
+                feedbackIcons : {
+                    valid : 'glyphicon glyphicon-ok',
+                    invalid : 'glyphicon glyphicon-remove',
+                    validating : 'glyphicon glyphicon-refresh'
+                },
+                fields : {
+                    title : {
+                        group : '.col-md-8',
+                        validators : {
+                            notEmpty : {
+                                message : 'The title is required'
+                            },
+                            stringLength : {
+                                max : 200,
+                                message : 'The title must be less than 200 characters long'
+                            }
+                        }
+                    },
+                    genre : {
+                        group : '.col-md-4',
+                        validators : {
+                            notEmpty : {
+                                message : 'The genre is required'
+                            }
+                        }
+                    },
+                    director : {
+                        group : '.col-md-4',
+                        validators : {
+                            notEmpty : {
+                                message : 'The director name is required'
+                            },
+                            stringLength : {
+                                max : 80,
+                                message : 'The director name must be less than 80 characters long'
+                            }
+                        }
+                    },
+                    writer : {
+                        group : '.col-md-4',
+                        validators : {
+                            notEmpty : {
+                                message : 'The writer name is required'
+                            },
+                            stringLength : {
+                                max : 80,
+                                message : 'The writer name must be less than 80 characters long'
+                            }
+                        }
+                    },
+                    producer : {
+                        group : '.col-md-4',
+                        validators : {
+                            notEmpty : {
+                                message : 'The producer name is required'
+                            },
+                            stringLength : {
+                                max : 80,
+                                message : 'The producer name must be less than 80 characters long'
+                            }
+                        }
+                    },
+                    website : {
+                        group : '.col-md-6',
+                        validators : {
+                            notEmpty : {
+                                message : 'The website address is required'
+                            },
+                            uri : {
+                                message : 'The website address is not valid'
+                            }
+                        }
+                    },
+                    trailer : {
+                        group : '.col-md-6',
+                        validators : {
+                            notEmpty : {
+                                message : 'The trailer link is required'
+                            },
+                            uri : {
+                                message : 'The trailer link is not valid'
+                            }
+                        }
+                    },
+                    review : {
+                        // The group will be set as default (.form-group)
+                        validators : {
+                            stringLength : {
+                                max : 500,
+                                message : 'The review must be less than 500 characters long'
+                            }
+                        }
+                    },
+                    rating : {
+                        // The group will be set as default (.form-group)
+                        validators : {
+                            notEmpty : {
+                                message : 'The rating is required'
+                            }
+                        }
+                    }
+                }
+            });
+
+        }
+
+    }
+
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapProductForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-product-form.tpl.html',
+        link: function(scope, form){
+            form.bootstrapValidator({
+                feedbackIcons : {
+                    valid : 'glyphicon glyphicon-ok',
+                    invalid : 'glyphicon glyphicon-remove',
+                    validating : 'glyphicon glyphicon-refresh'
+                },
+                fields : {
+                    price : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The price is required'
+                            },
+                            numeric : {
+                                message : 'The price must be a number'
+                            }
+                        }
+                    },
+                    amount : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The amount is required'
+                            },
+                            numeric : {
+                                message : 'The amount must be a number'
+                            }
+                        }
+                    },
+                    color : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The color is required'
+                            }
+                        }
+                    },
+                    size : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The size is required'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapProfileForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html',
+        link: function(scope, form){
+           form.bootstrapValidator({
+                feedbackIcons : {
+                    valid : 'glyphicon glyphicon-ok',
+                    invalid : 'glyphicon glyphicon-remove',
+                    validating : 'glyphicon glyphicon-refresh'
+                },
+                fields : {
+                    email : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The email address is required'
+                            },
+                            emailAddress : {
+                                message : 'The email address is not valid'
+                            }
+                        }
+                    },
+                    password : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The password is required'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+});
+"use strict";
+
+
+angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function(){
+
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html',
+        link: function(scope, form){
+            form.bootstrapValidator({
+                feedbackIcons : {
+                    valid : 'glyphicon glyphicon-ok',
+                    invalid : 'glyphicon glyphicon-remove',
+                    validating : 'glyphicon glyphicon-refresh'
+                },
+                fields : {
+                    firstName : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The first name is required'
+                            }
+                        }
+                    },
+                    lastName : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The last name is required'
+                            }
+                        }
+                    },
+                    company : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The company name is required'
+                            }
+                        }
+                    },
+                    // These fields will be validated when being visible
+                    job : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The job title is required'
+                            }
+                        }
+                    },
+                    department : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The department name is required'
+                            }
+                        }
+                    },
+                    mobilePhone : {
+                        validators : {
+                            notEmpty : {
+                                message : 'The mobile phone number is required'
+                            },
+                            digits : {
+                                message : 'The mobile phone number is not valid'
+                            }
+                        }
+                    },
+                    // These fields will be validated when being visible
+                    homePhone : {
+                        validators : {
+                            digits : {
+                                message : 'The home phone number is not valid'
+                            }
+                        }
+                    },
+                    officePhone : {
+                        validators : {
+                            digits : {
+                                message : 'The office phone number is not valid'
+                            }
+                        }
+                    }
+                }
+            }).find('button[data-toggle]').on('click', function() {
+                var $target = $($(this).attr('data-toggle'));
+                // Show or hide the additional fields
+                // They will or will not be validated based on their visibilities
+                $target.toggle();
+                if (!$target.is(':visible')) {
+                    // Enable the submit buttons in case additional fields are not valid
+                    form.data('bootstrapValidator').disableSubmitButtons(false);
+                }
+            });
+        }
+
+    }
+
+
+
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function ( tElement) {
+            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
+
+            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
+            tElement.on('click', function() {
+                angular.element(tAttributes.smartDestroySummernote).destroy();
+            })
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
+            tElement.on('click', function(){
+                angular.element(tAttributes.smartEditSummernote).summernote({
+                    focus : true
+                });  
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
+    return {
+        restrict: 'A',
+        compile: function (element, attributes) {
+            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
+
+            var options = {
+                autofocus:false,
+                savable:true,
+                fullscreen: {
+                    enable: false
+                }
+            };
+
+            if(attributes.height){
+                options.height = parseInt(attributes.height);
+            }
+
+            element.markdown(options);
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
+
+            var options = {
+                focus : true,
+                tabsize : 2
+            };
+
+            if(tAttributes.height){
+                options.height = tAttributes.height;
+            }
+
+            lazyScript.register('summernote').then(function(){
+                tElement.summernote(options);                
+            });
         }
     }
 });
@@ -17796,746 +18324,6 @@ angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
 });
 'use strict';
 
-angular.module('SmartAdmin.Forms').directive('smartCkEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function ( tElement) {
-            tElement.removeAttr('smart-ck-editor data-smart-ck-editor');
-
-            CKEDITOR.replace( tElement.attr('name'), { height: '380px', startupFocus : true} );
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDestroySummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-destroy-summernote data-smart-destroy-summernote')
-            tElement.on('click', function() {
-                angular.element(tAttributes.smartDestroySummernote).destroy();
-            })
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartEditSummernote', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-edit-summernote data-smart-edit-summernote');
-            tElement.on('click', function(){
-                angular.element(tAttributes.smartEditSummernote).summernote({
-                    focus : true
-                });  
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartMarkdownEditor', function () {
-    return {
-        restrict: 'A',
-        compile: function (element, attributes) {
-            element.removeAttr('smart-markdown-editor data-smart-markdown-editor')
-
-            var options = {
-                autofocus:false,
-                savable:true,
-                fullscreen: {
-                    enable: false
-                }
-            };
-
-            if(attributes.height){
-                options.height = parseInt(attributes.height);
-            }
-
-            element.markdown(options);
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (lazyScript) {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-summernote-editor data-smart-summernote-editor');
-
-            var options = {
-                focus : true,
-                tabsize : 2
-            };
-
-            if(tAttributes.height){
-                options.height = tAttributes.height;
-            }
-
-            lazyScript.register('summernote').then(function(){
-                tElement.summernote(options);                
-            });
-        }
-    }
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapAttributeForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-attribute-form.tpl.html',
-        link: function(scope, form){
-            form.bootstrapValidator();
-
-
-        }
-
-    }
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapButtonGroupForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-button-group-form.tpl.html',
-        link: function(scope, form){
-            form.bootstrapValidator({
-                excluded : ':disabled',
-                feedbackIcons : {
-                    valid : 'glyphicon glyphicon-ok',
-                    invalid : 'glyphicon glyphicon-remove',
-                    validating : 'glyphicon glyphicon-refresh'
-                },
-                fields : {
-                    gender : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The gender is required'
-                            }
-                        }
-                    },
-                    'languages[]' : {
-                        validators : {
-                            choice : {
-                                min : 1,
-                                max : 2,
-                                message : 'Please choose 1 - 2 languages you can speak'
-                            }
-                        }
-                    }
-                }
-            });
-
-
-        }
-
-    }
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapContactForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-contact-form.tpl.html',
-        link: function(scope, form){
-            form.bootstrapValidator({
-                container : '#messages',
-                feedbackIcons : {
-                    valid : 'glyphicon glyphicon-ok',
-                    invalid : 'glyphicon glyphicon-remove',
-                    validating : 'glyphicon glyphicon-refresh'
-                },
-                fields : {
-                    fullName : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The full name is required and cannot be empty'
-                            }
-                        }
-                    },
-                    email : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The email address is required and cannot be empty'
-                            },
-                            emailAddress : {
-                                message : 'The email address is not valid'
-                            }
-                        }
-                    },
-                    title : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The title is required and cannot be empty'
-                            },
-                            stringLength : {
-                                max : 100,
-                                message : 'The title must be less than 100 characters long'
-                            }
-                        }
-                    },
-                    content : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The content is required and cannot be empty'
-                            },
-                            stringLength : {
-                                max : 500,
-                                message : 'The content must be less than 500 characters long'
-                            }
-                        }
-                    }
-                }
-            });
-
-        }
-
-    }
-
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapMovieForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-movie-form.tpl.html',
-        link: function(scope, form){
-            form.bootstrapValidator({
-                feedbackIcons : {
-                    valid : 'glyphicon glyphicon-ok',
-                    invalid : 'glyphicon glyphicon-remove',
-                    validating : 'glyphicon glyphicon-refresh'
-                },
-                fields : {
-                    title : {
-                        group : '.col-md-8',
-                        validators : {
-                            notEmpty : {
-                                message : 'The title is required'
-                            },
-                            stringLength : {
-                                max : 200,
-                                message : 'The title must be less than 200 characters long'
-                            }
-                        }
-                    },
-                    genre : {
-                        group : '.col-md-4',
-                        validators : {
-                            notEmpty : {
-                                message : 'The genre is required'
-                            }
-                        }
-                    },
-                    director : {
-                        group : '.col-md-4',
-                        validators : {
-                            notEmpty : {
-                                message : 'The director name is required'
-                            },
-                            stringLength : {
-                                max : 80,
-                                message : 'The director name must be less than 80 characters long'
-                            }
-                        }
-                    },
-                    writer : {
-                        group : '.col-md-4',
-                        validators : {
-                            notEmpty : {
-                                message : 'The writer name is required'
-                            },
-                            stringLength : {
-                                max : 80,
-                                message : 'The writer name must be less than 80 characters long'
-                            }
-                        }
-                    },
-                    producer : {
-                        group : '.col-md-4',
-                        validators : {
-                            notEmpty : {
-                                message : 'The producer name is required'
-                            },
-                            stringLength : {
-                                max : 80,
-                                message : 'The producer name must be less than 80 characters long'
-                            }
-                        }
-                    },
-                    website : {
-                        group : '.col-md-6',
-                        validators : {
-                            notEmpty : {
-                                message : 'The website address is required'
-                            },
-                            uri : {
-                                message : 'The website address is not valid'
-                            }
-                        }
-                    },
-                    trailer : {
-                        group : '.col-md-6',
-                        validators : {
-                            notEmpty : {
-                                message : 'The trailer link is required'
-                            },
-                            uri : {
-                                message : 'The trailer link is not valid'
-                            }
-                        }
-                    },
-                    review : {
-                        // The group will be set as default (.form-group)
-                        validators : {
-                            stringLength : {
-                                max : 500,
-                                message : 'The review must be less than 500 characters long'
-                            }
-                        }
-                    },
-                    rating : {
-                        // The group will be set as default (.form-group)
-                        validators : {
-                            notEmpty : {
-                                message : 'The rating is required'
-                            }
-                        }
-                    }
-                }
-            });
-
-        }
-
-    }
-
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapProductForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-product-form.tpl.html',
-        link: function(scope, form){
-            form.bootstrapValidator({
-                feedbackIcons : {
-                    valid : 'glyphicon glyphicon-ok',
-                    invalid : 'glyphicon glyphicon-remove',
-                    validating : 'glyphicon glyphicon-refresh'
-                },
-                fields : {
-                    price : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The price is required'
-                            },
-                            numeric : {
-                                message : 'The price must be a number'
-                            }
-                        }
-                    },
-                    amount : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The amount is required'
-                            },
-                            numeric : {
-                                message : 'The amount must be a number'
-                            }
-                        }
-                    },
-                    color : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The color is required'
-                            }
-                        }
-                    },
-                    size : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The size is required'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-    }
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapProfileForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-profile-form.tpl.html',
-        link: function(scope, form){
-           form.bootstrapValidator({
-                feedbackIcons : {
-                    valid : 'glyphicon glyphicon-ok',
-                    invalid : 'glyphicon glyphicon-remove',
-                    validating : 'glyphicon glyphicon-refresh'
-                },
-                fields : {
-                    email : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The email address is required'
-                            },
-                            emailAddress : {
-                                message : 'The email address is not valid'
-                            }
-                        }
-                    },
-                    password : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The password is required'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-    }
-
-});
-"use strict";
-
-
-angular.module('SmartAdmin.Forms').directive('bootstrapTogglingForm', function(){
-
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/_common/forms/directives/bootstrap-validation/bootstrap-toggling-form.tpl.html',
-        link: function(scope, form){
-            form.bootstrapValidator({
-                feedbackIcons : {
-                    valid : 'glyphicon glyphicon-ok',
-                    invalid : 'glyphicon glyphicon-remove',
-                    validating : 'glyphicon glyphicon-refresh'
-                },
-                fields : {
-                    firstName : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The first name is required'
-                            }
-                        }
-                    },
-                    lastName : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The last name is required'
-                            }
-                        }
-                    },
-                    company : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The company name is required'
-                            }
-                        }
-                    },
-                    // These fields will be validated when being visible
-                    job : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The job title is required'
-                            }
-                        }
-                    },
-                    department : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The department name is required'
-                            }
-                        }
-                    },
-                    mobilePhone : {
-                        validators : {
-                            notEmpty : {
-                                message : 'The mobile phone number is required'
-                            },
-                            digits : {
-                                message : 'The mobile phone number is not valid'
-                            }
-                        }
-                    },
-                    // These fields will be validated when being visible
-                    homePhone : {
-                        validators : {
-                            digits : {
-                                message : 'The home phone number is not valid'
-                            }
-                        }
-                    },
-                    officePhone : {
-                        validators : {
-                            digits : {
-                                message : 'The office phone number is not valid'
-                            }
-                        }
-                    }
-                }
-            }).find('button[data-toggle]').on('click', function() {
-                var $target = $($(this).attr('data-toggle'));
-                // Show or hide the additional fields
-                // They will or will not be validated based on their visibilities
-                $target.toggle();
-                if (!$target.is(':visible')) {
-                    // Enable the submit buttons in case additional fields are not valid
-                    form.data('bootstrapValidator').disableSubmitButtons(false);
-                }
-            });
-        }
-
-    }
-
-
-
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
-    return {
-        restrict: 'A',
-        link: function (scope, form, attributes) {
-
-            var validateOptions = {
-                rules: {},
-                messages: {},
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            };
-            form.find('[data-smart-validate-input], [smart-validate-input]').each(function () {
-                var $input = $(this), fieldName = $input.attr('name');
-
-                validateOptions.rules[fieldName] = {};
-
-                if ($input.data('required') != undefined) {
-                    validateOptions.rules[fieldName].required = true;
-                }
-                if ($input.data('email') != undefined) {
-                    validateOptions.rules[fieldName].email = true;
-                }
-
-                if ($input.data('maxlength') != undefined) {
-                    validateOptions.rules[fieldName].maxlength = $input.data('maxlength');
-                }
-
-                if ($input.data('minlength') != undefined) {
-                    validateOptions.rules[fieldName].minlength = $input.data('minlength');
-                }
-
-                if($input.data('message')){
-                    validateOptions.messages[fieldName] = $input.data('message');
-                } else {
-                    angular.forEach($input.data(), function(value, key){
-                        if(key.search(/message/)== 0){
-                            if(!validateOptions.messages[fieldName])
-                                validateOptions.messages[fieldName] = {};
-
-                            var messageKey = key.toLowerCase().replace(/^message/,'')
-                            validateOptions.messages[fieldName][messageKey] = value;
-                        }
-                    });
-                }
-            });
-
-
-            form.validate(validateOptions);
-
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
-    return {
-        restrict: 'A',
-        compile: function (tElement, tAttributes) {
-            tElement.removeAttr('smart-dropzone data-smart-dropzone');
-
-            tElement.dropzone({
-                addRemoveLinks : true,
-                maxFilesize: 0.5,
-                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
-                dictResponseError: 'Error uploading file!'
-            });
-        }
-    }
-});
-
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartFueluxWizard', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            smartWizardCallback: '&'
-        },
-        link: function (scope, element, attributes) {
-
-            var wizard = element.wizard();
-
-            var $form = element.find('form');
-
-            wizard.on('actionclicked.fu.wizard', function(e, data){
-                if ($form.data('validator')) {
-                    if (!$form.valid()) {
-                        $form.data('validator').focusInvalid();
-                        e.preventDefault();
-                    }
-                }
-            });
-
-            wizard.on('finished.fu.wizard', function (e, data) {
-                var formData = {};
-                _.each($form.serializeArray(), function(field){
-                    formData[field.name] = field.value
-                });
-                if(typeof scope.smartWizardCallback() === 'function'){
-                    scope.smartWizardCallback()(formData)
-                }
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
-    return {
-        restrict: 'A',
-        scope: {
-            'smartWizardCallback': '&'
-        },
-        link: function (scope, element, attributes) {
-
-            var stepsCount = $('[data-smart-wizard-tab]').length;
-
-            var currentStep = 1;
-
-            var validSteps = [];
-
-            var $form = element.closest('form');
-
-            var $prev = $('[data-smart-wizard-prev]', element);
-
-            var $next = $('[data-smart-wizard-next]', element);
-
-            function setStep(step) {
-                currentStep = step;
-                $('[data-smart-wizard-pane=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-pane]').removeClass('active');
-                $('[data-smart-wizard-tab=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-tab]').removeClass('active');
-
-                $prev.toggleClass('disabled', step == 1)
-            }
-
-
-            element.on('click', '[data-smart-wizard-tab]', function (e) {
-                setStep(parseInt($(this).data('smartWizardTab')));
-                e.preventDefault();
-            });
-
-            $next.on('click', function (e) {
-                if ($form.data('validator')) {
-                    if (!$form.valid()) {
-                        validSteps = _.without(validSteps, currentStep);
-                        $form.data('validator').focusInvalid();
-                        return false;
-                    } else {
-                        validSteps = _.without(validSteps, currentStep);
-                        validSteps.push(currentStep);
-                        element.find('[data-smart-wizard-tab=' + currentStep + ']')
-                            .addClass('complete')
-                            .find('.step')
-                            .html('<i class="fa fa-check"></i>');
-                    }
-                }
-                if (currentStep < stepsCount) {
-                    setStep(currentStep + 1);
-                } else {
-                    if (validSteps.length < stepsCount) {
-                        var steps = _.range(1, stepsCount + 1)
-
-                        _(steps).forEach(function (num) {
-                            if (validSteps.indexOf(num) == -1) {
-                                console.log(num);
-                                setStep(num);
-                                return false;
-                            }
-                        })
-                    } else {
-                        var data = {};
-                        _.each($form.serializeArray(), function(field){
-                            data[field.name] = field.value
-                        });
-                        if(typeof  scope.smartWizardCallback() === 'function'){
-                            scope.smartWizardCallback()(data)
-                        }
-                    }
-                }
-
-                e.preventDefault();
-            });
-
-            $prev.on('click', function (e) {
-                if (!$prev.hasClass('disabled') && currentStep > 0) {
-                    setStep(currentStep - 1);
-                }
-                e.preventDefault();
-            });
-
-
-            setStep(currentStep);
-
-        }
-    }
-});
-'use strict';
-
 angular.module('SmartAdmin.Forms').directive('smartClockpicker', function () {
     return {
         restrict: 'A',
@@ -18859,6 +18647,218 @@ angular.module('SmartAdmin.Forms').directive('smartXeditable', function($timeout
         },
     	link: link 
 
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartDropzone', function () {
+    return {
+        restrict: 'A',
+        compile: function (tElement, tAttributes) {
+            tElement.removeAttr('smart-dropzone data-smart-dropzone');
+
+            tElement.dropzone({
+                addRemoveLinks : true,
+                maxFilesize: 0.5,
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictResponseError: 'Error uploading file!'
+            });
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartValidateForm', function (formsCommon) {
+    return {
+        restrict: 'A',
+        link: function (scope, form, attributes) {
+
+            var validateOptions = {
+                rules: {},
+                messages: {},
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            };
+            form.find('[data-smart-validate-input], [smart-validate-input]').each(function () {
+                var $input = $(this), fieldName = $input.attr('name');
+
+                validateOptions.rules[fieldName] = {};
+
+                if ($input.data('required') != undefined) {
+                    validateOptions.rules[fieldName].required = true;
+                }
+                if ($input.data('email') != undefined) {
+                    validateOptions.rules[fieldName].email = true;
+                }
+
+                if ($input.data('maxlength') != undefined) {
+                    validateOptions.rules[fieldName].maxlength = $input.data('maxlength');
+                }
+
+                if ($input.data('minlength') != undefined) {
+                    validateOptions.rules[fieldName].minlength = $input.data('minlength');
+                }
+
+                if($input.data('message')){
+                    validateOptions.messages[fieldName] = $input.data('message');
+                } else {
+                    angular.forEach($input.data(), function(value, key){
+                        if(key.search(/message/)== 0){
+                            if(!validateOptions.messages[fieldName])
+                                validateOptions.messages[fieldName] = {};
+
+                            var messageKey = key.toLowerCase().replace(/^message/,'')
+                            validateOptions.messages[fieldName][messageKey] = value;
+                        }
+                    });
+                }
+            });
+
+
+            form.validate(validateOptions);
+
+        }
+    }
+});
+
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartFueluxWizard', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            smartWizardCallback: '&'
+        },
+        link: function (scope, element, attributes) {
+
+            var wizard = element.wizard();
+
+            var $form = element.find('form');
+
+            wizard.on('actionclicked.fu.wizard', function(e, data){
+                if ($form.data('validator')) {
+                    if (!$form.valid()) {
+                        $form.data('validator').focusInvalid();
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            wizard.on('finished.fu.wizard', function (e, data) {
+                var formData = {};
+                _.each($form.serializeArray(), function(field){
+                    formData[field.name] = field.value
+                });
+                if(typeof scope.smartWizardCallback() === 'function'){
+                    scope.smartWizardCallback()(formData)
+                }
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('SmartAdmin.Forms').directive('smartWizard', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            'smartWizardCallback': '&'
+        },
+        link: function (scope, element, attributes) {
+
+            var stepsCount = $('[data-smart-wizard-tab]').length;
+
+            var currentStep = 1;
+
+            var validSteps = [];
+
+            var $form = element.closest('form');
+
+            var $prev = $('[data-smart-wizard-prev]', element);
+
+            var $next = $('[data-smart-wizard-next]', element);
+
+            function setStep(step) {
+                currentStep = step;
+                $('[data-smart-wizard-pane=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-pane]').removeClass('active');
+                $('[data-smart-wizard-tab=' + step + ']', element).addClass('active').siblings('[data-smart-wizard-tab]').removeClass('active');
+
+                $prev.toggleClass('disabled', step == 1)
+            }
+
+
+            element.on('click', '[data-smart-wizard-tab]', function (e) {
+                setStep(parseInt($(this).data('smartWizardTab')));
+                e.preventDefault();
+            });
+
+            $next.on('click', function (e) {
+                if ($form.data('validator')) {
+                    if (!$form.valid()) {
+                        validSteps = _.without(validSteps, currentStep);
+                        $form.data('validator').focusInvalid();
+                        return false;
+                    } else {
+                        validSteps = _.without(validSteps, currentStep);
+                        validSteps.push(currentStep);
+                        element.find('[data-smart-wizard-tab=' + currentStep + ']')
+                            .addClass('complete')
+                            .find('.step')
+                            .html('<i class="fa fa-check"></i>');
+                    }
+                }
+                if (currentStep < stepsCount) {
+                    setStep(currentStep + 1);
+                } else {
+                    if (validSteps.length < stepsCount) {
+                        var steps = _.range(1, stepsCount + 1)
+
+                        _(steps).forEach(function (num) {
+                            if (validSteps.indexOf(num) == -1) {
+                                console.log(num);
+                                setStep(num);
+                                return false;
+                            }
+                        })
+                    } else {
+                        var data = {};
+                        _.each($form.serializeArray(), function(field){
+                            data[field.name] = field.value
+                        });
+                        if(typeof  scope.smartWizardCallback() === 'function'){
+                            scope.smartWizardCallback()(data)
+                        }
+                    }
+                }
+
+                e.preventDefault();
+            });
+
+            $prev.on('click', function (e) {
+                if (!$prev.hasClass('disabled') && currentStep > 0) {
+                    setStep(currentStep - 1);
+                }
+                e.preventDefault();
+            });
+
+
+            setStep(currentStep);
+
+        }
     }
 });
 'use strict';
