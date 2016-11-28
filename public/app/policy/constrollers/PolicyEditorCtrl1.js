@@ -385,7 +385,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_policy_photo;
     }
 
-        vm.commercialPhotoChanged = function(files) {
+    vm.commercialPhotoChanged = function(files) {
         vm.uploadCommercialPhoto(files[0]);
     };
 
@@ -400,7 +400,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         })
     }
     vm.getMandatoryPhotoLink = function(){
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_mandatory_photo;
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.mandatory_policy_photo;
     }
 
 
