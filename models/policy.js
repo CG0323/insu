@@ -59,7 +59,9 @@ var schema = new mongoose.Schema({
   total_payment: Number,
   rule_rates: { set_at: { type: Date }, mandatory_income: Number, mandatory_payment: Number, commercial_income: Number, commercial_payment: Number, tax_income: Number, tax_payment: Number, other_income: Number, other_payment: Number },
   has_warning: Boolean,
-  rates_based_on_taxed : Boolean
+  rates_based_on_taxed : Boolean,
+  mandatory_policy_photo: String,
+  commercial_policy_photo: String,
 });
 
 schema.index({policy_status: 1, client: 1, organization: 1, created_at: 1});

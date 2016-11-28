@@ -20,6 +20,6 @@ angular.module('app.policy').controller('TestController', function ($scope, $fil
         })
     }
     vm.getFileLink = function(){
-        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.fileName;
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.fileName;
     }
 });

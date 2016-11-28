@@ -370,6 +370,40 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
 
     }
+
+    vm.commercialPhotoChanged = function(files) {
+        vm.uploadCommercialPhoto(files[0]);
+    };
+
+    vm.uploadCommercialPhoto = function(file){
+        PolicyService.uploadFile(file)
+        .then(function(fileName){
+            vm.policy.commercial_policy_photo = fileName;
+        })
+    }
+    vm.getCommercialPhotoLink = function(){
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_policy_photo;
+    }
+
+        vm.commercialPhotoChanged = function(files) {
+        vm.uploadCommercialPhoto(files[0]);
+    };
+
+    vm.mandatoryPhotoChanged = function(files) {
+        vm.uploadMandatoryPhoto(files[0]);
+    };
+
+    vm.uploadMandatoryPhoto = function(file){
+        PolicyService.uploadFile(file)
+        .then(function(fileName){
+            vm.policy.mandatory_policy_photo = fileName;
+        })
+    }
+    vm.getMandatoryPhotoLink = function(){
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_mandatory_photo;
+    }
+
+
 });
 
 angular.module('app.policy').directive('upper', function () {

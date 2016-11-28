@@ -3219,35 +3219,6 @@ angular.module('app.forms').value('formsCommon', {
         }
     });
 'use strict';
-
-angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
-
-    $scope.projects = projects.data;
-
-    $scope.tableOptions =  {
-        "data": projects.data.data,
-//            "bDestroy": true,
-        "iDisplayLength": 15,
-        "columns": [
-            {
-                "class":          'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "name" },
-            { "data": "est" },
-            { "data": "contacts" },
-            { "data": "status" },
-            { "data": "target-actual" },
-            { "data": "starts" },
-            { "data": "ends" },
-            { "data": "tracker" }
-        ],
-        "order": [[1, 'asc']]
-    }
-});
-'use strict';
 /**
  * @ngdoc function
  * @name myApp.controller:MainCtrl
@@ -9977,6 +9948,40 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
 
     }
+
+    vm.commercialPhotoChanged = function(files) {
+        vm.uploadCommercialPhoto(files[0]);
+    };
+
+    vm.uploadCommercialPhoto = function(file){
+        PolicyService.uploadFile(file)
+        .then(function(fileName){
+            vm.policy.commercial_policy_photo = fileName;
+        })
+    }
+    vm.getCommercialPhotoLink = function(){
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_policy_photo;
+    }
+
+        vm.commercialPhotoChanged = function(files) {
+        vm.uploadCommercialPhoto(files[0]);
+    };
+
+    vm.mandatoryPhotoChanged = function(files) {
+        vm.uploadMandatoryPhoto(files[0]);
+    };
+
+    vm.uploadMandatoryPhoto = function(file){
+        PolicyService.uploadFile(file)
+        .then(function(fileName){
+            vm.policy.mandatory_policy_photo = fileName;
+        })
+    }
+    vm.getMandatoryPhotoLink = function(){
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_mandatory_photo;
+    }
+
+
 });
 
 angular.module('app.policy').directive('upper', function () {
@@ -10553,7 +10558,7 @@ angular.module('app.policy').controller('TestController', function ($scope, $fil
         })
     }
     vm.getFileLink = function(){
-        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.fileName;
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.fileName;
     }
 });
 
@@ -12472,6 +12477,35 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
             };
         }
     };
+});
+'use strict';
+
+angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, projects) {
+
+    $scope.projects = projects.data;
+
+    $scope.tableOptions =  {
+        "data": projects.data.data,
+//            "bDestroy": true,
+        "iDisplayLength": 15,
+        "columns": [
+            {
+                "class":          'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "name" },
+            { "data": "est" },
+            { "data": "contacts" },
+            { "data": "status" },
+            { "data": "target-actual" },
+            { "data": "starts" },
+            { "data": "ends" },
+            { "data": "tracker" }
+        ],
+        "order": [[1, 'asc']]
+    }
 });
 "use strict";
 
