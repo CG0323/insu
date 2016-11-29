@@ -382,7 +382,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         })
     }
     vm.getCommercialPhotoLink = function(){
-        return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo;
+        return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
     }
 
     vm.commercialPhotoChanged = function(files) {
@@ -400,7 +400,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         })
     }
     vm.getMandatoryPhotoLink = function(){
-        return "http://image.4006778808.com/" + vm.policy.mandatory_policy_photo;
+        return "http://image.4006778808.com/" + vm.policy.mandatory_policy_photo + "?x-oss-process=style/resize";
     }
 
 
