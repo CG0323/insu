@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy').controller('PolicyEditorController1', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService) {
+angular.module('app.policy').controller('PolicyEditorController1', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService, ngDialog) {
     var vm = this;
     vm.policy = {};
     vm.policy.plate_province = "苏";
@@ -12,15 +12,15 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     vm.ratesBasedString = "";
     vm.company = {};
 
-      //Infinite Scroll Magic
+    //Infinite Scroll Magic
     vm.infiniteScroll = {};
     vm.infiniteScroll.numToAdd = 20;
     vm.infiniteScroll.currentItems = 20;
-  
-    vm.resetInfScroll = function() {
+
+    vm.resetInfScroll = function () {
         vm.infiniteScroll.currentItems = vm.infiniteScroll.numToAdd;
     };
-    vm.addMoreItems = function(){
+    vm.addMoreItems = function () {
         vm.infiniteScroll.currentItems += vm.infiniteScroll.numToAdd;
     };
 
@@ -127,10 +127,10 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.editable = true;
     }
 
-    vm.getRatesBasedString = function(){
-        if(vm.policy.rates_based_on_taxed){
-             return "基于不含税保费";
-        }else{
+    vm.getRatesBasedString = function () {
+        if (vm.policy.rates_based_on_taxed) {
+            return "基于不含税保费";
+        } else {
             return "基于含税保费";
         }
     }
@@ -144,9 +144,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
-                if(policy.client){
+                if (policy.client) {
                     policy.client = policy.client._id;
-                }           
+                }
                 policy.seller = policy.seller._id;
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
@@ -162,15 +162,15 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.submit();
     }
 
-    vm.checkRuleRates = function(){
-        if(!vm.policy.rule_rates){
+    vm.checkRuleRates = function () {
+        if (!vm.policy.rule_rates) {
             return;
         }
         var rates = vm.policy.rule_rates;
         var policy = vm.policy;
         policy.has_warning = false;
-        if (policy.mandatory_fee > 0){
-            if(rates.mandatory_income < policy.mandatory_fee_income_rate){
+        if (policy.mandatory_fee > 0) {
+            if (rates.mandatory_income < policy.mandatory_fee_income_rate) {
                 policy.has_warning = true;
                 return;
             }
@@ -179,7 +179,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                 return;
             }
         }
-        if (policy.commercial_fee > 0){
+        if (policy.commercial_fee > 0) {
             if (rates.commercial_income < policy.commercial_fee_income_rate) {
                 policy.has_warning = true;
                 return;
@@ -190,7 +190,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             }
         }
 
-        if(policy.tax_fee > 0){
+        if (policy.tax_fee > 0) {
             if (rates.tax_income < policy.tax_fee_income_rate) {
                 policy.has_warning = true;
                 return;
@@ -201,7 +201,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             }
         }
 
-        if(policy.other_fee > 0){
+        if (policy.other_fee > 0) {
             if (rates.other_income < policy.other_fee_income_rate) {
                 policy.has_warning = true;
                 return;
@@ -215,9 +215,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     vm.submit = function () {
         vm.checkRuleRates();
-        if(vm.clientInfo){
+        if (vm.clientInfo) {
             vm.policy.client = vm.clientInfo._id;
-        }     
+        }
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -283,13 +283,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                             timeout: 5000
                         });
                         var ids = $stateParams.ids;
-                        if(ids && ids.length > 0){
+                        if (ids && ids.length > 0) {
                             var id = ids.shift();
-                            $state.go("app.policy.approve1",{policyId: id, ids: ids});
-                        }else{
+                            $state.go("app.policy.approve1", { policyId: id, ids: ids });
+                        } else {
                             $state.go("app.policy.to-be-reviewed");
                         }
-                        
+
                     }, function (err) { });
             }
             if (ButtonPressed === "取消") {
@@ -371,38 +371,55 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     }
 
-    vm.commercialPhotoChanged = function(files) {
+    vm.commercialPhotoChanged = function (files) {
         vm.uploadCommercialPhoto(files[0]);
     };
 
-    vm.uploadCommercialPhoto = function(file){
-        PolicyService.uploadFile(file)
-        .then(function(fileName){
-            vm.policy.commercial_policy_photo = fileName;
-        })
+    vm.uploadCommercialPhoto = function (file) {
+        PolicyService.uploadFile(file, vm.policy.commercial_policy_photo)
+            .then(function (fileName) {
+                vm.policy.commercial_policy_photo = fileName;
+            })
     }
-    vm.getCommercialPhotoLink = function(){
-        return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
+    vm.getCommercialPhotoLink = function () {
+        //return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
+        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
     }
 
-    vm.commercialPhotoChanged = function(files) {
+    vm.commercialPhotoChanged = function (files) {
         vm.uploadCommercialPhoto(files[0]);
     };
 
-    vm.mandatoryPhotoChanged = function(files) {
+    vm.mandatoryPhotoChanged = function (files) {
         vm.uploadMandatoryPhoto(files[0]);
     };
 
-    vm.uploadMandatoryPhoto = function(file){
-        PolicyService.uploadFile(file)
-        .then(function(fileName){
-            vm.policy.mandatory_policy_photo = fileName;
-        })
+    vm.uploadMandatoryPhoto = function (file) {
+        PolicyService.uploadFile(file, vm.policy.mandatory_policy_photo)
+            .then(function (fileName) {
+                vm.policy.mandatory_policy_photo = fileName;
+            })
     }
-    vm.getMandatoryPhotoLink = function(){
-        return "http://image.4006778808.com/" + vm.policy.mandatory_policy_photo + "?x-oss-process=style/resize";
+    vm.getMandatoryPhotoLink = function () {
+        // return "http://image.4006778808.com/" + vm.policy.mandatory_policy_photo + "?x-oss-process=style/resize";
+        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.mandatory_policy_photo + "?x-oss-process=style/resize";
     }
 
+    vm.reviewPhoto = function (fileName) {
+        ngDialog.open({
+            template: 'app/policy/views/photo-review.html',
+            className: 'ngdialog-theme-default',
+            controller: 'PhotoReviewController as vm',
+            resolve: {
+                data: function () {
+                    var val = {};
+                    val.fileName = fileName;
+                    val.policy = vm.policy;
+                    return val;
+                }
+            }
+        });
+    }
 
 });
 
@@ -504,65 +521,65 @@ angular.module('app.policy').filter('propsFilter', function () {
     }
 });
 
-angular.module('app.policy').directive('infiniteScroll', ['$rootScope', '$window', '$timeout', function($rootScope, $window, $timeout) {
-        return {
-            link: function(scope, elem, attrs) {
-                var checkWhenEnabled, handler, scrollDistance, scrollEnabled;
-                $window = angular.element($window);
-                elem.css('overflow-y', 'auto');
-                elem.css('overflow-x', 'hidden');
-                elem.css('height', 'inherit');
-                scrollDistance = 0;
-                if (attrs.infiniteScrollDistance != null) {
-                    scope.$watch(attrs.infiniteScrollDistance, function(value) {
-                        return (scrollDistance = parseInt(value, 10));
-                    });
-                }
-                scrollEnabled = true;
-                checkWhenEnabled = false;
-                if (attrs.infiniteScrollDisabled != null) {
-                    scope.$watch(attrs.infiniteScrollDisabled, function(value) {
-                        scrollEnabled = !value;
-                        if (scrollEnabled && checkWhenEnabled) {
-                            checkWhenEnabled = false;
-                            return handler();
-                        }
-                    });
-                }
-                $rootScope.$on('refreshStart', function(){
-                    elem.animate({ scrollTop: "0" });
+angular.module('app.policy').directive('infiniteScroll', ['$rootScope', '$window', '$timeout', function ($rootScope, $window, $timeout) {
+    return {
+        link: function (scope, elem, attrs) {
+            var checkWhenEnabled, handler, scrollDistance, scrollEnabled;
+            $window = angular.element($window);
+            elem.css('overflow-y', 'auto');
+            elem.css('overflow-x', 'hidden');
+            elem.css('height', 'inherit');
+            scrollDistance = 0;
+            if (attrs.infiniteScrollDistance != null) {
+                scope.$watch(attrs.infiniteScrollDistance, function (value) {
+                    return (scrollDistance = parseInt(value, 10));
                 });
-                handler = function() {
-                    var container, elementBottom, remaining, shouldScroll, containerBottom;
-                    container = $(elem.children()[0]);
-                    elementBottom = elem.offset().top + elem.height();
-                    containerBottom = container.offset().top + container.height();
-                    remaining = containerBottom - elementBottom ;
-                    shouldScroll = remaining <= elem.height() * scrollDistance;
-                    if (shouldScroll && scrollEnabled) {
-                        if ($rootScope.$$phase) {
-                            return scope.$eval(attrs.infiniteScroll);
-                        } else {
-                            return scope.$apply(attrs.infiniteScroll);
-                        }
-                    } else if (shouldScroll) {
-                        return (checkWhenEnabled = true);
-                    }
-                };
-                elem.on('scroll', handler);
-                scope.$on('$destroy', function() {
-                    return $window.off('scroll', handler);
-                });
-                return $timeout((function() {
-                    if (attrs.infiniteScrollImmediateCheck) {
-                        if (scope.$eval(attrs.infiniteScrollImmediateCheck)) {
-                            return handler();
-                        }
-                    } else {
+            }
+            scrollEnabled = true;
+            checkWhenEnabled = false;
+            if (attrs.infiniteScrollDisabled != null) {
+                scope.$watch(attrs.infiniteScrollDisabled, function (value) {
+                    scrollEnabled = !value;
+                    if (scrollEnabled && checkWhenEnabled) {
+                        checkWhenEnabled = false;
                         return handler();
                     }
-                }), 0);
+                });
             }
-        };
-    }
+            $rootScope.$on('refreshStart', function () {
+                elem.animate({ scrollTop: "0" });
+            });
+            handler = function () {
+                var container, elementBottom, remaining, shouldScroll, containerBottom;
+                container = $(elem.children()[0]);
+                elementBottom = elem.offset().top + elem.height();
+                containerBottom = container.offset().top + container.height();
+                remaining = containerBottom - elementBottom;
+                shouldScroll = remaining <= elem.height() * scrollDistance;
+                if (shouldScroll && scrollEnabled) {
+                    if ($rootScope.$$phase) {
+                        return scope.$eval(attrs.infiniteScroll);
+                    } else {
+                        return scope.$apply(attrs.infiniteScroll);
+                    }
+                } else if (shouldScroll) {
+                    return (checkWhenEnabled = true);
+                }
+            };
+            elem.on('scroll', handler);
+            scope.$on('$destroy', function () {
+                return $window.off('scroll', handler);
+            });
+            return $timeout((function () {
+                if (attrs.infiniteScrollImmediateCheck) {
+                    if (scope.$eval(attrs.infiniteScrollImmediateCheck)) {
+                        return handler();
+                    }
+                } else {
+                    return handler();
+                }
+            }), 0);
+        }
+    };
+}
 ]);

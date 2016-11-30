@@ -528,7 +528,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function uploadFile(file) {
+            function uploadFile(file, fileName) {
                 document.body.style.cursor='wait';
                 var deferred = $q.defer();
                 getStsCredential()
@@ -538,6 +538,7 @@ angular.module('app.policy').factory('PolicyService',
                     accessKeyId: credentials.AccessKeyId,
                     accessKeySecret: credentials.AccessKeySecret,
                     stsToken: credentials.SecurityToken,
+                    // bucket: 'cwang1'
                     bucket: 'hy-policy'
                 }, function(err){
                     document.body.style.cursor='default';   
@@ -550,10 +551,13 @@ angular.module('app.policy').factory('PolicyService',
                     });
                     return;
                 });
-                var ext = /\.[^\.]+$/.exec(file.name); 
-                var fileName = uuid.v1() + ext;
+                if(!fileName){
+                    var ext = /\.[^\.]+$/.exec(file.name); 
+                    fileName = uuid.v1() + ext;
+                }
                 client.multipartUpload(fileName, file).then(function (result) {
                     var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
                     $.smallBox({
                             title: "服务器确认信息",
                             content: "扫描件已成功上传",

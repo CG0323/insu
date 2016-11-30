@@ -27,7 +27,8 @@
     "angular-local-storage",
     "js-xlsx",
     "ali-oss",
-    "angular-uuid"
+    "angular-uuid",
+    "ng-dialog"
   ],
   "paths": {
 
@@ -153,7 +154,8 @@
     "angular-local-storage":"plugin/angular-local-storage/dist/angular-local-storage.min.js",
     "js-xlsx":"plugin/js-xlsx/dist/xlsx.core.min.js",
     "ali-oss":"plugin/ali-oss/dist/aliyun-oss-sdk.min.js",
-    "angular-uuid":"plugin/angular-uuid/angular-uuid.js"
+    "angular-uuid":"plugin/angular-uuid/angular-uuid.js",
+    "ng-dialog":"plugin/ng-dialog/js/ngDialog.min.js"
   },
   "shim": {
     "to-markdown": {"deps": ["he"]},
