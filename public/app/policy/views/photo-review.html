@@ -1,7 +1,12 @@
 <div class="row">
 	<section class="col col-md-7">
 		<!--<img ng-src={{vm.getImageUrl()}} alt="保单扫描件" width="700" data-ng-magnify/>-->
-		<div id="policy-photo" data-ng-magnify image-src={{vm.getImageUrl()}} width="700"></div>
+		<div id="policy-photo" 
+		data-ng-magnify
+		data-glass-width="400"
+        data-glass-height="400" 
+		image-src={{vm.getImageUrl()}} 
+		width="700"></div>
 	</section>
 	<section class="col col-md-5">
 			<dl class="dl-horizontal">
