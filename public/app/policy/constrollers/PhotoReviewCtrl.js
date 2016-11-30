@@ -16,7 +16,7 @@ angular.module('app.policy').controller('PhotoReviewController', function (data,
 
     vm.getImageUrl = function() {
         // return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + data.fileName + "?x-oss-process=style/resize"
-        return "http://image.4006778808.com/" + data.fileName + "?x-oss-process=style/resize"
+        return "http://image.4006778808.com/" + data.fileName; //+ "?x-oss-process=style/resize"
     }
 
     vm.getCompanyName = function() {
