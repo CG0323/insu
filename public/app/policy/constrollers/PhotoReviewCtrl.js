@@ -11,6 +11,7 @@ angular.module('app.policy').controller('PhotoReviewController', function (data)
 
     vm.getCompanyName = function() {
         var policy = vm.policy;
+        console.log(policy);
         return policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';     
     }
     
