@@ -44,7 +44,7 @@
                                 <fieldset class="optional-input-field-set" ng-disabled="vm.policy.policy_status=='已支付'">
                                     <div class="row">
                                         <section class="col col-3">
-                                            <button class="btn btn-primary" ng-click = "vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</button>                                          
+                                            <a ng-show="vm.policy.mandatory_policy_photo" href="" ng-click = "vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</a>                                          
                                             <!--<a ng-show="vm.policy.mandatory_policy_photo" target="_blank" href={{vm.getMandatoryPhotoLink()}}>查看扫描件</a>-->
                                             <label class="label">交强险</label>
                                             <label class="input">
@@ -92,7 +92,7 @@
                                         </section>
 
                                         <section class="col col-3">
-                                            <button class="btn btn-primary" ng-click = "vm.reviewPhoto(vm.policy.commercial_policy_photo)">查看扫描件</button>
+                                            <a ng-show="vm.policy.commercial_policy_photo" href="" ng-click = "vm.reviewPhoto(vm.policy.commercial_policy_photo)">查看扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
                                             <label class="label">商业险</label>
                                             <label class="input">
@@ -469,7 +469,7 @@
                                             <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file"  
        	                                     onclick="mandatory_file_selector.click()">上传扫描件  
  	                                        </button>
-                                            <button class="btn btn-primary" ng-click = "vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</button>
+                                            <a ng-show="vm.policy.mandatory_policy_photo" href="" ng-click = "vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</a>
                                             <!--<a ng-show="vm.policy.mandatory_policy_photo" target="_blank" href={{vm.getMandatoryPhotoLink()}}>查看扫描件</a>-->
                                         </label>
                                         <label class="label">交强险</label>
@@ -525,7 +525,7 @@
                                             <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file"  
        	                                     onclick="commercial_file_selector.click()">上传扫描件  
  	                                        </button>
-                                            <button class="btn btn-primary" ng-click = "vm.reviewPhoto(vm.policy.commercial_policy_photo)">查看扫描件</button>
+                                            <a ng-show="vm.policy.commercial_policy_photo" href = "" ng-click = "vm.reviewPhoto(vm.policy.commercial_policy_photo)">查看扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
                                         </label>
                                         <label class="label">商业险</label>
