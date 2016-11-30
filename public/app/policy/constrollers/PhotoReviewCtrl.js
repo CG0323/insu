@@ -3,6 +3,7 @@
 angular.module('app.policy').controller('PhotoReviewController', function (data) {
     var vm = this;
     vm.policy = data.policy;
+    console.log(vm.policy);
     vm.companyName = data.companyName;
     vm.getImageUrl = function() {
         // return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + data.fileName + "?x-oss-process=style/resize"
