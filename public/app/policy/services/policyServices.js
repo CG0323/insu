@@ -22,8 +22,31 @@ angular.module('app.policy').factory('PolicyService',
                 getSubCompanies: getSubCompanies,
                 getLevel2Companies: getLevel2Companies,
                 bulkApprove: bulkApprove,
-                uploadFile: uploadFile
+                uploadFile: uploadFile,
+                getCompany: getCompany
             });
+            
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getClient(clientId) {
                 // create a new instance of deferred

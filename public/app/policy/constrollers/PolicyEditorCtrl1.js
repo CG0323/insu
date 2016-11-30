@@ -415,7 +415,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                     var val = {};
                     val.fileName = fileName;
                     val.policy = vm.policy;
-                    val.companyName = vm.policy.level4_company ? vm.policy.level4_company.name :  vm.policy.level3_company? vm.policy.level3_company.name :vm.policy.level2_company? vm.policy.level2_company.name : '';     
                     return val;
                 }
             }
