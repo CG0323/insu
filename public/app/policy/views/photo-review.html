@@ -7,7 +7,12 @@
 		width="800"></div>
 	</section>
 	<section class="col col-md-4">
-			<dl class="dl-horizontal" style="margin-left:5px">
+			<label>{{vm.companyName}}</label>
+			<label>{{{vm.policy.applicant.name}}</label>
+			<label>{{vm.policy.plate_no}}</label>
+			<label>交强险保费：{{vm.policy.mandatory_fee.toFixed(2)}}</label>
+			<label>商业险保费：{{vm.policy.commercial_fee.toFixed(2)}}</label>
+			<!--<dl class="dl-horizontal">
 				<dt>保险公司</dt>
 				<dd>{{vm.companyName}}</dd>
 				<dt>投保人</dt>
@@ -18,6 +23,6 @@
 				<dd>{{vm.policy.mandatory_fee.toFixed(2)}}</dd>
 				<dt>商业险保费</dt>
 				<dd>{{vm.policy.commercial_fee.toFixed(2)}}</dd>
-			</dl>
+			</dl>-->
 	</section>
 </div>
