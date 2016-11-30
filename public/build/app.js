@@ -3568,6 +3568,235 @@ angular.module('app.auth').factory('AuthService',
             }
 
         }]);
+'use strict';
+
+angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
+
+
+    // Events scope
+    $scope.events = [];
+
+    // Unassigned events scope
+    $scope.eventsExternal = [
+        {
+            title: "Office Meeting",
+            description: "Currently busy",
+            className: "bg-color-darken txt-color-white",
+            icon: "fa-time"
+        },
+        {
+            title: "Lunch Break",
+            description: "No Description",
+            className: "bg-color-blue txt-color-white",
+            icon: "fa-pie"
+        },
+        {
+            title: "URGENT",
+            description: "urgent tasks",
+            className: "bg-color-red txt-color-white",
+            icon: "fa-alert"
+        }
+    ];
+
+
+    // Queriing our events from CalendarEvent resource...
+    // Scope update will automatically update the calendar
+    CalendarEvent.query().$promise.then(function (events) {
+        $scope.events = events;
+    });
+
+
+    $scope.newEvent = {};
+
+    $scope.addEvent = function() {
+
+        $log.log("Adding new event:", $scope.newEvent);
+
+        var newEventDefaults = {
+            title: "Untitled Event",
+            description: "no description",
+            className: "bg-color-darken txt-color-white",
+            icon: "fa-info"
+        };
+
+
+        $scope.newEvent = angular.extend(newEventDefaults, $scope.newEvent);
+
+        $scope.eventsExternal.unshift($scope.newEvent);
+
+        $scope.newEvent = {};
+
+        // $log.log("New events now:", $scope.eventsExternal);
+
+    };
+
+
+});
+
+"use strict";
+
+angular.module('app.calendar').directive('dragableEvent', function ($log) {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+
+            // $log.log(element.scope());
+
+            var eventObject = element.scope().event;
+
+            element.data('eventObject', eventObject);
+
+
+            element.draggable({
+                zIndex: 999,
+                revert: true, // will cause the event to go back to its
+                revertDuration: 0 //  original position after the drag
+            });
+
+
+        }
+    }
+})
+"use strict";
+
+angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
+        scope: {
+            events: "=events"
+        },
+        link: function (scope, element) {
+
+
+            var $calendar = $("#calendar");
+
+            var calendar = null;
+
+
+            function initCalendar() {
+
+                // $log.log(events);
+
+
+                calendar = $calendar.fullCalendar({
+                    lang: 'en',
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
+                    droppable: true,
+
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
+                    },
+
+                    drop: function (date, allDay) { // this function is called when something is dropped
+
+                        // retrieve the dropped element's stored Event Object
+                        var originalEventObject = $(this).data('eventObject');
+            
+                        // we need to copy it, so that multiple events don't have a reference to the same object
+                        var copiedEventObject = $.extend({}, originalEventObject);
+            
+                        // assign it the date that was reported
+                        copiedEventObject.start = date;
+                        copiedEventObject.allDay = allDay;
+
+                        // $log.log(scope);
+            
+                        // render the event on the calendar
+                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+            
+                        // is the "remove after drop" checkbox checked?
+                        if ($('#drop-remove').is(':checked')) {
+
+                            // if so, remove the element from the "Draggable Events" list
+                            // $(this).remove();
+                            // $log.log($(this).scope());
+                            var index = $(this).scope().$index;
+
+                            $("#external-events").scope().eventsExternal.splice(index, 1);
+                            $(this).remove();
+
+                        }
+            
+                    },
+
+                    select: function (start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    allDay: allDay
+                                }, true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },
+
+                    // events: scope.events,
+
+                    events: function(start, end, timezone, callback) {
+
+                        callback(scope.events);
+
+                    },
+
+                    eventRender: function (event, element, icon) {
+                        if (!event.description == "") {
+                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
+                        }
+                        if (!event.icon == "") {
+                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
+                        }
+                    }
+                });
+
+                $('.fc-header-right, .fc-header-center', $calendar).hide();
+            }
+
+
+            initCalendar();
+
+
+            // Now events will be refetched every time events scope is updated in controller!!!
+            scope.$watch("events", function(newValue, oldValue) {
+
+                $calendar.fullCalendar( 'refetchEvents' );
+
+            }, true);
+
+
+            scope.next = function () {
+                $('.fc-button-next', $calendar).click();
+            };
+            scope.prev = function () {
+                $('.fc-button-prev', $calendar).click();
+            };
+            scope.today = function () {
+                $('.fc-button-today', $calendar).click();
+            };
+            scope.changeView = function (period) {
+                $calendar.fullCalendar('changeView', period);
+            };
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
+    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
+});
 'use strict'
 
 angular.module('app.client').controller('IndClientEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, ClientService) {
@@ -4265,235 +4494,6 @@ angular.module('app.client').factory('ClientService',
             
            
         }]);
-'use strict';
-
-angular.module('app.calendar').controller('CalendarCtrl', function ($scope, $log, CalendarEvent) {
-
-
-    // Events scope
-    $scope.events = [];
-
-    // Unassigned events scope
-    $scope.eventsExternal = [
-        {
-            title: "Office Meeting",
-            description: "Currently busy",
-            className: "bg-color-darken txt-color-white",
-            icon: "fa-time"
-        },
-        {
-            title: "Lunch Break",
-            description: "No Description",
-            className: "bg-color-blue txt-color-white",
-            icon: "fa-pie"
-        },
-        {
-            title: "URGENT",
-            description: "urgent tasks",
-            className: "bg-color-red txt-color-white",
-            icon: "fa-alert"
-        }
-    ];
-
-
-    // Queriing our events from CalendarEvent resource...
-    // Scope update will automatically update the calendar
-    CalendarEvent.query().$promise.then(function (events) {
-        $scope.events = events;
-    });
-
-
-    $scope.newEvent = {};
-
-    $scope.addEvent = function() {
-
-        $log.log("Adding new event:", $scope.newEvent);
-
-        var newEventDefaults = {
-            title: "Untitled Event",
-            description: "no description",
-            className: "bg-color-darken txt-color-white",
-            icon: "fa-info"
-        };
-
-
-        $scope.newEvent = angular.extend(newEventDefaults, $scope.newEvent);
-
-        $scope.eventsExternal.unshift($scope.newEvent);
-
-        $scope.newEvent = {};
-
-        // $log.log("New events now:", $scope.eventsExternal);
-
-    };
-
-
-});
-
-"use strict";
-
-angular.module('app.calendar').directive('dragableEvent', function ($log) {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-
-            // $log.log(element.scope());
-
-            var eventObject = element.scope().event;
-
-            element.data('eventObject', eventObject);
-
-
-            element.draggable({
-                zIndex: 999,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0 //  original position after the drag
-            });
-
-
-        }
-    }
-})
-"use strict";
-
-angular.module('app.calendar').directive('fullCalendar', function (CalendarEvent, $log, $timeout) {
-    return {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'app/calendar/directives/full-calendar.tpl.html',
-        scope: {
-            events: "=events"
-        },
-        link: function (scope, element) {
-
-
-            var $calendar = $("#calendar");
-
-            var calendar = null;
-
-
-            function initCalendar() {
-
-                // $log.log(events);
-
-
-                calendar = $calendar.fullCalendar({
-                    lang: 'en',
-                    editable: true,
-                    draggable: true,
-                    selectable: false,
-                    selectHelper: true,
-                    unselectAuto: false,
-                    disableResizing: false,
-                    droppable: true,
-
-                    header: {
-                        left: 'title', //,today
-                        center: 'prev, next, today',
-                        right: 'month, agendaWeek, agendaDay' //month, agendaDay,
-                    },
-
-                    drop: function (date, allDay) { // this function is called when something is dropped
-
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-            
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-            
-                        // assign it the date that was reported
-                        copiedEventObject.start = date;
-                        copiedEventObject.allDay = allDay;
-
-                        // $log.log(scope);
-            
-                        // render the event on the calendar
-                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-            
-                        // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
-
-                            // if so, remove the element from the "Draggable Events" list
-                            // $(this).remove();
-                            // $log.log($(this).scope());
-                            var index = $(this).scope().$index;
-
-                            $("#external-events").scope().eventsExternal.splice(index, 1);
-                            $(this).remove();
-
-                        }
-            
-                    },
-
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.fullCalendar('renderEvent', {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                }, true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
-
-                    // events: scope.events,
-
-                    events: function(start, end, timezone, callback) {
-
-                        callback(scope.events);
-
-                    },
-
-                    eventRender: function (event, element, icon) {
-                        if (!event.description == "") {
-                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-                        }
-                        if (!event.icon == "") {
-                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-                        }
-                    }
-                });
-
-                $('.fc-header-right, .fc-header-center', $calendar).hide();
-            }
-
-
-            initCalendar();
-
-
-            // Now events will be refetched every time events scope is updated in controller!!!
-            scope.$watch("events", function(newValue, oldValue) {
-
-                $calendar.fullCalendar( 'refetchEvents' );
-
-            }, true);
-
-
-            scope.next = function () {
-                $('.fc-button-next', $calendar).click();
-            };
-            scope.prev = function () {
-                $('.fc-button-prev', $calendar).click();
-            };
-            scope.today = function () {
-                $('.fc-button-today', $calendar).click();
-            };
-            scope.changeView = function (period) {
-                $calendar.fullCalendar('changeView', period);
-            };
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.calendar').factory('CalendarEvent', function($resource, APP_CONFIG){
-    return $resource( APP_CONFIG.apiRootUrl + '/events.json', {_id:'@id'})
-});
 'use strict'
 
 angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
@@ -9355,6 +9355,122 @@ angular.module('app.policy').controller('PhotoReviewController', function (data,
     }
     
 });
+
+angular.module('app.policy').directive('ngMagnify', function () {
+    return {
+      restrict: 'EA',
+      replace: true,
+      template: '<div class="magnify-container" data-ng-style="getContainerStyle()">' +
+                  '<div class="magnify-glass" data-ng-style="getGlassStyle()"></div>' +
+                  '<img class="magnify-image" data-ng-src="{{ imageSrc }}"/>' +
+                '</div>',
+      scope: {
+        imageSrc: '@',
+        imageWidth: '=',
+        imageHeight: '=',
+        glassWidth: '=',
+        glassHeight: '='
+      },
+      link: function (scope, element) {
+        var glass = element.find('div'),
+          image = element.find('img'),
+          el, nWidth, nHeight, magnifyCSS;
+
+        // if touch devices, do something
+        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+          return;
+        }
+        element.on('mousemove', function (evt) {
+          el = angular.extend(scope.getOffset(element[0]), {
+            width: element[0].offsetWidth,
+            height: element[0].offsetHeight,
+            imageWidth: image[0].offsetWidth,
+            imageHeight: image[0].offsetHeight,
+            glassWidth: glass[0].offsetWidth,
+            glassHeight: glass[0].offsetHeight
+          });
+          magnifyCSS = scope.magnify(evt);
+
+          if (magnifyCSS) {
+            glass.css( magnifyCSS );
+          }
+        })
+        .on('mouseout', function () {
+          glass.on('mouseleave', function () {
+            glass.css({
+              opacity: 0,
+              filter: 'alpha(opacity=0)'
+            });
+          });
+        });
+
+        scope.magnify = function (evt) {
+          var mx, my, rx, ry, px, py, bgp, img;
+
+          if (!nWidth && !nHeight) {
+            img = new Image();
+            img.onload = function () {
+              nWidth = img.width;
+              nHeight = img.height;
+            };
+            img.src = scope.imageSrc;
+          } else {
+            // IE8 uses evt.x and evt.y
+            mx = (evt.pageX) ? (evt.pageX - el.left) : evt.x;
+            my = (evt.pageY) ? (evt.pageY - el.top) : evt.y;
+
+            if (mx < el.width && my < el.height && mx > 0 && my > 0) {
+              glass.css({
+                opacity: 1,
+                'z-index': 1,
+                filter: 'alpha(opacity=100)'
+              });
+            } else {
+              glass.css({
+                opacity: 0,
+                'z-index': -1,
+                filter: 'alpha(opacity=0)'
+              });
+              return;
+            }
+
+            rx = Math.round(mx/el.imageWidth*nWidth - el.glassWidth/2)*-1;
+            ry = Math.round(my/el.imageHeight*nHeight - el.glassHeight/2)*-1;
+            bgp = rx + 'px ' + ry + 'px';
+
+            px = mx - el.glassWidth/2;
+            py = my - el.glassHeight/2;
+
+            return { left: px+'px', top: py+'px', backgroundPosition: bgp };
+          }
+          return;
+        };
+
+        scope.getOffset = function (_el) {
+          var de = document.documentElement;
+          var box = _el.getBoundingClientRect();
+          var top = box.top + window.pageYOffset - de.clientTop;
+          var left = box.left + window.pageXOffset - de.clientLeft;
+          return { top: top, left: left };
+        };
+
+        scope.getContainerStyle = function () {
+          return {
+            width: (scope.imageWidth) ? scope.imageWidth + 'px' : '',
+            height: (scope.imageHeight) ? scope.imageHeight + 'px' : ''
+          };
+        };
+
+        scope.getGlassStyle = function () {
+          return {
+            background: 'url("' + scope.imageSrc + '") no-repeat',
+            width: (scope.glassWidth) ? scope.glassWidth + 'px' : '',
+            height: (scope.glassHeight) ? scope.glassHeight + 'px' : ''
+          };
+        };
+      }
+    };
+  });
 
 'use strict'
 
@@ -17806,6 +17922,196 @@ angular.module('SmartAdmin.Forms').directive('smartSummernoteEditor', function (
 });
 'use strict';
 
+angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
+    return {
+        restrict: 'A',
+        scope: {
+            coords: '=',
+            options: '=',
+            selection: '='
+        },
+        link: function (scope, element, attributes) {
+            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
+
+            var listeners = {
+                onSelectHandlers: [],
+                onChangeHandlers: [],
+                onSelect: function (c) {
+                    angular.forEach(listeners.onSelectHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                },
+                onChange: function (c) {
+                    angular.forEach(listeners.onChangeHandlers, function (handler) {
+                        handler.call(jcropApi, c)
+                    })
+                }
+            };
+
+            if (attributes.coords) {
+                var coordsUpdate = function (c) {
+                    scope.$apply(function () {
+                        scope.coords = c;
+                    });
+                };
+                listeners.onSelectHandlers.push(coordsUpdate);
+                listeners.onChangeHandlers.push(coordsUpdate);
+            }
+
+            var $previewPane = $(attributes.smartJcropPreview),
+                $previewContainer = $previewPane.find('.preview-container'),
+                $previewImg = $previewPane.find('img');
+
+            if ($previewPane.length && $previewImg.length) {
+                var previewUpdate = function (coords) {
+                    if (parseInt(coords.w) > 0) {
+                        var rx = $previewContainer.width() / coords.w;
+                        var ry = $previewContainer.height() / coords.h;
+
+                        $previewImg.css({
+                            width: Math.round(rx * imageWidth) + 'px',
+                            height: Math.round(ry * imageHeight) + 'px',
+                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                        });
+                    }
+                };
+                listeners.onSelectHandlers.push(previewUpdate);
+                listeners.onChangeHandlers.push(previewUpdate);
+            }
+
+
+            var options = {
+                onSelect: listeners.onSelect,
+                onChange: listeners.onChange
+            };
+
+            if ($previewContainer.length) {
+                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
+            }
+
+            if (attributes.selection) {
+                scope.$watch('selection', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
+
+                        var callback = newVal == 'release' ? function () {
+                            jcropApi.release();
+                        } : angular.noop;
+
+                        imageLoaded.promise.then(function () {
+                            if (scope.options && scope.options.animate) {
+                                jcropApi.animateTo(rectangle, callback);
+                            } else {
+                                jcropApi.setSelect(rectangle);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (attributes.options) {
+
+                var optionNames = [
+                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
+                    'allowSelect', 'allowMove', 'allowResize',
+                    'aspectRatio'
+                ];
+
+                angular.forEach(optionNames, function (name) {
+                    if (scope.options[name])
+                        options[name] = scope.options[name]
+
+                    scope.$watch('options.' + name, function (newVal, oldVal) {
+                        if (newVal != oldVal) {
+                            imageLoaded.promise.then(function () {
+                                var update = {};
+                                update[name] = newVal;
+                                jcropApi.setOptions(update);
+                            });
+                        }
+                    });
+
+                });
+
+
+                scope.$watch('options.disabled', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.disable();
+                        } else {
+                            jcropApi.enable();
+                        }
+                    }
+                });
+
+                scope.$watch('options.destroyed', function (newVal, oldVal) {
+                    if (newVal != oldVal) {
+                        if (newVal) {
+                            jcropApi.destroy();
+                        } else {
+                            _init();
+                        }
+                    }
+                });
+
+                scope.$watch('options.src', function (newVal, oldVal) {
+                    imageLoaded = $q.defer();
+                    if (newVal != oldVal) {
+                        jcropApi.setImage(scope.options.src, function () {
+                            imageLoaded.resolve();
+                        });
+                    }
+                });
+
+                var updateSize = function(){
+                    jcropApi.setOptions({
+                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
+                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
+                    });
+                };
+
+                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
+                    if (newVal != oldVal) updateSize();
+                });
+            }
+
+            var _init = function () {
+                element.Jcrop(options, function () {
+                    jcropApi = this;
+                    // Use the API to get the real image size
+                    var bounds = this.getBounds();
+                    imageWidth = bounds[0];
+                    imageHeight = bounds[1];
+
+                    if (attributes.selection && angular.isArray(scope.selection)) {
+                        if (scope.options && scope.options.animate) {
+                            jcropApi.animateTo(scope.selection);
+                        } else {
+                            jcropApi.setSelect(scope.selection);
+                        }
+                    }
+                    imageLoaded.resolve();
+                });
+            };
+
+            _init()
+
+
+        }
+    }
+});
+'use strict';
+
 angular.module('SmartAdmin.Forms').directive('smartCheckoutForm', function (formsCommon, lazyScript) {
     return {
         restrict: 'A',
@@ -18212,196 +18518,6 @@ angular.module('SmartAdmin.Forms').directive('smartReviewForm', function (formsC
 
                 }, formsCommon.validateOptions));
             });
-        }
-    }
-});
-'use strict';
-
-angular.module('SmartAdmin.Forms').directive('smartJcrop', function ($q) {
-    return {
-        restrict: 'A',
-        scope: {
-            coords: '=',
-            options: '=',
-            selection: '='
-        },
-        link: function (scope, element, attributes) {
-            var jcropApi, imageWidth, imageHeight, imageLoaded = $q.defer();
-
-            var listeners = {
-                onSelectHandlers: [],
-                onChangeHandlers: [],
-                onSelect: function (c) {
-                    angular.forEach(listeners.onSelectHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                },
-                onChange: function (c) {
-                    angular.forEach(listeners.onChangeHandlers, function (handler) {
-                        handler.call(jcropApi, c)
-                    })
-                }
-            };
-
-            if (attributes.coords) {
-                var coordsUpdate = function (c) {
-                    scope.$apply(function () {
-                        scope.coords = c;
-                    });
-                };
-                listeners.onSelectHandlers.push(coordsUpdate);
-                listeners.onChangeHandlers.push(coordsUpdate);
-            }
-
-            var $previewPane = $(attributes.smartJcropPreview),
-                $previewContainer = $previewPane.find('.preview-container'),
-                $previewImg = $previewPane.find('img');
-
-            if ($previewPane.length && $previewImg.length) {
-                var previewUpdate = function (coords) {
-                    if (parseInt(coords.w) > 0) {
-                        var rx = $previewContainer.width() / coords.w;
-                        var ry = $previewContainer.height() / coords.h;
-
-                        $previewImg.css({
-                            width: Math.round(rx * imageWidth) + 'px',
-                            height: Math.round(ry * imageHeight) + 'px',
-                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                            marginTop: '-' + Math.round(ry * coords.y) + 'px'
-                        });
-                    }
-                };
-                listeners.onSelectHandlers.push(previewUpdate);
-                listeners.onChangeHandlers.push(previewUpdate);
-            }
-
-
-            var options = {
-                onSelect: listeners.onSelect,
-                onChange: listeners.onChange
-            };
-
-            if ($previewContainer.length) {
-                options.aspectRatio = $previewContainer.width() / $previewContainer.height()
-            }
-
-            if (attributes.selection) {
-                scope.$watch('selection', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        var rectangle = newVal == 'release' ? [imageWidth / 2, imageHeight / 2, imageWidth / 2, imageHeight / 2] : newVal;
-
-                        var callback = newVal == 'release' ? function () {
-                            jcropApi.release();
-                        } : angular.noop;
-
-                        imageLoaded.promise.then(function () {
-                            if (scope.options && scope.options.animate) {
-                                jcropApi.animateTo(rectangle, callback);
-                            } else {
-                                jcropApi.setSelect(rectangle);
-                            }
-                        });
-                    }
-                });
-            }
-
-            if (attributes.options) {
-
-                var optionNames = [
-                    'bgOpacity', 'bgColor', 'bgFade', 'shade', 'outerImage',
-                    'allowSelect', 'allowMove', 'allowResize',
-                    'aspectRatio'
-                ];
-
-                angular.forEach(optionNames, function (name) {
-                    if (scope.options[name])
-                        options[name] = scope.options[name]
-
-                    scope.$watch('options.' + name, function (newVal, oldVal) {
-                        if (newVal != oldVal) {
-                            imageLoaded.promise.then(function () {
-                                var update = {};
-                                update[name] = newVal;
-                                jcropApi.setOptions(update);
-                            });
-                        }
-                    });
-
-                });
-
-
-                scope.$watch('options.disabled', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.disable();
-                        } else {
-                            jcropApi.enable();
-                        }
-                    }
-                });
-
-                scope.$watch('options.destroyed', function (newVal, oldVal) {
-                    if (newVal != oldVal) {
-                        if (newVal) {
-                            jcropApi.destroy();
-                        } else {
-                            _init();
-                        }
-                    }
-                });
-
-                scope.$watch('options.src', function (newVal, oldVal) {
-                    imageLoaded = $q.defer();
-                    if (newVal != oldVal) {
-                        jcropApi.setImage(scope.options.src, function () {
-                            imageLoaded.resolve();
-                        });
-                    }
-                });
-
-                var updateSize = function(){
-                    jcropApi.setOptions({
-                        minSize: [scope.options.minSizeWidth, scope.options.minSizeHeight],
-                        maxSize: [scope.options.maxSizeWidth, scope.options.maxSizeHeight]
-                    });
-                };
-
-                scope.$watch('options.minSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.minSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeWidth', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-                scope.$watch('options.maxSizeHeight', function (newVal, oldVal) {
-                    if (newVal != oldVal) updateSize();
-                });
-            }
-
-            var _init = function () {
-                element.Jcrop(options, function () {
-                    jcropApi = this;
-                    // Use the API to get the real image size
-                    var bounds = this.getBounds();
-                    imageWidth = bounds[0];
-                    imageHeight = bounds[1];
-
-                    if (attributes.selection && angular.isArray(scope.selection)) {
-                        if (scope.options && scope.options.animate) {
-                            jcropApi.animateTo(scope.selection);
-                        } else {
-                            jcropApi.setSelect(scope.selection);
-                        }
-                    }
-                    imageLoaded.resolve();
-                });
-            };
-
-            _init()
-
-
         }
     }
 });
