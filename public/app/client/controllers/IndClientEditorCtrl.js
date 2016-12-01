@@ -12,6 +12,12 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         vm.editable = true;
     }
 
+    ClientService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+
 
 
     var clientId = $stateParams.clientId;

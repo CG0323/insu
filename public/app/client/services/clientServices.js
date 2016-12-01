@@ -12,8 +12,33 @@ angular.module('app.client').factory('ClientService',
                 getClient: getClient,
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
-                getWechatsByIds: getWechatsByIds
+                getWechatsByIds: getWechatsByIds,
+                getOrganizations: getOrganizations
             });
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function saveClient(client) {
                 // create a new instance of deferred

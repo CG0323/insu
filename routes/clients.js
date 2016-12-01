@@ -16,7 +16,9 @@ router.get('/', function(req, res, next) {
   }else if(type == "manager"){
     query = {client_type:'主管'};
   }
-  Client.find(query).exec()
+  Client.find(query)
+  .populate('organization')
+  .exec()
   .then(function(clients){
     for(var i = 0; i<clients.length; i++){
       var name = clients[i].name;
@@ -78,6 +80,7 @@ router.put('/:id', function (req, res) {
         client.wechats = req.body.wechats;
         client.other_accounts = req.body.other_accounts;
         client.payment_substract_rate = req.body.payment_substract_rate;
+        client.organization = req.body.organization;
         
         client.save(function (err) {
             if (err){

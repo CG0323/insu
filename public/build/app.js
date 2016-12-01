@@ -3811,6 +3811,12 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         vm.editable = true;
     }
 
+    ClientService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+
+
 
 
     var clientId = $stateParams.clientId;
@@ -4285,8 +4291,33 @@ angular.module('app.client').factory('ClientService',
                 getClient: getClient,
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
-                getWechatsByIds: getWechatsByIds
+                getWechatsByIds: getWechatsByIds,
+                getOrganizations: getOrganizations
             });
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function saveClient(client) {
                 // create a new instance of deferred
@@ -6069,6 +6100,307 @@ angular.module('app.employee').factory('EmployeeService',
                 return deferred.promise;
             }
         }]);
+
+"use strict";
+
+angular.module('app.forms').controller('FormLayoutsCtrl', function($scope, $modal, $log){
+
+    $scope.openModal = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/forms/views/form-layout-modal.html',
+            controller: 'ModalDemoCtrl' 
+        });
+
+        modalInstance.result.then(function () {
+            $log.info('Modal closed at: ' + new Date());
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+
+
+    };
+
+    $scope.registration = {};
+
+    $scope.$watch('registration.date', function(changed){
+        console.log('registration model changed', $scope.registration)
+    })
+
+
+});
+
+"use strict";
+
+angular.module('app.forms').controller('FormPluginsCtrl', function($scope, $log){
+
+	$scope.editableOptions =  {
+		mode: 'popup',
+		disabled: false
+	};
+
+	$scope.toggleInline = function() {
+		if($scope.editableOptions.mode == 'popup') {
+			$scope.editableOptions.mode = 'inline';
+		}
+		else {
+			$scope.editableOptions.mode = 'popup'
+		}
+	};
+
+	$scope.toggleDisabled = function() {
+		$scope.editableOptions.disabled = !$scope.editableOptions.disabled;
+	};
+
+});
+"use strict";
+
+
+angular.module('app.forms').controller('FormWizardCtrl', function($scope){
+
+    $scope.wizard1CompleteCallback = function(wizardData){
+        console.log('wizard1CompleteCallback', wizardData);
+        $.smallBox({
+            title: "Congratulations! Smart wizard finished",
+            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+            color: "#5F895F",
+            iconSmall: "fa fa-check bounce animated",
+            timeout: 4000
+        });
+    };
+
+    $scope.wizard2CompleteCallback = function(wizardData){
+        console.log('wizard2CompleteCallback', wizardData);
+        $.smallBox({
+            title: "Congratulations! Smart fuekux wizard finished",
+            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+            color: "#5F895F",
+            iconSmall: "fa fa-check bounce animated",
+            timeout: 4000
+        });
+
+    };
+
+});
+"use strict";
+
+angular.module('app.forms').controller('FormXeditableCtrl', function($scope, $log){
+
+    $scope.username = 'superuser';
+    $scope.firstname = null;
+    $scope.sex = 'not selected';
+    $scope.group = "Admin";
+    $scope.vacation = "25.02.2013";
+    $scope.combodate = "15/05/1984";
+    $scope.event = null;
+    $scope.comments = 'awesome user!';
+    $scope.state2 = 'California';
+    $scope.fruits = 'peach<br/>apple';
+    
+
+    $scope.fruits_data = [
+        {value: 'banana', text: 'banana'},
+        {value: 'peach', text: 'peach'},
+        {value: 'apple', text: 'apple'},
+        {value: 'watermelon', text: 'watermelon'},
+        {value: 'orange', text: 'orange'}]
+    ;
+
+
+    $scope.genders =  [
+        {value: 'not selected', text: 'not selected'},
+        {value: 'Male', text: 'Male'},
+        {value: 'Female', text: 'Female'}
+    ];
+
+    $scope.groups =  [
+        {value: 'Guest', text: 'Guest'},
+        {value: 'Service', text: 'Service'},
+        {value: 'Customer', text: 'Customer'},
+        {value: 'Operator', text: 'Operator'},
+        {value: 'Support', text: 'Support'},
+        {value: 'Admin', text: 'Admin'}
+    ]; 
+
+});
+"use strict";
+
+
+angular.module('app.forms').controller('ImageEditorCtrl', function ($scope) {
+
+    // api tab
+    $scope.apiDemoSelection = [100, 100, 400, 300];
+
+    $scope.apiDemoOptions = {
+        allowSelect: true,
+        allowResize: true,
+        allowMove: true,
+        animate: false
+    };
+
+    $scope.apiRandomSelection = function () {
+        $scope.apiDemoOptions.animate = false;
+        $scope.apiDemoSelection = [
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400),
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400)
+        ]
+    };
+
+    $scope.apiRandomAnimation = function () {
+        $scope.apiDemoOptions.animate = true;
+        $scope.apiDemoSelection = [
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400),
+            Math.round(Math.random() * 600),
+            Math.round(Math.random() * 400)
+        ]
+    };
+
+    $scope.apiReleaseSelection = function () {
+        $scope.apiDemoOptions.animate = true;
+        $scope.apiDemoSelection = 'release';
+    };
+
+
+    $scope.apiToggleDisable = function () {
+        $scope.apiDemoOptions.disabled = !$scope.apiDemoOptions.disabled;
+    };
+
+    $scope.apiToggleDestroy = function () {
+        $scope.apiDemoOptions.destroyed = !$scope.apiDemoOptions.destroyed;
+    };
+
+    $scope.apiDemoShowAspect = false;
+    $scope.apiDemoToggleAspect = function () {
+        $scope.apiDemoShowAspect = !$scope.apiDemoShowAspect;
+        if ($scope.apiDemoShowAspect)
+            $scope.apiDemoOptions.aspectRatio = 4 / 3;
+        else
+            $scope.apiDemoOptions.aspectRatio = 0;
+    };
+
+    $scope.apiDemoShowSizeRestrict = false;
+    $scope.apiDemoToggleSizeRestrict = function () {
+        $scope.apiDemoShowSizeRestrict = !$scope.apiDemoShowSizeRestrict;
+        if ($scope.apiDemoShowSizeRestrict) {
+            $scope.apiDemoOptions.minSizeWidth = 80;
+            $scope.apiDemoOptions.minSizeHeight = 80;
+            $scope.apiDemoOptions.maxSizeWidth = 350;
+            $scope.apiDemoOptions.maxSizeHeight = 350;
+        } else {
+            $scope.apiDemoOptions.minSizeWidth = 0;
+            $scope.apiDemoOptions.minSizeHeight = 0;
+            $scope.apiDemoOptions.maxSizeWidth = 0;
+            $scope.apiDemoOptions.maxSizeHeight = 0;
+        }
+
+    };
+
+
+    $scope.setApiDemoImage = function (image) {
+        $scope.apiDemoImage = image;
+        $scope.apiDemoOptions.src = image.src;
+        $scope.apiDemoOptions.bgOpacity = image.bgOpacity;
+        $scope.apiDemoOptions.outerImage = image.outerImage;
+        $scope.apiRandomAnimation();
+    };
+
+    $scope.apiDemoImages = [
+        {
+            name: 'Lego',
+            src: 'styles/img/superbox/superbox-full-24.jpg',
+            bgOpacity: .6
+        },
+        {
+            name: 'Breakdance',
+            src: 'styles/img/superbox/superbox-full-7.jpg',
+            bgOpacity: .6
+        },
+        {
+            name: 'Dragon Fly',
+            src: 'styles/img/superbox/superbox-full-20.jpg',
+            bgOpacity: 1,
+            outerImage: 'styles/img/superbox/superbox-full-20-bw.jpg'
+        }
+    ];
+
+    $scope.apiDemoImage = $scope.apiDemoImages[1];
+
+    // animations tab
+    $scope.animationsDemoOptions = {
+        bgOpacity: undefined,
+        bgColor: undefined,
+        bgFade: true,
+        shade: false,
+        animate: true
+    };
+    $scope.animationsDemoSelection = undefined;
+    $scope.selections = {
+        1: [217, 122, 382, 284],
+        2: [20, 20, 580, 380],
+        3: [24, 24, 176, 376],
+        4: [347, 165, 550, 355],
+        5: [136, 55, 472, 183],
+        Release: 'release'
+    };
+
+    $scope.opacities = {
+        Low: .2,
+        Mid: .5,
+        High: .8,
+        Full: 1
+    };
+
+    $scope.colors = {
+        R: '#900',
+        B: '#4BB6F0',
+        Y: '#F0B207',
+        G: '#46B81C',
+        W: 'white',
+        K: 'black'
+    };
+
+
+    // styling tab
+
+    $scope.styles = [
+        {
+            name: 'jcrop-light',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'white',
+            bgOpacity: 0.5
+        },
+        {
+            name: 'jcrop-dark',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'black',
+            bgOpacity: 0.4
+        },
+        {
+            name: 'jcrop-normal',
+            bgFade: true,
+            animate: true,
+            selection: [130, 65, 130 + 350, 65 + 285],
+            bgColor: 'black',
+            bgOpacity: 0.6
+        }
+    ];
+
+    $scope.demoStyle = $scope.styles[0]
+});
+'use strict'
+
+angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalInstance){
+    $scope.closeModal = function(){
+        $modalInstance.dismiss('cancel');
+    }
+});
 "use strict";
 
 angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
@@ -12371,307 +12703,6 @@ angular.module('app.ui').directive('smartTreeview', function ($compile, $sce) {
         }
     };
 });
-
-"use strict";
-
-angular.module('app.forms').controller('FormLayoutsCtrl', function($scope, $modal, $log){
-
-    $scope.openModal = function () {
-        var modalInstance = $modal.open({
-            templateUrl: 'app/forms/views/form-layout-modal.html',
-            controller: 'ModalDemoCtrl' 
-        });
-
-        modalInstance.result.then(function () {
-            $log.info('Modal closed at: ' + new Date());
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-
-
-    };
-
-    $scope.registration = {};
-
-    $scope.$watch('registration.date', function(changed){
-        console.log('registration model changed', $scope.registration)
-    })
-
-
-});
-
-"use strict";
-
-angular.module('app.forms').controller('FormPluginsCtrl', function($scope, $log){
-
-	$scope.editableOptions =  {
-		mode: 'popup',
-		disabled: false
-	};
-
-	$scope.toggleInline = function() {
-		if($scope.editableOptions.mode == 'popup') {
-			$scope.editableOptions.mode = 'inline';
-		}
-		else {
-			$scope.editableOptions.mode = 'popup'
-		}
-	};
-
-	$scope.toggleDisabled = function() {
-		$scope.editableOptions.disabled = !$scope.editableOptions.disabled;
-	};
-
-});
-"use strict";
-
-
-angular.module('app.forms').controller('FormWizardCtrl', function($scope){
-
-    $scope.wizard1CompleteCallback = function(wizardData){
-        console.log('wizard1CompleteCallback', wizardData);
-        $.smallBox({
-            title: "Congratulations! Smart wizard finished",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            iconSmall: "fa fa-check bounce animated",
-            timeout: 4000
-        });
-    };
-
-    $scope.wizard2CompleteCallback = function(wizardData){
-        console.log('wizard2CompleteCallback', wizardData);
-        $.smallBox({
-            title: "Congratulations! Smart fuekux wizard finished",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            iconSmall: "fa fa-check bounce animated",
-            timeout: 4000
-        });
-
-    };
-
-});
-"use strict";
-
-angular.module('app.forms').controller('FormXeditableCtrl', function($scope, $log){
-
-    $scope.username = 'superuser';
-    $scope.firstname = null;
-    $scope.sex = 'not selected';
-    $scope.group = "Admin";
-    $scope.vacation = "25.02.2013";
-    $scope.combodate = "15/05/1984";
-    $scope.event = null;
-    $scope.comments = 'awesome user!';
-    $scope.state2 = 'California';
-    $scope.fruits = 'peach<br/>apple';
-    
-
-    $scope.fruits_data = [
-        {value: 'banana', text: 'banana'},
-        {value: 'peach', text: 'peach'},
-        {value: 'apple', text: 'apple'},
-        {value: 'watermelon', text: 'watermelon'},
-        {value: 'orange', text: 'orange'}]
-    ;
-
-
-    $scope.genders =  [
-        {value: 'not selected', text: 'not selected'},
-        {value: 'Male', text: 'Male'},
-        {value: 'Female', text: 'Female'}
-    ];
-
-    $scope.groups =  [
-        {value: 'Guest', text: 'Guest'},
-        {value: 'Service', text: 'Service'},
-        {value: 'Customer', text: 'Customer'},
-        {value: 'Operator', text: 'Operator'},
-        {value: 'Support', text: 'Support'},
-        {value: 'Admin', text: 'Admin'}
-    ]; 
-
-});
-"use strict";
-
-
-angular.module('app.forms').controller('ImageEditorCtrl', function ($scope) {
-
-    // api tab
-    $scope.apiDemoSelection = [100, 100, 400, 300];
-
-    $scope.apiDemoOptions = {
-        allowSelect: true,
-        allowResize: true,
-        allowMove: true,
-        animate: false
-    };
-
-    $scope.apiRandomSelection = function () {
-        $scope.apiDemoOptions.animate = false;
-        $scope.apiDemoSelection = [
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400),
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400)
-        ]
-    };
-
-    $scope.apiRandomAnimation = function () {
-        $scope.apiDemoOptions.animate = true;
-        $scope.apiDemoSelection = [
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400),
-            Math.round(Math.random() * 600),
-            Math.round(Math.random() * 400)
-        ]
-    };
-
-    $scope.apiReleaseSelection = function () {
-        $scope.apiDemoOptions.animate = true;
-        $scope.apiDemoSelection = 'release';
-    };
-
-
-    $scope.apiToggleDisable = function () {
-        $scope.apiDemoOptions.disabled = !$scope.apiDemoOptions.disabled;
-    };
-
-    $scope.apiToggleDestroy = function () {
-        $scope.apiDemoOptions.destroyed = !$scope.apiDemoOptions.destroyed;
-    };
-
-    $scope.apiDemoShowAspect = false;
-    $scope.apiDemoToggleAspect = function () {
-        $scope.apiDemoShowAspect = !$scope.apiDemoShowAspect;
-        if ($scope.apiDemoShowAspect)
-            $scope.apiDemoOptions.aspectRatio = 4 / 3;
-        else
-            $scope.apiDemoOptions.aspectRatio = 0;
-    };
-
-    $scope.apiDemoShowSizeRestrict = false;
-    $scope.apiDemoToggleSizeRestrict = function () {
-        $scope.apiDemoShowSizeRestrict = !$scope.apiDemoShowSizeRestrict;
-        if ($scope.apiDemoShowSizeRestrict) {
-            $scope.apiDemoOptions.minSizeWidth = 80;
-            $scope.apiDemoOptions.minSizeHeight = 80;
-            $scope.apiDemoOptions.maxSizeWidth = 350;
-            $scope.apiDemoOptions.maxSizeHeight = 350;
-        } else {
-            $scope.apiDemoOptions.minSizeWidth = 0;
-            $scope.apiDemoOptions.minSizeHeight = 0;
-            $scope.apiDemoOptions.maxSizeWidth = 0;
-            $scope.apiDemoOptions.maxSizeHeight = 0;
-        }
-
-    };
-
-
-    $scope.setApiDemoImage = function (image) {
-        $scope.apiDemoImage = image;
-        $scope.apiDemoOptions.src = image.src;
-        $scope.apiDemoOptions.bgOpacity = image.bgOpacity;
-        $scope.apiDemoOptions.outerImage = image.outerImage;
-        $scope.apiRandomAnimation();
-    };
-
-    $scope.apiDemoImages = [
-        {
-            name: 'Lego',
-            src: 'styles/img/superbox/superbox-full-24.jpg',
-            bgOpacity: .6
-        },
-        {
-            name: 'Breakdance',
-            src: 'styles/img/superbox/superbox-full-7.jpg',
-            bgOpacity: .6
-        },
-        {
-            name: 'Dragon Fly',
-            src: 'styles/img/superbox/superbox-full-20.jpg',
-            bgOpacity: 1,
-            outerImage: 'styles/img/superbox/superbox-full-20-bw.jpg'
-        }
-    ];
-
-    $scope.apiDemoImage = $scope.apiDemoImages[1];
-
-    // animations tab
-    $scope.animationsDemoOptions = {
-        bgOpacity: undefined,
-        bgColor: undefined,
-        bgFade: true,
-        shade: false,
-        animate: true
-    };
-    $scope.animationsDemoSelection = undefined;
-    $scope.selections = {
-        1: [217, 122, 382, 284],
-        2: [20, 20, 580, 380],
-        3: [24, 24, 176, 376],
-        4: [347, 165, 550, 355],
-        5: [136, 55, 472, 183],
-        Release: 'release'
-    };
-
-    $scope.opacities = {
-        Low: .2,
-        Mid: .5,
-        High: .8,
-        Full: 1
-    };
-
-    $scope.colors = {
-        R: '#900',
-        B: '#4BB6F0',
-        Y: '#F0B207',
-        G: '#46B81C',
-        W: 'white',
-        K: 'black'
-    };
-
-
-    // styling tab
-
-    $scope.styles = [
-        {
-            name: 'jcrop-light',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'white',
-            bgOpacity: 0.5
-        },
-        {
-            name: 'jcrop-dark',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'black',
-            bgOpacity: 0.4
-        },
-        {
-            name: 'jcrop-normal',
-            bgFade: true,
-            animate: true,
-            selection: [130, 65, 130 + 350, 65 + 285],
-            bgColor: 'black',
-            bgOpacity: 0.6
-        }
-    ];
-
-    $scope.demoStyle = $scope.styles[0]
-});
-'use strict'
-
-angular.module('app.forms').controller('ModalDemoCtrl', function($scope, $modalInstance){
-    $scope.closeModal = function(){
-        $modalInstance.dismiss('cancel');
-    }
-});
 "use strict";
 
 angular.module('SmartAdmin.Layout').directive('fullScreen', function(){
@@ -14831,413 +14862,6 @@ angular.module('app').factory('Todo', function (Restangular, APP_CONFIG) {
 });
 'use strict';
 
-angular.module('app.tables').directive('datatableBasic', function ($compile) {
-    return {
-        restrict: 'A',
-        scope: {
-            tableOptions: '='
-        },
-        link: function (scope, element, attributes) {
-            /* // DOM Position key index //
-
-             l - Length changing (dropdown)
-             f - Filtering input (search)
-             t - The Table! (datatable)
-             i - Information (records)
-             p - Pagination (paging)
-             r - pRocessing
-             < and > - div elements
-             <"#id" and > - div with an id
-             <"class" and > - div with a class
-             <"#id.class" and > - div with an id and class
-
-             Also see: http://legacy.datatables.net/usage/features
-             */
-
-            var options = {
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                    "t" +
-                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                oLanguage:{
-                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> ",
-                    "sLengthMenu": "_MENU_"
-                },
-                "autoWidth": false,
-                "smartResponsiveHelper": null,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!this.smartResponsiveHelper) {
-                        this.smartResponsiveHelper = new ResponsiveDatatablesHelper(element, {
-                            tablet: 1024,
-                            phone: 480
-                        });
-                    }
-                },
-                "rowCallback": function (nRow) {
-                    this.smartResponsiveHelper.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    this.smartResponsiveHelper.respond();
-                }
-            };
-
-            if(attributes.tableOptions){
-                options = angular.extend(options, scope.tableOptions)
-            }
-
-            var _dataTable;
-
-            var childFormat = element.find('.smart-datatable-child-format');
-            if(childFormat.length){
-                var childFormatTemplate = childFormat.remove().html();
-                element.on('click', childFormat.data('childControl'), function () {
-                    var tr = $(this).closest('tr');
-
-                    var row = _dataTable.row( tr );
-                    if ( row.child.isShown() ) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    }
-                    else {
-                        // Open this row
-                        var childScope = scope.$new();
-                        childScope.d = row.data();
-                        var html = $compile(childFormatTemplate)(childScope);
-                        row.child( html ).show();
-                        tr.addClass('shown');
-                    }
-                })
-            }
-
-            _dataTable =  element.DataTable(options);
-
-        }
-    }
-});
-'use strict';
-
-angular.module('app.tables').directive('datatableColumnFilter', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            /* // DOM Position key index //
-
-             l - Length changing (dropdown)
-             f - Filtering input (search)
-             t - The Table! (datatable)
-             i - Information (records)
-             p - Pagination (paging)
-             r - pRocessing
-             < and > - div elements
-             <"#id" and > - div with an id
-             <"class" and > - div with a class
-             <"#id.class" and > - div with an id and class
-
-             Also see: http://legacy.datatables.net/usage/features
-             */
-
-            var responsiveHelper = undefined;
-
-            var breakpointDefinition = {
-                tablet: 1024,
-                phone: 480
-            };
-
-            var otable = element.DataTable({
-                //"bFilter": false,
-                //"bInfo": false,
-                //"bLengthChange": false
-                //"bAutoWidth": false,
-                //"bPaginate": false,
-                //"bStateSave": true // saves sort state using localStorage
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
-                    "t"+
-                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                oLanguage:{
-                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> "
-                },
-                "autoWidth" : false,
-                "preDrawCallback" : function() {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper) {
-                        responsiveHelper = new ResponsiveDatatablesHelper(element, breakpointDefinition);
-                    }
-                },
-                "rowCallback" : function(nRow) {
-                    responsiveHelper.createExpandIcon(nRow);
-                },
-                "drawCallback" : function(oSettings) {
-                    responsiveHelper.respond();
-                }
-
-            });
-
-            // custom toolbar
-            element.parent().find("div.toolbar").html('<div class="text-right"><img src="styles/img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-
-            // Apply the filter
-            element.on( 'keyup change', 'thead th input[type=text]', function () {
-
-                otable
-                    .column( $(this).parent().index()+':visible' )
-                    .search( this.value )
-                    .draw();
-
-            } );
-        }
-    }
-});
-'use strict';
-
-angular.module('app.tables').directive('datatableColumnReorder', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element) {
-            /* // DOM Position key index //
-
-             l - Length changing (dropdown)
-             f - Filtering input (search)
-             t - The Table! (datatable)
-             i - Information (records)
-             p - Pagination (paging)
-             r - pRocessing
-             < and > - div elements
-             <"#id" and > - div with an id
-             <"class" and > - div with a class
-             <"#id.class" and > - div with an id and class
-
-             Also see: http://legacy.datatables.net/usage/features
-             */
-
-            var responsiveHelper = undefined;
-
-            var breakpointDefinition = {
-                tablet: 1024,
-                phone: 480
-            };
-
-            element.dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 hidden-xs'C>r>" +
-                    "t" +
-                    "<'dt-toolbar-footer'<'col-sm-6 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                oLanguage: {
-                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> "
-                },
-                "autoWidth": false,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper) {
-                        responsiveHelper = new ResponsiveDatatablesHelper(element, breakpointDefinition);
-                    }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper.respond();
-                }
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.tables').directive('datatableTableTools', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            /* // DOM Position key index //
-
-             l - Length changing (dropdown)
-             f - Filtering input (search)
-             t - The Table! (datatable)
-             i - Information (records)
-             p - Pagination (paging)
-             r - pRocessing
-             < and > - div elements
-             <"#id" and > - div with an id
-             <"class" and > - div with a class
-             <"#id.class" and > - div with an id and class
-
-             Also see: http://legacy.datatables.net/usage/features
-             */
-            var responsiveHelper = undefined;
-
-            var breakpointDefinition = {
-                tablet: 1024,
-                phone: 480
-            };
-
-            element.dataTable({
-                // Tabletools options:
-                //   https://datatables.net/extensions/tabletools/button_options
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 hidden-xs'T>r>" +
-                    "t" +
-                    "<'dt-toolbar-footer'<'col-sm-6 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                oLanguage:{
-                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> "
-                },
-
-                sFilterInput:  "form-control",
-                "oTableTools": {
-                    "aButtons": [
-                        "copy",
-                        "csv",
-                        "xls",
-                        {
-                            "sExtends": "pdf",
-                            "sTitle": "SmartAdmin_PDF",
-                            "sPdfMessage": "SmartAdmin PDF Export",
-                            "sPdfSize": "letter"
-                        },
-                        {
-                            "sExtends": "print",
-                            "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
-                        }
-                    ],
-                    "sSwfPath": "plugin/datatables-tabletools/swf/copy_csv_xls_pdf.swf"
-                },
-                "autoWidth": false,
-                preDrawCallback: function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper) {
-                        responsiveHelper = new ResponsiveDatatablesHelper(element, breakpointDefinition);
-                    }
-                },
-                rowCallback: function (nRow) {
-                    responsiveHelper.createExpandIcon(nRow);
-                },
-                drawCallback: function (oSettings) {
-                    responsiveHelper.respond();
-                }
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.tables').directive('jqGrid', function ($compile) {
-    var jqGridCounter = 0;
-
-    return {
-        replace: true,
-        restrict: 'E',
-        scope: {
-            gridData: '='
-        },
-        template: '<div>' +
-            '<table></table>' +
-            '<div class="jqgrid-pagination"></div>' +
-            '</div>',
-        controller: function($scope, $element){
-            $scope.editRow  = function(row){
-                $element.find('table').editRow(row);
-            };
-            $scope.saveRow  = function(row){
-                $element.find('table').saveRow(row);
-            };
-            $scope.restoreRow  = function(row){
-                $element.find('table').restoreRow(row);
-            };
-        },
-        link: function (scope, element) {
-            var gridNumber = jqGridCounter++;
-            var wrapperId = 'jqgrid-' + gridNumber;
-            element.attr('id', wrapperId);
-
-            var tableId = 'jqgrid-table-' + gridNumber;
-            var table = element.find('table');
-            table.attr('id', tableId);
-
-            var pagerId = 'jqgrid-pager-' + gridNumber;
-            element.find('.jqgrid-pagination').attr('id', pagerId);
-
-
-            table.jqGrid({
-                data : scope.gridData.data,
-                datatype : "local",
-                height : 'auto',
-                colNames : scope.gridData.colNames || [],
-                colModel : scope.gridData.colModel || [],
-                rowNum : 10,
-                rowList : [10, 20, 30],
-                pager : '#' + pagerId,
-                sortname : 'id',
-                toolbarfilter : true,
-                viewrecords : true,
-                sortorder : "asc",
-                gridComplete : function() {
-                    var ids = table.jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        var be = "<button class='btn btn-xs btn-default' tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
-
-                        var se = "<button class='btn btn-xs btn-default' tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
-
-                        var ca = "<button class='btn btn-xs btn-default' tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
-
-                        table.jqGrid('setRowData', ids[i], {
-                            act : be + se + ca
-                        });
-                    }
-                },
-                editurl : "dummy.html",
-                caption : "SmartAdmin jQgrid Skin",
-                multiselect : true,
-                autowidth : true
-
-            });
-            table.jqGrid('navGrid', '#' + pagerId, {
-                edit : false,
-                add : false,
-                del : true
-            });
-            table.jqGrid('inlineNav', '#' + pagerId);
-
-
-            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
-            element.find(".ui-jqgrid").removeClass("ui-widget-content");
-
-            // add classes
-            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-
-            $(window).on('resize.jqGrid', function() {
-               table.jqGrid('setGridWidth', $("#content").width());
-            });
-
-
-            $compile(element.contents())(scope);
-        }
-    }
-});
-'use strict';
-
 angular.module('app.graphs').directive('chartjsBarChart', function () {
     return {
         restrict: 'A',
@@ -16653,6 +16277,53 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
         }
     }
 });
+'use strict';
+
+angular.module('app.graphs').directive('vectorMap', function () {
+    return {
+        restrict: 'EA',
+        scope: {
+            mapData: '='
+        },
+        link: function (scope, element, attributes) {
+            var data = scope.mapData;
+
+            element.vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
+                    },
+                    hover: {
+                        "fill-opacity": 1
+                    }
+                },
+                series: {
+                    regions: [
+                        {
+                            values: data,
+                            scale: ['#85a8b6', '#4d7686'],
+                            normalizeFunction: 'polynomial'
+                        }
+                    ]
+                },
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data[code] == 'undefined') {
+                        e.preventDefault();
+                    } else {
+                        var countrylbl = data[code];
+                        el.html(el.html() + ': ' + countrylbl + ' visits');
+                    }
+                }
+            });
+
+            element.on('$destroy', function(){
+                element.children('.jvectormap-container').data('mapObject').remove();
+            })
+        }
+    }
+});
 
 "use strict";
 
@@ -17347,48 +17018,408 @@ angular.module('app.graphs').directive('morrisYearGraph', function(){
 });
 'use strict';
 
-angular.module('app.graphs').directive('vectorMap', function () {
+angular.module('app.tables').directive('datatableBasic', function ($compile) {
     return {
-        restrict: 'EA',
+        restrict: 'A',
         scope: {
-            mapData: '='
+            tableOptions: '='
         },
         link: function (scope, element, attributes) {
-            var data = scope.mapData;
+            /* // DOM Position key index //
 
-            element.vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: '#fff',
-                regionStyle: {
-                    initial: {
-                        fill: '#c4c4c4'
-                    },
-                    hover: {
-                        "fill-opacity": 1
+             l - Length changing (dropdown)
+             f - Filtering input (search)
+             t - The Table! (datatable)
+             i - Information (records)
+             p - Pagination (paging)
+             r - pRocessing
+             < and > - div elements
+             <"#id" and > - div with an id
+             <"class" and > - div with a class
+             <"#id.class" and > - div with an id and class
+
+             Also see: http://legacy.datatables.net/usage/features
+             */
+
+            var options = {
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                oLanguage:{
+                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> ",
+                    "sLengthMenu": "_MENU_"
+                },
+                "autoWidth": false,
+                "smartResponsiveHelper": null,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!this.smartResponsiveHelper) {
+                        this.smartResponsiveHelper = new ResponsiveDatatablesHelper(element, {
+                            tablet: 1024,
+                            phone: 480
+                        });
                     }
                 },
-                series: {
-                    regions: [
-                        {
-                            values: data,
-                            scale: ['#85a8b6', '#4d7686'],
-                            normalizeFunction: 'polynomial'
-                        }
-                    ]
+                "rowCallback": function (nRow) {
+                    this.smartResponsiveHelper.createExpandIcon(nRow);
                 },
-                onRegionLabelShow: function (e, el, code) {
-                    if (typeof data[code] == 'undefined') {
-                        e.preventDefault();
-                    } else {
-                        var countrylbl = data[code];
-                        el.html(el.html() + ': ' + countrylbl + ' visits');
-                    }
+                "drawCallback": function (oSettings) {
+                    this.smartResponsiveHelper.respond();
                 }
+            };
+
+            if(attributes.tableOptions){
+                options = angular.extend(options, scope.tableOptions)
+            }
+
+            var _dataTable;
+
+            var childFormat = element.find('.smart-datatable-child-format');
+            if(childFormat.length){
+                var childFormatTemplate = childFormat.remove().html();
+                element.on('click', childFormat.data('childControl'), function () {
+                    var tr = $(this).closest('tr');
+
+                    var row = _dataTable.row( tr );
+                    if ( row.child.isShown() ) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else {
+                        // Open this row
+                        var childScope = scope.$new();
+                        childScope.d = row.data();
+                        var html = $compile(childFormatTemplate)(childScope);
+                        row.child( html ).show();
+                        tr.addClass('shown');
+                    }
+                })
+            }
+
+            _dataTable =  element.DataTable(options);
+
+        }
+    }
+});
+'use strict';
+
+angular.module('app.tables').directive('datatableColumnFilter', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            /* // DOM Position key index //
+
+             l - Length changing (dropdown)
+             f - Filtering input (search)
+             t - The Table! (datatable)
+             i - Information (records)
+             p - Pagination (paging)
+             r - pRocessing
+             < and > - div elements
+             <"#id" and > - div with an id
+             <"class" and > - div with a class
+             <"#id.class" and > - div with an id and class
+
+             Also see: http://legacy.datatables.net/usage/features
+             */
+
+            var responsiveHelper = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var otable = element.DataTable({
+                //"bFilter": false,
+                //"bInfo": false,
+                //"bLengthChange": false
+                //"bAutoWidth": false,
+                //"bPaginate": false,
+                //"bStateSave": true // saves sort state using localStorage
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
+                    "t"+
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                oLanguage:{
+                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> "
+                },
+                "autoWidth" : false,
+                "preDrawCallback" : function() {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper(element, breakpointDefinition);
+                    }
+                },
+                "rowCallback" : function(nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                    responsiveHelper.respond();
+                }
+
             });
 
-            element.on('$destroy', function(){
-                element.children('.jvectormap-container').data('mapObject').remove();
-            })
+            // custom toolbar
+            element.parent().find("div.toolbar").html('<div class="text-right"><img src="styles/img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
+            // Apply the filter
+            element.on( 'keyup change', 'thead th input[type=text]', function () {
+
+                otable
+                    .column( $(this).parent().index()+':visible' )
+                    .search( this.value )
+                    .draw();
+
+            } );
+        }
+    }
+});
+'use strict';
+
+angular.module('app.tables').directive('datatableColumnReorder', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+            /* // DOM Position key index //
+
+             l - Length changing (dropdown)
+             f - Filtering input (search)
+             t - The Table! (datatable)
+             i - Information (records)
+             p - Pagination (paging)
+             r - pRocessing
+             < and > - div elements
+             <"#id" and > - div with an id
+             <"class" and > - div with a class
+             <"#id.class" and > - div with an id and class
+
+             Also see: http://legacy.datatables.net/usage/features
+             */
+
+            var responsiveHelper = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            element.dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 hidden-xs'C>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                oLanguage: {
+                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> "
+                },
+                "autoWidth": false,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper(element, breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper.respond();
+                }
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.tables').directive('datatableTableTools', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            /* // DOM Position key index //
+
+             l - Length changing (dropdown)
+             f - Filtering input (search)
+             t - The Table! (datatable)
+             i - Information (records)
+             p - Pagination (paging)
+             r - pRocessing
+             < and > - div elements
+             <"#id" and > - div with an id
+             <"class" and > - div with a class
+             <"#id.class" and > - div with an id and class
+
+             Also see: http://legacy.datatables.net/usage/features
+             */
+            var responsiveHelper = undefined;
+
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            element.dataTable({
+                // Tabletools options:
+                //   https://datatables.net/extensions/tabletools/button_options
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 hidden-xs'T>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+                oLanguage:{
+                    "sSearch": "<span class='input-group-addon input-sm'><i class='glyphicon glyphicon-search'></i></span> "
+                },
+
+                sFilterInput:  "form-control",
+                "oTableTools": {
+                    "aButtons": [
+                        "copy",
+                        "csv",
+                        "xls",
+                        {
+                            "sExtends": "pdf",
+                            "sTitle": "SmartAdmin_PDF",
+                            "sPdfMessage": "SmartAdmin PDF Export",
+                            "sPdfSize": "letter"
+                        },
+                        {
+                            "sExtends": "print",
+                            "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
+                        }
+                    ],
+                    "sSwfPath": "plugin/datatables-tabletools/swf/copy_csv_xls_pdf.swf"
+                },
+                "autoWidth": false,
+                preDrawCallback: function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper) {
+                        responsiveHelper = new ResponsiveDatatablesHelper(element, breakpointDefinition);
+                    }
+                },
+                rowCallback: function (nRow) {
+                    responsiveHelper.createExpandIcon(nRow);
+                },
+                drawCallback: function (oSettings) {
+                    responsiveHelper.respond();
+                }
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.tables').directive('jqGrid', function ($compile) {
+    var jqGridCounter = 0;
+
+    return {
+        replace: true,
+        restrict: 'E',
+        scope: {
+            gridData: '='
+        },
+        template: '<div>' +
+            '<table></table>' +
+            '<div class="jqgrid-pagination"></div>' +
+            '</div>',
+        controller: function($scope, $element){
+            $scope.editRow  = function(row){
+                $element.find('table').editRow(row);
+            };
+            $scope.saveRow  = function(row){
+                $element.find('table').saveRow(row);
+            };
+            $scope.restoreRow  = function(row){
+                $element.find('table').restoreRow(row);
+            };
+        },
+        link: function (scope, element) {
+            var gridNumber = jqGridCounter++;
+            var wrapperId = 'jqgrid-' + gridNumber;
+            element.attr('id', wrapperId);
+
+            var tableId = 'jqgrid-table-' + gridNumber;
+            var table = element.find('table');
+            table.attr('id', tableId);
+
+            var pagerId = 'jqgrid-pager-' + gridNumber;
+            element.find('.jqgrid-pagination').attr('id', pagerId);
+
+
+            table.jqGrid({
+                data : scope.gridData.data,
+                datatype : "local",
+                height : 'auto',
+                colNames : scope.gridData.colNames || [],
+                colModel : scope.gridData.colModel || [],
+                rowNum : 10,
+                rowList : [10, 20, 30],
+                pager : '#' + pagerId,
+                sortname : 'id',
+                toolbarfilter : true,
+                viewrecords : true,
+                sortorder : "asc",
+                gridComplete : function() {
+                    var ids = table.jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "<button class='btn btn-xs btn-default' tooltip='Edit Row' tooltip-append-to-body='true' ng-click='editRow("+ cl +")'><i class='fa fa-pencil'></i></button>";
+
+                        var se = "<button class='btn btn-xs btn-default' tooltip='Save Row' tooltip-append-to-body='true' ng-click='saveRow("+ cl +")'><i class='fa fa-save'></i></button>";
+
+                        var ca = "<button class='btn btn-xs btn-default' tooltip='Cancel' tooltip-append-to-body='true' ng-click='restoreRow("+ cl +")'><i class='fa fa-times'></i></button>";
+
+                        table.jqGrid('setRowData', ids[i], {
+                            act : be + se + ca
+                        });
+                    }
+                },
+                editurl : "dummy.html",
+                caption : "SmartAdmin jQgrid Skin",
+                multiselect : true,
+                autowidth : true
+
+            });
+            table.jqGrid('navGrid', '#' + pagerId, {
+                edit : false,
+                add : false,
+                del : true
+            });
+            table.jqGrid('inlineNav', '#' + pagerId);
+
+
+            element.find(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            element.find(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            element.find(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            element.find(".ui-jqgrid-pager").removeClass("ui-state-default");
+            element.find(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            element.find(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            element.find(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            element.find(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            element.find(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            element.find(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            element.find(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            element.find(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            element.find(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            element.find(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            element.find(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            element.find(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            element.find(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            element.find(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            element.find(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            element.find(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+
+            $(window).on('resize.jqGrid', function() {
+               table.jqGrid('setGridWidth', $("#content").width());
+            });
+
+
+            $compile(element.contents())(scope);
         }
     }
 });

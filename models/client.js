@@ -17,7 +17,8 @@ var schema = new mongoose.Schema({
     updated_at: { type: Date },
     py: [String],
     other_accounts: [{ bank: String, account: String}],
-    payment_substract_rate: Number
+    payment_substract_rate: Number,
+    organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
 });
 
 mongoose.model('Client', schema);
