@@ -389,4 +389,11 @@ angular.module('app.policy')
         return function (fieldValueUnused, item) {
             return (item.plate_no);
         }
+    })
+    .filter("getContact", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            return policy.company ? policy.company.contact : policy.level4_company ? policy.level4_company.contact :  policy.level3_company? policy.level3_company.contact :policy.level2_company? policy.level2_company.contact : '';
+        
+        }
     });

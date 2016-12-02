@@ -19,12 +19,6 @@ angular.module('app.policy').controller('PhotoReviewController', function (data,
         return "http://image.4006778808.com/" + data.fileName; //+ "?x-oss-process=style/resize";
     }
 
-    vm.getCompanyName = function() {
-        var companyId = vm.policy.level4_company ? vm.policy.level4_company:  vm.policy.level3_company? vm.policy.level3_company :vm.policy.level2_company? vm.policy.level2_company : null;    
-        if(!companyId)
-            return "";
-         
-    }
     
 });
 

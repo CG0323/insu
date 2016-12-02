@@ -136,6 +136,7 @@ router.post('/excel', function (req, res) {
         'mandatory_policy_no',
         'policy_no',
         'company.name',
+        'company.contact',
         'applicant.payer',
         'applicant.name',
         'applicant.identity',
@@ -185,6 +186,7 @@ router.post('/excel', function (req, res) {
         '交强险保单号',
         '商业险保单号',
         '保险公司',
+        '对接人',
         '投保人',
         '被保险人',
         '投保人身份证号',
@@ -245,6 +247,7 @@ router.post('/excel', function (req, res) {
         row.mandatory_policy_no = "'" + policy.mandatory_policy_no;
         row.policy_no = "'" + policy.policy_no;
         row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';
+        row.company.contact = policy.company ? policy.company.contact : policy.level4_company ? policy.level4_company.contact :  policy.level3_company? policy.level3_company.contact :policy.level2_company? policy.level2_company.contact : '';
         row.applicant.payer = policy.applicant.payer;
         row.applicant.name = policy.applicant.name;
         row.applicant.identity = "'" + policy.applicant.identity;
@@ -473,7 +476,7 @@ router.post('/search', function (req, res) {
     .sort(sortParam)
     .skip(req.body.currentPage * req.body.pageSize)
     .limit(req.body.pageSize)
-    .populate('client seller organization')
+    .populate('client seller organization company level2_company level3_company level4_company')
     .exec()
     .then(function (policies) {
       Policy.count(conditions, function (err, c) {
