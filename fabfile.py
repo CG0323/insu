@@ -33,6 +33,8 @@ def deploy():
     server_pull()
 
 def push():
+    local("rm fabfile.pyc")
+    # local("rm ~/insu/logs/log_date/*")
     local("git add --a")
     local("git commit")
     # local("git commit -m 'auto commit with fabric'")
