@@ -33,7 +33,7 @@ def deploy():
     server_pull()
 
 def push():
-    with settings(WARN_ONLY=True):
+    with settings(warn_only=True):
         local("rm fabfile.pyc")
         local("rm ~/insu/logs/log_date/*")
     local("git add --a")
