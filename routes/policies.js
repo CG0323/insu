@@ -50,6 +50,22 @@ router.post('/', function (req, res) {
   })
 });
 
+router.get('/bulk-check-all', function (req, res) {
+  var query = Policy.find({policy_status:'已支付'});
+  query
+    .exec()
+    .then(function (policies) {
+      for (var i = 0; i < policies.length; i++) {
+        policies[i].policy_status = '已核对';
+        policies[i].save();
+        logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
+      };
+      logger.info(req.user.name + " 批量核对通过了保单。" + req.clientIP);
+      res.json({ message: '保单已成功批量核对通过' });
+    }, function (err) {
+      logger.error(err);
+    })
+});
 
 
 router.get('/', function (req, res) {
@@ -602,21 +618,6 @@ router.post('/bulk-check', function (req, res) {
     })
 });
 
-router.post('/bulk-check-all', function (req, res) {
-  var query = Policy.find({policy_status:'已支付'});
-  query
-    .exec()
-    .then(function (policies) {
-      for (var i = 0; i < policies.length; i++) {
-        policies[i].policy_status = '已核对';
-        policies[i].save();
-        logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
-      };
-      logger.info(req.user.name + " 批量核对通过了保单。" + req.clientIP);
-      res.json({ message: '保单已成功批量核对通过' });
-    }, function (err) {
-      logger.error(err);
-    })
-});
+
 
 module.exports = router;

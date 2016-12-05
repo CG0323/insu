@@ -34,8 +34,8 @@ def deploy():
 
 def push():
     with settings(warn_only=True):
-        local("rm fabfile.pyc")
         local("rm ~/insu/logs/log_date/*")
+        local("rm fabfile.pyc")  
     local("git add --a")
     local("git commit")
     # local("git commit -m 'auto commit with fabric'")
