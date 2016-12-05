@@ -9,13 +9,35 @@ var mkPy = require('../utils/pinyin.js');
 router.get('/', function(req, res, next) {
   var query = {};
   var type = req.query.type;
-  if(type == "organization"){
-    query = {client_type:'机构'};
-  }else if(type == "individual"){
-    query = {client_type:'个人'};
-  }else if(type == "manager"){
-    query = {client_type:'主管'};
+  var org = req.query.organization;
+  if(org){
+    if(org == -1){ //wild clients
+      if(type == "organization"){
+        query = {client_type:'机构', organization: { $exists : false }};
+      }else if(type == "individual"){
+        query = {client_type:'个人', organization: { $exists : false }};
+      }else if(type == "manager"){
+        query = {client_type:'主管', organization: { $exists : false }};
+      }
+    }else{
+      if(type == "organization"){
+        query = {client_type:'机构', organization: org};
+      }else if(type == "individual"){
+        query = {client_type:'个人', organization: org};
+      }else if(type == "manager"){
+        query = {client_type:'主管', organization: org};
+      }
+    }
+  }else{
+      if(type == "organization"){
+        query = {client_type:'机构'};
+      }else if(type == "individual"){
+        query = {client_type:'个人'};
+      }else if(type == "manager"){
+        query = {client_type:'主管'};
+      }
   }
+
   Client.find(query)
   .populate('organization')
   .exec()
@@ -133,6 +155,25 @@ router.get('/secret-add-clients', function (req, res, next) {
   Q.all([promise1, promise2]).then(function (clients) {
     res.status(200).json({ status: 'Clients added!' });
   });
+});
+
+
+router.post('/bulk-assign', function (req, res) {
+  var ids = req.body.clientIds;
+  var organization = req.body.organization;
+  var query = Client.find().where('_id').in(ids);
+  query
+    .exec()
+    .then(function (clients) {
+      for (var i = 0; i < clients.length; i++) {
+        clients[i].organization = organization;
+        clients[i].save();
+      };
+      logger.info(req.user.name + " 批量设置了业务员归属营业部。" + req.clientIP);
+      res.json({ message: '归属部门已成功设置' });
+    }, function (err) {
+      logger.error(err);
+    })
 });
 
 

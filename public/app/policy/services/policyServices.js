@@ -22,6 +22,7 @@ angular.module('app.policy').factory('PolicyService',
                 getSubCompanies: getSubCompanies,
                 getLevel2Companies: getLevel2Companies,
                 bulkApprove: bulkApprove,
+                bulkCheck: bulkCheck,
                 uploadFile: uploadFile,
                 getCompany: getCompany
             });
@@ -267,6 +268,9 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "paid") {
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
+                } else if (type == "checked") {
+                    filterSettings.policy_status = "已核对";
+                    orderByReverse = true;
                 }
 
                 var end = new Date(toDate);
@@ -370,6 +374,27 @@ angular.module('app.policy').factory('PolicyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 $http.post("/api/policies/bulk-approve", policyIds)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkCheck(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/policies/bulk-check", policyIds)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

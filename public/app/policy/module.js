@@ -53,7 +53,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         .state('app.policy.pay1', {
             url: '/policies/pay1/:policyId',
             data: {
-                title: '保单审核'
+                title: '保单支付'
             },
             views: {
                 "content@app": {
@@ -78,7 +78,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
             url: '/policies/approve1/:policyId',
             params: {policyId: null, ids: null},
             data: {
-                title: '保单支付'
+                title: '保单审核'
             },
             views: {
                 "content@app": {
@@ -103,6 +103,18 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
             url: '/policies/view1/:policyId',
             data: {
                 title: '保单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyEditorController1 as vm',
+                    templateUrl: 'app/policy/views/policy1.html'
+                }
+            }
+        })
+        .state('app.policy.check1', {
+            url: '/policies/check1/:policyId',
+            data: {
+                title: '保单核对'
             },
             views: {
                 "content@app": {
@@ -183,15 +195,15 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
-        .state('app.policy.test', {
-            url: '/policies/test',
+        .state('app.policy.checked', {
+            url: '/policies/checked',
             data: {
-                title: '上传测试'
+                title: '已核对'
             },
             views: {
                 "content@app": {
-                    controller: 'TestController as vm',
-                    templateUrl: 'app/policy/views/test.html'
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-list-checked.html'
                 }
             },
             resolve: {

@@ -9,7 +9,54 @@ angular.module('app.organization').factory('OrganizationService',
                 getOrganizations: getOrganizations,
                 getOrganization: getOrganization,
                 deleteOrganization: deleteOrganization,
+                getSubClients:getSubClients,
+                bulkAssign: bulkAssign
             });
+
+            function bulkAssign(data) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/clients/bulk-assign", data)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubClients(orgId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual&organization='+orgId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function saveOrganization(organization) {
                 // create a new instance of deferred

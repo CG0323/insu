@@ -33,15 +33,16 @@ def deploy():
     server_pull()
 
 def push():
-    local("rm fabfile.pyc")
-    # local("rm ~/insu/logs/log_date/*")
+    with settings(WARN_ONLY=True):
+        local("rm fabfile.pyc")
+        local("rm ~/insu/logs/log_date/*")
     local("git add --a")
     local("git commit")
     # local("git commit -m 'auto commit with fabric'")
     local("git push")
 
 def server_pull():
-    waitforssh()
+    # waitforssh()
     with cd('~/wwwroot/insu'):   #cd用于进入某个目录
         # run('git add --a') 
         # run('git stash') 
