@@ -312,7 +312,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.isShowReviewButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待审核";
+        return $rootScope.user.role != "出单员" && policy.policy_status == "待审核";
     };
 
     vm.isShowPayButton = function (policy) {
@@ -325,7 +325,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.isShowCheckButton = function (policy) {
-         return $rootScope.user.role == "财务" && policy.policy_status == "已支付";
+         return $rootScope.user.role != "出单员" && policy.policy_status == "已支付";
     };
 
     vm.isShowBulkPayButton = function () {
