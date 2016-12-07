@@ -52,12 +52,12 @@ router.post('/', function (req, res) {
 
 router.get('/bulk-check-all', function (req, res) {
   var start = new Date(2016, 11, 1);
-  var query = Policy.find({policy_status:'已支付',created_at: {$lt: start}});
+  var query = Policy.find({policy_status:'已核对',created_at: {$gte: start}});
   query
     .exec()
     .then(function (policies) {
       for (var i = 0; i < policies.length; i++) {
-        policies[i].policy_status = '已核对';
+        policies[i].policy_status = '已支付';
         policies[i].save();
         logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
       };
