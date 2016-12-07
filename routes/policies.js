@@ -62,7 +62,7 @@ router.get('/bulk-check-all', function (req, res) {
         logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
       };
       logger.info(req.user.name + " 批量核对通过了保单。" + req.clientIP);
-      res.json({ message: '保单已成功批量核对通过' });
+      res.json({ date: start, data: policies });
     }, function (err) {
       logger.error(err);
     })
