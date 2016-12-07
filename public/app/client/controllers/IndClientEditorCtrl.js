@@ -108,6 +108,16 @@ angular.module('app.client').controller('IndClientEditorController', function ($
             }, function (err) { });
     };
 
+    vm.uploadLicensePhoto = function (files) {
+        ClientService.uploadFile(file[0], vm.client.license_photo)
+            .then(function (fileName) {
+                vm.client.license_photo = fileName;
+            })
+    }
+    vm.getPhotoUrl = function () {
+        //return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
+        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.license_photo + "?x-oss-process=style/resize";
+    }
 
 
 }); 

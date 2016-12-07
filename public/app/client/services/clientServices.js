@@ -13,7 +13,8 @@ angular.module('app.client').factory('ClientService',
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
                 getWechatsByIds: getWechatsByIds,
-                getOrganizations: getOrganizations
+                getOrganizations: getOrganizations,
+                uploadFile: uploadFile,
             });
 
             function getOrganizations() {
@@ -243,6 +244,77 @@ angular.module('app.client').factory('ClientService',
                 return deferred.promise;
             }
             
+            function getStsCredential() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (false){
+                }
+                else {
+                    // send a post request to the server
+                    $http.get('api/sts')
+                        // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data.Credentials);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        // handle error
+                        .error(function (data) {
+                            deferred.reject(status);
+                        });
+                }
+                // return promise object
+                return deferred.promise;
+            }
+
+            function uploadFile(file, fileName) {
+                document.body.style.cursor='wait';
+                var deferred = $q.defer();
+                getStsCredential()
+                .then(function(credentials){
+                    var client = new OSS.Wrapper({
+                    region: 'oss-cn-shanghai',
+                    accessKeyId: credentials.AccessKeyId,
+                    accessKeySecret: credentials.AccessKeySecret,
+                    stsToken: credentials.SecurityToken,
+                    // bucket: 'cwang1'
+                    bucket: 'hy-policy'
+                }, function(err){
+                    document.body.style.cursor='default';   
+                    $.bigBox({
+                        title: "上传文件",
+                        content: "上传失败，请检查网络",
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        timeout: 6000
+                    });
+                    return;
+                });
+                if(!fileName){
+                    var ext = /\.[^\.]+$/.exec(file.name); 
+                    fileName = uuid.v1() + ext;
+                }
+                client.multipartUpload(fileName, file).then(function (result) {
+                    var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    $.smallBox({
+                            title: "服务器确认信息",
+                            content: "扫描件已成功上传",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    document.body.style.cursor='default';    
+                    deferred.resolve(fileName);
+                    }).catch(function (err) {
+                    deferred.reject(err);
+                    });
+                });
+                return deferred.promise;
+                
+            }
             
            
         }]);

@@ -103,6 +103,7 @@ router.put('/:id', function (req, res) {
         client.other_accounts = req.body.other_accounts;
         client.payment_substract_rate = req.body.payment_substract_rate;
         client.organization = req.body.organization;
+        client.license_photo = req.body.license_photo;
         
         client.save(function (err) {
             if (err){

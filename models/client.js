@@ -19,6 +19,7 @@ var schema = new mongoose.Schema({
     other_accounts: [{ bank: String, account: String}],
     payment_substract_rate: Number,
     organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+    license_photo: String
 });
 
 mongoose.model('Client', schema);

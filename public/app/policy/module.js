@@ -113,6 +113,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         })
         .state('app.policy.check1', {
             url: '/policies/check1/:policyId',
+            params: {policyId: null, ids: null},
             data: {
                 title: '保单核对'
             },

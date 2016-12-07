@@ -8,18 +8,18 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.totalPayment = 0;
     vm.totalProfit = 0;
     vm.areAllSelected = false;
-    vm.summary = {total_income:0, total_payment:0, total_profit:0};
+    vm.summary = { total_income: 0, total_payment: 0, total_profit: 0 };
     vm.pageSize = 15;
 
-      //Infinite Scroll Magic
+    //Infinite Scroll Magic
     vm.infiniteScroll = {};
     vm.infiniteScroll.numToAdd = 20;
     vm.infiniteScroll.currentItems = 20;
-  
-    vm.resetInfScroll = function() {
+
+    vm.resetInfScroll = function () {
         vm.infiniteScroll.currentItems = vm.infiniteScroll.numToAdd;
     };
-    vm.addMoreItems = function(){
+    vm.addMoreItems = function () {
         vm.infiniteScroll.currentItems += vm.infiniteScroll.numToAdd;
     };
 
@@ -39,6 +39,58 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             vm.sellers = sellers;
         })
 
+    vm.loadLevel3Companies = function () {
+        console.log(vm.filterSettings);
+        if (!vm.filterSettings.level2_company) {
+            vm.level3Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.filterSettings.level2_company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Companies = function () {
+        if (!vm.filterSettings.level3_company) {
+            vm.level4Companies = [];
+        } else {
+            PolicyService.getSubCompanies(vm.filterSettings.level3_company)
+                .then(function (level4Companies) {
+                    vm.level4Companies = level4Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.level2Changed = function () {
+        if (!vm.filterSettings.level2_company) {
+            delete vm.filterSettings.level2_company;
+        } 
+        delete vm.filterSettings.level3_company;
+        delete vm.filterSettings.level4_company;
+        vm.loadLevel3Companies();
+        vm.filterChanged();
+    }
+
+    vm.level3Changed = function () {
+        if (!vm.filterSettings.level3_company) {
+            delete vm.filterSettings.level3_company;
+        } 
+        delete vm.filterSettings.level4_company;
+        vm.loadLevel4Companies();
+        vm.filterChanged();
+    }
+
+    vm.level4Changed = function () {
+        if (!vm.filterSettings.level4_company) {
+             delete vm.filterSettings.level4_company;
+        }
+        vm.filterChanged();
+    }
 
     vm.listType = "all";
     if ($state.is("app.policy.to-be-reviewed")) {
@@ -73,8 +125,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             vm.displayFields = ["client.name", "plate"];
         }
     } else if ($state.is("app.policy.paid")) {
+        PolicyService.getLevel2Companies()
+            .then(function (level2Companies) {
+                vm.level2Companies = level2Companies;
+
+            })
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("paid-filterSettings") ? localStorageService.get("paid-filterSettings") : {};
+        vm.loadLevel3Companies();
+        vm.loadLevel4Companies();
         if (vm.filterSettings.client) {
             PolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
@@ -185,7 +244,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.refreshPolicies();
     // vm.refreshSummary();
 
-    vm.refreshClicked = function(){
+    vm.refreshClicked = function () {
         vm.refreshPolicies();
         // vm.refreshSummary();
     }
@@ -269,11 +328,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         });
     };
 
-    vm.getSelectedPolicyIds = function(){
+    vm.getSelectedPolicyIds = function () {
         var ids = [];
-        if(vm.policies){
-            for(var i = 0; i < vm.policies.length; i ++){
-                if(vm.policies[i].isSelected){
+        if (vm.policies) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                if (vm.policies[i].isSelected) {
                     ids.push(vm.policies[i]._id);
                 }
             }
@@ -325,7 +384,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.isShowCheckButton = function (policy) {
-         return $rootScope.user.role != "出单员" && policy.policy_status == "已支付";
+        return $rootScope.user.role != "出单员" && policy.policy_status == "已支付";
     };
 
     vm.isShowBulkPayButton = function () {
@@ -352,10 +411,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (!policy.level2_company) {
             $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
         } else {
-            var ids = vm.policies.map(function(item){return item._id});
+            var ids = vm.policies.map(function (item) { return item._id });
             var index = ids.indexOf(policy._id);
             ids.splice(index, 1);
-            $state.go("app.policy.approve1", { policyId: policy._id, ids: ids});
+            $state.go("app.policy.approve1", { policyId: policy._id, ids: ids });
         }
     };
 
@@ -363,10 +422,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (!policy.level2_company) {
             $state.go("app.policy.check", { policyId: policy._id }); //this is from old version
         } else {
-            var ids = vm.policies.map(function(item){return item._id});
+            var ids = vm.policies.map(function (item) { return item._id });
             var index = ids.indexOf(policy._id);
             ids.splice(index, 1);
-            $state.go("app.policy.check1", { policyId: policy._id, ids: ids});
+            $state.go("app.policy.check1", { policyId: policy._id, ids: ids });
         }
     };
 
@@ -379,9 +438,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     };
 
-    vm.selectionChanged = function(){
-        if (!vm.policies){
-            vm.summary = {income:0, payment:0, profit:0};
+    vm.selectionChanged = function () {
+        if (!vm.policies) {
+            vm.summary = { income: 0, payment: 0, profit: 0 };
             vm.selectedPolicies = [];
             vm.isShowBulkOperationButton = false;
         }
@@ -389,9 +448,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             return item.isSelected
         });
 
-        vm.summary = vm.selectedPolicies.reduce(function(a,b){
-            return {total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment, total_profit: a.total_income + b.total_income - a.total_payment - b.total_payment}
-        }, {total_income:0, total_payment:0, total_profit:0});
+        vm.summary = vm.selectedPolicies.reduce(function (a, b) {
+            return { total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment, total_profit: a.total_income + b.total_income - a.total_payment - b.total_payment }
+        }, { total_income: 0, total_payment: 0, total_profit: 0 });
         vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
     }
 
@@ -413,7 +472,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.selectionChanged();
     }
 
-    vm.showAll = function(){
+    vm.showAll = function () {
         vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
     }
 
@@ -460,7 +519,14 @@ angular.module('app.policy')
     .filter("getContact", function () {
         return function (fieldValueUnused, item) {
             var policy = item
-            return policy.company ? policy.company.contact : policy.level4_company ? policy.level4_company.contact :  policy.level3_company? policy.level3_company.contact :policy.level2_company? policy.level2_company.contact : '';
-        
+            return policy.company ? policy.company.contact : policy.level4_company ? policy.level4_company.contact : policy.level3_company ? policy.level3_company.contact : policy.level2_company ? policy.level2_company.contact : '';
+
+        }
+    })
+    .filter("getCompany", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            return policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name : policy.level3_company ? policy.level3_company.name : policy.level2_company ? policy.level2_company.name : '';
+
         }
     });
