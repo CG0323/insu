@@ -3261,6 +3261,25 @@ angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, 
         "order": [[1, 'asc']]
     }
 });
+"use strict";
+
+angular.module('app.auth').directive('loginInfo', function(AuthService){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            AuthService.getUser()
+            .then(function(user){
+                scope.user = user;
+            },
+            function(err){
+            }
+            );
+        }
+    }
+})
+
 'use strict';
 /**
  * @ngdoc function
@@ -3381,25 +3400,6 @@ angular.module('app.auth').controller('ChangePasswordCtrl',
 
             };
         }]);
-
-"use strict";
-
-angular.module('app.auth').directive('loginInfo', function(AuthService){
-
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            AuthService.getUser()
-            .then(function(user){
-                scope.user = user;
-            },
-            function(err){
-            }
-            );
-        }
-    }
-})
 
 "use strict";
 
@@ -3920,6 +3920,16 @@ angular.module('app.client').controller('IndClientEditorController', function ($
             }, function (err) { });
     };
 
+    vm.uploadLicensePhoto = function (files) {
+        ClientService.uploadFile(file[0], vm.client.license_photo)
+            .then(function (fileName) {
+                vm.client.license_photo = fileName;
+            })
+    }
+    vm.getPhotoUrl = function () {
+        //return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
+        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.license_photo + "?x-oss-process=style/resize";
+    }
 
 
 }); 
@@ -4304,7 +4314,8 @@ angular.module('app.client').factory('ClientService',
                 deleteClient: deleteClient,
                 getFollowers: getFollowers,
                 getWechatsByIds: getWechatsByIds,
-                getOrganizations: getOrganizations
+                getOrganizations: getOrganizations,
+                uploadFile: uploadFile,
             });
 
             function getOrganizations() {
@@ -4534,8 +4545,446 @@ angular.module('app.client').factory('ClientService',
                 return deferred.promise;
             }
             
+            function getStsCredential() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (false){
+                }
+                else {
+                    // send a post request to the server
+                    $http.get('api/sts')
+                        // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data.Credentials);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        // handle error
+                        .error(function (data) {
+                            deferred.reject(status);
+                        });
+                }
+                // return promise object
+                return deferred.promise;
+            }
+
+            function uploadFile(file, fileName) {
+                document.body.style.cursor='wait';
+                var deferred = $q.defer();
+                getStsCredential()
+                .then(function(credentials){
+                    var client = new OSS.Wrapper({
+                    region: 'oss-cn-shanghai',
+                    accessKeyId: credentials.AccessKeyId,
+                    accessKeySecret: credentials.AccessKeySecret,
+                    stsToken: credentials.SecurityToken,
+                    // bucket: 'cwang1'
+                    bucket: 'hy-policy'
+                }, function(err){
+                    document.body.style.cursor='default';   
+                    $.bigBox({
+                        title: "上传文件",
+                        content: "上传失败，请检查网络",
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        timeout: 6000
+                    });
+                    return;
+                });
+                if(!fileName){
+                    var ext = /\.[^\.]+$/.exec(file.name); 
+                    fileName = uuid.v1() + ext;
+                }
+                client.multipartUpload(fileName, file).then(function (result) {
+                    var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    $.smallBox({
+                            title: "服务器确认信息",
+                            content: "扫描件已成功上传",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    document.body.style.cursor='default';    
+                    deferred.resolve(fileName);
+                    }).catch(function (err) {
+                    deferred.reject(err);
+                    });
+                });
+                return deferred.promise;
+                
+            }
             
            
+        }]);
+"use strict";
+
+angular.module('app.company').factory('CompanyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveCompany: saveCompany,
+                getCompanies: getCompanies,
+                getSubCompanies: getSubCompanies,
+                getCompany: getCompany,
+                deleteCompany: deleteCompany,
+                savePolicyName: savePolicyName,
+                getPolicyNames: getPolicyNames,
+                getPolicyName: getPolicyName,
+                deletePolicyName: deletePolicyName,
+                saveCompanyCatogory: saveCompanyCatogory,
+                getCompanyCatogories: getCompanyCatogories,
+                getCompanyCatogory: getCompanyCatogory,
+                deleteCompanyCatogory: deleteCompanyCatogory,
+                
+            });
+
+            function saveCompany(company) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (company._id) {
+                    company.updated_at = Date.now();
+                    $http.put('api/companies/' + company._id, company)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    company.created_at = Date.now();
+                    company.updated_at = company.created_at;
+                    $http.post('api/companies', company)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicyName(policyName) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (policyName._id) {
+                    policyName.updated_at = Date.now();
+                    $http.put('api/policy-names/' + policyName._id, policyName)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policyName.created_at = Date.now();
+                    policyName.updated_at = policyName.created_at;
+                    $http.post('api/policy-names', policyName)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogories() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companycatogories')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveCompanyCatogory(companyCatogory) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (companyCatogory._id) {
+                    companyCatogory.updated_at = Date.now();
+                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    companyCatogory.created_at = Date.now();
+                    companyCatogory.updated_at = companyCatogory.created_at;
+                    $http.post('api/companycatogories', companyCatogory)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+
         }]);
 'use strict'
 
@@ -5174,373 +5623,6 @@ angular.module('app.company').controller('PolicyNameListController', function(sc
 
 });
 
-"use strict";
-
-angular.module('app.company').factory('CompanyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveCompany: saveCompany,
-                getCompanies: getCompanies,
-                getSubCompanies: getSubCompanies,
-                getCompany: getCompany,
-                deleteCompany: deleteCompany,
-                savePolicyName: savePolicyName,
-                getPolicyNames: getPolicyNames,
-                getPolicyName: getPolicyName,
-                deletePolicyName: deletePolicyName,
-                saveCompanyCatogory: saveCompanyCatogory,
-                getCompanyCatogories: getCompanyCatogories,
-                getCompanyCatogory: getCompanyCatogory,
-                deleteCompanyCatogory: deleteCompanyCatogory,
-                
-            });
-
-            function saveCompany(company) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (company._id) {
-                    company.updated_at = Date.now();
-                    $http.put('api/companies/' + company._id, company)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    company.created_at = Date.now();
-                    company.updated_at = company.created_at;
-                    $http.post('api/companies', company)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicyName(policyName) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (policyName._id) {
-                    policyName.updated_at = Date.now();
-                    $http.put('api/policy-names/' + policyName._id, policyName)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policyName.created_at = Date.now();
-                    policyName.updated_at = policyName.created_at;
-                    $http.post('api/policy-names', policyName)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogories() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companycatogories')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveCompanyCatogory(companyCatogory) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (companyCatogory._id) {
-                    companyCatogory.updated_at = Date.now();
-                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    companyCatogory.created_at = Date.now();
-                    companyCatogory.updated_at = companyCatogory.created_at;
-                    $http.post('api/companycatogories', companyCatogory)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-
-        }]);
 "use strict";	
 
 angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
@@ -6720,6 +6802,75 @@ angular.module('app.graphs').controller('FlotCtrl', function ($scope) {
 });
 "use strict";
 
+angular.module('app.inbox').directive('messageLabels', function (InboxConfig) {
+    return {
+        replace: true,
+        restrict: 'AE',
+        link: function (scope, element) {
+
+            if (scope.message.labels && scope.message.labels.length) {
+                InboxConfig.success(function (config) {
+                    var html = _.map(scope.message.labels, function (label) {
+                        return '<span class="label bg-color-'+config.labels[label].color +'">' + config.labels[label].name + '</span>';
+                    }).join('');
+                    element.replaceWith(html);
+                });
+
+            } else {
+                element.replaceWith('');
+            }
+        }
+    }
+});
+"use strict";
+
+angular.module('app.inbox').directive('unreadMessagesCount', function(InboxConfig){
+    return {
+        restrict: 'A',
+        link: function(scope, element){
+            InboxConfig.success(function(config){
+                element.html(_.find(config.folders, {key: 'inbox'}).unread);
+            })
+        }
+    }
+});
+"use strict";
+
+angular.module('app.inbox').factory('InboxConfig', function($http, APP_CONFIG){
+    return $http.get(APP_CONFIG.apiRootUrl + '/inbox.json');
+})
+"use strict";
+
+angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONFIG){
+   var InboxMessage = $resource(APP_CONFIG.apiRootUrl + '/messages.json/:id', {'id': '@_id'}, {
+        get:{
+            url: APP_CONFIG.apiRootUrl + '/message.json',
+            isArray: false
+        }
+    });
+
+    _.extend(InboxMessage.prototype, {
+        selected: false,
+        hasAttachments: function(){
+            return (_.isArray(this.attachments) && this.attachments.length)
+        },
+        fullAttachmentsTootlip: function(){
+            return 'FILES: ' + _.pluck(this.attachments, 'name').join(', ');
+        },
+        getBodyTeaser: function(){
+            var clearBody  = this.body.replace(/<[^<>]+?>/gm, ' ').replace(/(\s{2}|\n)/gm, ' ');
+
+            var teaserMaxLength = 55 - this.subject.length;
+
+            return clearBody.length > teaserMaxLength ? clearBody.substring(0, teaserMaxLength) + '...' : clearBody;
+        }
+    });
+
+    return InboxMessage;
+
+});
+"use strict";
+
 angular.module('app').factory('Language', function($http, APP_CONFIG){
 
 	function getLanguage(key, callback) {
@@ -6873,75 +7024,6 @@ angular.module('app').directive('toggleShortcut', function($log,$timeout) {
 		link:link
 	}
 })
-"use strict";
-
-angular.module('app.inbox').directive('messageLabels', function (InboxConfig) {
-    return {
-        replace: true,
-        restrict: 'AE',
-        link: function (scope, element) {
-
-            if (scope.message.labels && scope.message.labels.length) {
-                InboxConfig.success(function (config) {
-                    var html = _.map(scope.message.labels, function (label) {
-                        return '<span class="label bg-color-'+config.labels[label].color +'">' + config.labels[label].name + '</span>';
-                    }).join('');
-                    element.replaceWith(html);
-                });
-
-            } else {
-                element.replaceWith('');
-            }
-        }
-    }
-});
-"use strict";
-
-angular.module('app.inbox').directive('unreadMessagesCount', function(InboxConfig){
-    return {
-        restrict: 'A',
-        link: function(scope, element){
-            InboxConfig.success(function(config){
-                element.html(_.find(config.folders, {key: 'inbox'}).unread);
-            })
-        }
-    }
-});
-"use strict";
-
-angular.module('app.inbox').factory('InboxConfig', function($http, APP_CONFIG){
-    return $http.get(APP_CONFIG.apiRootUrl + '/inbox.json');
-})
-"use strict";
-
-angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONFIG){
-   var InboxMessage = $resource(APP_CONFIG.apiRootUrl + '/messages.json/:id', {'id': '@_id'}, {
-        get:{
-            url: APP_CONFIG.apiRootUrl + '/message.json',
-            isArray: false
-        }
-    });
-
-    _.extend(InboxMessage.prototype, {
-        selected: false,
-        hasAttachments: function(){
-            return (_.isArray(this.attachments) && this.attachments.length)
-        },
-        fullAttachmentsTootlip: function(){
-            return 'FILES: ' + _.pluck(this.attachments, 'name').join(', ');
-        },
-        getBodyTeaser: function(){
-            var clearBody  = this.body.replace(/<[^<>]+?>/gm, ' ').replace(/(\s{2}|\n)/gm, ' ');
-
-            var teaserMaxLength = 55 - this.subject.length;
-
-            return clearBody.length > teaserMaxLength ? clearBody.substring(0, teaserMaxLength) + '...' : clearBody;
-        }
-    });
-
-    return InboxMessage;
-
-});
 'use strict'
 
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
@@ -7852,6 +7934,494 @@ angular.module('app.life-policy').controller('LifeStatementListController', func
 });
 
 
+'use strict';
+
+angular.module('app.maps').controller('MapsDemoCtrl', 
+  function ($scope, $http, $q, SmartMapStyle, Initializer) {
+
+    $scope.map = null;
+
+    $scope.styles = SmartMapStyle.styles;
+
+    $scope.setType = function (key) {
+        SmartMapStyle.getMapType(key).then(function(type){
+            $scope.map.mapTypes.set(key, type);
+            $scope.map.setMapTypeId(key);
+        });
+        $scope.currentType = key;
+    };
+
+
+    
+
+    Initializer.mapsInitialized
+    .then(function(){
+      return SmartMapStyle.getMapType('colorful')
+    })
+    .then(function() {
+    
+      $scope.map = new google.maps.Map(document.getElementById('map-canvas'), {
+          center: new google.maps.LatLng(23.89, -80.650),
+          zoom: 5,
+          scrollwheel: false,
+          disableDefaultUI: true
+      });
+      $scope.setType('colorful')
+    })
+
+
+});
+'use strict';
+
+angular.module('app.maps').directive('smartMap', function (Initializer) {
+    var _mapsCounter = 0;
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            _mapsCounter++;
+            Initializer.mapsInitialized.then(function(){
+                scope.$on('$smartContentResize', function () {
+                    var center = scope.map.getCenter();
+                    google.maps.event.trigger(scope.map, "resize");
+                    scope.map.setCenter(center); 
+                });
+            })
+            
+        }
+
+    }
+});
+// Google async initializer needs global function, so we use $window
+angular.module('app.maps')
+.factory('Initializer', function($window, $q){
+
+    //Google's url for async maps initialization accepting callback function
+    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
+        mapsDefer = $q.defer();
+
+    //Callback function - resolving promise after maps successfully loaded
+    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
+
+    //Async loader
+    var asyncLoad = function(asyncUrl, callbackName) {
+      var script = document.createElement('script');
+      //script.type = 'text/javascript';
+      script.src = asyncUrl + callbackName;
+      document.body.appendChild(script);
+    };
+    //Start loading google maps
+    asyncLoad(asyncUrl, 'googleMapsInitialized');
+
+    //Usage: Initializer.mapsInitialized.then(callback)
+    return {
+        mapsInitialized : mapsDefer.promise
+    };
+})
+"use strict";
+
+
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
+
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
+    };
+
+
+    function getMapType(key){
+        var keyData = styles[key];
+
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
+
+        return keyData.cache;
+    }
+
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
+        });
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
+
+});
+'use strict'
+
+angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
+    var vm = this;
+    vm.organization = {};
+    vm.subClients = [];
+    vm.wildClients = [];
+
+    vm.editable = false;
+
+    if ($state.is("app.organization.new")) {
+        vm.editable = true;
+    }
+
+
+    vm.refreshClients = function () {
+        var orgId = vm.organization._id;
+        OrganizationService.getSubClients(orgId)
+            .then(function (subClients) {
+                vm.subClients = subClients;
+            })
+        OrganizationService.getSubClients(-1)
+            .then(function (wildClients) {
+                vm.wildClients = wildClients;
+            })
+    }
+
+
+    var organizationId = $stateParams.organizationId;
+    if (organizationId) {
+        OrganizationService.getOrganization(organizationId)
+            .then(function (organization) {
+                vm.organization = organization;
+                vm.refreshClients();
+            });
+    }
+
+
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.getSelectedClientIds = function () {
+        var ids = [];
+        if (vm.wildClients) {
+            for (var i = 0; i < vm.wildClients.length; i++) {
+                if (vm.wildClients[i].isSelected) {
+                    ids.push(vm.wildClients[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
+
+    vm.bulkAssign = function () {
+        var clientIds = vm.getSelectedClientIds();
+        $.SmartMessageBox({
+            title: "批量设置归属部门",
+            content: "确认将选中的业务员归属到该部门?",
+            buttons: '[取消][确认]',
+        }, function (ButtonPressed, value) {
+            if (ButtonPressed === "确认") {
+                var data = {};
+                data.clientIds = clientIds;
+                data.organization = vm.organization._id;
+                OrganizationService.bulkAssign(data)
+                    .then(function (result) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "业务员归属部门已设置",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshClients();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+    vm.submit = function () {
+        OrganizationService.saveOrganization(vm.organization)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "分支机构已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.organization = {};
+                if (vm.back) {
+                    $state.go("app.organization.all");
+                }
+            }, function (err) { });
+    };
+
+    vm.selectionChanged = function () {
+        if (!vm.wildClients) {
+            vm.isShowBulkOperationButton = false;
+        }
+
+        vm.isShowBulkOperationButton = vm.getSelectedClientIds().length > 0;
+    }
+
+    // vm.selectAll = function () {
+    //     if (vm.wildClients && vm.wildClients.length > 0) {
+    //         for (var i = 0; i < vm.wildClients.length; i++) {
+    //             vm.wildClients[i].isSelected = true;
+    //         }
+    //     }
+    //     vm.selectionChanged();
+    // }
+
+    // vm.clearSelection = function () {
+    //     if (vm.wildClients && vm.wildClients.length > 0) {
+    //         for (var i = 0; i < vm.policies.length; i++) {
+    //             vm.policies[i].isSelected = false;
+    //         }
+    //     }
+    //     vm.selectionChanged();
+    // }
+
+
+});
+
+
+'use strict'
+
+angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
+    var vm = this;
+    vm.organizations = [];
+
+
+
+    vm.refreshOrganizations = function(){
+       OrganizationService.getOrganizations()
+       .then(function(organizations){
+           vm.organizations = organizations;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshOrganizations();
+	
+    vm.view = function(organizationId){
+        $state.go("app.organization.view", {organizationId: organizationId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (organizationId) {
+        $.SmartMessageBox({
+            title: "删除分支机构",
+            content: "确认删除该分支机构？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrganizationService.deleteOrganization(organizationId)
+                    .then(function(){
+                        vm.refreshOrganizations();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.organization').factory('OrganizationService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveOrganization: saveOrganization,
+                getOrganizations: getOrganizations,
+                getOrganization: getOrganization,
+                deleteOrganization: deleteOrganization,
+                getSubClients:getSubClients,
+                bulkAssign: bulkAssign
+            });
+
+            function bulkAssign(data) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/clients/bulk-assign", data)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubClients(orgId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual&organization='+orgId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function saveOrganization(organization) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (organization._id) {
+                    organization.updated_at = Date.now();
+                    $http.put('api/organizations/' + organization._id, organization)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    organization.created_at = Date.now();
+                    organization.updated_at = organization.created_at;
+                    $http.post('api/organizations', organization)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 "use strict";
 
 angular.module('app.life-policy').factory('LifePolicyService',
@@ -8609,494 +9179,6 @@ angular.module('app.life-policy').factory('LifePolicyService',
 
                 // send a post request to the server
                 $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
-'use strict';
-
-angular.module('app.maps').controller('MapsDemoCtrl', 
-  function ($scope, $http, $q, SmartMapStyle, Initializer) {
-
-    $scope.map = null;
-
-    $scope.styles = SmartMapStyle.styles;
-
-    $scope.setType = function (key) {
-        SmartMapStyle.getMapType(key).then(function(type){
-            $scope.map.mapTypes.set(key, type);
-            $scope.map.setMapTypeId(key);
-        });
-        $scope.currentType = key;
-    };
-
-
-    
-
-    Initializer.mapsInitialized
-    .then(function(){
-      return SmartMapStyle.getMapType('colorful')
-    })
-    .then(function() {
-    
-      $scope.map = new google.maps.Map(document.getElementById('map-canvas'), {
-          center: new google.maps.LatLng(23.89, -80.650),
-          zoom: 5,
-          scrollwheel: false,
-          disableDefaultUI: true
-      });
-      $scope.setType('colorful')
-    })
-
-
-});
-'use strict';
-
-angular.module('app.maps').directive('smartMap', function (Initializer) {
-    var _mapsCounter = 0;
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            _mapsCounter++;
-            Initializer.mapsInitialized.then(function(){
-                scope.$on('$smartContentResize', function () {
-                    var center = scope.map.getCenter();
-                    google.maps.event.trigger(scope.map, "resize");
-                    scope.map.setCenter(center); 
-                });
-            })
-            
-        }
-
-    }
-});
-// Google async initializer needs global function, so we use $window
-angular.module('app.maps')
-.factory('Initializer', function($window, $q){
-
-    //Google's url for async maps initialization accepting callback function
-    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
-        mapsDefer = $q.defer();
-
-    //Callback function - resolving promise after maps successfully loaded
-    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
-
-    //Async loader
-    var asyncLoad = function(asyncUrl, callbackName) {
-      var script = document.createElement('script');
-      //script.type = 'text/javascript';
-      script.src = asyncUrl + callbackName;
-      document.body.appendChild(script);
-    };
-    //Start loading google maps
-    asyncLoad(asyncUrl, 'googleMapsInitialized');
-
-    //Usage: Initializer.mapsInitialized.then(callback)
-    return {
-        mapsInitialized : mapsDefer.promise
-    };
-})
-"use strict";
-
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
-});
-'use strict'
-
-angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
-    var vm = this;
-    vm.organization = {};
-    vm.subClients = [];
-    vm.wildClients = [];
-
-    vm.editable = false;
-
-    if ($state.is("app.organization.new")) {
-        vm.editable = true;
-    }
-
-
-    vm.refreshClients = function () {
-        var orgId = vm.organization._id;
-        OrganizationService.getSubClients(orgId)
-            .then(function (subClients) {
-                vm.subClients = subClients;
-            })
-        OrganizationService.getSubClients(-1)
-            .then(function (wildClients) {
-                vm.wildClients = wildClients;
-            })
-    }
-
-
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
-            .then(function (organization) {
-                vm.organization = organization;
-                vm.refreshClients();
-            });
-    }
-
-
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.getSelectedClientIds = function () {
-        var ids = [];
-        if (vm.wildClients) {
-            for (var i = 0; i < vm.wildClients.length; i++) {
-                if (vm.wildClients[i].isSelected) {
-                    ids.push(vm.wildClients[i]._id);
-                }
-            }
-        }
-        return ids;
-    }
-
-    vm.bulkAssign = function () {
-        var clientIds = vm.getSelectedClientIds();
-        $.SmartMessageBox({
-            title: "批量设置归属部门",
-            content: "确认将选中的业务员归属到该部门?",
-            buttons: '[取消][确认]',
-        }, function (ButtonPressed, value) {
-            if (ButtonPressed === "确认") {
-                var data = {};
-                data.clientIds = clientIds;
-                data.organization = vm.organization._id;
-                OrganizationService.bulkAssign(data)
-                    .then(function (result) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "业务员归属部门已设置",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        vm.refreshClients();
-                    }, function (err) {
-
-                    });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-    vm.submit = function () {
-        OrganizationService.saveOrganization(vm.organization)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "分支机构已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.organization = {};
-                if (vm.back) {
-                    $state.go("app.organization.all");
-                }
-            }, function (err) { });
-    };
-
-    vm.selectionChanged = function () {
-        if (!vm.wildClients) {
-            vm.isShowBulkOperationButton = false;
-        }
-
-        vm.isShowBulkOperationButton = vm.getSelectedClientIds().length > 0;
-    }
-
-    // vm.selectAll = function () {
-    //     if (vm.wildClients && vm.wildClients.length > 0) {
-    //         for (var i = 0; i < vm.wildClients.length; i++) {
-    //             vm.wildClients[i].isSelected = true;
-    //         }
-    //     }
-    //     vm.selectionChanged();
-    // }
-
-    // vm.clearSelection = function () {
-    //     if (vm.wildClients && vm.wildClients.length > 0) {
-    //         for (var i = 0; i < vm.policies.length; i++) {
-    //             vm.policies[i].isSelected = false;
-    //         }
-    //     }
-    //     vm.selectionChanged();
-    // }
-
-
-});
-
-
-'use strict'
-
-angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
-    var vm = this;
-    vm.organizations = [];
-
-
-
-    vm.refreshOrganizations = function(){
-       OrganizationService.getOrganizations()
-       .then(function(organizations){
-           vm.organizations = organizations;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshOrganizations();
-	
-    vm.view = function(organizationId){
-        $state.go("app.organization.view", {organizationId: organizationId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (organizationId) {
-        $.SmartMessageBox({
-            title: "删除分支机构",
-            content: "确认删除该分支机构？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                OrganizationService.deleteOrganization(organizationId)
-                    .then(function(){
-                        vm.refreshOrganizations();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-"use strict";
-
-angular.module('app.organization').factory('OrganizationService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveOrganization: saveOrganization,
-                getOrganizations: getOrganizations,
-                getOrganization: getOrganization,
-                deleteOrganization: deleteOrganization,
-                getSubClients:getSubClients,
-                bulkAssign: bulkAssign
-            });
-
-            function bulkAssign(data) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                $http.post("/api/clients/bulk-assign", data)
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                    // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubClients(orgId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual&organization='+orgId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function saveOrganization(organization) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (organization._id) {
-                    organization.updated_at = Date.now();
-                    $http.put('api/organizations/' + organization._id, organization)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    organization.created_at = Date.now();
-                    organization.updated_at = organization.created_at;
-                    $http.post('api/organizations', organization)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/organizations')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
