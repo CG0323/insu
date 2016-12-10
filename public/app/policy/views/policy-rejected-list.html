@@ -16,10 +16,7 @@
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                <!--<label ng-show="user.role!='出单员'"> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>-->
-                <!--<button ng-show="vm.isShowBulkApproveButton()" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核通过选中的保单</button>-->
-                 <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}}  结算费总额:{{vm.summary.total_payment.toFixed(2)}}  毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
-                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>                       
+
             </span>
 
 
@@ -113,20 +110,13 @@
                                     <!--<td field-name="client.name"></td>-->
                                     <td field-name="organization.name"></td>
                                     <td>
-                                        <button ng-show="vm.isShowReviewButton(gridItem)" ng-click="vm.approve(gridItem)" class="btn btn-primary btn-sm">审核</button>
                                         <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="vm.isShowRejectButton(gridItem)" ng-click="vm.reject(gridItem)" class="btn btn-primary btn-sm">驳回</button>
                                         <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="row">
-                        <section class="col col-4">
-                            <button class="btn btn-primary" ng-show="vm.pageSize < vm.policyTotalCount && vm.pageSize < 300" ng-click="vm.showAll()">在一页显示所有符合筛选条件的保单(最多300条一页)</button>
-                        </section>
                     </div>
                 </div>
             </div>

@@ -2199,6 +2199,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.rejected', {
+            url: '/policies/rejected',
+            data: {
+                title: '被驳回保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-rejected-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
         .state('app.policy.to-be-paid', {
             url: '/policies/to-be-paid',
             data: {
@@ -2612,13 +2636,13 @@ $templateCache.put("app/calendar/directives/full-calendar.tpl.html","<div jarvis
 $templateCache.put("app/calendar/views/calendar.tpl.html","<!-- MAIN CONTENT -->\r\n<div id=\"content\">\r\n\r\n    <div class=\"row\">\r\n        <big-breadcrumbs items=\"[\'Home\', \'Calendar\']\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></big-breadcrumbs>\r\n        <div smart-include=\"app/layout/partials/sub-header.tpl.html\"></div>\r\n    </div>\r\n    <!-- widget grid -->\r\n    <section id=\"widget-grid\" widget-grid>\r\n        <!-- row -->\r\n        <div class=\"row\" ng-controller=\"CalendarCtrl\" >\r\n\r\n\r\n            <div class=\"col-sm-12 col-md-12 col-lg-3\">\r\n                <!-- new widget -->\r\n                <div class=\"jarviswidget jarviswidget-color-blueDark\">\r\n                    <header>\r\n                        <h2> Add Events </h2>\r\n                    </header>\r\n\r\n                    <!-- widget div-->\r\n                    <div>\r\n\r\n                        <div class=\"widget-body\">\r\n                            <!-- content goes here -->\r\n\r\n                            <form id=\"add-event-form\">\r\n                                <fieldset>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Icon</label>\r\n                                        <div class=\"btn-group btn-group-sm btn-group-justified\" data-toggle=\"buttons\" > <!--  -->\r\n                                            <label class=\"btn btn-default active\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-1\" value=\"fa-info\" radio-toggle ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-info text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-2\" value=\"fa-warning\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-warning text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-3\" value=\"fa-check\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-check text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-4\" value=\"fa-user\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-user text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-5\" value=\"fa-lock\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-lock text-muted\"></i> </label>\r\n                                            <label class=\"btn btn-default\">\r\n                                                <input type=\"radio\" name=\"iconselect\" id=\"icon-6\" value=\"fa-clock-o\" radio-toggle  ng-model=\"newEvent.icon\">\r\n                                                <i class=\"fa fa-clock-o text-muted\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Title</label>\r\n                                        <input ng-model=\"newEvent.title\" class=\"form-control\"  id=\"title\" name=\"title\" maxlength=\"40\" type=\"text\" placeholder=\"Event Title\">\r\n                                    </div>\r\n                                    <div class=\"form-group\">\r\n                                        <label>Event Description</label>\r\n                                        <textarea  ng-model=\"newEvent.description\" class=\"form-control\" placeholder=\"Please be brief\" rows=\"3\" maxlength=\"40\" id=\"description\"></textarea>\r\n                                        <p class=\"note\">Maxlength is set to 40 characters</p>\r\n                                    </div>\r\n\r\n                                    <div class=\"form-group\">\r\n                                        <label>Select Event Color</label>\r\n                                        <div class=\"btn-group btn-group-justified btn-select-tick\" data-toggle=\"buttons\" >\r\n                                            <label class=\"btn bg-color-darken active\">\r\n                                                <input   ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option1\" value=\"bg-color-darken txt-color-white\" >\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blue\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option2\" value=\"bg-color-blue txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-orange\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option3\" value=\"bg-color-orange txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-greenLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option4\" value=\"bg-color-greenLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-blueLight\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option5\" value=\"bg-color-blueLight txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                            <label class=\"btn bg-color-red\">\r\n                                                <input  ng-model=\"newEvent.className\" radio-toggle   type=\"radio\" name=\"priority\" id=\"option6\" value=\"bg-color-red txt-color-white\">\r\n                                                <i class=\"fa fa-check txt-color-white\"></i> </label>\r\n                                        </div>\r\n                                    </div>\r\n\r\n                                </fieldset>\r\n                                <div class=\"form-actions\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-12\">\r\n                                            <button class=\"btn btn-default\" type=\"button\" id=\"add-event\" ng-click=\"addEvent()\" >\r\n                                                Add Event\r\n                                            </button>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </form>\r\n\r\n                            <!-- end content -->\r\n                        </div>\r\n\r\n                    </div>\r\n                    <!-- end widget div -->\r\n                </div>\r\n                <!-- end widget -->\r\n\r\n                <div class=\"well well-sm\" id=\"event-container\">\r\n                    <form>\r\n                        <legend>\r\n                            Draggable Events\r\n                        </legend>\r\n                        <ul id=\'external-events\' class=\"list-unstyled\">\r\n\r\n                            <li ng-repeat=\"event in eventsExternal\" dragable-event>\r\n                                <span class=\"{{event.className}}\" \r\n                                    data-description=\"{{event.description}}\"\r\n                                    data-icon=\"{{event.icon}}\"\r\n                                >\r\n                                {{event.title}}</span>\r\n                            </li>\r\n                            \r\n                        </ul>\r\n\r\n                        <!-- <ul id=\'external-events\' class=\"list-unstyled\">\r\n                            <li>\r\n                                <span class=\"bg-color-darken txt-color-white\" data-description=\"Currently busy\" data-icon=\"fa-time\">Office Meeting</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-blue txt-color-white\" data-description=\"No Description\" data-icon=\"fa-pie\">Lunch Break</span>\r\n                            </li>\r\n                            <li>\r\n                                <span class=\"bg-color-red txt-color-white\" data-description=\"Urgent Tasks\" data-icon=\"fa-alert\">URGENT</span>\r\n                            </li>\r\n                        </ul> -->\r\n\r\n                        <div class=\"checkbox\">\r\n                            <label>\r\n                                <input type=\"checkbox\" id=\"drop-remove\" class=\"checkbox style-0\" checked=\"checked\">\r\n                                <span>remove after drop</span> </label>\r\n\r\n                        </div>\r\n                    </form>\r\n\r\n                </div>\r\n            </div>\r\n\r\n\r\n            <article class=\"col-sm-12 col-md-12 col-lg-9\">\r\n                <full-calendar id=\"main-calendar-widget\" data-events=\"events\"></full-calendar>\r\n            </article>\r\n        </div>\r\n    </section>\r\n</div>");
 $templateCache.put("app/dashboard/projects/recent-projects.tpl.html","<div class=\"project-context hidden-xs dropdown\" dropdown>\r\n\r\n    <span class=\"label\">{{getWord(\'Projects\')}}:</span>\r\n    <span class=\"project-selector dropdown-toggle\" dropdown-toggle>{{getWord(\'Recent projects\')}} <i ng-if=\"projects.length\"\r\n            class=\"fa fa-angle-down\"></i></span>\r\n\r\n    <ul class=\"dropdown-menu\" ng-if=\"projects.length\">\r\n        <li ng-repeat=\"project in projects\">\r\n            <a href=\"{{project.href}}\">{{project.title}}</a>\r\n        </li>\r\n        <li class=\"divider\"></li>\r\n        <li>\r\n            <a ng-click=\"clearProjects()\"><i class=\"fa fa-power-off\"></i> Clear</a>\r\n        </li>\r\n    </ul>\r\n\r\n</div>");
 $templateCache.put("app/dashboard/todo/todo-widget.tpl.html","<div id=\"todo-widget\" jarvis-widget data-widget-editbutton=\"false\" data-widget-color=\"blue\"\r\n     ng-controller=\"TodoCtrl\">\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\r\n\r\n        <h2> ToDo\'s </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n            <button class=\"btn btn-xs btn-default\" ng-class=\"{active: newTodo}\" ng-click=\"toggleAdd()\"><i ng-class=\"{ \'fa fa-plus\': !newTodo, \'fa fa-times\': newTodo}\"></i> Add</button>\r\n\r\n        </div>\r\n    </header>\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body no-padding smart-form\">\r\n            <!-- content goes here -->\r\n            <div ng-show=\"newTodo\">\r\n                <h5 class=\"todo-group-title\"><i class=\"fa fa-plus-circle\"></i> New Todo</h5>\r\n\r\n                <form name=\"newTodoForm\" class=\"smart-form\">\r\n                    <fieldset>\r\n                        <section>\r\n                            <label class=\"input\">\r\n                                <input type=\"text\" required class=\"input-lg\" ng-model=\"newTodo.title\"\r\n                                       placeholder=\"What needs to be done?\">\r\n                            </label>\r\n                        </section>\r\n                        <section>\r\n                            <div class=\"col-xs-6\">\r\n                                <label class=\"select\">\r\n                                    <select class=\"input-sm\" ng-model=\"newTodo.state\"\r\n                                            ng-options=\"state as state for state in states\"></select> <i></i> </label>\r\n                            </div>\r\n                        </section>\r\n                    </fieldset>\r\n                    <footer>\r\n                        <button ng-disabled=\"newTodoForm.$invalid\" type=\"button\" class=\"btn btn-primary\"\r\n                                ng-click=\"createTodo()\">\r\n                            Add\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-default\" ng-click=\"toggleAdd()\">\r\n                            Cancel\r\n                        </button>\r\n                    </footer>\r\n                </form>\r\n            </div>\r\n\r\n            <todo-list state=\"Critical\"  title=\"Critical Tasks\" icon=\"warning\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Important\" title=\"Important Tasks\" icon=\"exclamation\" todos=\"todos\"></todo-list>\r\n\r\n            <todo-list state=\"Completed\" title=\"Completed Tasks\" icon=\"check\" todos=\"todos\"></todo-list>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
-$templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
 $templateCache.put("app/layout/partials/footer.tpl.html","<div class=\"page-footer\">\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-6\">\r\n            <span class=\"txt-color-white txt-big\">红叶保险代理@结算系统</span>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("app/layout/partials/header.tpl.html","<header id=\"header\">\r\n<div id=\"logo-group\">\r\n\r\n    <!-- PLACE YOUR LOGO HERE -->\r\n    <span id=\"logo\"> <img src=\"styles/img/hy-text-logo.png\" alt=\"SmartAdmin\"> </span>\r\n    <!-- END LOGO PLACEHOLDER -->\r\n\r\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\r\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\r\n    <!--<span id=\"activity\" class=\"activity-dropdown\" activities-dropdown-toggle> \r\n        <i class=\"fa fa-user\"></i> \r\n        <b class=\"badge bg-color-red\">21</b> \r\n    </span>\r\n    <div smart-include=\"app/dashboard/activities/activities.html\"></div>-->\r\n</div>\r\n\r\n\r\n<!--<recent-projects></recent-projects>-->\r\n\r\n\r\n\r\n<!-- pulled right: nav area -->\r\n<div class=\"pull-right\">\r\n\r\n    <!-- collapse menu button -->\r\n    <div id=\"hide-menu\" class=\"btn-header pull-right\">\r\n        <span> <a toggle-menu title=\"Collapse Menu\"><i\r\n                class=\"fa fa-reorder\"></i></a> </span>\r\n    </div>\r\n    <!-- end collapse menu -->\r\n\r\n    <!-- #MOBILE -->\r\n    <!-- Top menu profile link : this shows only when top menu is active -->\r\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\r\n        <li class=\"\">\r\n            <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">\r\n                <img src=\"styles/img/avatars/sunny.png\" alt=\"John Doe\" class=\"online\"/>\r\n            </a>\r\n            <ul class=\"dropdown-menu pull-right\">\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"><i\r\n                            class=\"fa fa-cog\"></i> Setting</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a ui-sref=\"app.appViews.profileDemo\" class=\"padding-10 padding-top-0 padding-bottom-0\"> <i class=\"fa fa-user\"></i>\r\n                        <u>P</u>rofile</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"toggleShortcut\"><i class=\"fa fa-arrow-down\"></i> <u>S</u>hortcut</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href-void class=\"padding-10 padding-top-0 padding-bottom-0\"\r\n                       data-action=\"launchFullscreen\"><i class=\"fa fa-arrows-alt\"></i> Full <u>S</u>creen</a>\r\n                </li>\r\n                <li class=\"divider\"></li>\r\n                <li>\r\n                    <a href=\"#/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\"><i\r\n                            class=\"fa fa-sign-out fa-lg\"></i> <strong><u>L</u>ogout</strong></a>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n\r\n    <!-- logout button -->\r\n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\r\n        <span> <a ng-click=\"logout()\" title=\"Sign Out\" data-action=\"userLogout\"\r\n                  data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i\r\n                class=\"fa fa-sign-out\"></i></a> </span>\r\n    </div>\r\n    <!-- end logout button -->\r\n\r\n    <!-- input: search field -->\r\n    <!--<form action=\"#/search\" class=\"header-search pull-right\">\r\n        <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Find reports and more\" data-autocomplete=\'[\r\n					\"ActionScript\",\r\n					\"AppleScript\",\r\n					\"Asp\",\r\n					\"BASIC\",\r\n					\"C\",\r\n					\"C++\",\r\n					\"Clojure\",\r\n					\"COBOL\",\r\n					\"ColdFusion\",\r\n					\"Erlang\",\r\n					\"Fortran\",\r\n					\"Groovy\",\r\n					\"Haskell\",\r\n					\"Java\",\r\n					\"JavaScript\",\r\n					\"Lisp\",\r\n					\"Perl\",\r\n					\"PHP\",\r\n					\"Python\",\r\n					\"Ruby\",\r\n					\"Scala\",\r\n					\"Scheme\"]\'>\r\n        <button type=\"submit\">\r\n            <i class=\"fa fa-search\"></i>\r\n        </button>\r\n        <a href=\"$\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\r\n    </form>-->\r\n    <!-- end input: search field -->\r\n\r\n    <!-- fullscreen button -->\r\n    <!--<div id=\"fullscreen\" class=\"btn-header transparent pull-right\">\r\n        <span> <a full-screen title=\"Full Screen\"><i\r\n                class=\"fa fa-arrows-alt\"></i></a> </span>\r\n    </div>-->\r\n    <!-- end fullscreen button -->\r\n\r\n    <!-- #Voice Command: Start Speech -->\r\n    <!--<div id=\"speech-btn\" class=\"btn-header transparent pull-right hidden-sm hidden-xs\">\r\n        <div>\r\n            <a title=\"Voice Command\" id=\"voice-command-btn\" speech-recognition><i class=\"fa fa-microphone\"></i></a>\r\n\r\n            <div class=\"popover bottom\">\r\n                <div class=\"arrow\"></div>\r\n                <div class=\"popover-content\">\r\n                    <h4 class=\"vc-title\">Voice command activated <br>\r\n                        <small>Please speak clearly into the mic</small>\r\n                    </h4>\r\n                    <h4 class=\"vc-title-error text-center\">\r\n                        <i class=\"fa fa-microphone-slash\"></i> Voice command failed\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must <strong>\"Allow\"</strong> Microphone</small>\r\n                        <br>\r\n                        <small class=\"txt-color-red\">Must have <strong>Internet Connection</strong></small>\r\n                    </h4>\r\n                    <a href-void class=\"btn btn-success\" id=\"speech-help-btn\">See Commands</a>\r\n                    <a href-void class=\"btn bg-color-purple txt-color-white\"\r\n                       onclick=\"$(\'#speech-btn .popover\').fadeOut(50);\">Close Popup</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>-->\r\n    <!-- end voice command -->\r\n\r\n\r\n\r\n    <!-- multiple lang dropdown : find all flags in the flags page -->\r\n    <language-selector ng-show=\"false\"></language-selector>\r\n    <!-- end multiple lang -->\r\n\r\n</div>\r\n<!-- end pulled right: nav area -->\r\n\r\n</header>");
-$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入</a>\r\n                    </li>\r\n                    <!--<li ng-show=\"user.role!=\'财务\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new\">保单录入</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-reviewed\">待审核保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.checked\">已核对保单</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.import\">车商保单批量导入</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.to-be-paid\">待支付车商保单</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.paid\">已支付车商保单</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
+$templateCache.put("app/layout/partials/navigation.tpl.html","<aside id=\"left-panel\">\r\n\r\n    <!-- User info -->\r\n    <div login-info></div>\r\n    <!-- end user info -->\r\n\r\n    <nav>\r\n        <!-- NOTE: Notice the gaps after each icon usage <i></i>..\r\n        Please note that these links work a bit different than\r\n        traditional href=\"\" links. See documentation for details.\r\n        -->\r\n\r\n        <ul data-smart-menu>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">车险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.new1\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.rejected\">被驳回保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-reviewed\">待审核保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.to-be-paid\">待支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.paid\">已支付保单</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.checked\">已核对保单</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.import\">车商保单批量导入</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.to-be-paid\">待支付车商保单</a>\r\n                    </li>\r\n                    <li ng-show=\"user.role!=\'出单员\'\" data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.policy.org-policy.paid\">已支付车商保单</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                 <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-car\"></i><span class=\"menu-item-parent\">寿险</span></a>\r\n                 <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.new\">保单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.to-be-paid\">保单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.new\">主管薪酬结算单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.salary.list\">主管薪酬结算单列表</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.new\">保险公司对账单录入</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.life-policy.statement.list\">保险公司对账单列表</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">业务员信息管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization\">机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual\">个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager\">主管</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.organization.new\">添加机构客户</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.individual.new\">添加个人业务员</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.client.manager.new\">添加主管</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">员工账号管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller\">出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance\">财务账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.seller.new\">添加出单员账号</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.employee.finance.new\">添加财务账号</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">分支机构管理</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.all\">分支机构</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.organization.new\">添加分支机构</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            \r\n            <li  ng-show=\"user.role==\'管理员\'\" data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-user\"></i> <span class=\"menu-item-parent\">保险公司管理</span></a>\r\n                <ul>\r\n                    <!--<li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.all\">保险公司</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.new\">添加保险公司</a>\r\n                    </li>-->\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.companycatogory.all\">一级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company2.all\">二级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company3.all\">三级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.company4.all\">四级保险公司(新版测试)</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.all\">险种名称</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.company.policyname.new\">添加险种名称</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"change-password\" title=\"修改密码\"><i class=\"fa fa-lg fa-fw fa-key\"></i> <span\r\n                        class=\"menu-item-parent\">修改密码</span></a>\r\n            </li>\r\n            <!--<li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.dashboard\" title=\"Dashboard\"><i class=\"fa fa-lg fa-fw fa-history\"></i> <span\r\n                        class=\"menu-item-parent\">Dashboard</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.inbox.folder\" title=\"Inbox\">\r\n                    <i class=\"fa fa-lg fa-fw fa-inbox\"></i> <span class=\"menu-item-parent\">{{getWord(\'Inbox\')}}</span><span\r\n                        unread-messages-count class=\"badge pull-right inbox-badge\"></span></a>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-bar-chart-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Graphs\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.flot\">{{getWord(\'Flot Chart\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.morris\">{{getWord(\'Morris Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.inline\">{{getWord(\'Inline Charts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.dygraphs\">{{getWord(\'Dygraphs\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.graphs.chartjs\">Chart.js <span\r\n                                class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-table\"></i> <span class=\"menu-item-parent\">{{getWord(\'Tables\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.normal\">{{getWord(\'Normal Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.datatables\">{{getWord(\'Data Tables\')}} <span\r\n                                class=\"badge inbox-badge bg-color-greenLight\">v1.10</span></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.tables.jqgrid\">{{getWord(\'Jquery Grid\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-pencil-square-o\"></i> <span class=\"menu-item-parent\">{{getWord(\'Forms\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.elements\">{{getWord(\'Smart Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.layouts\">{{getWord(\'Smart Form Layouts\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.validation\">{{getWord(\'Smart Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapForms\">{{getWord(\'Bootstrap Form Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.bootstrapValidation\">{{getWord(\'Bootstrap Form Validation\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.plugins\">{{getWord(\'Form Plugins\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.wizards\">{{getWord(\'Wizards\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.editors\">{{getWord(\'Bootstrap Editors\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.dropzone\">{{getWord(\'Dropzone\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.form.imageEditor\">{{getWord(\'Image Cropping\')}} <span class=\"badge pull-right inbox-badge bg-color-yellow\">new</span></a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-desktop\"></i> <span class=\"menu-item-parent\">{{getWord(\'UI Elements\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.general\">{{getWord(\'General Elements\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.buttons\">{{getWord(\'Buttons\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Icons\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFa\"><i class=\"fa fa-plane\"></i> {{getWord(\'Font Awesome\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsGlyph\" ><i class=\"glyphicon glyphicon-plane\"></i> {{getWord(\'Glyph Icons\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.ui.iconsFlags\" ><i class=\"fa fa-flag\"></i> {{getWord(\'Flags\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.grid\" >{{getWord(\'Grid\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.treeView\">{{getWord(\'Tree View\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.nestableLists\">{{getWord(\'Nestable Lists\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.jqueryUi\">{{getWord(\'JQuery UI\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.ui.typography\">{{getWord(\'Typography\')}}</a>\r\n                    </li>\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\">{{getWord(\'Six Level Menu\')}}</a>\r\n                        <ul>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #2\')}}</a>\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Sub #2.1\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'Item #2.1.1\')}}</a>\r\n                                            </li>\r\n                                            <li data-menu-collapse>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-plus\"></i>{{getWord(\'Expand\')}}</a>\r\n                                                <ul>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                                    </li>\r\n                                                    <li>\r\n                                                        <a href=\"#\"><i class=\"fa fa-fw fa-trash-o\"></i> {{getWord(\'Delete\')}}</a></li>\r\n                                                </ul>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n                            </li>\r\n                            <li data-menu-collapse>\r\n                                <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'Item #3\')}}</a>\r\n\r\n                                <ul>\r\n                                    <li data-menu-collapse>\r\n                                        <a href=\"#\"><i class=\"fa fa-fw fa-folder-open\"></i> {{getWord(\'3ed Level\')}} </a>\r\n                                        <ul>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                            <li>\r\n                                                <a href=\"#\"><i class=\"fa fa-fw fa-file-text\"></i> {{getWord(\'File\')}}</a>\r\n                                            </li>\r\n                                        </ul>\r\n                                    </li>\r\n                                </ul>\r\n\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.calendar\" title=\"Calendar\"><i class=\"fa fa-lg fa-fw fa-calendar\"><em>3</em></i> <span\r\n                        class=\"menu-item-parent\">{{getWord(\'Calendar\')}}</span></a>\r\n            </li>\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.widgets\" title=\"Widgets\"><i class=\"fa fa-lg fa-fw fa-list-alt\"></i><span\r\n                        class=\"menu-item-parent\">{{getWord(\'Widgets\')}}</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a  href=\"#\" >\r\n                    <i class=\"fa fa-lg fa-fw fa-puzzle-piece\"></i> <span class=\"menu-item-parent\">{{getWord(\'App Views\')}}</span></a>\r\n                <ul>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.projects\"><i class=\"fa fa-file-text-o\"></i> {{getWord(\'Projects\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.blogDemo\"><i class=\"fa fa-paragraph\"></i> {{getWord(\'Blog\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.galleryDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Gallery\')}}</a>\r\n                    </li>\r\n\r\n                    <li data-menu-collapse>\r\n                        <a href=\"#\"><i class=\"fa fa-comments\"></i> {{getWord(\'Forum Layout\')}}</a>\r\n                        <ul>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'General View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumTopicDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Topic View\')}}</a>\r\n                            </li>\r\n                            <li data-ui-sref-active=\"active\">\r\n                                <a data-ui-sref=\"app.appViews.forumPostDemo\"><i class=\"fa fa-picture-o\"></i> {{getWord(\'Post View\')}}</a>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.profileDemo\"><i class=\"fa fa-group\"></i> {{getWord(\'Profile\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.appViews.timelineDemo\"><i class=\"fa fa-clock-o\"></i> {{getWord(\'Timeline\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n            <li data-ui-sref-active=\"active\">\r\n                <a data-ui-sref=\"app.maps\"><i class=\"fa fa-lg fa-fw fa-map-marker\"></i> <span class=\"menu-item-parent\">{{getWord(\'GMap Skins\')}}</span><span class=\"badge bg-color-greenLight pull-right inbox-badge\">9</span></a>\r\n            </li>\r\n\r\n            <li data-menu-collapse>\r\n                <a href=\"#\"><i class=\"fa fa-lg fa-fw fa-windows\"></i> <span class=\"menu-item-parent\">{{getWord(\'Miscellaneous\')}}</span></a>\r\n                <ul >\r\n                    <li>\r\n                        <a href=\"http://bootstraphunter.com/smartadmin-landing/\" target=\"_blank\">{{getWord(\'Landing Page\')}} <i class=\"fa fa-external-link\"></i></a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.pricingTable\">{{getWord(\'Pricing Tables\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.invoice\">{{getWord(\'Invoice\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"login\">{{getWord(\'Login\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"register\">{{getWord(\'Register\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"lock\">{{getWord(\'Locked Screen\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error404\">{{getWord(\'Error 404\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.error500\">{{getWord(\'Error 500\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.blank\">{{getWord(\'Blank Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.emailTemplate\">{{getWord(\'Email Template\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.search\">{{getWord(\'Search Page\')}}</a>\r\n                    </li>\r\n                    <li data-ui-sref-active=\"active\">\r\n                        <a data-ui-sref=\"app.misc.ckeditor\">{{getWord(\'CK Editor\')}}</a>\r\n                    </li>\r\n                </ul>\r\n            </li>-->\r\n        </ul>\r\n\r\n        <!-- NOTE: This allows you to pull menu items from server -->\r\n        <!-- <ul data-smart-menu-items=\"/api/menu-items.json\"></ul> -->\r\n    </nav>\r\n\r\n  <span class=\"minifyme\" data-action=\"minifyMenu\" minify-menu>\r\n    <i class=\"fa fa-arrow-circle-left hit\"></i>\r\n  </span>\r\n\r\n</aside>");
 $templateCache.put("app/layout/partials/sub-header.tpl.html","<div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-8\" data-sparkline-container>\r\n    <ul id=\"sparks\" class=\"\">\r\n        <li class=\"sparks-info\">\r\n            <h5> My Income <span class=\"txt-color-blue\">$47,171</span></h5>\r\n            <div class=\"sparkline txt-color-blue hidden-mobile hidden-md hidden-sm\">\r\n                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Traffic <span class=\"txt-color-purple\"><i class=\"fa fa-arrow-circle-up\"></i>&nbsp;45%</span></h5>\r\n            <div class=\"sparkline txt-color-purple hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n        <li class=\"sparks-info\">\r\n            <h5> Site Orders <span class=\"txt-color-greenDark\"><i class=\"fa fa-shopping-cart\"></i>&nbsp;2447</span></h5>\r\n            <div class=\"sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm\">\r\n                110,150,300,130,400,240,220,310,220,300, 270, 210\r\n            </div>\r\n        </li>\r\n    </ul>\r\n</div>\r\n			");
 $templateCache.put("app/layout/partials/voice-commands.tpl.html","<!-- TRIGGER BUTTON:\r\n<a href=\"/my-ajax-page.html\" data-toggle=\"modal\" data-target=\"#remoteModal\" class=\"btn btn-default\">Open Modal</a>  -->\r\n\r\n<!-- MODAL PLACE HOLDER\r\n<div class=\"modal fade\" id=\"remoteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"remoteModalLabel\" aria-hidden=\"true\">\r\n<div class=\"modal-dialog\">\r\n<div class=\"modal-content\"></div>\r\n</div>\r\n</div>   -->\r\n<!--////////////////////////////////////-->\r\n\r\n<!--<div class=\"modal-header\">\r\n<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\r\n&times;\r\n</button>\r\n<h4 class=\"modal-title\" id=\"myModalLabel\">Command List</h4>\r\n</div>-->\r\n<div class=\"modal-body\">\r\n\r\n	<h1><i class=\"fa fa-microphone text-muted\"></i>&nbsp;&nbsp; SmartAdmin Voice Command</h1>\r\n	<hr class=\"simple\">\r\n	<h5>Instruction</h5>\r\n\r\n	Click <span class=\"text-success\">\"Allow\"</span> to access your microphone and activate Voice Command.\r\n	You will notice a <span class=\"text-primary\"><strong>BLUE</strong> Flash</span> on the microphone icon indicating activation.\r\n	The icon will appear <span class=\"text-danger\"><strong>RED</strong></span> <span class=\"label label-danger\"><i class=\"fa fa-microphone fa-lg\"></i></span> if you <span class=\"text-danger\">\"Deny\"</span> access or don\'t have any microphone installed.\r\n	<br>\r\n	<br>\r\n	As a security precaution, your browser will disconnect the microphone every 60 to 120 seconds (sooner if not being used). In which case Voice Command will prompt you again to <span class=\"text-success\">\"Allow\"</span> or <span class=\"text-danger\">\"Deny\"</span> access to your microphone.\r\n	<br>\r\n	<br>\r\n	If you host your page over <strong>http<span class=\"text-success\">s</span></strong> (secure socket layer) protocol you can wave this security measure and have an unintrupted Voice Command.\r\n	<br>\r\n	<br>\r\n	<h5>Commands</h5>\r\n	<ul>\r\n		<li>\r\n			<strong>\'show\' </strong> then say the <strong>*page*</strong> you want to go to. For example <strong>\"show inbox\"</strong> or <strong>\"show calendar\"</strong>\r\n		</li>\r\n		<li>\r\n			<strong>\'mute\' </strong> - mutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<strong>\'sound on\'</strong> - unmutes all sound effects for the theme.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'stop\'</strong></span> - deactivates voice command.\r\n		</li>\r\n		<li>\r\n			<span class=\"text-primary\"><strong>\'help\'</strong></span> - brings up the command list\r\n		</li>\r\n		<li>\r\n			<span class=\"text-danger\"><strong>\'got it\'</strong></span> - closes help modal\r\n		</li>\r\n		<li>\r\n			<strong>\'hide navigation\'</strong> - toggle navigation collapse\r\n		</li>\r\n		<li>\r\n			<strong>\'show navigation\'</strong> - toggle navigation to open (can be used again to close)\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll up\'</strong> - scrolls to the top of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'scroll down\'</strong> - scrollts to the bottom of the page\r\n		</li>\r\n		<li>\r\n			<strong>\'go back\' </strong> - goes back in history (history -1 click)\r\n		</li>\r\n		<li>\r\n			<strong>\'logout\'</strong> - logs you out\r\n		</li>\r\n	</ul>\r\n	<br>\r\n	<h5>Adding your own commands</h5>\r\n	Voice Command supports up to 80 languages. Adding your own commands is extreamly easy. All commands are stored inside <strong>app.config.js</strong> file under the <code>var commands = {...}</code>. \r\n\r\n	<hr class=\"simple\">\r\n	<div class=\"text-right\">\r\n		<button type=\"button\" class=\"btn btn-success btn-lg\" data-dismiss=\"modal\">\r\n			Got it!\r\n		</button>\r\n	</div>\r\n\r\n</div>\r\n<!--<div class=\"modal-footer\">\r\n<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Got it!</button>\r\n</div> -->");
 $templateCache.put("app/layout/shortcut/shortcut.tpl.html","<div id=\"shortcut\">\r\n	<ul>\r\n		<li>\r\n			<a href=\"#/inbox/\" class=\"jarvismetro-tile big-cubes bg-color-blue\"> <span class=\"iconbox\"> <i class=\"fa fa-envelope fa-4x\"></i> <span>Mail <span class=\"label pull-right bg-color-darken\">14</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/calendar\" class=\"jarvismetro-tile big-cubes bg-color-orangeDark\"> <span class=\"iconbox\"> <i class=\"fa fa-calendar fa-4x\"></i> <span>Calendar</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/maps\" class=\"jarvismetro-tile big-cubes bg-color-purple\"> <span class=\"iconbox\"> <i class=\"fa fa-map-marker fa-4x\"></i> <span>Maps</span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/invoice\" class=\"jarvismetro-tile big-cubes bg-color-blueDark\"> <span class=\"iconbox\"> <i class=\"fa fa-book fa-4x\"></i> <span>Invoice <span class=\"label pull-right bg-color-darken\">99</span></span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/gallery\" class=\"jarvismetro-tile big-cubes bg-color-greenLight\"> <span class=\"iconbox\"> <i class=\"fa fa-picture-o fa-4x\"></i> <span>Gallery </span> </span> </a>\r\n		</li>\r\n		<li>\r\n			<a href=\"#/profile\" class=\"jarvismetro-tile big-cubes selected bg-color-pinkDark\"> <span class=\"iconbox\"> <i class=\"fa fa-user fa-4x\"></i> <span>My Profile </span> </span> </a>\r\n		</li>\r\n	</ul>\r\n</div>");
+$templateCache.put("app/layout/language/language-selector.tpl.html","<ul class=\"header-dropdown-list hidden-xs ng-cloak\" ng-controller=\"LanguagesCtrl\">\r\n    <li class=\"dropdown\" dropdown>\r\n        <a class=\"dropdown-toggle\"  dropdown-toggle href> <img src=\"styles/img/blank.gif\" class=\"flag flag-{{currentLanguage.key}}\" alt=\"{{currentLanguage.alt}}\"> <span> {{currentLanguage.title}} </span>\r\n            <i class=\"fa fa-angle-down\"></i> </a>\r\n        <ul class=\"dropdown-menu pull-right\">\r\n            <li ng-class=\"{active: language==currentLanguage}\" ng-repeat=\"language in languages\">\r\n                <a ng-click=\"selectLanguage(language)\" ><img src=\"styles/img/blank.gif\" class=\"flag flag-{{language.key}}\"\r\n                                                   alt=\"{{language.alt}}\"> {{language.title}}</a>\r\n            </li>\r\n        </ul>\r\n    </li>\r\n</ul>");
 $templateCache.put("app/dashboard/chat/directives/aside-chat-widget.tpl.html","<ul>\r\n    <li>\r\n        <div class=\"display-users\">\r\n            <input class=\"form-control chat-user-filter\" placeholder=\"Filter\" type=\"text\">\r\n            <dl>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha1\"\r\n                       data-chat-fname=\"Sadi\"\r\n                       data-chat-lname=\"Orlaf\"\r\n                       data-chat-status=\"busy\"\r\n                       data-chat-alertmsg=\"Sadi Orlaf is in a meeting. Please do not disturb!\"\r\n                       data-chat-alertshow=\"true\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/5.png\' alt=\'Sadi Orlaf\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Sadi Orlaf</h3>\r\n												<p>Marketing Executive</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Sadi Orlaf\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha2\"\r\n                       data-chat-fname=\"Jessica\"\r\n                       data-chat-lname=\"Dolof\"\r\n                       data-chat-status=\"online\"\r\n                       data-chat-alertmsg=\"\"\r\n                       data-chat-alertshow=\"false\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/1.png\' alt=\'Jessica Dolof\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Jessica Dolof</h3>\r\n												<p>Sales Administrator</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Jessica Dolof\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha3\"\r\n                       data-chat-fname=\"Zekarburg\"\r\n                       data-chat-lname=\"Almandalie\"\r\n                       data-chat-status=\"online\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/3.png\' alt=\'Zekarburg Almandalie\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Zekarburg Almandalie</h3>\r\n												<p>Sales Admin</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Zekarburg Almandalie\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr\"\r\n                       data-chat-id=\"cha4\"\r\n                       data-chat-fname=\"Barley\"\r\n                       data-chat-lname=\"Krazurkth\"\r\n                       data-chat-status=\"away\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/4.png\' alt=\'Barley Krazurkth\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Barley Krazurkth</h3>\r\n												<p>Sales Director</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Barley Krazurkth\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr offline\"\r\n                       data-chat-id=\"cha5\"\r\n                       data-chat-fname=\"Farhana\"\r\n                       data-chat-lname=\"Amrin\"\r\n                       data-chat-status=\"incognito\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/female.png\' alt=\'Farhana Amrin\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Farhana Amrin</h3>\r\n												<p>Support Admin <small><i class=\'fa fa-music\'></i> Playing Beethoven Classics</small></p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Farhana Amrin (offline)\r\n                    </a>\r\n                </dt>\r\n                <dt>\r\n                    <a href=\"#\" class=\"usr offline\"\r\n                       data-chat-id=\"cha6\"\r\n                       data-chat-fname=\"Lezley\"\r\n                       data-chat-lname=\"Jacob\"\r\n                       data-chat-status=\"incognito\"\r\n                       popover-trigger=\"mouseenter\"\r\n                       popover-placement=\"right\"\r\n                       popover=\"\r\n										<div class=\'usr-card\'>\r\n											<img src=\'styles/img/avatars/male.png\' alt=\'Lezley Jacob\'>\r\n											<div class=\'usr-card-content\'>\r\n												<h3>Lezley Jacob</h3>\r\n												<p>Sales Director</p>\r\n											</div>\r\n										</div>\r\n									\">\r\n                        <i></i>Lezley Jacob (offline)\r\n                    </a>\r\n                </dt>\r\n            </dl>\r\n\r\n\r\n            <!--<a href=\"chat.html\" class=\"btn btn-xs btn-default btn-block sa-chat-learnmore-btn\">About the API</a>-->\r\n        </div>\r\n    </li>\r\n</ul>");
 $templateCache.put("app/dashboard/chat/directives/chat-users.tpl.html","<div id=\"chat-container\" ng-class=\"{open: open}\">\r\n    <span class=\"chat-list-open-close\" ng-click=\"openToggle()\"><i class=\"fa fa-user\"></i><b>!</b></span>\r\n\r\n    <div class=\"chat-list-body custom-scroll\">\r\n        <ul id=\"chat-users\">\r\n            <li ng-repeat=\"chatUser in chatUsers | filter: chatUserFilter\">\r\n                <a ng-click=\"messageTo(chatUser)\"><img ng-src=\"{{chatUser.picture}}\">{{chatUser.username}} <span\r\n                        class=\"badge badge-inverse\">{{chatUser.username.length}}</span><span class=\"state\"><i\r\n                        class=\"fa fa-circle txt-color-green pull-right\"></i></span></a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"chat-list-footer\">\r\n        <div class=\"control-group\">\r\n            <form class=\"smart-form\">\r\n                <section>\r\n                    <label class=\"input\" >\r\n                        <input type=\"text\" ng-model=\"chatUserFilter\" id=\"filter-chat-list\" placeholder=\"Filter\">\r\n                    </label>\r\n                </section>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("app/dashboard/chat/directives/chat-widget.tpl.html","<div id=\"chat-widget\" jarvis-widget data-widget-color=\"blueDark\" data-widget-editbutton=\"false\"\r\n     data-widget-fullscreenbutton=\"false\">\r\n\r\n\r\n    <header>\r\n        <span class=\"widget-icon\"> <i class=\"fa fa-comments txt-color-white\"></i> </span>\r\n\r\n        <h2> SmartMessage </h2>\r\n\r\n        <div class=\"widget-toolbar\">\r\n            <!-- add: non-hidden - to disable auto hide -->\r\n\r\n            <div class=\"btn-group\" data-dropdown>\r\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" dropdown-toggle>\r\n                    Status <i class=\"fa fa-caret-down\"></i>\r\n                </button>\r\n                <ul class=\"dropdown-menu pull-right js-status-update\">\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\r\n                    </li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\r\n                    </li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\r\n                    </li>\r\n                    <li class=\"divider\"></li>\r\n                    <li>\r\n                        <a href-void><i class=\"fa fa-power-off\"></i> Log Off</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </header>\r\n\r\n    <!-- widget div-->\r\n    <div>\r\n        <div class=\"widget-body widget-hide-overflow no-padding\">\r\n            <!-- content goes here -->\r\n\r\n            <chat-users></chat-users>\r\n\r\n            <!-- CHAT BODY -->\r\n            <div id=\"chat-body\" class=\"chat-body custom-scroll\">\r\n                <ul>\r\n                    <li class=\"message\" ng-repeat=\"message in chatMessages\">\r\n                        <img class=\"message-picture online\" ng-src=\"{{message.user.picture}}\">\r\n\r\n                        <div class=\"message-text\">\r\n                            <time>\r\n                                {{message.date | date }}\r\n                            </time>\r\n                            <a ng-click=\"messageTo(message.user)\" class=\"username\">{{message.user.username}}</a>\r\n                            <div ng-bind-html=\"message.body\"></div>\r\n\r\n                        </div>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n\r\n            <!-- CHAT FOOTER -->\r\n            <div class=\"chat-footer\">\r\n\r\n                <!-- CHAT TEXTAREA -->\r\n                <div class=\"textarea-div\">\r\n\r\n                    <div class=\"typearea\">\r\n                        <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\"\r\n                                  class=\"custom-scroll\" ng-model=\"newMessage\"></textarea>\r\n                    </div>\r\n\r\n                </div>\r\n\r\n                <!-- CHAT REPLY/SEND -->\r\n											<span class=\"textarea-controls\">\r\n												<button class=\"btn btn-sm btn-primary pull-right\" ng-click=\"sendMessage()\">\r\n                                                    Reply\r\n                                                </button> <span class=\"pull-right smart-form\"\r\n                                                                style=\"margin-top: 3px; margin-right: 10px;\"> <label\r\n                                                    class=\"checkbox pull-right\">\r\n                                                <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\r\n                                                <i></i>Press <strong> ENTER </strong> to send </label> </span> <a\r\n                                                    href-void class=\"pull-left\"><i\r\n                                                    class=\"fa fa-camera fa-fw fa-lg\"></i></a> </span>\r\n\r\n            </div>\r\n\r\n            <!-- end content -->\r\n        </div>\r\n\r\n    </div>\r\n    <!-- end widget div -->\r\n</div>");
@@ -3261,25 +3285,6 @@ angular.module('app.appViews').controller('ProjectsDemoCtrl', function ($scope, 
         "order": [[1, 'asc']]
     }
 });
-"use strict";
-
-angular.module('app.auth').directive('loginInfo', function(AuthService){
-
-    return {
-        restrict: 'A',
-        templateUrl: 'app/auth/directives/login-info.tpl.html',
-        link: function(scope, element){
-            AuthService.getUser()
-            .then(function(user){
-                scope.user = user;
-            },
-            function(err){
-            }
-            );
-        }
-    }
-})
-
 'use strict';
 /**
  * @ngdoc function
@@ -3400,6 +3405,25 @@ angular.module('app.auth').controller('ChangePasswordCtrl',
 
             };
         }]);
+
+"use strict";
+
+angular.module('app.auth').directive('loginInfo', function(AuthService){
+
+    return {
+        restrict: 'A',
+        templateUrl: 'app/auth/directives/login-info.tpl.html',
+        link: function(scope, element){
+            AuthService.getUser()
+            .then(function(user){
+                scope.user = user;
+            },
+            function(err){
+            }
+            );
+        }
+    }
+})
 
 "use strict";
 
@@ -4619,373 +4643,6 @@ angular.module('app.client').factory('ClientService',
             
            
         }]);
-"use strict";
-
-angular.module('app.company').factory('CompanyService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveCompany: saveCompany,
-                getCompanies: getCompanies,
-                getSubCompanies: getSubCompanies,
-                getCompany: getCompany,
-                deleteCompany: deleteCompany,
-                savePolicyName: savePolicyName,
-                getPolicyNames: getPolicyNames,
-                getPolicyName: getPolicyName,
-                deletePolicyName: deletePolicyName,
-                saveCompanyCatogory: saveCompanyCatogory,
-                getCompanyCatogories: getCompanyCatogories,
-                getCompanyCatogory: getCompanyCatogory,
-                deleteCompanyCatogory: deleteCompanyCatogory,
-                
-            });
-
-            function saveCompany(company) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (company._id) {
-                    company.updated_at = Date.now();
-                    $http.put('api/companies/' + company._id, company)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    company.created_at = Date.now();
-                    company.updated_at = company.created_at;
-                    $http.post('api/companies', company)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompany(companyId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companies/' + companyId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getCompanies() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubCompanies(parentId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companies/sub/' + parentId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function savePolicyName(policyName) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (policyName._id) {
-                    policyName.updated_at = Date.now();
-                    $http.put('api/policy-names/' + policyName._id, policyName)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    policyName.created_at = Date.now();
-                    policyName.updated_at = policyName.created_at;
-                    $http.post('api/policy-names', policyName)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getPolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deletePolicyName(policyNameId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/policy-names/' + policyNameId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function getPolicyNames() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/policy-names')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogories() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/companycatogories')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-            
-            function saveCompanyCatogory(companyCatogory) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (companyCatogory._id) {
-                    companyCatogory.updated_at = Date.now();
-                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    companyCatogory.created_at = Date.now();
-                    companyCatogory.updated_at = companyCatogory.created_at;
-                    $http.post('api/companycatogories', companyCatogory)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteCompanyCatogory(companyCatogoryId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/companycatogories/' + companyCatogoryId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-
-        }]);
 'use strict'
 
 angular.module('app.company').controller('CompanyCatogoryEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, CompanyService) {
@@ -5623,6 +5280,373 @@ angular.module('app.company').controller('PolicyNameListController', function(sc
 
 });
 
+"use strict";
+
+angular.module('app.company').factory('CompanyService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveCompany: saveCompany,
+                getCompanies: getCompanies,
+                getSubCompanies: getSubCompanies,
+                getCompany: getCompany,
+                deleteCompany: deleteCompany,
+                savePolicyName: savePolicyName,
+                getPolicyNames: getPolicyNames,
+                getPolicyName: getPolicyName,
+                deletePolicyName: deletePolicyName,
+                saveCompanyCatogory: saveCompanyCatogory,
+                getCompanyCatogories: getCompanyCatogories,
+                getCompanyCatogory: getCompanyCatogory,
+                deleteCompanyCatogory: deleteCompanyCatogory,
+                
+            });
+
+            function saveCompany(company) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (company._id) {
+                    company.updated_at = Date.now();
+                    $http.put('api/companies/' + company._id, company)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    company.created_at = Date.now();
+                    company.updated_at = company.created_at;
+                    $http.post('api/companies', company)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompany(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/' + companyId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getCompanies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubCompanies(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/sub/' + parentId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function savePolicyName(policyName) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (policyName._id) {
+                    policyName.updated_at = Date.now();
+                    $http.put('api/policy-names/' + policyName._id, policyName)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    policyName.created_at = Date.now();
+                    policyName.updated_at = policyName.created_at;
+                    $http.post('api/policy-names', policyName)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePolicyName(policyNameId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/policy-names/' + policyNameId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function getPolicyNames() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/policy-names')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogories() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companycatogories')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
+            function saveCompanyCatogory(companyCatogory) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (companyCatogory._id) {
+                    companyCatogory.updated_at = Date.now();
+                    $http.put('api/companycatogories/' + companyCatogory._id, companyCatogory)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    companyCatogory.created_at = Date.now();
+                    companyCatogory.updated_at = companyCatogory.created_at;
+                    $http.post('api/companycatogories', companyCatogory)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteCompanyCatogory(companyCatogoryId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companycatogories/' + companyCatogoryId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+
+        }]);
 "use strict";	
 
 angular.module('app').controller("ActivitiesCtrl", function ActivitiesCtrl($scope, $log, activityService){
@@ -6024,176 +6048,6 @@ angular.module('app.employee').controller('SellerListController', function(scree
 
 });
 
-"use strict";
-
-angular.module('app.employee').factory('EmployeeService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveUser: saveUser,
-                getSellers: getSellers,
-                getFinances: getFinances,
-                getUser: getUser,
-                deleteUser: deleteUser,
-                getOrganizations: getOrganizations
-            });
-
-            function saveUser(user) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                if (user._id) {
-                    user.updated_at = Date.now();
-                    $http.put('/users/' + user._id, user)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    user.created_at = Date.now();
-                    user.updated_at = user.created_at;
-                    $http.post('/users', user)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getUser(userID) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('/users/' + userID)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteUser(userId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('/users/' + userId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSellers() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=seller')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getFinances() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/users?role=finance')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }         
-            
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 
 "use strict";
 
@@ -6871,97 +6725,174 @@ angular.module('app.inbox').factory('InboxMessage', function($resource, APP_CONF
 });
 "use strict";
 
-angular.module('app').factory('Language', function($http, APP_CONFIG){
+angular.module('app.employee').factory('EmployeeService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveUser: saveUser,
+                getSellers: getSellers,
+                getFinances: getFinances,
+                getUser: getUser,
+                deleteUser: deleteUser,
+                getOrganizations: getOrganizations
+            });
 
-	function getLanguage(key, callback) {
+            function saveUser(user) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-		$http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function(data){
+                if (user._id) {
+                    user.updated_at = Date.now();
+                    $http.put('/users/' + user._id, user)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    user.created_at = Date.now();
+                    user.updated_at = user.created_at;
+                    $http.post('/users', user)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
 
-			callback(data);
-			
-		}).error(function(){
+            function getUser(userID) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-			$log.log('Error');
-			callback([]);
+                $http.get('/users/' + userID)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
 
-		});
+                // return promise object
+                return deferred.promise;
+            }
 
-	}
+            function deleteUser(userId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-	function getLanguages(callback) {
+                $http.delete('/users/' + userId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
 
-		$http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function(data){
+                // return promise object
+                return deferred.promise;
+            }
 
-			callback(data);
-			
-		}).error(function(){
+            function getSellers() {
 
-			$log.log('Error');
-			callback([]);
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-		});
+                // send a post request to the server
+                $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
 
-	}
+                // return promise object
+                return deferred.promise;
+            }
 
-	return {
-		getLang: function(type, callback) {
-			getLanguage(type, callback);
-		},
-		getLanguages:function(callback){
-			getLanguages(callback);
-		}
-	}
+            function getFinances() {
 
-});
-"use strict";
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
+                // send a post request to the server
+                $http.get('/users?role=finance')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
 
-    $rootScope.lang = {};
-    
-    Language.getLanguages(function(data){
-
-        $rootScope.currentLanguage = data[0];
-
-        $rootScope.languages = data;
-
-        Language.getLang(data[0].key,function(data){
-
-            $rootScope.lang = data;
-        });
-
-    });
-
-    $scope.selectLanguage = function(language){
-        $rootScope.currentLanguage = language;
-        
-        Language.getLang(language.key,function(data){
-
-            $rootScope.lang = data;
+                // return promise object
+                return deferred.promise;
+            }         
             
-        });
-    }
+            function getOrganizations() {
 
-    $rootScope.getWord = function(key){
-        if(angular.isDefined($rootScope.lang[key])){
-            return $rootScope.lang[key];
-        } 
-        else {
-            return key;
-        }
-    }
+                // create a new instance of deferred
+                var deferred = $q.defer();
 
-});
-"use strict";
+                // send a post request to the server
+                $http.get('/api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
 
-angular.module('app').directive('languageSelector', function(Language){
-    return {
-        restrict: "EA",
-        replace: true,
-        templateUrl: "app/layout/language/language-selector.tpl.html",
-        scope: true
-    }
-});
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
 "use strict";
 
 angular.module('app').directive('toggleShortcut', function($log,$timeout) {
@@ -7934,494 +7865,6 @@ angular.module('app.life-policy').controller('LifeStatementListController', func
 });
 
 
-'use strict';
-
-angular.module('app.maps').controller('MapsDemoCtrl', 
-  function ($scope, $http, $q, SmartMapStyle, Initializer) {
-
-    $scope.map = null;
-
-    $scope.styles = SmartMapStyle.styles;
-
-    $scope.setType = function (key) {
-        SmartMapStyle.getMapType(key).then(function(type){
-            $scope.map.mapTypes.set(key, type);
-            $scope.map.setMapTypeId(key);
-        });
-        $scope.currentType = key;
-    };
-
-
-    
-
-    Initializer.mapsInitialized
-    .then(function(){
-      return SmartMapStyle.getMapType('colorful')
-    })
-    .then(function() {
-    
-      $scope.map = new google.maps.Map(document.getElementById('map-canvas'), {
-          center: new google.maps.LatLng(23.89, -80.650),
-          zoom: 5,
-          scrollwheel: false,
-          disableDefaultUI: true
-      });
-      $scope.setType('colorful')
-    })
-
-
-});
-'use strict';
-
-angular.module('app.maps').directive('smartMap', function (Initializer) {
-    var _mapsCounter = 0;
-    return {
-        restrict: 'A',
-        link: function (scope, element, attributes) {
-            _mapsCounter++;
-            Initializer.mapsInitialized.then(function(){
-                scope.$on('$smartContentResize', function () {
-                    var center = scope.map.getCenter();
-                    google.maps.event.trigger(scope.map, "resize");
-                    scope.map.setCenter(center); 
-                });
-            })
-            
-        }
-
-    }
-});
-// Google async initializer needs global function, so we use $window
-angular.module('app.maps')
-.factory('Initializer', function($window, $q){
-
-    //Google's url for async maps initialization accepting callback function
-    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
-        mapsDefer = $q.defer();
-
-    //Callback function - resolving promise after maps successfully loaded
-    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
-
-    //Async loader
-    var asyncLoad = function(asyncUrl, callbackName) {
-      var script = document.createElement('script');
-      //script.type = 'text/javascript';
-      script.src = asyncUrl + callbackName;
-      document.body.appendChild(script);
-    };
-    //Start loading google maps
-    asyncLoad(asyncUrl, 'googleMapsInitialized');
-
-    //Usage: Initializer.mapsInitialized.then(callback)
-    return {
-        mapsInitialized : mapsDefer.promise
-    };
-})
-"use strict";
-
-
-angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
-
-    var styles = {
-        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
-        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
-        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
-        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
-        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
-        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
-        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
-        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
-    };
-
-
-    function getMapType(key){
-        var keyData = styles[key];
-
-        if(!keyData.cache){
-            keyData.cache = createMapType(keyData)
-        }
-
-        return keyData.cache;
-    }
-
-    function createMapType(keyData){
-        var dfd = $q.defer();
-        $http.get(keyData.url).then(function(resp){
-            var styleData = resp.data;
-            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
-            dfd.resolve(type);
-        }, function(reason){
-            console.error(reason);
-            dfd.reject(reason);
-        });
-
-        return dfd.promise;
-    }
-
-
-    return {
-        getMapType: getMapType,
-        styles: styles
-    }
-
-
-
-});
-'use strict'
-
-angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
-    var vm = this;
-    vm.organization = {};
-    vm.subClients = [];
-    vm.wildClients = [];
-
-    vm.editable = false;
-
-    if ($state.is("app.organization.new")) {
-        vm.editable = true;
-    }
-
-
-    vm.refreshClients = function () {
-        var orgId = vm.organization._id;
-        OrganizationService.getSubClients(orgId)
-            .then(function (subClients) {
-                vm.subClients = subClients;
-            })
-        OrganizationService.getSubClients(-1)
-            .then(function (wildClients) {
-                vm.wildClients = wildClients;
-            })
-    }
-
-
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
-            .then(function (organization) {
-                vm.organization = organization;
-                vm.refreshClients();
-            });
-    }
-
-
-
-
-    vm.toggleEdit = function () {
-        vm.editable = !vm.editable;
-    }
-
-    vm.submitAndBack = function () {
-        vm.back = true;
-        vm.submit();
-    }
-
-    vm.getSelectedClientIds = function () {
-        var ids = [];
-        if (vm.wildClients) {
-            for (var i = 0; i < vm.wildClients.length; i++) {
-                if (vm.wildClients[i].isSelected) {
-                    ids.push(vm.wildClients[i]._id);
-                }
-            }
-        }
-        return ids;
-    }
-
-    vm.bulkAssign = function () {
-        var clientIds = vm.getSelectedClientIds();
-        $.SmartMessageBox({
-            title: "批量设置归属部门",
-            content: "确认将选中的业务员归属到该部门?",
-            buttons: '[取消][确认]',
-        }, function (ButtonPressed, value) {
-            if (ButtonPressed === "确认") {
-                var data = {};
-                data.clientIds = clientIds;
-                data.organization = vm.organization._id;
-                OrganizationService.bulkAssign(data)
-                    .then(function (result) {
-                        $.smallBox({
-                            title: "服务器确认信息",
-                            content: "业务员归属部门已设置",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
-                        });
-                        vm.refreshClients();
-                    }, function (err) {
-
-                    });
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-
-    vm.submit = function () {
-        OrganizationService.saveOrganization(vm.organization)
-            .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "分支机构已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                vm.organization = {};
-                if (vm.back) {
-                    $state.go("app.organization.all");
-                }
-            }, function (err) { });
-    };
-
-    vm.selectionChanged = function () {
-        if (!vm.wildClients) {
-            vm.isShowBulkOperationButton = false;
-        }
-
-        vm.isShowBulkOperationButton = vm.getSelectedClientIds().length > 0;
-    }
-
-    // vm.selectAll = function () {
-    //     if (vm.wildClients && vm.wildClients.length > 0) {
-    //         for (var i = 0; i < vm.wildClients.length; i++) {
-    //             vm.wildClients[i].isSelected = true;
-    //         }
-    //     }
-    //     vm.selectionChanged();
-    // }
-
-    // vm.clearSelection = function () {
-    //     if (vm.wildClients && vm.wildClients.length > 0) {
-    //         for (var i = 0; i < vm.policies.length; i++) {
-    //             vm.policies[i].isSelected = false;
-    //         }
-    //     }
-    //     vm.selectionChanged();
-    // }
-
-
-});
-
-
-'use strict'
-
-angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
-    var vm = this;
-    vm.organizations = [];
-
-
-
-    vm.refreshOrganizations = function(){
-       OrganizationService.getOrganizations()
-       .then(function(organizations){
-           vm.organizations = organizations;
-       }, function(err){
-           
-       });
-    };
-    
-    vm.refreshOrganizations();
-	
-    vm.view = function(organizationId){
-        $state.go("app.organization.view", {organizationId: organizationId});
-    };
-
-    /*
-     * SmartAlerts
-     */
-    // With Callback
-    vm.delete =  function (organizationId) {
-        $.SmartMessageBox({
-            title: "删除分支机构",
-            content: "确认删除该分支机构？",
-            buttons: '[取消][确认]'
-        }, function (ButtonPressed) {
-            if (ButtonPressed === "确认") {
-                OrganizationService.deleteOrganization(organizationId)
-                    .then(function(){
-                        vm.refreshOrganizations();
-                    })
-            }
-            if (ButtonPressed === "取消") {
-
-            }
-
-        });
-    };
-    
-
-});
-
-"use strict";
-
-angular.module('app.organization').factory('OrganizationService',
-    ['$q', '$http',
-        function ($q, $http) {
-            // return available functions for use in controllers
-            return ({
-                saveOrganization: saveOrganization,
-                getOrganizations: getOrganizations,
-                getOrganization: getOrganization,
-                deleteOrganization: deleteOrganization,
-                getSubClients:getSubClients,
-                bulkAssign: bulkAssign
-            });
-
-            function bulkAssign(data) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                $http.post("/api/clients/bulk-assign", data)
-                    // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                    // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getSubClients(orgId) {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('/api/clients?type=individual&organization='+orgId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function saveOrganization(organization) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-                if (organization._id) {
-                    organization.updated_at = Date.now();
-                    $http.put('api/organizations/' + organization._id, organization)
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                } else {
-                    organization.created_at = Date.now();
-                    organization.updated_at = organization.created_at;
-                    $http.post('api/organizations', organization)
-                    // handle success
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(status);
-                            }
-                        })
-                    // handle error
-                        .error(function (err) {
-                            deferred.reject(status);
-                        });
-                }
-                
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.get('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function deleteOrganization(organizationId) {
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                $http.delete('api/organizations/' + organizationId)
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (err) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-
-            function getOrganizations() {
-
-                // create a new instance of deferred
-                var deferred = $q.defer();
-
-                // send a post request to the server
-                $http.get('api/organizations')
-                // handle success
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            deferred.resolve(data);
-                        } else {
-                            deferred.reject(status);
-                        }
-                    })
-                // handle error
-                    .error(function (data) {
-                        deferred.reject(status);
-                    });
-
-                // return promise object
-                return deferred.promise;
-            }
-        }]);
 "use strict";
 
 angular.module('app.life-policy').factory('LifePolicyService',
@@ -9179,6 +8622,587 @@ angular.module('app.life-policy').factory('LifePolicyService',
 
                 // send a post request to the server
                 $http.get('/users?role=seller')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+        }]);
+'use strict';
+
+angular.module('app.maps').controller('MapsDemoCtrl', 
+  function ($scope, $http, $q, SmartMapStyle, Initializer) {
+
+    $scope.map = null;
+
+    $scope.styles = SmartMapStyle.styles;
+
+    $scope.setType = function (key) {
+        SmartMapStyle.getMapType(key).then(function(type){
+            $scope.map.mapTypes.set(key, type);
+            $scope.map.setMapTypeId(key);
+        });
+        $scope.currentType = key;
+    };
+
+
+    
+
+    Initializer.mapsInitialized
+    .then(function(){
+      return SmartMapStyle.getMapType('colorful')
+    })
+    .then(function() {
+    
+      $scope.map = new google.maps.Map(document.getElementById('map-canvas'), {
+          center: new google.maps.LatLng(23.89, -80.650),
+          zoom: 5,
+          scrollwheel: false,
+          disableDefaultUI: true
+      });
+      $scope.setType('colorful')
+    })
+
+
+});
+'use strict';
+
+angular.module('app.maps').directive('smartMap', function (Initializer) {
+    var _mapsCounter = 0;
+    return {
+        restrict: 'A',
+        link: function (scope, element, attributes) {
+            _mapsCounter++;
+            Initializer.mapsInitialized.then(function(){
+                scope.$on('$smartContentResize', function () {
+                    var center = scope.map.getCenter();
+                    google.maps.event.trigger(scope.map, "resize");
+                    scope.map.setCenter(center); 
+                });
+            })
+            
+        }
+
+    }
+});
+// Google async initializer needs global function, so we use $window
+angular.module('app.maps')
+.factory('Initializer', function($window, $q){
+
+    //Google's url for async maps initialization accepting callback function
+    var asyncUrl = 'https://maps.googleapis.com/maps/api/js?callback=',
+        mapsDefer = $q.defer();
+
+    //Callback function - resolving promise after maps successfully loaded
+    $window.googleMapsInitialized = mapsDefer.resolve; // removed ()
+
+    //Async loader
+    var asyncLoad = function(asyncUrl, callbackName) {
+      var script = document.createElement('script');
+      //script.type = 'text/javascript';
+      script.src = asyncUrl + callbackName;
+      document.body.appendChild(script);
+    };
+    //Start loading google maps
+    asyncLoad(asyncUrl, 'googleMapsInitialized');
+
+    //Usage: Initializer.mapsInitialized.then(callback)
+    return {
+        mapsInitialized : mapsDefer.promise
+    };
+})
+"use strict";
+
+
+angular.module('app.maps').factory('SmartMapStyle', function ($q, $http, APP_CONFIG) {
+
+    var styles = {
+        'colorful': { name: 'Colorful', url: APP_CONFIG.apiRootUrl + '/maps/colorful.json'},
+        'greyscale': { name: 'greyscale', url: APP_CONFIG.apiRootUrl + '/maps/greyscale.json'},
+        'metro': { name: 'metro', url: APP_CONFIG.apiRootUrl + '/maps/metro.json'},
+        'mono-color': { name: 'mono-color', url: APP_CONFIG.apiRootUrl + '/maps/mono-color.json'},
+        'monochrome': { name: 'monochrome', url: APP_CONFIG.apiRootUrl + '/maps/monochrome.json'},
+        'nightvision': { name: 'Nightvision', url: APP_CONFIG.apiRootUrl + '/maps/nightvision.json'},
+        'nightvision-highlight': { name: 'nightvision-highlight', url: APP_CONFIG.apiRootUrl + '/maps/nightvision-highlight.json'},
+        'old-paper': { name: 'Old Paper', url: APP_CONFIG.apiRootUrl + '/maps/old-paper.json'}
+    };
+
+
+    function getMapType(key){
+        var keyData = styles[key];
+
+        if(!keyData.cache){
+            keyData.cache = createMapType(keyData)
+        }
+
+        return keyData.cache;
+    }
+
+    function createMapType(keyData){
+        var dfd = $q.defer();
+        $http.get(keyData.url).then(function(resp){
+            var styleData = resp.data;
+            var type = new google.maps.StyledMapType(styleData, {name: keyData.name})
+            dfd.resolve(type);
+        }, function(reason){
+            console.error(reason);
+            dfd.reject(reason);
+        });
+
+        return dfd.promise;
+    }
+
+
+    return {
+        getMapType: getMapType,
+        styles: styles
+    }
+
+
+
+});
+"use strict";
+
+angular.module('app').factory('Language', function($http, APP_CONFIG){
+
+	function getLanguage(key, callback) {
+
+		$http.get(APP_CONFIG.apiRootUrl + '/langs/' + key + '.json').success(function(data){
+
+			callback(data);
+			
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	function getLanguages(callback) {
+
+		$http.get(APP_CONFIG.apiRootUrl + '/languages.json').success(function(data){
+
+			callback(data);
+			
+		}).error(function(){
+
+			$log.log('Error');
+			callback([]);
+
+		});
+
+	}
+
+	return {
+		getLang: function(type, callback) {
+			getLanguage(type, callback);
+		},
+		getLanguages:function(callback){
+			getLanguages(callback);
+		}
+	}
+
+});
+"use strict";
+
+angular.module('app').controller("LanguagesCtrl",  function LanguagesCtrl($scope, $rootScope, $log, Language){
+
+    $rootScope.lang = {};
+    
+    Language.getLanguages(function(data){
+
+        $rootScope.currentLanguage = data[0];
+
+        $rootScope.languages = data;
+
+        Language.getLang(data[0].key,function(data){
+
+            $rootScope.lang = data;
+        });
+
+    });
+
+    $scope.selectLanguage = function(language){
+        $rootScope.currentLanguage = language;
+        
+        Language.getLang(language.key,function(data){
+
+            $rootScope.lang = data;
+            
+        });
+    }
+
+    $rootScope.getWord = function(key){
+        if(angular.isDefined($rootScope.lang[key])){
+            return $rootScope.lang[key];
+        } 
+        else {
+            return key;
+        }
+    }
+
+});
+"use strict";
+
+angular.module('app').directive('languageSelector', function(Language){
+    return {
+        restrict: "EA",
+        replace: true,
+        templateUrl: "app/layout/language/language-selector.tpl.html",
+        scope: true
+    }
+});
+'use strict'
+
+angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
+    var vm = this;
+    vm.organization = {};
+    vm.subClients = [];
+    vm.wildClients = [];
+
+    vm.editable = false;
+
+    if ($state.is("app.organization.new")) {
+        vm.editable = true;
+    }
+
+
+    vm.refreshClients = function () {
+        var orgId = vm.organization._id;
+        OrganizationService.getSubClients(orgId)
+            .then(function (subClients) {
+                vm.subClients = subClients;
+            })
+        OrganizationService.getSubClients(-1)
+            .then(function (wildClients) {
+                vm.wildClients = wildClients;
+            })
+    }
+
+
+    var organizationId = $stateParams.organizationId;
+    if (organizationId) {
+        OrganizationService.getOrganization(organizationId)
+            .then(function (organization) {
+                vm.organization = organization;
+                vm.refreshClients();
+            });
+    }
+
+
+
+
+    vm.toggleEdit = function () {
+        vm.editable = !vm.editable;
+    }
+
+    vm.submitAndBack = function () {
+        vm.back = true;
+        vm.submit();
+    }
+
+    vm.getSelectedClientIds = function () {
+        var ids = [];
+        if (vm.wildClients) {
+            for (var i = 0; i < vm.wildClients.length; i++) {
+                if (vm.wildClients[i].isSelected) {
+                    ids.push(vm.wildClients[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
+
+    vm.bulkAssign = function () {
+        var clientIds = vm.getSelectedClientIds();
+        $.SmartMessageBox({
+            title: "批量设置归属部门",
+            content: "确认将选中的业务员归属到该部门?",
+            buttons: '[取消][确认]',
+        }, function (ButtonPressed, value) {
+            if (ButtonPressed === "确认") {
+                var data = {};
+                data.clientIds = clientIds;
+                data.organization = vm.organization._id;
+                OrganizationService.bulkAssign(data)
+                    .then(function (result) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "业务员归属部门已设置",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshClients();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+    vm.submit = function () {
+        OrganizationService.saveOrganization(vm.organization)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "分支机构已成功保存",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                vm.organization = {};
+                if (vm.back) {
+                    $state.go("app.organization.all");
+                }
+            }, function (err) { });
+    };
+
+    vm.selectionChanged = function () {
+        if (!vm.wildClients) {
+            vm.isShowBulkOperationButton = false;
+        }
+
+        vm.isShowBulkOperationButton = vm.getSelectedClientIds().length > 0;
+    }
+
+    // vm.selectAll = function () {
+    //     if (vm.wildClients && vm.wildClients.length > 0) {
+    //         for (var i = 0; i < vm.wildClients.length; i++) {
+    //             vm.wildClients[i].isSelected = true;
+    //         }
+    //     }
+    //     vm.selectionChanged();
+    // }
+
+    // vm.clearSelection = function () {
+    //     if (vm.wildClients && vm.wildClients.length > 0) {
+    //         for (var i = 0; i < vm.policies.length; i++) {
+    //             vm.policies[i].isSelected = false;
+    //         }
+    //     }
+    //     vm.selectionChanged();
+    // }
+
+
+});
+
+
+'use strict'
+
+angular.module('app.organization').controller('OrganizationListController', function(screenSize, $rootScope, $state, $scope, OrganizationService){
+    var vm = this;
+    vm.organizations = [];
+
+
+
+    vm.refreshOrganizations = function(){
+       OrganizationService.getOrganizations()
+       .then(function(organizations){
+           vm.organizations = organizations;
+       }, function(err){
+           
+       });
+    };
+    
+    vm.refreshOrganizations();
+	
+    vm.view = function(organizationId){
+        $state.go("app.organization.view", {organizationId: organizationId});
+    };
+
+    /*
+     * SmartAlerts
+     */
+    // With Callback
+    vm.delete =  function (organizationId) {
+        $.SmartMessageBox({
+            title: "删除分支机构",
+            content: "确认删除该分支机构？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrganizationService.deleteOrganization(organizationId)
+                    .then(function(){
+                        vm.refreshOrganizations();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+    
+
+});
+
+"use strict";
+
+angular.module('app.organization').factory('OrganizationService',
+    ['$q', '$http',
+        function ($q, $http) {
+            // return available functions for use in controllers
+            return ({
+                saveOrganization: saveOrganization,
+                getOrganizations: getOrganizations,
+                getOrganization: getOrganization,
+                deleteOrganization: deleteOrganization,
+                getSubClients:getSubClients,
+                bulkAssign: bulkAssign
+            });
+
+            function bulkAssign(data) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/clients/bulk-assign", data)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubClients(orgId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=individual&organization='+orgId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function saveOrganization(organization) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (organization._id) {
+                    organization.updated_at = Date.now();
+                    $http.put('api/organizations/' + organization._id, organization)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    organization.created_at = Date.now();
+                    organization.updated_at = organization.created_at;
+                    $http.post('api/organizations', organization)
+                    // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                    // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+                
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteOrganization(organizationId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/organizations/' + organizationId)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getOrganizations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -10223,6 +10247,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.clientInfo) {
             vm.policy.client = vm.clientInfo._id;
         }
+        if(vm.policy.policy_status == "被驳回"){
+            vm.policy.policy_status = "待审核";
+        }
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -10277,7 +10304,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "待支付";
-                vm.policy.paid_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({
@@ -10300,7 +10326,39 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             if (ButtonPressed === "取消") {
 
             }
+        });
+    };
 
+    vm.reject = function () {
+        $.SmartMessageBox({
+            title: "驳回保单",
+            content: "确认要驳回该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "被驳回";
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为被驳回",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        var ids = $stateParams.ids;
+                        if (ids && ids.length > 0) {
+                            var id = ids.shift();
+                            $state.go("app.policy.approve1", { policyId: id, ids: ids });
+                        } else {
+                            $state.go("app.policy.to-be-reviewed");
+                        }
+
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
         });
     };
 
@@ -10312,7 +10370,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "已核对";
-                vm.policy.paid_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({
@@ -10786,6 +10843,19 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         //     vm.displayFields = ["client.name", "plate", "paid_at"];
         // }
     }
+    else if ($state.is("app.policy.rejected")) {
+        vm.listType = "rejected";
+        vm.filterSettings = localStorageService.get("rejected") ? localStorageService.get("rejected") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.fromDate = localStorageService.get("rejected-fromDate") ? localStorageService.get("rejected-fromDate") : undefined;
+        vm.toDate = localStorageService.get("rejected-toDate") ? localStorageService.get("rejected-toDate") : undefined;
+        vm.tableHeader = "被驳回保单";
+    }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         vm.areAllSelected = false;
@@ -10820,6 +10890,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set('checked-fromDate', vm.fromDate);
             localStorageService.set('checked-toDate', vm.toDate);
         }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-filterSettings", vm.filterSettings);
+            localStorageService.set('rejected-fromDate', vm.fromDate);
+            localStorageService.set('rejected-toDate', vm.toDate);
+        }
         vm.refreshPolicies();
         // vm.refreshSummary();
     };
@@ -10843,6 +10918,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         else if ($state.is("app.policy.checked")) {
             localStorageService.set("checked-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
         // vm.refreshSummary();
@@ -11020,7 +11098,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
+        return $rootScope.user.role == "出单员" || 
+        ($rootScope.user.role == "管理员" && policy.policy_status != "待审核") || 
+        policy.policy_status == "已支付";
+    };
+
+    vm.isShowRejectButton = function (policy) {
+        return $rootScope.user.role != "出单员";
     };
 
     vm.pay = function (policy) {
@@ -11030,6 +11114,34 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             $state.go("app.policy.pay1", { policyId: policy._id });
         }
     };
+
+    vm.reject = function (policy) {
+        $.SmartMessageBox({
+            title: "驳回保单",
+            content: "确认驳回该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                policy.policy_status = "被驳回";
+                PolicyService.savePolicy(policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为被驳回",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
 
     vm.approve = function (policy) {
         if (!policy.level2_company) {
@@ -11724,6 +11836,9 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "checked") {
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
+                } else if (type == "rejected") {
+                    filterSettings.policy_status = "被驳回";
+                    orderByReverse = false;
                 }
 
                 var end = new Date(toDate);
@@ -11879,6 +11994,12 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "paid") {
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
+                } else if (type == "checked") {
+                    filterSettings.policy_status = "已核对";
+                    orderByReverse = true;
+                } else if (type == "rejected") {
+                    filterSettings.policy_status = "被驳回";
+                    orderByReverse = false;
                 }
                 var end = new Date(toDate);
                 end.setDate(end.getDate() + 1);
@@ -15760,448 +15881,6 @@ angular.module('app.graphs').directive('dygraphsNoRollTimestamp', function (Dygr
         }
     }
 });
-"use strict";
-
-
-angular.module('app.graphs').value('FlotConfig', {
-    "chartBorderColor": "#efefef",
-    "chartGridColor": "#DDD",
-    "charMain": "#E24913",
-    "chartSecond": "#6595b4",
-    "chartThird": "#FF9F01",
-    "chartFourth": "#7e9d3a",
-    "chartFifth": "#BD362F",
-    "chartMono": "#000"
-
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-// For the demo we use generated data, but normally it would be coming from the server
-            var data = [], totalPoints = 200;
-            function getRandomData() {
-                if (data.length > 0)
-                    data = data.slice(1);
-
-                // do a random walk
-                while (data.length < totalPoints) {
-                    var prev = data.length > 0 ? data[data.length - 1] : 50;
-                    var y = prev + Math.random() * 10 - 5;
-                    if (y < 0)
-                        y = 0;
-                    if (y > 100)
-                        y = 100;
-                    data.push(y);
-                }
-
-                // zip the generated y values with the x values
-                var res = [];
-                for (var i = 0; i < data.length; ++i)
-                    res.push([i, data[i]])
-                return res;
-            }
-
-            // setup control widget
-            var updateInterval = 1000;
-            element.val(updateInterval).change(function() {
-                var v = $(this).val();
-                if (v && !isNaN(+v)) {
-                    updateInterval = +v;
-                    if (updateInterval < 1)
-                        updateInterval = 1;
-                    if (updateInterval > 2000)
-                        updateInterval = 2000;
-                    $(this).val("" + updateInterval);
-                }
-            });
-
-            // setup plot
-            var options = {
-                yaxis : {
-                    min : 0,
-                    max : 100
-                },
-                xaxis : {
-                    min : 0,
-                    max : 100
-                },
-                colors : [FlotConfig.chartFourth],
-                series : {
-                    lines : {
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.4
-                            }, {
-                                opacity : 0
-                            }]
-                        },
-                        steps : false
-
-                    }
-                }
-            };
-            var plot = $.plot(element, [getRandomData()], options);
-
-            function update() {
-                plot.setData([getRandomData()]);
-                // since the axes don't change, we don't need to call plot.setupGrid()
-                plot.draw();
-
-                $timeout(update, updateInterval);
-            }
-
-            update();
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotBarChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
-                grid : {
-                    show : true,
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                legend : true,
-                tooltip : true,
-                tooltipOpts : {
-                    content : "<b>%x</b> = <span>%y</span>",
-                    defaultTheme : false
-                }
-
-            });
-        }
-    }
-});
-'use strict';
-
-angular.module('app.graphs').directive('flotBasic', function () {
-    return {
-        restrict: 'A',
-        scope:{
-            data:'=flotData',
-            options: '=flotOptions'
-        },
-        link: function (scope, element, attributes) {
-            var plot = $.plot(element, scope.data, scope.options);
-
-            scope.$watchCollection('data', function(newData, oldData){
-                if(newData != oldData){
-                    plot.setData(newData);
-                    plot.draw();
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotFillChart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-
-                xaxis : {
-                    tickDecimals : 0
-                },
-
-                yaxis : {
-                    tickFormatter : function(v) {
-                        return v + " cm";
-                    }
-                }
-
-            });
-        }
-    }
-})
-"use strict";
-
-angular.module('app.graphs').directive('flotHorizontalBarChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-            $.plot(element, scope.data, {
-                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
-                grid : {
-                    show : true,
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                legend : true,
-                tooltip : true,
-                tooltipOpts : {
-                    content : "<b>%x</b> = <span>%y</span>",
-                    defaultTheme : false
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotPieChart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-            $.plot(element, scope.data, {
-                series : {
-                    pie : {
-                        show : true,
-                        innerRadius : 0.5,
-                        radius : 1,
-                        label : {
-                            show : false,
-                            radius : 2 / 3,
-                            formatter : function(label, series) {
-                                return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
-                            },
-                            threshold : 0.1
-                        }
-                    }
-                },
-                legend : {
-                    show : true,
-                    noColumns : 1, // number of colums in legend table
-                    labelFormatter : null, // fn: string -> string
-                    labelBoxBorderColor : "#000", // border color for the little label boxes
-                    container : null, // container (as jQuery object) to put legend in, null means default on top of graph
-                    position : "ne", // position of default legend container within plot
-                    margin : [5, 10], // distance from grid edge to default legend container within plot
-                    backgroundColor : "#efefef", // null means auto-detect
-                    backgroundOpacity : 1 // set to 0 to avoid background
-                },
-                grid : {
-                    hoverable : true,
-                    clickable : true
-                },
-            });
-
-        }
-    }
-});
-
-"use strict";
-
-angular.module('app.graphs').directive('flotSalesChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, [scope.data], {
-                xaxis : {
-                    mode : "time",
-                    tickLength : 5
-                },
-                series : {
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
-                            }, {
-                                opacity : 0.15
-                            }]
-                        }
-                    },
-                    //points: { show: true },
-                    shadowSize : 0
-                },
-                selection : {
-                    mode : "x"
-                },
-                grid : {
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                tooltip : true,
-                tooltipOpts : {
-                    content : "Your sales for <b>%x</b> was <span>$%y</span>",
-                    dateFormat : "%y-%0m-%0d",
-                    defaultTheme : false
-                },
-                colors : [FlotConfig.chartSecond]
-
-            });
-
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotSinChart', function (FlotConfig) {
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function (scope, element) {
-
-            var plot = $.plot(element, scope.data, {
-                series: {
-                    lines: {
-                        show: true
-                    },
-                    points: {
-                        show: true
-                    }
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true,
-                    tickColor: FlotConfig.chartBorderColor,
-                    borderWidth: 0,
-                    borderColor: FlotConfig.chartBorderColor
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    //content : "Value <b>$x</b> Value <span>$y</span>",
-                    defaultTheme: false
-                },
-                colors: [FlotConfig.chartSecond, FlotConfig.chartFourth],
-                yaxis: {
-                    min: -1.1,
-                    max: 1.1
-                },
-                xaxis: {
-                    min: 0,
-                    max: 15
-                }
-            });
-
-            element.on("plotclick", function (event, pos, item) {
-                if (item) {
-                    $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
-                    plot.highlight(item.series, item.datapoint);
-                }
-            });
-        }
-    }
-});
-"use strict";
-
-angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div class="chart"></div>',
-        scope: {
-            data: '='
-        },
-        link: function(scope, element){
-
-            $.plot(element, scope.data, {
-                series : {
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
-                            }, {
-                                opacity : 0.15
-                            }]
-                        }
-                    },
-                    points : {
-                        show : true
-                    },
-                    shadowSize : 0
-                },
-
-                yaxes : [{
-                    min : 20,
-                    tickLength : 5
-                }],
-                grid : {
-                    hoverable : true,
-                    clickable : true,
-                    tickColor : FlotConfig.chartBorderColor,
-                    borderWidth : 0,
-                    borderColor : FlotConfig.chartBorderColor
-                },
-                tooltip : true,
-                tooltipOpts : {
-                    content : "%s for <b>%x:00 hrs</b> was %y",
-                    dateFormat : "%y-%0m-%0d",
-                    defaultTheme : false
-                },
-                colors : [FlotConfig.charMain, FlotConfig.chartSecond],
-                xaxis : {
-                    mode : "time",
-                    tickLength : 10,
-                    ticks : 15,
-                    tickDecimals : 2
-                },
-                yaxis : {
-                    ticks : 15,
-                    tickDecimals : 0
-                }
-            });
-
-        }
-    }
-});
 'use strict';
 
 angular.module('app.graphs').directive('easyPieChartContainer', function () {
@@ -16692,6 +16371,448 @@ angular.module('app.graphs').directive('sparklineContainer', function () {
 
 
             drawSparklines();
+
+        }
+    }
+});
+"use strict";
+
+
+angular.module('app.graphs').value('FlotConfig', {
+    "chartBorderColor": "#efefef",
+    "chartGridColor": "#DDD",
+    "charMain": "#E24913",
+    "chartSecond": "#6595b4",
+    "chartThird": "#FF9F01",
+    "chartFourth": "#7e9d3a",
+    "chartFifth": "#BD362F",
+    "chartMono": "#000"
+
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotAutoUpdatingChart', function($timeout, FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+// For the demo we use generated data, but normally it would be coming from the server
+            var data = [], totalPoints = 200;
+            function getRandomData() {
+                if (data.length > 0)
+                    data = data.slice(1);
+
+                // do a random walk
+                while (data.length < totalPoints) {
+                    var prev = data.length > 0 ? data[data.length - 1] : 50;
+                    var y = prev + Math.random() * 10 - 5;
+                    if (y < 0)
+                        y = 0;
+                    if (y > 100)
+                        y = 100;
+                    data.push(y);
+                }
+
+                // zip the generated y values with the x values
+                var res = [];
+                for (var i = 0; i < data.length; ++i)
+                    res.push([i, data[i]])
+                return res;
+            }
+
+            // setup control widget
+            var updateInterval = 1000;
+            element.val(updateInterval).change(function() {
+                var v = $(this).val();
+                if (v && !isNaN(+v)) {
+                    updateInterval = +v;
+                    if (updateInterval < 1)
+                        updateInterval = 1;
+                    if (updateInterval > 2000)
+                        updateInterval = 2000;
+                    $(this).val("" + updateInterval);
+                }
+            });
+
+            // setup plot
+            var options = {
+                yaxis : {
+                    min : 0,
+                    max : 100
+                },
+                xaxis : {
+                    min : 0,
+                    max : 100
+                },
+                colors : [FlotConfig.chartFourth],
+                series : {
+                    lines : {
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.4
+                            }, {
+                                opacity : 0
+                            }]
+                        },
+                        steps : false
+
+                    }
+                }
+            };
+            var plot = $.plot(element, [getRandomData()], options);
+
+            function update() {
+                plot.setData([getRandomData()]);
+                // since the axes don't change, we don't need to call plot.setupGrid()
+                plot.draw();
+
+                $timeout(update, updateInterval);
+            }
+
+            update();
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotBarChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
+                grid : {
+                    show : true,
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                legend : true,
+                tooltip : true,
+                tooltipOpts : {
+                    content : "<b>%x</b> = <span>%y</span>",
+                    defaultTheme : false
+                }
+
+            });
+        }
+    }
+});
+'use strict';
+
+angular.module('app.graphs').directive('flotBasic', function () {
+    return {
+        restrict: 'A',
+        scope:{
+            data:'=flotData',
+            options: '=flotOptions'
+        },
+        link: function (scope, element, attributes) {
+            var plot = $.plot(element, scope.data, scope.options);
+
+            scope.$watchCollection('data', function(newData, oldData){
+                if(newData != oldData){
+                    plot.setData(newData);
+                    plot.draw();
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotFillChart', function(){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+
+                xaxis : {
+                    tickDecimals : 0
+                },
+
+                yaxis : {
+                    tickFormatter : function(v) {
+                        return v + " cm";
+                    }
+                }
+
+            });
+        }
+    }
+})
+"use strict";
+
+angular.module('app.graphs').directive('flotHorizontalBarChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+            $.plot(element, scope.data, {
+                colors : [FlotConfig.chartSecond, FlotConfig.chartFourth, "#666", "#BBB"],
+                grid : {
+                    show : true,
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                legend : true,
+                tooltip : true,
+                tooltipOpts : {
+                    content : "<b>%x</b> = <span>%y</span>",
+                    defaultTheme : false
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotPieChart', function(){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+            $.plot(element, scope.data, {
+                series : {
+                    pie : {
+                        show : true,
+                        innerRadius : 0.5,
+                        radius : 1,
+                        label : {
+                            show : false,
+                            radius : 2 / 3,
+                            formatter : function(label, series) {
+                                return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+                            },
+                            threshold : 0.1
+                        }
+                    }
+                },
+                legend : {
+                    show : true,
+                    noColumns : 1, // number of colums in legend table
+                    labelFormatter : null, // fn: string -> string
+                    labelBoxBorderColor : "#000", // border color for the little label boxes
+                    container : null, // container (as jQuery object) to put legend in, null means default on top of graph
+                    position : "ne", // position of default legend container within plot
+                    margin : [5, 10], // distance from grid edge to default legend container within plot
+                    backgroundColor : "#efefef", // null means auto-detect
+                    backgroundOpacity : 1 // set to 0 to avoid background
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true
+                },
+            });
+
+        }
+    }
+});
+
+"use strict";
+
+angular.module('app.graphs').directive('flotSalesChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, [scope.data], {
+                xaxis : {
+                    mode : "time",
+                    tickLength : 5
+                },
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.15
+                            }]
+                        }
+                    },
+                    //points: { show: true },
+                    shadowSize : 0
+                },
+                selection : {
+                    mode : "x"
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "Your sales for <b>%x</b> was <span>$%y</span>",
+                    dateFormat : "%y-%0m-%0d",
+                    defaultTheme : false
+                },
+                colors : [FlotConfig.chartSecond]
+
+            });
+
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotSinChart', function (FlotConfig) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function (scope, element) {
+
+            var plot = $.plot(element, scope.data, {
+                series: {
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: FlotConfig.chartBorderColor,
+                    borderWidth: 0,
+                    borderColor: FlotConfig.chartBorderColor
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    //content : "Value <b>$x</b> Value <span>$y</span>",
+                    defaultTheme: false
+                },
+                colors: [FlotConfig.chartSecond, FlotConfig.chartFourth],
+                yaxis: {
+                    min: -1.1,
+                    max: 1.1
+                },
+                xaxis: {
+                    min: 0,
+                    max: 15
+                }
+            });
+
+            element.on("plotclick", function (event, pos, item) {
+                if (item) {
+                    $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
+                    plot.highlight(item.series, item.datapoint);
+                }
+            });
+        }
+    }
+});
+"use strict";
+
+angular.module('app.graphs').directive('flotSiteStatsChart', function(FlotConfig){
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<div class="chart"></div>',
+        scope: {
+            data: '='
+        },
+        link: function(scope, element){
+
+            $.plot(element, scope.data, {
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.15
+                            }]
+                        }
+                    },
+                    points : {
+                        show : true
+                    },
+                    shadowSize : 0
+                },
+
+                yaxes : [{
+                    min : 20,
+                    tickLength : 5
+                }],
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+                    tickColor : FlotConfig.chartBorderColor,
+                    borderWidth : 0,
+                    borderColor : FlotConfig.chartBorderColor
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "%s for <b>%x:00 hrs</b> was %y",
+                    dateFormat : "%y-%0m-%0d",
+                    defaultTheme : false
+                },
+                colors : [FlotConfig.charMain, FlotConfig.chartSecond],
+                xaxis : {
+                    mode : "time",
+                    tickLength : 10,
+                    ticks : 15,
+                    tickDecimals : 2
+                },
+                yaxis : {
+                    ticks : 15,
+                    tickDecimals : 0
+                }
+            });
 
         }
     }

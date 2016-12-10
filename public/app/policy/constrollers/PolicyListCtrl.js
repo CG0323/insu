@@ -162,6 +162,19 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         //     vm.displayFields = ["client.name", "plate", "paid_at"];
         // }
     }
+    else if ($state.is("app.policy.rejected")) {
+        vm.listType = "rejected";
+        vm.filterSettings = localStorageService.get("rejected") ? localStorageService.get("rejected") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.fromDate = localStorageService.get("rejected-fromDate") ? localStorageService.get("rejected-fromDate") : undefined;
+        vm.toDate = localStorageService.get("rejected-toDate") ? localStorageService.get("rejected-toDate") : undefined;
+        vm.tableHeader = "被驳回保单";
+    }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         vm.areAllSelected = false;
@@ -196,6 +209,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set('checked-fromDate', vm.fromDate);
             localStorageService.set('checked-toDate', vm.toDate);
         }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-filterSettings", vm.filterSettings);
+            localStorageService.set('rejected-fromDate', vm.fromDate);
+            localStorageService.set('rejected-toDate', vm.toDate);
+        }
         vm.refreshPolicies();
         // vm.refreshSummary();
     };
@@ -219,6 +237,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         else if ($state.is("app.policy.checked")) {
             localStorageService.set("checked-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
         // vm.refreshSummary();
@@ -396,7 +417,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
+        return $rootScope.user.role == "出单员" || 
+        ($rootScope.user.role == "管理员" && policy.policy_status != "待审核") || 
+        policy.policy_status == "已支付";
+    };
+
+    vm.isShowRejectButton = function (policy) {
+        return $rootScope.user.role != "出单员";
     };
 
     vm.pay = function (policy) {
@@ -406,6 +433,34 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             $state.go("app.policy.pay1", { policyId: policy._id });
         }
     };
+
+    vm.reject = function (policy) {
+        $.SmartMessageBox({
+            title: "驳回保单",
+            content: "确认驳回该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                policy.policy_status = "被驳回";
+                PolicyService.savePolicy(policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为被驳回",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
 
     vm.approve = function (policy) {
         if (!policy.level2_company) {

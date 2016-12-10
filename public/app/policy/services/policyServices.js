@@ -271,6 +271,9 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "checked") {
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
+                } else if (type == "rejected") {
+                    filterSettings.policy_status = "被驳回";
+                    orderByReverse = false;
                 }
 
                 var end = new Date(toDate);
@@ -426,6 +429,12 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "paid") {
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
+                } else if (type == "checked") {
+                    filterSettings.policy_status = "已核对";
+                    orderByReverse = true;
+                } else if (type == "rejected") {
+                    filterSettings.policy_status = "被驳回";
+                    orderByReverse = false;
                 }
                 var end = new Date(toDate);
                 end.setDate(end.getDate() + 1);

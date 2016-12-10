@@ -148,6 +148,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.rejected', {
+            url: '/policies/rejected',
+            data: {
+                title: '被驳回保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-rejected-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
         .state('app.policy.to-be-paid', {
             url: '/policies/to-be-paid',
             data: {

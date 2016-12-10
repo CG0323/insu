@@ -300,6 +300,7 @@
                                     <div class="row" ng-show="vm.policy.policy_status=='待审核'">
                                         <section class="col col-3">
                                             <button style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                            <button style="margin-top:1.5em" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                         </section>
                                     </div>
                                 </fieldset>
@@ -315,7 +316,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="(user.role=='出单员' && !vm.editable && vm.policy.policy_status=='待审核') || user.role=='管理员'" ng-click="vm.toggleEdit()"
+                <button ng-show="(user.role=='出单员' && !vm.editable && (vm.policy.policy_status=='待审核' ||vm.policy.policy_status=='被驳回') || user.role=='管理员'" ng-click="vm.toggleEdit()"
                     class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
@@ -811,6 +812,7 @@
                                             ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
                                     <button ng-show="user.role != '出单员' && vm.policy.policy_status=='待审核'" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                    <button ng-show="user.role != '出单员' && vm.policy.policy_status=='待审核'" style="margin-top:1.5em" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                     <button ng-show="user.role != '出单员' && vm.policy.policy_status=='已支付'" style="margin-top:1.5em" ng-click="vm.check()" class="btn btn-primary btn-lg">核对通过，处理下一条</button>
                                  </span>
 

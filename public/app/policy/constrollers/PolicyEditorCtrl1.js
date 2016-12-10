@@ -218,6 +218,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.clientInfo) {
             vm.policy.client = vm.clientInfo._id;
         }
+        if(vm.policy.policy_status == "被驳回"){
+            vm.policy.policy_status = "待审核";
+        }
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -272,7 +275,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "待支付";
-                vm.policy.paid_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({
@@ -295,7 +297,39 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             if (ButtonPressed === "取消") {
 
             }
+        });
+    };
 
+    vm.reject = function () {
+        $.SmartMessageBox({
+            title: "驳回保单",
+            content: "确认要驳回该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "被驳回";
+                PolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为被驳回",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        var ids = $stateParams.ids;
+                        if (ids && ids.length > 0) {
+                            var id = ids.shift();
+                            $state.go("app.policy.approve1", { policyId: id, ids: ids });
+                        } else {
+                            $state.go("app.policy.to-be-reviewed");
+                        }
+
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
         });
     };
 
@@ -307,7 +341,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "已核对";
-                vm.policy.paid_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({
