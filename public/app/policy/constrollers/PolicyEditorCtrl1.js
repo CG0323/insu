@@ -443,14 +443,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     };
 
     vm.uploadCommercialPhoto = function (file) {
-        PolicyService.uploadFile(file, vm.policy.commercial_policy_photo)
+        PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.commercial_policy_photo = fileName;
+                if(vm.policy._id){
+                    PolicyService.updatePhoto(vm.policy)
+                }           
             })
-    }
-    vm.getCommercialPhotoLink = function () {
-        //return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
-        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
     }
 
     vm.commercialPhotoChanged = function (files) {
@@ -462,14 +461,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     };
 
     vm.uploadMandatoryPhoto = function (file) {
-        PolicyService.uploadFile(file, vm.policy.mandatory_policy_photo)
+        PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.mandatory_policy_photo = fileName;
+                if(vm.policy._id){
+                    PolicyService.updatePhoto(vm.policy)
+                }   
             })
-    }
-    vm.getMandatoryPhotoLink = function () {
-        // return "http://image.4006778808.com/" + vm.policy.mandatory_policy_photo + "?x-oss-process=style/resize";
-        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.mandatory_policy_photo + "?x-oss-process=style/resize";
     }
 
     vm.reviewPhoto = function (fileName) {

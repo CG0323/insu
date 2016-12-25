@@ -559,6 +559,25 @@ router.post('/summary', function (req, res) {
     })
 });
 
+router.post('/update-photo', function (req, res) {
+   Policy.findById(req.body._id, function (err, policy) {
+    if (err)
+      res.send(err);
+    policy.mandatory_policy_photo = req.body.mandatory_policy_photo;
+    policy.commercial_policy_photo = req.body.commercial_policy_photo;
+    policy.save(function (err) {
+      if (err) {
+        logger.error(err);
+        res.send(err);
+      }
+      logger.info(req.user.name + " 更新了保单扫描件，保单号为：" + policy.policy_no + "。" + req.clientIP);
+      res.json({ message: '扫描件已成功更新' });
+    });
+
+  });
+});
+
+
 router.post('/bulk-pay', function (req, res) {
   var ids = req.body.policyIds;
   var remarks = req.body.remarks;

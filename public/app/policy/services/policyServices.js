@@ -24,7 +24,9 @@ angular.module('app.policy').factory('PolicyService',
                 bulkApprove: bulkApprove,
                 bulkCheck: bulkCheck,
                 uploadFile: uploadFile,
-                getCompany: getCompany
+                getCompany: getCompany,
+                updatePhoto: updatePhoto
+                
             });
             
             function getCompany(companyId) {
@@ -585,7 +587,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function uploadFile(file, fileName) {
+            function uploadFile(file) {
                 document.body.style.cursor='wait';
                 var deferred = $q.defer();
                 getStsCredential()
@@ -608,10 +610,10 @@ angular.module('app.policy').factory('PolicyService',
                     });
                     return;
                 });
-                if(!fileName){
-                    var ext = /\.[^\.]+$/.exec(file.name); 
-                    fileName = uuid.v1() + ext;
-                }
+
+                var ext = /\.[^\.]+$/.exec(file.name); 
+                var fileName = uuid.v1() + ext;
+
                 client.multipartUpload(fileName, file).then(function (result) {
                     var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
                     // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
@@ -622,6 +624,7 @@ angular.module('app.policy').factory('PolicyService',
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
+                    console.log("I am here");
                     document.body.style.cursor='default';    
                     deferred.resolve(fileName);
                     }).catch(function (err) {
@@ -630,6 +633,27 @@ angular.module('app.policy').factory('PolicyService',
                 });
                 return deferred.promise;
                 
+            }
+
+            function updatePhoto(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/policies/update-photo", policy)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
             }
 
         }]);
