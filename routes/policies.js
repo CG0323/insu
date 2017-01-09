@@ -638,6 +638,30 @@ router.post('/bulk-check', function (req, res) {
     })
 });
 
+router.get('/hotfix1', function (req, res) {
+  Company.update({level2_company:"58105de0d248c66f34f7815d"}, {level2_company:"587353b6149236fc259757a9"},{ multi: true })
+  .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
 
+});
+
+router.get('/hotfix2', function (req, res) {
+  Company.update({level3_company:"57fd87e886be06094a02195d"}, {level3_company:"587353fb149236fc259757ab"},{ multi: true })
+  .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+
+});
 
 module.exports = router;
