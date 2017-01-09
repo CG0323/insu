@@ -31,6 +31,32 @@ router.get('/level2', function (req, res) {
     )
 });
 
+router.get('/level3', function (req, res) {
+  Company.find({level:"三级"})
+    .populate('catogory')
+    .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
+router.get('/level4', function (req, res) {
+  Company.find({level:"四级"})
+    .populate('catogory')
+    .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
 router.get('/:id', function (req, res) {
   Company.findOne({ _id: req.params.id })
     .exec()
