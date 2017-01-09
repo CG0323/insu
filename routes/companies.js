@@ -18,6 +18,32 @@ router.get('/', function (req, res, next) {
     )
 });
 
+router.get('/hotfix1', function (req, res) {
+  Company.update({parent:"58105de0d248c66f34f7815d"}, {parent:"587353b6149236fc259757a9"})
+  .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+
+});
+
+router.get('/hotfix2', function (req, res) {
+  Company.update({parent:"57fd87e886be06094a02195d"}, {parent:"587353fb149236fc259757ab"})
+  .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+
+});
+
 router.get('/level2', function (req, res) {
   Company.find({level:"二级"})
     .populate('catogory')
